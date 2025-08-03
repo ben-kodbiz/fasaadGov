@@ -145,7 +145,7 @@ class GitHubDeployer:
                 
                 if len(parts) >= 2:
                     username, repo = parts[0], parts[1]
-                    return f"https://{username}.github.io/{repo}/"
+                    return f"https://ben-kodbiz.github.io/fasaadGov/"
             
             return None
             
