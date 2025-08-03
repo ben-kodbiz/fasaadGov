@@ -4,7 +4,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>US Atrocities Treemap - Interactive Visualization</title>
+
+  <!-- SEO Meta Tags -->
+  <title>US Atrocities Treemap - Interactive Historical Visualization | Vietnam War, Iraq War, Native American Genocide
+  </title>
+  <meta name="description"
+    content="Interactive treemap visualization of documented US atrocities and interventions throughout history. Explore data on Vietnam War (3M casualties), Korean War (2.5M), Iraq War (655k-1M), Afghanistan War (176k), Native American Genocide (12M), and more.">
+  <meta name="keywords"
+    content="US atrocities, American interventions, Vietnam War casualties, Iraq War deaths, Korean War, Afghanistan War, Native American genocide, historical data visualization, treemap, D3.js, war crimes, military interventions">
+  <meta name="author" content="US Atrocities Documentation Project">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ben-kodbiz.github.io/fasaadGov/">
+  <meta property="og:title" content="US Atrocities Treemap - Interactive Historical Visualization">
+  <meta property="og:description"
+    content="Explore documented US atrocities and interventions through an interactive treemap. Vietnam War: 3M casualties, Korean War: 2.5M, Iraq War: 655k-1M, Native American Genocide: 12M casualties.">
+  <meta property="og:image" content="https://ben-kodbiz.github.io/fasaadGov/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="US Atrocities Treemap">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://ben-kodbiz.github.io/fasaadGov/">
+  <meta property="twitter:title" content="US Atrocities Treemap - Interactive Historical Visualization">
+  <meta property="twitter:description"
+    content="Interactive visualization of US atrocities: Vietnam War (3M), Korean War (2.5M), Iraq War (655k-1M), Afghanistan (176k), Native American Genocide (12M) casualties.">
+  <meta property="twitter:image" content="https://ben-kodbiz.github.io/fasaadGov/og-image.png">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://ben-kodbiz.github.io/fasaadGov/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "US Atrocities Treemap",
+    "description": "Interactive treemap visualization of documented US atrocities and military interventions throughout history, including Vietnam War, Iraq War, Korean War, Afghanistan War, and Native American Genocide.",
+    "url": "https://ben-kodbiz.github.io/fasaadGov/",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "US Atrocities Documentation Project"
+    },
+    "keywords": "US atrocities, military interventions, Vietnam War, Iraq War, Korean War, Afghanistan War, Native American genocide, historical data, visualization, treemap",
+    "inLanguage": "en-US",
+    "isAccessibleForFree": true,
+    "educationalUse": "research, education, awareness",
+    "audience": {
+      "@type": "EducationalAudience",
+      "educationalRole": "student, researcher, educator, journalist"
+    }
+  }
+  </script>
+
+  <!-- Additional Structured Data for Historical Events -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "US Historical Atrocities and Interventions Data",
+    "description": "Comprehensive dataset of documented US military interventions and atrocities including casualty estimates from academic sources.",
+    "url": "https://ben-kodbiz.github.io/fasaadGov/",
+    "keywords": ["Vietnam War casualties", "Iraq War deaths", "Korean War", "Afghanistan War", "Native American genocide", "historical atrocities"],
+    "creator": {
+      "@type": "Organization",
+      "name": "US Atrocities Documentation Project"
+    },
+    "distribution": {
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://ben-kodbiz.github.io/fasaadGov/data/us_interventions.json"
+    },
+    "temporalCoverage": "1492/2024",
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "Global"
+    }
+  }
+  </script>
+
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -77,6 +173,36 @@
 
     * {
       box-sizing: border-box;
+    }
+
+    /* Accessibility improvements */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: var(--primary-color);
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 0 0 4px 4px;
+      z-index: 9999;
+      transition: top 0.3s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
     }
 
     body {
@@ -474,28 +600,36 @@
 </head>
 
 <body>
-  <div class="app-bar">
+  <!-- Skip to main content for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="app-bar" role="banner">
     <h1 class="app-title">🗺️ US Atrocities Treemap</h1>
-    <div class="app-actions">
-      <a href="upload.html" class="btn btn-primary">
-        <span class="material-icons">upload</span>
+    <nav class="app-actions" role="navigation" aria-label="Main navigation">
+      <a href="upload.html" class="btn btn-primary" aria-label="Upload news articles">
+        <span class="material-icons" aria-hidden="true">upload</span>
         Upload Articles
       </a>
-      <button class="btn btn-icon" id="refreshData" title="Refresh data">
-        <span class="material-icons">refresh</span>
+      <button class="btn btn-icon" id="refreshData" title="Refresh data" aria-label="Refresh visualization data">
+        <span class="material-icons" aria-hidden="true">refresh</span>
       </button>
-      <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode">
-        <span class="material-icons">dark_mode</span>
+      <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode"
+        aria-label="Toggle between light and dark theme">
+        <span class="material-icons" aria-hidden="true">dark_mode</span>
       </button>
-    </div>
-  </div>
+    </nav>
+  </header>
 
-  <div class="controls-container">
-    <div class="controls">
+  <main id="main-content" role="main">
+    <section class="controls-container" aria-label="Visualization controls">
+      <h2 class="visually-hidden">Filter and Search Controls</h2>
+      <div class="controls"></div>
       <div class="control-group">
-        <label class="control-label">Search Events</label>
+        <label class="control-label" for="searchInput">Search Events</label>
         <input type="text" id="searchInput" class="select" placeholder="Search by title or description..."
-          style="padding: 12px 16px;">
+          style="padding: 12px 16px;" aria-describedby="search-help">
+        <div id="search-help" class="visually-hidden">Search through historical events and atrocities by title,
+          description, or source</div>
       </div>
       <div class="control-group">
         <label class="control-label">Filter by Type</label>
@@ -534,22 +668,25 @@
           <option value="list">List View</option>
         </select>
       </div>
-    </div>
-  </div>
-
-  <div class="chart-container">
-    <div id="chart">
-      <div class="loading">
-        <div class="loading-spinner"></div>
-        <div>Loading treemap data...</div>
       </div>
-    </div>
-  </div>
+      </div>
 
-  <div class="legend-container">
-    <h3 class="legend-title">Categories</h3>
-    <div id="legend-items" class="legend-items"></div>
-  </div>
+      <section class="chart-container" aria-label="Interactive treemap visualization">
+        <h2 class="visually-hidden">US Atrocities and Interventions Treemap</h2>
+        <div id="chart" role="img"
+          aria-label="Interactive treemap showing US atrocities and interventions with casualty data">
+          <div class="loading">
+            <div class="loading-spinner"></div>
+            <div>Loading treemap data...</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="legend-container" aria-label="Category legend">
+        <h3 class="legend-title">Categories</h3>
+        <div id="legend-items" class="legend-items" role="list"></div>
+      </section>
+  </main>
 
   <script>
     // Theme management
