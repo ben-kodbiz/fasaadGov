@@ -1,106 +1,533 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>US Interventions Treemap (Enhanced)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>US Atrocities Treemap - Interactive Visualization</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
+    :root {
+      /* Light theme colors */
+      --primary-color: #1976d2;
+      --primary-light: #42a5f5;
+      --primary-dark: #1565c0;
+      --secondary-color: #dc004e;
+      --background-color: #fafafa;
+      --surface-color: #ffffff;
+      --surface-variant: #f5f5f5;
+      --on-surface: #1c1b1f;
+      --on-surface-variant: #49454f;
+      --outline: #79747e;
+      --shadow: rgba(0, 0, 0, 0.12);
+      --shadow-dark: rgba(0, 0, 0, 0.24);
+      
+      /* Treemap colors - softer, more accessible */
+      --color-middle-east: #e57373;
+      --color-latin-america: #ffb74d;
+      --color-africa: #81c784;
+      --color-asia: #ba68c8;
+      --color-europe: #64b5f6;
+      --color-native-americans: #ff8a65;
+      --color-black-people: #8d6e63;
+      --color-latinos: #ffcc02;
+      --color-asians: #ce93d8;
+      --color-women: #f06292;
+      --color-workers: #a1887f;
+      --color-children: #ffab40;
+      --color-prisoners: #90a4ae;
+      --color-religious: #aed581;
+      --color-pervasive: #ef5350;
+      --color-israel: #ff7043;
+      --color-news: #42a5f5;
+    }
+
+    [data-theme="dark"] {
+      /* Dark theme colors */
+      --background-color: #121212;
+      --surface-color: #1e1e1e;
+      --surface-variant: #2d2d2d;
+      --on-surface: #e6e1e5;
+      --on-surface-variant: #cac4d0;
+      --outline: #938f99;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --shadow-dark: rgba(0, 0, 0, 0.5);
+      
+      /* Darker, more muted treemap colors for dark mode */
+      --color-middle-east: #c62828;
+      --color-latin-america: #ef6c00;
+      --color-africa: #2e7d32;
+      --color-asia: #7b1fa2;
+      --color-europe: #1976d2;
+      --color-native-americans: #d84315;
+      --color-black-people: #5d4037;
+      --color-latinos: #f57f17;
+      --color-asians: #8e24aa;
+      --color-women: #c2185b;
+      --color-workers: #6d4c41;
+      --color-children: #ff8f00;
+      --color-prisoners: #546e7a;
+      --color-religious: #689f38;
+      --color-pervasive: #d32f2f;
+      --color-israel: #e64a19;
+      --color-news: #1976d2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: sans-serif;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 1em;
+      padding: 0;
+      background-color: var(--background-color);
+      color: var(--on-surface);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      line-height: 1.6;
+    }
+
+    .app-bar {
+      background: var(--surface-color);
+      box-shadow: 0 2px 4px var(--shadow);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .app-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0;
+      color: var(--primary-color);
+    }
+
+    .app-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px var(--shadow);
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 2px 8px var(--shadow-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-icon {
+      background: transparent;
+      color: var(--on-surface-variant);
+      border: 1px solid var(--outline);
+      padding: 8px;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon:hover {
+      background: var(--surface-variant);
+      color: var(--on-surface);
+    }
+
+    .controls-container {
+      background: var(--surface-color);
+      margin: 24px;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px var(--shadow);
     }
 
     .controls {
-      margin-bottom: 1em;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 200px;
+    }
+
+    .control-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--on-surface-variant);
+    }
+
+    .select {
+      padding: 12px 16px;
+      border: 1px solid var(--outline);
+      border-radius: 8px;
+      background: var(--surface-color);
+      color: var(--on-surface);
+      font-family: inherit;
+      font-size: 0.875rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+    }
+
+    .chart-container {
+      margin: 24px;
+      background: var(--surface-color);
+      border-radius: 12px;
+      box-shadow: 0 1px 3px var(--shadow);
+      overflow: hidden;
+    }
+
+    #chart {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      background: var(--surface-variant);
     }
 
     .node {
-      box-sizing: border-box;
       position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       overflow: hidden;
-      border: 1px solid white;
-      font-size: 0.8em;
-      padding: 2px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.75rem;
+      font-weight: 400;
+      padding: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .node:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px var(--shadow-dark);
+      z-index: 10;
+      border-color: rgba(255, 255, 255, 0.4);
     }
 
     .tooltip {
       position: absolute;
-      text-align: left;
-      padding: 8px;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      border-radius: 4px;
+      background: var(--surface-color);
+      color: var(--on-surface);
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px var(--shadow-dark);
       pointer-events: none;
-      font-size: 0.9em;
+      font-size: 0.875rem;
+      max-width: 300px;
+      z-index: 1000;
+      border: 1px solid var(--outline);
+    }
+
+    .tooltip-title {
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--primary-color);
+    }
+
+    .tooltip-meta {
+      font-size: 0.75rem;
+      color: var(--on-surface-variant);
+      margin-bottom: 8px;
+    }
+
+    .tooltip-description {
+      line-height: 1.4;
+    }
+
+    .legend-container {
+      margin: 24px;
+      background: var(--surface-color);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px var(--shadow);
+    }
+
+    .legend-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      color: var(--on-surface);
+    }
+
+    .legend-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .legend-item:hover {
+      background: var(--surface-variant);
+    }
+
+    .legend-color {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px var(--shadow);
+    }
+
+    .legend-label {
+      font-size: 0.875rem;
+      font-weight: 400;
+    }
+
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+      color: var(--on-surface-variant);
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--surface-variant);
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+      color: var(--secondary-color);
+      text-align: center;
+      padding: 24px;
+    }
+
+    .error-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .app-bar {
+        padding: 12px 16px;
+      }
+      
+      .app-title {
+        font-size: 1.25rem;
+      }
+      
+      .controls-container,
+      .chart-container,
+      .legend-container {
+        margin: 16px;
+        padding: 16px;
+      }
+      
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .control-group {
+        min-width: auto;
+      }
+      
+      #chart {
+        height: 500px;
+      }
+      
+      .legend-items {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-
 <body>
-  <h2>U.S. Atrocities and Interventions Treemap</h2>
-  <div style="margin-bottom: 15px;">
-    <a href="upload.html"
-      style="background: #007bff; color: white; padding: 8px 16px; text-decoration: none; border-radius: 5px; font-size: 0.9em;">
-      📤 Upload New Articles
-    </a>
+  <div class="app-bar">
+    <h1 class="app-title">🗺️ US Atrocities Treemap</h1>
+    <div class="app-actions">
+      <a href="upload.html" class="btn btn-primary">
+        <span class="material-icons">upload</span>
+        Upload Articles
+      </a>
+      <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode">
+        <span class="material-icons">dark_mode</span>
+      </button>
+    </div>
   </div>
-  <div class="controls">
-    <label>Filter by Type:
-      <select id="typeFilter">
-        <option value="All">All</option>
-        <option value="markdown">Historical Data</option>
-        <option value="news_article">News Articles</option>
-      </select>
-    </label>
-    <label>Filter by Category:
-      <select id="regionFilter">
-        <option value="All">All</option>
-        <option value="Middle East">Middle East</option>
-        <option value="Western hemisphere">Western hemisphere</option>
-        <option value="Africa">Africa</option>
-        <option value="Asia">Asia</option>
-        <option value="Europe">Europe</option>
-        <option value="Native Americans">Native Americans</option>
-        <option value="Black people">Black people</option>
-        <option value="Latinos">Latinos</option>
-        <option value="Asians">Asians</option>
-        <option value="Women">Women</option>
-        <option value="Workers and the Poor">Workers and the Poor</option>
-        <option value="Children">Children</option>
-        <option value="Prisoners">Prisoners</option>
-        <option value="Religious minorities">Religious minorities</option>
-        <option value="Pervasive">Pervasive</option>
-        <option value="Israel Atrocities">Israel Atrocities</option>
-      </select>
-    </label>
+
+  <div class="controls-container">
+    <div class="controls">
+      <div class="control-group">
+        <label class="control-label">Filter by Type</label>
+        <select id="typeFilter" class="select">
+          <option value="All">All Events</option>
+          <option value="markdown">Historical Data</option>
+          <option value="news_article">News Articles</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Filter by Category</label>
+        <select id="regionFilter" class="select">
+          <option value="All">All Categories</option>
+          <option value="Middle East">Middle East</option>
+          <option value="Western hemisphere">Western Hemisphere</option>
+          <option value="Africa">Africa</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="Native Americans">Native Americans</option>
+          <option value="Black people">Black People</option>
+          <option value="Latinos">Latinos</option>
+          <option value="Asians">Asians</option>
+          <option value="Women">Women</option>
+          <option value="Workers and the Poor">Workers and the Poor</option>
+          <option value="Children">Children</option>
+          <option value="Prisoners">Prisoners</option>
+          <option value="Religious minorities">Religious Minorities</option>
+          <option value="Pervasive">Pervasive</option>
+          <option value="Israel Atrocities">Israel Atrocities</option>
+        </select>
+      </div>
+    </div>
   </div>
-  <div id="chart" style="position:relative; width:100%; height:800px;"></div>
-  <div id="legend" style="margin-top: 20px;">
-    <h3>Categories</h3>
-    <div id="legend-items" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+
+  <div class="chart-container">
+    <div id="chart">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <div>Loading treemap data...</div>
+      </div>
+    </div>
   </div>
+
+  <div class="legend-container">
+    <h3 class="legend-title">Categories</h3>
+    <div id="legend-items" class="legend-items"></div>
+  </div>
+
   <script>
-    const width = document.getElementById("chart").clientWidth;
-    const height = 800;
+    // Theme management
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('.material-icons');
+    
+    // Check for saved theme or default to light
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+    
+    function updateThemeIcon(theme) {
+      themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+    }
+
+    // D3.js visualization
+    const chartElement = document.getElementById("chart");
+    const width = chartElement.clientWidth;
+    const height = 600;
     const tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
     let rawData;
 
+    // Color mapping function
+    function getCategoryColor(category) {
+      const colorMap = {
+        "Middle East": "var(--color-middle-east)",
+        "Western hemisphere": "var(--color-latin-america)",
+        "Africa": "var(--color-africa)",
+        "Asia": "var(--color-asia)",
+        "Europe": "var(--color-europe)",
+        "Native Americans": "var(--color-native-americans)",
+        "Black people": "var(--color-black-people)",
+        "Latinos": "var(--color-latinos)",
+        "Asians": "var(--color-asians)",
+        "Women": "var(--color-women)",
+        "Workers and the Poor": "var(--color-workers)",
+        "Children": "var(--color-children)",
+        "Prisoners": "var(--color-prisoners)",
+        "Religious minorities": "var(--color-religious)",
+        "Pervasive": "var(--color-pervasive)",
+        "Israel Atrocities": "var(--color-israel)"
+      };
+      return colorMap[category] || "var(--color-news)";
+    }
+
     const render = (data) => {
       d3.select("#chart").selectAll("*").remove();
+      
+      if (!data || data.length === 0) {
+        d3.select("#chart").html(`
+          <div class="error">
+            <div class="error-icon">📊</div>
+            <div>No data available for the selected filters</div>
+          </div>
+        `);
+        return;
+      }
+
       const root = d3.hierarchy({ name: "US Atrocities", children: data })
         .sum(d => {
-          // Use a more balanced sizing approach
           const casualties = d.casualties || d.estimated_deaths || 0;
-          if (casualties === 0) return 1; // Base size for events with no casualty data
-
-          // Use logarithmic scale to prevent huge differences
-          // Cap at reasonable maximum to avoid giant rectangles
+          if (casualties === 0) return 1;
           const cappedCasualties = Math.min(casualties, 10000);
-          return Math.log10(cappedCasualties + 1) + 1; // +1 to avoid log(0)
+          return Math.log10(cappedCasualties + 1) + 1;
         })
         .sort((a, b) => b.value - a.value);
 
@@ -117,56 +544,32 @@
         .attr("class", "node")
         .style("left", d => d.x0 + "px")
         .style("top", d => d.y0 + "px")
-        .style("width", d => Math.max(d.x1 - d.x0, 20) + "px")  // Minimum width of 20px
-        .style("height", d => Math.max(d.y1 - d.y0, 15) + "px") // Minimum height of 15px
+        .style("width", d => Math.max(d.x1 - d.x0, 20) + "px")
+        .style("height", d => Math.max(d.y1 - d.y0, 15) + "px")
         .style("background", d => {
-          // News articles get a distinct color scheme
-          if (d.data.type === "news_article") {
-            const category = d.parent.data.name || d.parent.data.category;
-            if (category.includes("Israel")) return "#ff6b6b"; // Red for Israel
-            if (category.includes("Middle East")) return "#4ecdc4"; // Teal for Middle East
-            return "#45b7d1"; // Blue for other news
-          }
-
-          // Color scheme for different categories
           const category = d.parent.data.name || d.parent.data.category;
-          const colorMap = {
-            "Middle East": "#e74c3c",
-            "Latin America": "#f39c12",
-            "Africa": "#27ae60",
-            "Asia": "#8e44ad",
-            "Europe": "#3498db",
-            "Native Americans": "#d35400",
-            "Black people": "#2c3e50",
-            "Latinos": "#e67e22",
-            "Asians": "#9b59b6",
-            "Women": "#e91e63",
-            "Workers and the Poor": "#795548",
-            "Children": "#ff9800",
-            "Prisoners": "#607d8b",
-            "Religious minorities": "#4caf50",
-            "Pervasive": "#f44336"
-          };
-
-          return colorMap[category] || "#bdc3c7";
+          const color = getCategoryColor(category);
+          return `var(${color.replace('var(', '').replace(')', '')})`;
+        })
+        .style("color", d => {
+          // Ensure good contrast
+          const category = d.parent.data.name || d.parent.data.category;
+          const darkCategories = ["Black people", "Prisoners", "Workers and the Poor"];
+          return darkCategories.includes(category) ? "white" : "rgba(0, 0, 0, 0.87)";
         })
         .text(d => {
           const title = d.data.title || d.data.name;
           const width = d.x1 - d.x0;
           const height = d.y1 - d.y0;
-
-          // Only show text if rectangle is large enough
+          
           if (width < 50 || height < 20) return "";
-
-          // Truncate long titles for smaller rectangles
-          if (width < 100 && title.length > 20) {
+          if (width < 100 && title && title.length > 20) {
             return title.substring(0, 20) + "...";
           }
-
-          return title;
+          return title || "";
         })
         .on("mousemove", (event, d) => {
-          tooltip.transition().duration(100).style("opacity", .95);
+          tooltip.transition().duration(200).style("opacity", 1);
 
           const isNewsArticle = d.data.type === "news_article";
           const title = d.data.title || d.data.name;
@@ -177,73 +580,60 @@
           const description = d.data.summary || d.data.description;
           const source = d.data.source;
 
-          let tooltipContent = "<strong>" + title + "</strong><br/>";
-          if (date) tooltipContent += "Date: " + date + "<br/>";
-          if (deaths) tooltipContent += "Deaths: " + deaths + "<br/>";
-          tooltipContent += "Category: " + region + "<br/>";
-          tooltipContent += "Type: " + (isNewsArticle ? "News Article" : type) + "<br/><br/>";
-          if (description) tooltipContent += description + "<br/><br/>";
-          if (source) tooltipContent += "<em>Source:</em> " + source;
+          let tooltipContent = `<div class="tooltip-title">${title}</div>`;
+          
+          let metaInfo = [];
+          if (date) metaInfo.push(`📅 ${date}`);
+          if (deaths) metaInfo.push(`💀 ${deaths} casualties`);
+          metaInfo.push(`📂 ${region}`);
+          metaInfo.push(`🏷️ ${isNewsArticle ? "News Article" : type}`);
+          
+          tooltipContent += `<div class="tooltip-meta">${metaInfo.join(" • ")}</div>`;
+          
+          if (description) {
+            const shortDesc = description.length > 200 ? description.substring(0, 200) + "..." : description;
+            tooltipContent += `<div class="tooltip-description">${shortDesc}</div>`;
+          }
+          
+          if (source) {
+            tooltipContent += `<div class="tooltip-meta" style="margin-top: 8px;"><em>Source: ${source}</em></div>`;
+          }
 
           tooltip.html(tooltipContent)
-            .style("left", (event.pageX + 10) + "px")
-            .style("top", (event.pageY - 28) + "px");
+            .style("left", (event.pageX + 15) + "px")
+            .style("top", (event.pageY - 10) + "px");
         })
-        .on("mouseout", () => tooltip.transition().duration(300).style("opacity", 0));
+        .on("mouseout", () => {
+          tooltip.transition().duration(300).style("opacity", 0);
+        });
 
-      // Update legend
       updateLegend(data);
     }
 
     const updateLegend = (data) => {
-      const colorMap = {
-        "Middle East": "#e74c3c",
-        "Latin America": "#f39c12",
-        "Africa": "#27ae60",
-        "Asia": "#8e44ad",
-        "Europe": "#3498db",
-        "Native Americans": "#d35400",
-        "Black people": "#2c3e50",
-        "Latinos": "#e67e22",
-        "Asians": "#9b59b6",
-        "Women": "#e91e63",
-        "Workers and the Poor": "#795548",
-        "Children": "#ff9800",
-        "Prisoners": "#607d8b",
-        "Religious minorities": "#4caf50",
-        "Pervasive": "#f44336",
-        "Israel Atrocities": "#ff6b6b"
-      };
-
       const legendItems = d3.select("#legend-items");
       legendItems.selectAll("*").remove();
 
-      const categories = data.map(d => d.category || d.name).filter((v, i, a) => a.indexOf(v) === i);
+      const categories = [...new Set(data.map(d => d.category || d.name))];
 
       categories.forEach(category => {
+        const color = getCategoryColor(category);
         const item = legendItems.append("div")
-          .style("display", "flex")
-          .style("align-items", "center")
-          .style("margin-right", "15px");
+          .attr("class", "legend-item");
 
         item.append("div")
-          .style("width", "20px")
-          .style("height", "20px")
-          .style("background-color", colorMap[category] || "#bdc3c7")
-          .style("margin-right", "5px")
-          .style("border", "1px solid #ccc");
+          .attr("class", "legend-color")
+          .style("background", `var(${color.replace('var(', '').replace(')', '')})`);
 
         item.append("span")
-          .text(category)
-          .style("font-size", "12px");
+          .attr("class", "legend-label")
+          .text(category);
       });
     }
 
-    // Add loading indicator
-    d3.select("#chart").html('<div style="text-align: center; padding: 50px; color: #666;"><div style="font-size: 2em;">⏳</div><div>Loading treemap data...</div></div>');
-
+    // Load and process data
     d3.json("data/us_interventions.json").then(function (data) {
-      rawData = data.categories || data; // Support both new and old format
+      rawData = data.categories || data;
 
       function filterData() {
         const selectedType = document.getElementById("typeFilter").value;
@@ -271,19 +661,29 @@
       document.getElementById("regionFilter").addEventListener("change", filterData);
 
       filterData(); // Initial render
-    }).catch(function (error) {
+    }).catch(function(error) {
       console.error("Error loading data:", error);
       d3.select("#chart").html(`
-        <div style="text-align: center; padding: 50px; color: #666;">
-          <div style="font-size: 2em;">❌</div>
+        <div class="error">
+          <div class="error-icon">⚠️</div>
           <div>Error loading treemap data</div>
-          <div style="font-size: 0.9em; margin-top: 10px;">
+          <div style="font-size: 0.875rem; margin-top: 8px; opacity: 0.7;">
             Please check that the data file exists and is properly formatted.
           </div>
         </div>
       `);
     });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      if (rawData) {
+        const typeFilter = document.getElementById("typeFilter");
+        const regionFilter = document.getElementById("regionFilter");
+        if (typeFilter && regionFilter) {
+          typeFilter.dispatchEvent(new Event('change'));
+        }
+      }
+    });
   </script>
 </body>
-
 </html>
