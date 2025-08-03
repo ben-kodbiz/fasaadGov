@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>US Interventions Treemap (Enhanced)</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 1em;
+    }
+
+    .controls {
+      margin-bottom: 1em;
+    }
+
+    .node {
+      box-sizing: border-box;
+      position: absolute;
+      text-align: center;
+      overflow: hidden;
+      border: 1px solid white;
+      font-size: 0.8em;
+      padding: 2px;
+    }
+
+    .tooltip {
+      position: absolute;
+      text-align: left;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      border-radius: 4px;
+      pointer-events: none;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>U.S. Atrocities and Interventions Treemap</h2>
+  <div style="margin-bottom: 15px;">
+    <a href="upload.html"
+      style="background: #007bff; color: white; padding: 8px 16px; text-decoration: none; border-radius: 5px; font-size: 0.9em;">
+      📤 Upload New Articles
+    </a>
+  </div>
+  <div class="controls">
+    <label>Filter by Type:
+      <select id="typeFilter">
+        <option value="All">All</option>
+        <option value="markdown">Historical Data</option>
+        <option value="news_article">News Articles</option>
+      </select>
+    </label>
+    <label>Filter by Category:
+      <select id="regionFilter">
+        <option value="All">All</option>
+        <option value="Middle East">Middle East</option>
+        <option value="Western hemisphere">Western hemisphere</option>
+        <option value="Africa">Africa</option>
+        <option value="Asia">Asia</option>
+        <option value="Europe">Europe</option>
+        <option value="Native Americans">Native Americans</option>
+        <option value="Black people">Black people</option>
+        <option value="Latinos">Latinos</option>
+        <option value="Asians">Asians</option>
+        <option value="Women">Women</option>
+        <option value="Workers and the Poor">Workers and the Poor</option>
+        <option value="Children">Children</option>
+        <option value="Prisoners">Prisoners</option>
+        <option value="Religious minorities">Religious minorities</option>
+        <option value="Pervasive">Pervasive</option>
+        <option value="Israel Atrocities">Israel Atrocities</option>
+      </select>
+    </label>
+  </div>
+  <div id="chart" style="position:relative; width:100%; height:800px;"></div>
+  <div id="legend" style="margin-top: 20px;">
+    <h3>Categories</h3>
+    <div id="legend-items" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+  </div>
+  <script>
+    const width = document.getElementById("chart").clientWidth;
+    const height = 800;
+    const tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+
+    let rawData;
+
+    const render = (data) => {
+      d3.select("#chart").selectAll("*").remove();
+      const root = d3.hierarchy({ name: "US Atrocities", children: data })
+        .sum(d => {
+          // Use a more balanced sizing approach
+          const casualties = d.casualties || d.estimated_deaths || 0;
+          if (casualties === 0) return 1; // Base size for events with no casualty data
+
+          // Use logarithmic scale to prevent huge differences
+          // Cap at reasonable maximum to avoid giant rectangles
+          const cappedCasualties = Math.min(casualties, 10000);
+          return Math.log10(cappedCasualties + 1) + 1; // +1 to avoid log(0)
+        })
+        .sort((a, b) => b.value - a.value);
+
+      d3.treemap()
+        .size([width, height])
+        .padding(2)
+        .paddingInner(1)
+        .paddingOuter(3)(root);
+
+      const chart = d3.select("#chart")
+        .selectAll("div")
+        .data(root.leaves())
+        .join("div")
+        .attr("class", "node")
+        .style("left", d => d.x0 + "px")
+        .style("top", d => d.y0 + "px")
+        .style("width", d => Math.max(d.x1 - d.x0, 20) + "px")  // Minimum width of 20px
+        .style("height", d => Math.max(d.y1 - d.y0, 15) + "px") // Minimum height of 15px
+        .style("background", d => {
+          // News articles get a distinct color scheme
+          if (d.data.type === "news_article") {
+            const category = d.parent.data.name || d.parent.data.category;
+            if (category.includes("Israel")) return "#ff6b6b"; // Red for Israel
+            if (category.includes("Middle East")) return "#4ecdc4"; // Teal for Middle East
+            return "#45b7d1"; // Blue for other news
+          }
+
+          // Color scheme for different categories
+          const category = d.parent.data.name || d.parent.data.category;
+          const colorMap = {
+            "Middle East": "#e74c3c",
+            "Latin America": "#f39c12",
+            "Africa": "#27ae60",
+            "Asia": "#8e44ad",
+            "Europe": "#3498db",
+            "Native Americans": "#d35400",
+            "Black people": "#2c3e50",
+            "Latinos": "#e67e22",
+            "Asians": "#9b59b6",
+            "Women": "#e91e63",
+            "Workers and the Poor": "#795548",
+            "Children": "#ff9800",
+            "Prisoners": "#607d8b",
+            "Religious minorities": "#4caf50",
+            "Pervasive": "#f44336"
+          };
+
+          return colorMap[category] || "#bdc3c7";
+        })
+        .text(d => {
+          const title = d.data.title || d.data.name;
+          const width = d.x1 - d.x0;
+          const height = d.y1 - d.y0;
+
+          // Only show text if rectangle is large enough
+          if (width < 50 || height < 20) return "";
+
+          // Truncate long titles for smaller rectangles
+          if (width < 100 && title.length > 20) {
+            return title.substring(0, 20) + "...";
+          }
+
+          return title;
+        })
+        .on("mousemove", (event, d) => {
+          tooltip.transition().duration(100).style("opacity", .95);
+
+          const isNewsArticle = d.data.type === "news_article";
+          const title = d.data.title || d.data.name;
+          const date = d.data.date || d.data.year;
+          const deaths = d.data.casualties || d.data.estimated_deaths;
+          const region = d.parent.data.category || d.parent.data.name;
+          const type = d.data.type || "Historical";
+          const description = d.data.summary || d.data.description;
+          const source = d.data.source;
+
+          let tooltipContent = "<strong>" + title + "</strong><br/>";
+          if (date) tooltipContent += "Date: " + date + "<br/>";
+          if (deaths) tooltipContent += "Deaths: " + deaths + "<br/>";
+          tooltipContent += "Category: " + region + "<br/>";
+          tooltipContent += "Type: " + (isNewsArticle ? "News Article" : type) + "<br/><br/>";
+          if (description) tooltipContent += description + "<br/><br/>";
+          if (source) tooltipContent += "<em>Source:</em> " + source;
+
+          tooltip.html(tooltipContent)
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", () => tooltip.transition().duration(300).style("opacity", 0));
+
+      // Update legend
+      updateLegend(data);
+    }
+
+    const updateLegend = (data) => {
+      const colorMap = {
+        "Middle East": "#e74c3c",
+        "Latin America": "#f39c12",
+        "Africa": "#27ae60",
+        "Asia": "#8e44ad",
+        "Europe": "#3498db",
+        "Native Americans": "#d35400",
+        "Black people": "#2c3e50",
+        "Latinos": "#e67e22",
+        "Asians": "#9b59b6",
+        "Women": "#e91e63",
+        "Workers and the Poor": "#795548",
+        "Children": "#ff9800",
+        "Prisoners": "#607d8b",
+        "Religious minorities": "#4caf50",
+        "Pervasive": "#f44336",
+        "Israel Atrocities": "#ff6b6b"
+      };
+
+      const legendItems = d3.select("#legend-items");
+      legendItems.selectAll("*").remove();
+
+      const categories = data.map(d => d.category || d.name).filter((v, i, a) => a.indexOf(v) === i);
+
+      categories.forEach(category => {
+        const item = legendItems.append("div")
+          .style("display", "flex")
+          .style("align-items", "center")
+          .style("margin-right", "15px");
+
+        item.append("div")
+          .style("width", "20px")
+          .style("height", "20px")
+          .style("background-color", colorMap[category] || "#bdc3c7")
+          .style("margin-right", "5px")
+          .style("border", "1px solid #ccc");
+
+        item.append("span")
+          .text(category)
+          .style("font-size", "12px");
+      });
+    }
+
+    // Add loading indicator
+    d3.select("#chart").html('<div style="text-align: center; padding: 50px; color: #666;"><div style="font-size: 2em;">⏳</div><div>Loading treemap data...</div></div>');
+
+    d3.json("data/us_interventions.json").then(function (data) {
+      rawData = data.categories || data; // Support both new and old format
+
+      function filterData() {
+        const selectedType = document.getElementById("typeFilter").value;
+        const selectedRegion = document.getElementById("regionFilter").value;
+
+        let filtered = rawData.map(group => {
+          const regionMatch = selectedRegion === "All" || group.name === selectedRegion || group.category === selectedRegion;
+          if (!regionMatch) return null;
+
+          const filteredEvents = group.events.filter(e =>
+            selectedType === "All" || e.type === selectedType
+          );
+
+          return filteredEvents.length ? {
+            name: group.name || group.category,
+            category: group.name || group.category,
+            children: filteredEvents
+          } : null;
+        }).filter(Boolean);
+
+        render(filtered);
+      }
+
+      document.getElementById("typeFilter").addEventListener("change", filterData);
+      document.getElementById("regionFilter").addEventListener("change", filterData);
+
+      filterData(); // Initial render
+    }).catch(function (error) {
+      console.error("Error loading data:", error);
+      d3.select("#chart").html(`
+        <div style="text-align: center; padding: 50px; color: #666;">
+          <div style="font-size: 2em;">❌</div>
+          <div>Error loading treemap data</div>
+          <div style="font-size: 0.9em; margin-top: 10px;">
+            Please check that the data file exists and is properly formatted.
+          </div>
+        </div>
+      `);
+    });
+  </script>
+</body>
+
+</html>

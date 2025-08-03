@@ -1,0 +1,12 @@
+# Core dependencies for article processing
+beautifulsoup4>=4.12.0
+python-dateutil>=2.8.0
+lxml>=4.9.0
+
+# Upload server (for local development)
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Document processing (optional)
+PyPDF2>=3.0.0
+python-docx>=0.8.11
