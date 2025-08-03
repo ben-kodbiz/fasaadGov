@@ -494,7 +494,8 @@
     <div class="controls">
       <div class="control-group">
         <label class="control-label">Search Events</label>
-        <input type="text" id="searchInput" class="select" placeholder="Search by title or description..." style="padding: 12px 16px;">
+        <input type="text" id="searchInput" class="select" placeholder="Search by title or description..."
+          style="padding: 12px 16px;">
       </div>
       <div class="control-group">
         <label class="control-label">Filter by Type</label>
@@ -666,10 +667,10 @@
       if (!casualties || casualties === 0) {
         return getCategoryColor(category);
       }
-      
+
       const baseColor = getCategoryColor(category);
       const severity = Math.min(casualties / 1000, 1); // Normalize to 0-1
-      
+
       // Create a darker shade for higher casualties
       const hsl = d3.hsl(baseColor.replace('var(', '').replace(')', ''));
       hsl.l = Math.max(0.3, hsl.l - (severity * 0.3)); // Darken based on severity
@@ -689,7 +690,7 @@
       // Categories that need white text (darker backgrounds)
       const whiteTextCategories = [
         "Black people",
-        "Prisoners", 
+        "Prisoners",
         "Workers and the Poor",
         "Middle East",
         "Africa",
@@ -701,7 +702,7 @@
         "Native Americans",  // Orange-red background
         "Women"  // Pink background
       ];
-      
+
       // Categories that need dark text (lighter backgrounds)  
       const darkTextCategories = [
         "Latinos",  // Bright yellow background
@@ -709,21 +710,21 @@
         "Religious minorities",  // Light green background
         "Asians"  // Light purple background
       ];
-      
+
       // High casualty events get darker backgrounds, so use white text
       if (casualties > 500) {
         return "white";
       }
-      
+
       // Check category-specific text color needs
       if (whiteTextCategories.includes(category)) {
         return "white";
       }
-      
+
       if (darkTextCategories.includes(category)) {
         return "rgba(0, 0, 0, 0.87)";
       }
-      
+
       // Default to white text for safety (most colors tend to be darker)
       return "white";
     }
@@ -771,8 +772,8 @@
 
         const eventsList = categoryDiv.append("div");
 
-        const eventsToShow = shouldPaginate ? 
-          category.children.slice(0, Math.max(1, maxInitialEvents - displayedEvents)) : 
+        const eventsToShow = shouldPaginate ?
+          category.children.slice(0, Math.max(1, maxInitialEvents - displayedEvents)) :
           category.children;
 
         eventsToShow.forEach(event => {
@@ -785,11 +786,11 @@
             .style("cursor", "pointer")
             .style("transition", "all 0.2s ease")
             .on("click", () => showEventDetails(event))
-            .on("mouseover", function() {
+            .on("mouseover", function () {
               d3.select(this).style("background", "var(--primary-color)")
                 .style("color", "white");
             })
-            .on("mouseout", function() {
+            .on("mouseout", function () {
               d3.select(this).style("background", "var(--surface-variant)")
                 .style("color", "var(--on-surface)");
             });
@@ -841,7 +842,7 @@
             .style("cursor", "pointer")
             .style("font-size", "0.875rem")
             .text(`Show ${category.children.length - eventsToShow.length} more events`)
-            .on("click", function() {
+            .on("click", function () {
               // Expand this category
               eventsList.selectAll("*").remove();
               category.children.forEach(event => {
@@ -905,14 +906,14 @@
     function zoomToCategory(categoryData) {
       currentZoomLevel = categoryData;
       zoomHistory.push(categoryData);
-      
+
       // Create zoom view with just this category's events
       const zoomedData = [{
         name: categoryData.name,
         category: categoryData.category,
         children: categoryData.children
       }];
-      
+
       renderTreemap(zoomedData, true);
       showBackButton();
     }
@@ -921,7 +922,7 @@
       if (zoomHistory.length > 0) {
         zoomHistory.pop();
         currentZoomLevel = zoomHistory.length > 0 ? zoomHistory[zoomHistory.length - 1] : null;
-        
+
         if (currentZoomLevel) {
           zoomToCategory(currentZoomLevel);
         } else {
@@ -952,10 +953,10 @@
           .style("transition", "all 0.2s ease")
           .text("← Back to Overview")
           .on("click", zoomOut)
-          .on("mouseover", function() {
+          .on("mouseover", function () {
             d3.select(this).style("transform", "translateY(-1px)");
           })
-          .on("mouseout", function() {
+          .on("mouseout", function () {
             d3.select(this).style("transform", "translateY(0)");
           });
       }
@@ -1057,19 +1058,19 @@
         .style("background", d => {
           const category = d.parent.data.name || d.parent.data.category;
           const casualties = d.data.casualties || d.data.estimated_deaths || 0;
-          
+
           // Use severity-based coloring if casualties are available
           if (casualties > 0) {
             return getSeverityColor(casualties, category);
           }
-          
+
           const color = getCategoryColor(category);
           return `var(${color.replace('var(', '').replace(')', '')})`;
         })
         .style("color", d => {
           const category = d.parent.data.name || d.parent.data.category;
           const casualties = d.data.casualties || d.data.estimated_deaths || 0;
-          
+
           // Use enhanced text color calculation
           return getOptimalTextColor(category, casualties);
         })
@@ -1100,7 +1101,7 @@
         })
         .on("click", (event, d) => {
           event.stopPropagation();
-          
+
           // If we're not zoomed and this is a category with multiple events, zoom in
           if (!isZoomed && d.parent.data.children && d.parent.data.children.length > 1) {
             const categoryData = {
@@ -1166,7 +1167,7 @@
       }
 
       updateLegend(data);
-      
+
       // Add accessibility features after rendering
       setTimeout(addAccessibilityFeatures, 100);
     }
@@ -1190,7 +1191,7 @@
         .style("justify-content", "center")
         .style("z-index", "2000")
         .style("opacity", "0")
-        .on("click", function(event) {
+        .on("click", function (event) {
           if (event.target === this) closeEventModal();
         });
 
@@ -1205,7 +1206,7 @@
         .style("margin", "20px")
         .style("box-shadow", "0 8px 32px var(--shadow-dark)")
         .style("transform", "scale(0.9)")
-        .on("click", function(event) {
+        .on("click", function (event) {
           event.stopPropagation();
         });
 
@@ -1286,10 +1287,10 @@
             .style("color", "var(--primary-color)")
             .style("text-decoration", "none")
             .text(eventData.source)
-            .on("mouseover", function() {
+            .on("mouseover", function () {
               d3.select(this).style("text-decoration", "underline");
             })
-            .on("mouseout", function() {
+            .on("mouseout", function () {
               d3.select(this).style("text-decoration", "none");
             });
         } else {
@@ -1315,23 +1316,23 @@
         modal.transition()
           .duration(200)
           .style("opacity", "0")
-          .on("end", function() {
+          .on("end", function () {
             modal.remove();
           });
       }
     }
 
     // Enhanced keyboard navigation and accessibility
-    document.addEventListener("keydown", function(event) {
+    document.addEventListener("keydown", function (event) {
       if (event.key === "Escape") {
         closeEventModal();
-        
+
         // Also zoom out if we're in a zoomed view
         if (currentZoomLevel) {
           zoomOut();
         }
       }
-      
+
       // Quick search focus with Ctrl+F or Cmd+F
       if ((event.ctrlKey || event.metaKey) && event.key === "f") {
         event.preventDefault();
@@ -1352,7 +1353,7 @@
           if (casualties) label += `, ${casualties} casualties`;
           return label;
         })
-        .on("keydown", function(event, d) {
+        .on("keydown", function (event, d) {
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             // Trigger the same action as click
@@ -1387,23 +1388,8 @@
       });
     }
 
-    // Load and process data with aggressive cache busting
-    const cacheBreaker = Date.now() + Math.random();
-    console.log("Loading data with cache breaker:", cacheBreaker);
-    
-    d3.json("data/us_interventions.json?v=" + cacheBreaker).then(function (data) {
-      console.log("Data loaded successfully. Categories:", data.categories?.length || "unknown");
-      
-      // Log total casualties for debugging
-      let totalCasualties = 0;
-      if (data.categories) {
-        data.categories.forEach(cat => {
-          cat.events.forEach(event => {
-            totalCasualties += (event.casualties || event.estimated_deaths || 0);
-          });
-        });
-        console.log("Total casualties calculated:", totalCasualties.toLocaleString());
-      }
+    // Load and process data
+    d3.json("data/us_interventions.json").then(function (data) {
       rawData = data.categories || data;
 
       function filterData() {
@@ -1418,18 +1404,18 @@
           const filteredEvents = group.events.filter(e => {
             // Type filter
             const typeMatch = selectedType === "All" || e.type === selectedType;
-            
+
             // Search filter
             let searchMatch = true;
             if (searchQuery) {
               const title = (e.title || e.name || "").toLowerCase();
               const summary = (e.summary || e.description || "").toLowerCase();
               const source = (e.source || "").toLowerCase();
-              searchMatch = title.includes(searchQuery) || 
-                           summary.includes(searchQuery) || 
-                           source.includes(searchQuery);
+              searchMatch = title.includes(searchQuery) ||
+                summary.includes(searchQuery) ||
+                source.includes(searchQuery);
             }
-            
+
             return typeMatch && searchMatch;
           });
 
@@ -1441,37 +1427,11 @@
         }).filter(Boolean);
 
         render(filtered);
-        
-        // Update statistics
-        updateStatistics(filtered);
+
+
       }
 
-      // Add statistics display
-      function updateStatistics(data) {
-        let existingStats = d3.select("#statistics");
-        if (existingStats.empty()) {
-          existingStats = d3.select(".controls-container")
-            .append("div")
-            .attr("id", "statistics")
-            .style("margin-top", "16px")
-            .style("padding", "12px")
-            .style("background", "var(--surface-variant)")
-            .style("border-radius", "8px")
-            .style("font-size", "0.875rem")
-            .style("color", "var(--on-surface-variant)");
-        }
 
-        const totalEvents = data.reduce((sum, category) => sum + category.children.length, 0);
-        const totalCategories = data.length;
-        const totalCasualties = data.reduce((sum, category) => 
-          sum + category.children.reduce((catSum, event) => 
-            catSum + (event.casualties || event.estimated_deaths || 0), 0), 0);
-
-        existingStats.html(`
-          📊 <strong>${totalEvents}</strong> events across <strong>${totalCategories}</strong> categories
-          ${totalCasualties > 0 ? ` • 💀 <strong>${totalCasualties.toLocaleString()}</strong> total casualties` : ''}
-        `);
-      }
 
       document.getElementById("typeFilter").addEventListener("change", filterData);
       document.getElementById("regionFilter").addEventListener("change", filterData);
@@ -1551,6 +1511,188 @@
       }, 500); // Wait for orientation change to complete
     });
   </script>
+
+  <!-- Casualties Reference Section -->
+  <div class="casualties-reference">
+    <h3 class="casualties-title">📊 Major Historical Casualties (Estimated)</h3>
+    <div class="casualties-grid">
+      <div class="casualty-item">
+        <span class="casualty-event">Vietnam War:</span>
+        <span class="casualty-count">3 million casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Korean War:</span>
+        <span class="casualty-count">2.5 million casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Iraq War:</span>
+        <span class="casualty-count">655,000 - 1 million casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Afghanistan War:</span>
+        <span class="casualty-count">176,000 casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Native American Genocide:</span>
+        <span class="casualty-count">12 million casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Transatlantic Slavery:</span>
+        <span class="casualty-count">2 million casualties</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimers Section -->
+  <div class="disclaimers">
+    <h3 class="disclaimer-title">⚠️ Important Disclaimers</h3>
+    <div class="disclaimer-content">
+      <p><strong>Educational Purpose Only:</strong> This visualization is created for educational and awareness
+        purposes. It is not intended as an authoritative historical source.</p>
+
+      <p><strong>Casualty Estimates:</strong> All casualty figures are estimates from various historical sources and
+        academic studies. Actual numbers may vary significantly due to limited documentation, different methodologies,
+        and ongoing scholarly debate.</p>
+
+      <p><strong>Verify Information:</strong> Users should independently verify all information and consult multiple
+        academic sources, historical records, and peer-reviewed research before drawing conclusions.</p>
+
+      <p><strong>No Warranty:</strong> The creators make no warranties about the accuracy, completeness, or reliability
+        of the information presented. This tool should not be used as the sole source for academic research, journalism,
+        or policy decisions.</p>
+
+      <p><strong>Ongoing Research:</strong> Historical casualty figures are subject to ongoing research and revision as
+        new evidence emerges and methodologies improve.</p>
+
+      <p><strong>Consult Experts:</strong> For authoritative information, please consult academic historians,
+        peer-reviewed publications, official government records, and established historical institutions.</p>
+    </div>
+  </div>
+
+  <style>
+    .casualties-reference {
+      margin: 24px;
+      background: var(--surface-color);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px var(--shadow);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .casualties-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      color: var(--on-surface);
+    }
+
+    .casualties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 12px;
+    }
+
+    .casualty-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--surface-variant);
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .casualty-item:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .casualty-event {
+      font-weight: 500;
+      color: var(--on-surface);
+    }
+
+    .casualty-item:hover .casualty-event {
+      color: white;
+    }
+
+    .casualty-count {
+      font-weight: 600;
+      color: var(--secondary-color);
+    }
+
+    .casualty-item:hover .casualty-count {
+      color: white;
+    }
+
+    .disclaimers {
+      margin: 24px;
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px var(--shadow);
+    }
+
+    [data-theme="dark"] .disclaimers {
+      background: #2d2a1f;
+      border-color: #4a4419;
+    }
+
+    .disclaimer-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      color: #856404;
+    }
+
+    [data-theme="dark"] .disclaimer-title {
+      color: #ffd93d;
+    }
+
+    .disclaimer-content {
+      line-height: 1.6;
+      color: #856404;
+    }
+
+    [data-theme="dark"] .disclaimer-content {
+      color: #e6d690;
+    }
+
+    .disclaimer-content p {
+      margin-bottom: 12px;
+    }
+
+    .disclaimer-content strong {
+      font-weight: 600;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+
+      .casualties-reference,
+      .disclaimers {
+        margin: 8px;
+        padding: 16px;
+      }
+
+      .casualties-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .casualty-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .disclaimer-content {
+        font-size: 0.875rem;
+      }
+    }
+  </style>
+
 </body>
 
 </html>

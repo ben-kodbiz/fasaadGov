@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Contrast Test</title>
     <style>
@@ -21,7 +22,7 @@
             --color-pervasive: #ef5350;
             --color-israel: #ff7043;
         }
-        
+
         .test-box {
             display: inline-block;
             width: 150px;
@@ -35,59 +36,60 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Text Contrast Test</h1>
-    
+
     <div class="test-box" style="background: var(--color-middle-east); color: white;">
         Middle East<br>White Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-latin-america); color: white;">
         Western Hemisphere<br>White Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-africa); color: white;">
         Africa<br>White Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-black-people); color: white;">
         Black People<br>White Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-latinos); color: rgba(0, 0, 0, 0.87);">
         Latinos<br>Dark Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-children); color: rgba(0, 0, 0, 0.87);">
         Children<br>Dark Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-native-americans); color: white;">
         Native Americans<br>White Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-women); color: white;">
         Women<br>White Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-asians); color: rgba(0, 0, 0, 0.87);">
         Asians<br>Dark Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-prisoners); color: white;">
         Prisoners<br>White Text
     </div>
-    
+
     <div class="test-box" style="background: var(--color-workers); color: white;">
         Workers<br>White Text
     </div>
-    
+
     <script>
         // Test the same function we use in the main app
         function getOptimalTextColor(category, casualties = 0) {
             const whiteTextCategories = [
                 "Black people",
-                "Prisoners", 
+                "Prisoners",
                 "Workers and the Poor",
                 "Middle East",
                 "Africa",
@@ -96,23 +98,23 @@
                 "Israel Atrocities",
                 "Europe"
             ];
-            
+
             const darkTextCategories = [
                 "Latinos",
-                "Children", 
+                "Children",
                 "Western hemisphere",
                 "Religious minorities",
                 "Native Americans",
                 "Women",
                 "Asians"
             ];
-            
+
             if (casualties > 500) return "white";
             if (whiteTextCategories.includes(category)) return "white";
             if (darkTextCategories.includes(category)) return "rgba(0, 0, 0, 0.87)";
             return "white";
         }
-        
+
         console.log("Text color tests:");
         console.log("Middle East:", getOptimalTextColor("Middle East"));
         console.log("Latinos:", getOptimalTextColor("Latinos"));
@@ -120,4 +122,5 @@
         console.log("Children:", getOptimalTextColor("Children"));
     </script>
 </body>
+
 </html>
