@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contrast Test</title>
+    <style>
+        :root {
+            --color-middle-east: #e57373;
+            --color-latin-america: #ffb74d;
+            --color-africa: #81c784;
+            --color-asia: #ba68c8;
+            --color-europe: #64b5f6;
+            --color-native-americans: #ff8a65;
+            --color-black-people: #8d6e63;
+            --color-latinos: #ffcc02;
+            --color-asians: #ce93d8;
+            --color-women: #f06292;
+            --color-workers: #a1887f;
+            --color-children: #ffab40;
+            --color-prisoners: #90a4ae;
+            --color-religious: #aed581;
+            --color-pervasive: #ef5350;
+            --color-israel: #ff7043;
+        }
+        
+        .test-box {
+            display: inline-block;
+            width: 150px;
+            height: 80px;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            font-weight: 600;
+            border-radius: 4px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Text Contrast Test</h1>
+    
+    <div class="test-box" style="background: var(--color-middle-east); color: white;">
+        Middle East<br>White Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-latin-america); color: white;">
+        Western Hemisphere<br>White Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-africa); color: white;">
+        Africa<br>White Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-black-people); color: white;">
+        Black People<br>White Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-latinos); color: rgba(0, 0, 0, 0.87);">
+        Latinos<br>Dark Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-children); color: rgba(0, 0, 0, 0.87);">
+        Children<br>Dark Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-native-americans); color: white;">
+        Native Americans<br>White Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-women); color: white;">
+        Women<br>White Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-asians); color: rgba(0, 0, 0, 0.87);">
+        Asians<br>Dark Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-prisoners); color: white;">
+        Prisoners<br>White Text
+    </div>
+    
+    <div class="test-box" style="background: var(--color-workers); color: white;">
+        Workers<br>White Text
+    </div>
+    
+    <script>
+        // Test the same function we use in the main app
+        function getOptimalTextColor(category, casualties = 0) {
+            const whiteTextCategories = [
+                "Black people",
+                "Prisoners", 
+                "Workers and the Poor",
+                "Middle East",
+                "Africa",
+                "Asia",
+                "Pervasive",
+                "Israel Atrocities",
+                "Europe"
+            ];
+            
+            const darkTextCategories = [
+                "Latinos",
+                "Children", 
+                "Western hemisphere",
+                "Religious minorities",
+                "Native Americans",
+                "Women",
+                "Asians"
+            ];
+            
+            if (casualties > 500) return "white";
+            if (whiteTextCategories.includes(category)) return "white";
+            if (darkTextCategories.includes(category)) return "rgba(0, 0, 0, 0.87)";
+            return "white";
+        }
+        
+        console.log("Text color tests:");
+        console.log("Middle East:", getOptimalTextColor("Middle East"));
+        console.log("Latinos:", getOptimalTextColor("Latinos"));
+        console.log("Black people:", getOptimalTextColor("Black people"));
+        console.log("Children:", getOptimalTextColor("Children"));
+    </script>
+</body>
+</html>
