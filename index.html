@@ -205,6 +205,160 @@
       border: 0 !important;
     }
 
+    /* Top disclaimers styling */
+    .top-disclaimers {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #fff3cd;
+      border-bottom: 2px solid #ffeaa7;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] .top-disclaimers {
+      background: #2d2a1f;
+      border-bottom-color: #4a4419;
+    }
+
+    .disclaimer-banner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .disclaimer-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      position: relative;
+    }
+
+    .disclaimer-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .disclaimer-text {
+      flex: 1;
+      font-size: 0.875rem;
+      line-height: 1.4;
+      color: #856404;
+    }
+
+    [data-theme="dark"] .disclaimer-text {
+      color: #e6d690;
+    }
+
+    .disclaimer-text strong {
+      font-weight: 600;
+      color: #664d03;
+    }
+
+    [data-theme="dark"] .disclaimer-text strong {
+      color: #ffd93d;
+    }
+
+    .disclaimer-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #856404;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    [data-theme="dark"] .disclaimer-close {
+      color: #e6d690;
+    }
+
+    .disclaimer-close:hover {
+      background: rgba(133, 100, 4, 0.1);
+    }
+
+    [data-theme="dark"] .disclaimer-close:hover {
+      background: rgba(230, 214, 144, 0.1);
+    }
+
+    .disclaimer-close:focus {
+      outline: 2px solid #856404;
+      outline-offset: 2px;
+    }
+
+    /* Hide disclaimers when dismissed */
+    .top-disclaimers.dismissed {
+      display: none;
+    }
+
+    /* Mobile notice styling */
+    .mobile-notice {
+      margin-top: 16px;
+      background: #e3f2fd;
+      border: 1px solid #90caf9;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    [data-theme="dark"] .mobile-notice {
+      background: #1a237e;
+      border-color: #3f51b5;
+    }
+
+    .mobile-notice-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mobile-notice-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .mobile-notice-text {
+      font-size: 0.875rem;
+      color: #1565c0;
+      line-height: 1.4;
+    }
+
+    [data-theme="dark"] .mobile-notice-text {
+      color: #90caf9;
+    }
+
+    .mobile-notice-text strong {
+      font-weight: 600;
+      color: #0d47a1;
+    }
+
+    [data-theme="dark"] .mobile-notice-text strong {
+      color: #bbdefb;
+    }
+
+    /* Mobile responsive for disclaimers */
+    @media (max-width: 768px) {
+      .disclaimer-content {
+        padding: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .disclaimer-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+      }
+
+      .disclaimer-text {
+        font-size: 0.8rem;
+        padding-right: 32px;
+      }
+    }
+
     body {
       font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       margin: 0;
@@ -620,6 +774,21 @@
     </nav>
   </header>
 
+  <!-- Top Disclaimers and Mobile Notice -->
+  <div class="top-disclaimers">
+    <div class="disclaimer-banner">
+      <div class="disclaimer-content">
+        <div class="disclaimer-icon">⚠️</div>
+        <div class="disclaimer-text">
+          <strong>Educational Purpose Only:</strong> This visualization presents historical casualty estimates for educational awareness. 
+          All figures are estimates from various sources and should be independently verified. 
+          <strong>For mobile users:</strong> Please select "List View" in the controls below for better experience.
+        </div>
+        <button class="disclaimer-close" id="dismissDisclaimer" aria-label="Dismiss disclaimer">×</button>
+      </div>
+    </div>
+  </div>
+
   <main id="main-content" role="main">
     <section class="controls-container" aria-label="Visualization controls">
       <h2 class="visually-hidden">Filter and Search Controls</h2>
@@ -717,6 +886,20 @@
       location.reload(true); // Force reload from server
     });
 
+    // Disclaimer dismiss functionality
+    document.getElementById('dismissDisclaimer').addEventListener('click', () => {
+      const disclaimerElement = document.querySelector('.top-disclaimers');
+      disclaimerElement.classList.add('dismissed');
+      
+      // Store dismissal in localStorage so it stays dismissed for the session
+      localStorage.setItem('disclaimerDismissed', 'true');
+    });
+
+    // Check if disclaimer was previously dismissed
+    if (localStorage.getItem('disclaimerDismissed') === 'true') {
+      document.querySelector('.top-disclaimers').classList.add('dismissed');
+    }
+
     // Mobile detection and view mode
     const isMobile = () => window.innerWidth <= 768;
     let currentViewMode = 'treemap';
@@ -724,6 +907,22 @@
     // Show mobile view toggle on mobile devices
     if (isMobile()) {
       document.getElementById('mobileViewToggle').style.display = 'block';
+      
+      // Add mobile-specific notice
+      const mobileNotice = document.createElement('div');
+      mobileNotice.className = 'mobile-notice';
+      mobileNotice.innerHTML = `
+        <div class="mobile-notice-content">
+          <span class="mobile-notice-icon">📱</span>
+          <span class="mobile-notice-text">
+            <strong>Mobile User:</strong> For better experience, select "List View" below
+          </span>
+        </div>
+      `;
+      
+      // Insert notice after controls
+      const controlsContainer = document.querySelector('.controls-container');
+      controlsContainer.appendChild(mobileNotice);
     }
 
     // D3.js visualization
