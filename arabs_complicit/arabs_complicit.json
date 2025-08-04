@@ -1,0 +1,295 @@
+{
+    "countries": [
+      {
+        "name": "Egypt",
+        "ties_with_israel": "Direct",
+        "ties_with_us": "Direct",
+        "details": {
+          "agreements": [
+            {
+              "name": "Camp David Accords",
+              "year": 1978,
+              "description": "Framework for peace between Egypt and Israel, leading to the 1979 peace treaty."
+            },
+            {
+              "name": "Egypt-Israel Peace Treaty",
+              "year": 1979,
+              "description": "Formalized diplomatic relations, with Israel withdrawing from Sinai."
+            }
+          ],
+          "cooperation": {
+            "israel": "Security coordination in Sinai, Gaza border control, and diplomatic relations with embassies in Cairo and Tel Aviv.",
+            "us": "Receives ~$1.3 billion annually in US military aid; collaborates on counterterrorism and regional stability."
+          },
+          "public_sentiment": "Only 5% of Egyptians support normalization with Israel (Arab Barometer, 2022). Public protests against Israel’s Gaza policies are common, but the government prioritizes strategic ties.",
+          "article": {
+            "title": "Egypt’s Relations with Israel and the United States",
+            "content": "Egypt was the first Arab country to normalize relations with Israel through the 1979 peace treaty, following the 1978 Camp David Accords brokered by the US. The treaty ended decades of conflict, with Israel returning the Sinai Peninsula to Egypt. Today, Egypt and Israel cooperate on security issues, particularly countering jihadist groups in Sinai and managing the Gaza blockade. Egypt’s Rafah crossing is a critical point for Gaza aid, often coordinated with Israel. Despite these ties, public sentiment remains hostile, with only 5% supporting normalization (Arab Barometer, 2022). Egypt’s alliance with the US, solidified post-1979, includes significant military aid and joint exercises, making Egypt a cornerstone of US Middle East policy. However, domestic economic challenges and public support for Palestine create tension with these strategic alignments. Balancing pragmatism and public opinion remains a challenge for Egypt’s leadership.",
+            "resources": [
+              {
+                "title": "Camp David Accords, US State Department",
+                "url": "https://www.state.gov/the-camp-david-accords/"
+              },
+              {
+                "title": "Arab Barometer 2022 Survey",
+                "url": "https://www.arabbarometer.org/surveys/ab-wave-vii/"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Jordan",
+        "ties_with_israel": "Direct",
+        "ties_with_us": "Direct",
+        "details": {
+          "agreements": [
+            {
+              "name": "Israel-Jordan Peace Treaty",
+              "year": 1994,
+              "description": "Established diplomatic relations, water-sharing agreements, and security cooperation."
+            }
+          ],
+          "cooperation": {
+            "israel": "Water sharing (Jordan River), counterterrorism, and airspace defense (e.g., intercepting Iranian drones in 2024).",
+            "us": "Receives over $1 billion annually in US aid; hosts US military bases and conducts joint exercises."
+          },
+          "public_sentiment": "Normalization support is low at 5% (Arab Barometer, 2022). Pro-Palestinian protests are frequent, especially post-October 2023.",
+          "article": {
+            "title": "Jordan’s Relations with Israel and the United States",
+            "content": "Jordan’s 1994 peace treaty with Israel marked a historic step, establishing diplomatic ties and cooperation on water, trade, and security. The treaty resolved border disputes and ensured Jordan’s role as a custodian of Jerusalem’s holy sites. Security coordination, including Jordan’s interception of Iranian drones in 2024, reflects pragmatic alignment, though Jordan clarified this protected its own airspace. With the US, Jordan is a key ally, hosting military bases and receiving substantial aid. However, public sentiment strongly opposes normalization, with only 5% approval (Arab Barometer, 2022). Jordan’s monarchy balances these ties with its pro-Palestinian stance, mediating in Israeli-Palestinian conflicts while facing domestic pressure to reconsider Israel ties, especially amid Gaza tensions.",
+            "resources": [
+              {
+                "title": "Israel-Jordan Peace Treaty, UN",
+                "url": "https://peacemaker.un.org/israeljordan-peacetreaty94"
+              },
+              {
+                "title": "US-Jordan Relations, US Embassy",
+                "url": "https://jo.usembassy.gov/our-relationship/"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "United Arab Emirates",
+        "ties_with_israel": "Direct",
+        "ties_with_us": "Direct",
+        "details": {
+          "agreements": [
+            {
+              "name": "Abraham Accords",
+              "year": 2020,
+              "description": "Normalized diplomatic and economic relations with Israel."
+            },
+            {
+              "name": "Comprehensive Economic Partnership Agreement",
+              "year": 2022,
+              "description": "Boosted trade and investment between UAE and Israel."
+            }
+          ],
+          "cooperation": {
+            "israel": "Direct flights, trade (Israel’s second-largest Middle East trading partner), and technology partnerships.",
+            "us": "Hosts US military bases; US brokered Abraham Accords, promising F-35 jets."
+          },
+          "public_sentiment": "67% of Arabs view UAE’s Gaza stance negatively (2023 survey). Domestic support for normalization is higher but still limited.",
+          "article": {
+            "title": "UAE’s Relations with Israel and the United States",
+            "content": "The UAE’s normalization with Israel via the 2020 Abraham Accords marked a shift in Gulf diplomacy, driven by US mediation and shared concerns about Iran. The accords led to embassies, direct flights, and a trade agreement, with bilateral trade reaching billions annually. The UAE sees Israel as a partner in technology and security, aligning with its vision as a regional hub. With the US, the UAE hosts military bases and benefits from defense deals, including promised F-35 jets. However, regional criticism (67% negative views on Gaza stance) and limited public support challenge the UAE’s bold move. The government frames normalization as a path to stability, but tensions over Palestine persist.",
+            "resources": [
+              {
+                "title": "Abraham Accords, US State Department",
+                "url": "https://www.state.gov/the-abraham-accords/"
+              },
+              {
+                "title": "UAE-Israel Trade Agreement, UAE Government",
+                "url": "https://www.moec.gov.ae/en/israel-uae-comprehensive-economic-partnership-agreement"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Bahrain",
+        "ties_with_israel": "Direct",
+        "ties_with_us": "Direct",
+        "details": {
+          "agreements": [
+            {
+              "name": "Abraham Accords",
+              "year": 2020,
+              "description": "Formalized diplomatic and economic ties with Israel."
+            }
+          ],
+          "cooperation": {
+            "israel": "Diplomatic relations, trade, and security coordination.",
+            "us": "Hosts US Navy’s Fifth Fleet; strong defense partnership."
+          },
+          "public_sentiment": "Significant domestic opposition, particularly from Shia communities, limits public support for normalization.",
+          "article": {
+            "title": "Bahrain’s Relations with Israel and the United States",
+            "content": "Bahrain joined the Abraham Accords in 2020, normalizing relations with Israel under US auspices. This included opening embassies and fostering trade, driven by shared concerns about Iran. Bahrain’s Sunni-led government relies on US military support, hosting the Fifth Fleet and receiving defense aid. However, the Shia-majority population opposes normalization, reflecting broader regional skepticism. Bahrain’s strategic alignment with the US and Israel strengthens its position against Iran but risks domestic unrest. The government’s commitment to the accords persists, though public protests highlight the divide between policy and sentiment.",
+            "resources": [
+              {
+                "title": "Abraham Accords, US State Department",
+                "url": "https://www.state.gov/the-abraham-accords/"
+              },
+              {
+                "title": "US-Bahrain Relations, US Embassy",
+                "url": "https://bh.usembassy.gov/our-relationship/"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Morocco",
+        "ties_with_israel": "Direct",
+        "ties_with_us": "Direct",
+        "details": {
+          "agreements": [
+            {
+              "name": "Abraham Accords",
+              "year": 2020,
+              "description": "Restored diplomatic ties with Israel, including trade and tourism."
+            }
+          ],
+          "cooperation": {
+            "israel": "Trade, tourism, direct flights; Israel recognized Morocco’s Western Sahara claim.",
+            "us": "Receives US military and economic aid; US supported Western Sahara claim."
+          },
+          "public_sentiment": "Support for normalization fell from 31% in 2022 to 13% post-October 2023 (Arab Barometer).",
+          "article": {
+            "title": "Morocco’s Relations with Israel and the United States",
+            "content": "Morocco restored ties with Israel in 2020 via the Abraham Accords, building on limited 1990s contacts. The deal, brokered by the US, included Israel’s recognition of Morocco’s Western Sahara claim, a key diplomatic win. Trade, tourism, and direct flights have since flourished. Morocco’s alliance with the US, strengthened by military aid and free trade agreements, underpins this alignment. However, public support for normalization has plummeted to 13% (Arab Barometer, 2023), driven by solidarity with Palestine. Morocco’s monarchy navigates these ties carefully, balancing strategic gains with domestic and regional pressures.",
+            "resources": [
+              {
+                "title": "Abraham Accords, US State Department",
+                "url": "https://www.state.gov/the-abraham-accords/"
+              },
+              {
+                "title": "Morocco-US Relations, US Embassy",
+                "url": "https://ma.usembassy.gov/our-relationship/"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Sudan",
+        "ties_with_israel": "Direct",
+        "ties_with_us": "Direct",
+        "details": {
+          "agreements": [
+            {
+              "name": "Abraham Accords",
+              "year": 2020,
+              "description": "Agreed to normalize relations with Israel, though implementation is stalled."
+            }
+          ],
+          "cooperation": {
+            "israel": "Limited due to internal conflict; initial steps toward diplomatic ties.",
+            "us": "US removed Sudan from terrorism list and provided aid post-normalization agreement."
+          },
+          "public_sentiment": "Widespread opposition to normalization; ongoing conflict limits public discourse.",
+          "article": {
+            "title": "Sudan’s Relations with Israel and the United States",
+            "content": "Sudan’s 2020 agreement to normalize with Israel, part of the Abraham Accords, was driven by US incentives, including removal from the state sponsors of terrorism list and economic aid. However, Sudan’s transitional government faced domestic opposition, and ongoing civil conflict has stalled implementation. Ties with the US strengthened post-agreement, with aid and debt relief discussions. Public sentiment, though hard to gauge amid war, opposes normalization, reflecting Sudan’s historical support for Palestine. The country’s instability limits deeper engagement, making Sudan’s role in this axis tentative.",
+            "resources": [
+              {
+                "title": "Abraham Accords, US State Department",
+                "url": "https://www.state.gov/the-abraham-accords/"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Saudi Arabia",
+        "ties_with_israel": "Indirect",
+        "ties_with_us": "Direct",
+        "details": {
+          "agreements": [],
+          "cooperation": {
+            "israel": "Tacit intelligence sharing, airspace access (e.g., 2024 Iranian drone defense); no formal ties.",
+            "us": "Major US ally; hosts US military assets and purchases billions in US weapons."
+          },
+          "public_sentiment": "Strong public opposition to normalization; 96% prioritize Palestinian cause (2023 poll).",
+          "article": {
+            "title": "Saudi Arabia’s Relations with Israel and the United States",
+            "content": "Saudi Arabia has no formal ties with Israel but engages in tacit cooperation, including intelligence sharing and airspace access during conflicts (e.g., 2024 Iranian drone interception). Pre-October 2023, Saudi Arabia explored normalization, driven by US mediation and anti-Iran alignment, but paused due to Gaza backlash. With the US, Saudi Arabia is a cornerstone ally, hosting military assets and signing massive arms deals. Public sentiment, with 96% prioritizing Palestine (2023 poll), constrains overt Israel ties. Saudi Arabia’s delicate balance reflects strategic needs versus regional expectations.",
+            "resources": [
+              {
+                "title": "US-Saudi Relations, US Embassy",
+                "url": "https://sa.usembassy.gov/our-relationship/"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Oman",
+        "ties_with_israel": "Indirect",
+        "ties_with_us": "Direct",
+        "details": {
+          "agreements": [],
+          "cooperation": {
+            "israel": "Backchannel communication; hosted Israeli officials (e.g., Netanyahu in 2018).",
+            "us": "Hosts US military facilities; strong defense and trade ties."
+          },
+          "public_sentiment": "Limited support for normalization; Oman’s neutral stance moderates public debate.",
+          "article": {
+            "title": "Oman’s Relations with Israel and the United States",
+            "content": "Oman’s pragmatic foreign policy includes indirect ties with Israel, such as 1990s trade relations and hosting Israeli officials (e.g., Netanyahu in 2018). While no formal normalization exists, backchannel communication persists. Oman’s alliance with the US includes hosting military facilities and defense agreements, supporting regional stability. Public sentiment leans against normalization, but Oman’s neutrality limits domestic backlash. The sultanate balances ties with Iran, Israel, and the US, positioning itself as a mediator rather than a direct participant in normalization.",
+            "resources": [
+              {
+                "title": "US-Oman Relations, US Embassy",
+                "url": "https://om.usembassy.gov/our-relationship/"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Qatar",
+        "ties_with_israel": "Indirect",
+        "ties_with_us": "Direct",
+        "details": {
+          "agreements": [],
+          "cooperation": {
+            "israel": "Backchannel coordination for Gaza aid; hosted Hamas office with Israel’s approval.",
+            "us": "Hosts Al Udeid Air Base; key US partner in defense and diplomacy."
+          },
+          "public_sentiment": "Strong public support for Palestine; normalization is unpopular.",
+          "article": {
+            "title": "Qatar’s Relations with Israel and the United States",
+            "content": "Qatar’s indirect ties with Israel include 1990s trade relations and current backchannel coordination for Gaza aid, with Qatar funding humanitarian efforts with Israel’s approval. Hosting Hamas’s political office facilitates mediation, aligning with Qatar’s diplomatic role. With the US, Qatar hosts Al Udeid Air Base, a critical hub, and enjoys strong defense ties. Public sentiment strongly supports Palestine, making normalization unpopular. Qatar’s unique position allows pragmatic engagement with Israel while maintaining a pro-Palestinian stance, balancing US ties with regional credibility.",
+            "resources": [
+              {
+                "title": "US-Qatar Relations, US Embassy",
+                "url": "https://qa.usembassy.gov/our-relationship/"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "notes": {
+      "non_cooperating_countries": "Algeria, Comoros, Djibouti, Iraq, Kuwait, Lebanon, Libya, Syria, Tunisia, Yemen have no significant ties with Israel. Many do not recognize Israel and align with Palestine.",
+      "public_opinion": "Arab Barometer (2021–2022) shows <20% support for normalization in most Arab countries, with Algeria (4%), Egypt (5%), and Jordan (5%) among the lowest.",
+      "historical_context": "The 1967 Khartoum Resolution opposed Israel ties, but the 2002 Arab Peace Initiative offered normalization for Israeli withdrawal from occupied territories."
+    },
+    "metadata": {
+      "date": "2025-08-03",
+      "sources": [
+        {
+          "title": "Arab Barometer Surveys",
+          "url": "https://www.arabbarometer.org/surveys/"
+        },
+        {
+          "title": "US State Department",
+          "url": "https://www.state.gov/"
+        }
+      ]
+    }
+  }

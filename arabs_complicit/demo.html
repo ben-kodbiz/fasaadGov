@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arab Complicity Visualization - Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .hero {
+            margin-bottom: 50px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .cta {
+            margin-top: 50px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+        
+        .btn-primary:hover {
+            background: #45a049;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🌅 Arab Complicity Analysis</h1>
+            <p>Interactive visualization exploring the complex relationships between Arab nations, Israel, and the United States through diplomatic ties, investments, and public sentiment data.</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Arab Countries</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">$3T+</div>
+                <div class="stat-label">US Investments</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Direct Israel Ties</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">2020</div>
+                <div class="stat-label">Abraham Accords</div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>🎯 Interactive Sunburst</h3>
+                <p>Explore relationships through a dynamic D3.js sunburst chart with multiple view modes, filtering options, and detailed country information panels.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>💰 Investment Analysis</h3>
+                <p>Analyze over $3 trillion in Arab investments in the US, from Saudi Arabia's massive sovereign wealth fund to UAE's recent pledges.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🤝 Diplomatic Relations</h3>
+                <p>Track the evolution from Camp David Accords (1979) to Abraham Accords (2020) and understand the complex web of Middle East diplomacy.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>📊 Public Sentiment</h3>
+                <p>Compare government policies with public opinion using Arab Barometer survey data showing widespread opposition to normalization.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🔍 Multi-View Analysis</h3>
+                <p>Switch between relationship types, investment levels, and timeline views to understand different aspects of Arab complicity.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>📱 Responsive Design</h3>
+                <p>Fully responsive visualization that works seamlessly on desktop, tablet, and mobile devices with touch-friendly interactions.</p>
+            </div>
+        </div>
+        
+        <div class="cta">
+            <a href="index.html" class="btn btn-primary">🚀 Launch Visualization</a>
+            <a href="README.md" class="btn">📚 Read Documentation</a>
+            <a href="../index.html" class="btn">🔙 Back to Main Treemap</a>
+        </div>
+        
+        <div style="margin-top: 60px; opacity: 0.7; font-size: 0.9rem;">
+            <p>Built with D3.js • Data from multiple sources • Educational purpose only</p>
+        </div>
+    </div>
+</body>
+</html>
