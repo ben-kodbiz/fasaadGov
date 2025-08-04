@@ -578,7 +578,7 @@
                         },
                         "public_sentiment": "Strong public opposition to normalization; 96% prioritize Palestinian cause (2023 poll).",
                         "sources": [
-                            { "title": "US-Saudi Relations, US Embassy", "url": "https://sa.usembassy.gov/our-relationship/" },
+                            { "title": "Saudi Arabia–United States Relations", "url": "https://en.wikipedia.org/wiki/Saudi_Arabia%E2%80%93United_States_relations" },
                             { "title": "Saudi Defense Cooperation", "url": "https://www.defense.gov/News/Releases/Release/Article/2140312/secretary-esper-meets-with-saudi-crown-prince/" },
                             { "title": "Arab Opinion Survey 2023", "url": "https://www.arabbarometer.org/surveys/ab-wave-vii/" },
                             { "title": "Saudi-Israel Relations Analysis", "url": "https://www.csis.org/analysis/saudi-arabia-and-israel-cold-peace-or-warm-normalization" }
@@ -1207,9 +1207,9 @@
                         <strong style="color: var(--text-color);">🔗 Sources & Evidence</strong><br>
                         <div style="margin-top: 8px;">
                             ${country.details.sources.map(source => {
-                                const cleanedUrl = cleanUrl(source.url);
-                                const isValid = validateUrl(cleanedUrl);
-                                return `<div style="margin: 8px 0;">
+                    const cleanedUrl = cleanUrl(source.url);
+                    const isValid = validateUrl(cleanedUrl);
+                    return `<div style="margin: 8px 0;">
                                     <a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
                                        style="color: ${isValid ? 'var(--primary-color)' : 'var(--warning-color)'}; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">
                                         🌐 ${source.title}
@@ -1217,7 +1217,7 @@
                                         ${!isValid ? '<span style="font-size: 10px; color: var(--warning-color);">⚠️</span>' : ''}
                                     </a>
                                 </div>`;
-                            }).join('')}
+                }).join('')}
                         </div>
                         <div style="margin-top: 10px; font-size: 11px; color: var(--text-secondary);">
                             ⚠️ = Link may need verification • All URLs cleaned of malformed fragments
@@ -1234,9 +1234,9 @@
                         <strong style="color: var(--text-color);">💰 Investment Sources</strong><br>
                         <div style="margin-top: 8px;">
                             ${investCountryFull.sources.map(source => {
-                                const cleanedUrl = cleanUrl(source.url);
-                                const isValid = validateUrl(cleanedUrl);
-                                return `<div style="margin: 8px 0;">
+                    const cleanedUrl = cleanUrl(source.url);
+                    const isValid = validateUrl(cleanedUrl);
+                    return `<div style="margin: 8px 0;">
                                     <a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
                                        style="color: ${isValid ? 'var(--investment-high)' : 'var(--warning-color)'}; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">
                                         📊 ${source.title}
@@ -1244,7 +1244,7 @@
                                         ${!isValid ? '<span style="font-size: 10px; color: var(--warning-color);">⚠️</span>' : ''}
                                     </a>
                                 </div>`;
-                            }).join('')}
+                }).join('')}
                         </div>
                     </div>
                 `;
@@ -1261,13 +1261,13 @@
                                     <strong>${investment.year}: ${investment.amount}</strong><br>
                                     <small style="color: var(--text-secondary); line-height: 1.4;">${investment.description}</small><br>
                                     ${investment.source ? (() => {
-                                        const cleanedUrl = cleanUrl(investment.source);
-                                        const isValid = validateUrl(cleanedUrl);
-                                        return `<a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
+                        const cleanedUrl = cleanUrl(investment.source);
+                        const isValid = validateUrl(cleanedUrl);
+                        return `<a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
                                            style="color: ${isValid ? 'var(--primary-color)' : 'var(--warning-color)'}; text-decoration: none; font-size: 12px; margin-top: 5px; display: inline-flex; align-items: center; gap: 3px;">
                                             📄 Source ↗ ${!isValid ? '⚠️' : ''}
                                         </a>`;
-                                    })() : ''}
+                    })() : ''}
                                 </div>`
                 ).join('')}
                         </div>
