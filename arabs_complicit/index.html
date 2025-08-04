@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,16 +22,23 @@
             --border-color: #79747e;
             --shadow: rgba(0, 0, 0, 0.12);
             --shadow-dark: rgba(0, 0, 0, 0.24);
-            
+
             /* Material Design relationship colors - no black */
-            --direct-israel: #d32f2f;      /* Material Red 700 */
-            --indirect-israel: #ff9800;    /* Material Orange 500 */
-            --direct-us: #1976d2;          /* Material Blue 700 */
-            --indirect-us: #42a5f5;        /* Material Blue 400 */
-            --investment-high: #388e3c;    /* Material Green 700 */
-            --investment-medium: #66bb6a;  /* Material Green 400 */
-            --investment-low: #a5d6a7;     /* Material Green 200 */
-            
+            --direct-israel: #d32f2f;
+            /* Material Red 700 */
+            --indirect-israel: #ff9800;
+            /* Material Orange 500 */
+            --direct-us: #1976d2;
+            /* Material Blue 700 */
+            --indirect-us: #42a5f5;
+            /* Material Blue 400 */
+            --investment-high: #388e3c;
+            /* Material Green 700 */
+            --investment-medium: #66bb6a;
+            /* Material Green 400 */
+            --investment-low: #a5d6a7;
+            /* Material Green 200 */
+
             /* Additional Material colors */
             --error-color: #b00020;
             --warning-color: #ff6f00;
@@ -43,20 +51,27 @@
             --background-color: #121212;
             --surface-color: #1e1e1e;
             --surface-variant: #2d2d2d;
-            --text-color: #e6e1e5;
-            --text-secondary: #cac4d0;
-            --border-color: #938f99;
+            --text-color: #ffffff;
+            --text-secondary: #b3b3b3;
+            --border-color: #666666;
             --shadow: rgba(0, 0, 0, 0.3);
             --shadow-dark: rgba(0, 0, 0, 0.5);
-            
-            /* Adjusted colors for dark theme - still no black */
-            --direct-israel: #ef5350;      /* Material Red 400 */
-            --indirect-israel: #ffb74d;    /* Material Orange 300 */
-            --direct-us: #42a5f5;          /* Material Blue 400 */
-            --indirect-us: #90caf9;        /* Material Blue 200 */
-            --investment-high: #66bb6a;    /* Material Green 400 */
-            --investment-medium: #a5d6a7;  /* Material Green 200 */
-            --investment-low: #c8e6c9;     /* Material Green 100 */
+
+            /* Adjusted colors for dark theme - brighter for better contrast */
+            --direct-israel: #ff5252;
+            /* Material Red 400 - brighter */
+            --indirect-israel: #ffb74d;
+            /* Material Orange 300 */
+            --direct-us: #42a5f5;
+            /* Material Blue 400 */
+            --indirect-us: #90caf9;
+            /* Material Blue 200 */
+            --investment-high: #66bb6a;
+            /* Material Green 400 */
+            --investment-medium: #a5d6a7;
+            /* Material Green 200 */
+            --investment-low: #c8e6c9;
+            /* Material Green 100 */
         }
 
         * {
@@ -116,7 +131,8 @@
             color: var(--text-secondary);
         }
 
-        .select, .btn {
+        .select,
+        .btn {
             padding: 10px 16px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -239,28 +255,35 @@
 
         .sunburst-text {
             font-size: 12px;
-            font-weight: 500;
+            font-weight: 600;
             text-anchor: middle;
             pointer-events: none;
-            fill: var(--text-color);
+            fill: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        [data-theme="dark"] .sunburst-text {
+            fill: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
         }
 
         @media (max-width: 768px) {
             .visualization-container {
                 flex-direction: column;
             }
-            
+
             .controls {
                 flex-direction: column;
                 align-items: stretch;
             }
-            
+
             .legend-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h1>🌅 Arab Complicity Analysis</h1>
@@ -287,6 +310,7 @@
         </div>
         <button id="resetView" class="btn">Reset View</button>
         <button id="themeToggle" class="btn" style="background: var(--secondary-color);">🌙 Dark Mode</button>
+        <button id="debugInvestments" class="btn" style="background: var(--warning-color);">🔍 Debug</button>
     </div>
 
     <div class="visualization-container">
@@ -299,9 +323,11 @@
                 <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
                     <h4 style="color: var(--primary-color); margin-bottom: 15px;">🎯 Getting Started</h4>
                     <p style="line-height: 1.6; margin-bottom: 15px;">
-                        Click on any segment in the sunburst chart to view detailed information about a country's relationships and investments.
+                        Click on any segment in the sunburst chart to view detailed information about a country's
+                        relationships and investments.
                     </p>
-                    <div style="background: var(--surface-variant); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <div
+                        style="background: var(--surface-variant); padding: 15px; border-radius: 8px; margin-top: 15px;">
                         <strong style="color: var(--text-color);">💡 Tips:</strong><br>
                         <small style="line-height: 1.4;">
                             • Hover over segments for quick info<br>
@@ -319,32 +345,43 @@
         <h3>Legend</h3>
         <div class="legend-grid">
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--direct-israel); box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3);"></div>
+                <div class="legend-color"
+                    style="background-color: var(--direct-israel); box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3);"></div>
                 <span>🇮🇱 Direct ties with Israel</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--indirect-israel); box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);"></div>
+                <div class="legend-color"
+                    style="background-color: var(--indirect-israel); box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);">
+                </div>
                 <span>🇮🇱 Indirect ties with Israel</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--direct-us); box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3);"></div>
+                <div class="legend-color"
+                    style="background-color: var(--direct-us); box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3);"></div>
                 <span>🇺🇸 Direct ties with US</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--indirect-us); box-shadow: 0 2px 4px rgba(66, 165, 245, 0.3);"></div>
+                <div class="legend-color"
+                    style="background-color: var(--indirect-us); box-shadow: 0 2px 4px rgba(66, 165, 245, 0.3);"></div>
                 <span>🇺🇸 Indirect ties with US</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--investment-high); box-shadow: 0 2px 4px rgba(56, 142, 60, 0.3);"></div>
+                <div class="legend-color"
+                    style="background-color: var(--investment-high); box-shadow: 0 2px 4px rgba(56, 142, 60, 0.3);">
+                </div>
                 <span>💰 High investment (>$100B)</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--investment-medium); box-shadow: 0 2px 4px rgba(102, 187, 106, 0.3);"></div>
+                <div class="legend-color"
+                    style="background-color: var(--investment-medium); box-shadow: 0 2px 4px rgba(102, 187, 106, 0.3);">
+                </div>
                 <span>💰 Medium investment ($1B-$100B)</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--investment-low); box-shadow: 0 2px 4px rgba(165, 214, 167, 0.3);"></div>
-                <span>💰 Low investment (<$1B)</span>
+                <div class="legend-color"
+                    style="background-color: var(--investment-low); box-shadow: 0 2px 4px rgba(165, 214, 167, 0.3);">
+                </div>
+                <span>💰 Low investment (<$1B)< /span>
             </div>
         </div>
     </div>
@@ -357,7 +394,7 @@
         let investmentData = {};
         let currentView = 'relationships';
         let currentFocus = 'all';
-        
+
         // Dimensions
         const width = 600;
         const height = 600;
@@ -383,8 +420,8 @@
                     "ties_with_us": "Direct",
                     "details": {
                         "agreements": [
-                            {"name": "Camp David Accords", "year": 1978, "description": "Framework for peace between Egypt and Israel, leading to the 1979 peace treaty."},
-                            {"name": "Egypt-Israel Peace Treaty", "year": 1979, "description": "Formalized diplomatic relations, with Israel withdrawing from Sinai."}
+                            { "name": "Camp David Accords", "year": 1978, "description": "Framework for peace between Egypt and Israel, leading to the 1979 peace treaty." },
+                            { "name": "Egypt-Israel Peace Treaty", "year": 1979, "description": "Formalized diplomatic relations, with Israel withdrawing from Sinai." }
                         ],
                         "cooperation": {
                             "israel": "Security coordination in Sinai, Gaza border control, and diplomatic relations with embassies in Cairo and Tel Aviv.",
@@ -399,7 +436,7 @@
                     "ties_with_us": "Direct",
                     "details": {
                         "agreements": [
-                            {"name": "Israel-Jordan Peace Treaty", "year": 1994, "description": "Established diplomatic relations, water-sharing agreements, and security cooperation."}
+                            { "name": "Israel-Jordan Peace Treaty", "year": 1994, "description": "Established diplomatic relations, water-sharing agreements, and security cooperation." }
                         ],
                         "cooperation": {
                             "israel": "Water sharing (Jordan River), counterterrorism, and airspace defense (e.g., intercepting Iranian drones in 2024).",
@@ -414,8 +451,8 @@
                     "ties_with_us": "Direct",
                     "details": {
                         "agreements": [
-                            {"name": "Abraham Accords", "year": 2020, "description": "Normalized diplomatic and economic relations with Israel."},
-                            {"name": "Comprehensive Economic Partnership Agreement", "year": 2022, "description": "Boosted trade and investment between UAE and Israel."}
+                            { "name": "Abraham Accords", "year": 2020, "description": "Normalized diplomatic and economic relations with Israel." },
+                            { "name": "Comprehensive Economic Partnership Agreement", "year": 2022, "description": "Boosted trade and investment between UAE and Israel." }
                         ],
                         "cooperation": {
                             "israel": "Direct flights, trade (Israel's second-largest Middle East trading partner), and technology partnerships.",
@@ -430,7 +467,7 @@
                     "ties_with_us": "Direct",
                     "details": {
                         "agreements": [
-                            {"name": "Abraham Accords", "year": 2020, "description": "Formalized diplomatic and economic ties with Israel."}
+                            { "name": "Abraham Accords", "year": 2020, "description": "Formalized diplomatic and economic ties with Israel." }
                         ],
                         "cooperation": {
                             "israel": "Diplomatic relations, trade, and security coordination.",
@@ -445,7 +482,7 @@
                     "ties_with_us": "Direct",
                     "details": {
                         "agreements": [
-                            {"name": "Abraham Accords", "year": 2020, "description": "Restored diplomatic ties with Israel, including trade and tourism."}
+                            { "name": "Abraham Accords", "year": 2020, "description": "Restored diplomatic ties with Israel, including trade and tourism." }
                         ],
                         "cooperation": {
                             "israel": "Trade, tourism, direct flights; Israel recognized Morocco's Western Sahara claim.",
@@ -460,7 +497,7 @@
                     "ties_with_us": "Direct",
                     "details": {
                         "agreements": [
-                            {"name": "Abraham Accords", "year": 2020, "description": "Agreed to normalize relations with Israel, though implementation is stalled."}
+                            { "name": "Abraham Accords", "year": 2020, "description": "Agreed to normalize relations with Israel, though implementation is stalled." }
                         ],
                         "cooperation": {
                             "israel": "Limited due to internal conflict; initial steps toward diplomatic ties.",
@@ -516,50 +553,50 @@
                 {
                     "name": "Saudi Arabia",
                     "investments": {
-                        "united_states": {"total_estimate_1995_2025": "Over $800 billion (conservative estimate, including government and private investments)."},
-                        "israel": {"total_estimate_1995_2025": "Under $1 billion, mostly post-2020 and indirect."}
+                        "united_states": { "total_estimate_1995_2025": "Over $800 billion (conservative estimate, including government and private investments)." },
+                        "israel": { "total_estimate_1995_2025": "Under $1 billion, mostly post-2020 and indirect." }
                     }
                 },
                 {
                     "name": "United Arab Emirates",
                     "investments": {
-                        "united_states": {"total_estimate_1995_2025": "Over $1.5 trillion, driven by sovereign wealth funds."},
-                        "israel": {"total_estimate_1995_2025": "Approximately $2 billion, mostly post-2020."}
+                        "united_states": { "total_estimate_1995_2025": "Over $1.5 trillion, driven by sovereign wealth funds." },
+                        "israel": { "total_estimate_1995_2025": "Approximately $2 billion, mostly post-2020." }
                     }
                 },
                 {
                     "name": "Qatar",
                     "investments": {
-                        "united_states": {"total_estimate_1995_2025": "Over $1.3 trillion, including 2025 pledge."},
-                        "israel": {"total_estimate_1995_2025": "Negligible, likely under $100 million in indirect aid-related funding."}
+                        "united_states": { "total_estimate_1995_2025": "Over $1.3 trillion, including 2025 pledge." },
+                        "israel": { "total_estimate_1995_2025": "Negligible, likely under $100 million in indirect aid-related funding." }
                     }
                 },
                 {
                     "name": "Kuwait",
                     "investments": {
-                        "united_states": {"total_estimate_1995_2025": "Approximately $200–$300 billion, based on KIA's global portfolio estimates."},
-                        "israel": {"total_estimate_1995_2025": "None recorded."}
+                        "united_states": { "total_estimate_1995_2025": "Approximately $200–$300 billion, based on KIA's global portfolio estimates." },
+                        "israel": { "total_estimate_1995_2025": "None recorded." }
                     }
                 },
                 {
                     "name": "Bahrain",
                     "investments": {
-                        "united_states": {"total_estimate_1995_2025": "Approximately $5–$10 billion, limited by Bahrain's smaller economy."},
-                        "israel": {"total_estimate_1995_2025": "Under $100 million, post-2020."}
+                        "united_states": { "total_estimate_1995_2025": "Approximately $5–$10 billion, limited by Bahrain's smaller economy." },
+                        "israel": { "total_estimate_1995_2025": "Under $100 million, post-2020." }
                     }
                 },
                 {
                     "name": "Egypt",
                     "investments": {
-                        "united_states": {"total_estimate_1995_2025": "Under $1 billion, primarily private sector."},
-                        "israel": {"total_estimate_1995_2025": "Negligible."}
+                        "united_states": { "total_estimate_1995_2025": "Under $1 billion, primarily private sector." },
+                        "israel": { "total_estimate_1995_2025": "Negligible." }
                     }
                 },
                 {
                     "name": "Jordan",
                     "investments": {
-                        "united_states": {"total_estimate_1995_2025": "Under $500 million, mostly private."},
-                        "israel": {"total_estimate_1995_2025": "Negligible."}
+                        "united_states": { "total_estimate_1995_2025": "Under $500 million, mostly private." },
+                        "israel": { "total_estimate_1995_2025": "Negligible." }
                     }
                 }
             ]
@@ -577,17 +614,17 @@
         }
 
         function setupEventListeners() {
-            d3.select("#viewMode").on("change", function() {
+            d3.select("#viewMode").on("change", function () {
                 currentView = this.value;
                 updateVisualization();
             });
 
-            d3.select("#focusFilter").on("change", function() {
+            d3.select("#focusFilter").on("change", function () {
                 currentFocus = this.value;
                 updateVisualization();
             });
 
-            d3.select("#resetView").on("click", function() {
+            d3.select("#resetView").on("click", function () {
                 currentView = 'relationships';
                 currentFocus = 'all';
                 d3.select("#viewMode").property("value", "relationships");
@@ -595,16 +632,26 @@
                 updateVisualization();
             });
 
-            d3.select("#themeToggle").on("click", function() {
+            d3.select("#themeToggle").on("click", function () {
                 const currentTheme = document.documentElement.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
                 document.documentElement.setAttribute('data-theme', newTheme);
-                
+
                 // Update button text
                 d3.select(this).text(newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
-                
+
                 // Re-render visualization with new colors
                 updateVisualization();
+            });
+
+            d3.select("#debugInvestments").on("click", function() {
+                console.log('=== INVESTMENT DEBUG ===');
+                investmentData.countries.forEach(country => {
+                    const amount = country.investments.united_states.total_estimate_1995_2025;
+                    const parsed = parseInvestmentAmount(amount);
+                    console.log(`${country.name}: "${amount}" -> ${parsed}B`);
+                });
+                console.log('=== END DEBUG ===');
             });
         }
 
@@ -614,7 +661,7 @@
                 if (currentFocus === 'direct') return country.ties_with_israel === 'Direct';
                 if (currentFocus === 'indirect') return country.ties_with_israel === 'Indirect';
                 if (currentFocus === 'abraham') {
-                    return country.details.agreements.some(agreement => 
+                    return country.details.agreements.some(agreement =>
                         agreement.name === 'Abraham Accords'
                     );
                 }
@@ -667,15 +714,18 @@
                     const investCountry = investmentData.countries.find(c => c.name === country.name);
                     if (investCountry) {
                         const usTotal = parseInvestmentAmount(investCountry.investments.united_states.total_estimate_1995_2025);
-                        if (usTotal > 100) {
-                            investmentLevels.high.push({name: country.name, data: country, investment: usTotal, value: usTotal});
-                        } else if (usTotal > 1) {
-                            investmentLevels.medium.push({name: country.name, data: country, investment: usTotal, value: usTotal});
+                        console.log(`${country.name}: ${investCountry.investments.united_states.total_estimate_1995_2025} -> ${usTotal}B`);
+                        
+                        if (usTotal >= 100) {
+                            investmentLevels.high.push({ name: country.name, data: country, investment: usTotal, value: Math.max(1, usTotal / 100) });
+                        } else if (usTotal >= 1) {
+                            investmentLevels.medium.push({ name: country.name, data: country, investment: usTotal, value: Math.max(1, usTotal) });
                         } else {
-                            investmentLevels.low.push({name: country.name, data: country, investment: usTotal, value: Math.max(0.1, usTotal)});
+                            investmentLevels.low.push({ name: country.name, data: country, investment: usTotal, value: 1 });
                         }
                     } else {
-                        investmentLevels.low.push({name: country.name, data: country, investment: 0, value: 0.1});
+                        console.log(`${country.name}: No investment data found`);
+                        investmentLevels.low.push({ name: country.name, data: country, investment: 0, value: 1 });
                     }
                 });
 
@@ -707,32 +757,67 @@
 
         function parseInvestmentAmount(amountStr) {
             if (!amountStr) return 0;
-            const match = amountStr.match(/(\d+(?:\.\d+)?)\s*([BM]?)/i);
-            if (!match) return 0;
             
+            console.log('Parsing investment amount:', amountStr); // Debug log
+            
+            // Handle different formats: "$800 billion", "Over $1.5 trillion", "Under $1 billion", "$200–$300 billion", etc.
+            const cleanStr = amountStr.toLowerCase().replace(/[,$]/g, '');
+            
+            // Handle ranges like "200–300 billion" or "5–10 billion" - take the average
+            const rangeMatch = cleanStr.match(/(\d+(?:\.\d+)?)[-–](\d+(?:\.\d+)?)\s*(trillion|billion|million)/i);
+            if (rangeMatch) {
+                const num1 = parseFloat(rangeMatch[1]);
+                const num2 = parseFloat(rangeMatch[2]);
+                const avg = (num1 + num2) / 2;
+                const unit = rangeMatch[3].toLowerCase();
+                
+                console.log(`Range found: ${num1}-${num2} ${unit}, average: ${avg}`);
+                
+                // Convert to billions
+                if (unit === 'trillion') return avg * 1000;
+                if (unit === 'billion') return avg;
+                if (unit === 'million') return avg / 1000;
+                return avg;
+            }
+            
+            // Extract single number and unit
+            const match = cleanStr.match(/(\d+(?:\.\d+)?)\s*(trillion|billion|million)/i);
+            if (!match) {
+                // Handle special cases
+                if (cleanStr.includes('negligible') || cleanStr.includes('none')) return 0.01;
+                if (cleanStr.includes('under') && cleanStr.includes('billion')) return 0.5;
+                if (cleanStr.includes('under') && cleanStr.includes('million')) return 0.0005;
+                return 0.1; // Default small value
+            }
+
             const num = parseFloat(match[1]);
-            const unit = match[2].toUpperCase();
+            const unit = match[2].toLowerCase();
+
+            console.log(`Single value found: ${num} ${unit}`);
+
+            // Convert to billions
+            if (unit === 'trillion') return num * 1000;
+            if (unit === 'billion') return num;
+            if (unit === 'million') return num / 1000;
             
-            if (unit === 'B') return num;
-            if (unit === 'M') return num / 1000;
-            return num / 1000000; // Assume millions if no unit
+            return num; // Default to billions
         }
 
         function getColor(d) {
             // Get computed CSS custom property values
             const computedStyle = getComputedStyle(document.documentElement);
-            
+
             if (d.data.type) {
                 switch (d.data.type) {
-                    case 'direct-israel': 
+                    case 'direct-israel':
                         return computedStyle.getPropertyValue('--direct-israel').trim();
-                    case 'indirect-israel': 
+                    case 'indirect-israel':
                         return computedStyle.getPropertyValue('--indirect-israel').trim();
-                    case 'investment-high': 
+                    case 'investment-high':
                         return computedStyle.getPropertyValue('--investment-high').trim();
-                    case 'investment-medium': 
+                    case 'investment-medium':
                         return computedStyle.getPropertyValue('--investment-medium').trim();
-                    case 'investment-low': 
+                    case 'investment-low':
                         return computedStyle.getPropertyValue('--investment-low').trim();
                     case 'direct-us':
                         return computedStyle.getPropertyValue('--direct-us').trim();
@@ -740,7 +825,7 @@
                         return computedStyle.getPropertyValue('--indirect-us').trim();
                 }
             }
-            
+
             if (d.parent && d.parent.data.type) {
                 const parentColor = getColor(d.parent);
                 try {
@@ -749,13 +834,13 @@
                     return computedStyle.getPropertyValue('--primary-color').trim();
                 }
             }
-            
+
             return computedStyle.getPropertyValue('--primary-color').trim();
         }
 
         function updateVisualization() {
             const hierarchyData = processData();
-            
+
             // Clear previous visualization
             svg.selectAll("*").remove();
 
@@ -830,24 +915,24 @@
 
         function handleMouseOver(event, d) {
             tooltip.style("opacity", 1);
-            
+
             let content = `<div class="tooltip-title">${d.data.name}</div>`;
-            
+
             if (d.data.data) {
                 const country = d.data.data;
                 content += `<div class="tooltip-content">`;
                 content += `<strong>🇮🇱 Israel ties:</strong> <span style="color: ${country.ties_with_israel === 'Direct' ? 'var(--direct-israel)' : 'var(--indirect-israel)'};">${country.ties_with_israel}</span><br>`;
                 content += `<strong>🇺🇸 US ties:</strong> <span style="color: var(--direct-us);">${country.ties_with_us}</span><br>`;
-                
+
                 if (country.details && country.details.agreements && country.details.agreements.length > 0) {
                     content += `<strong>📋 Key agreements:</strong> ${country.details.agreements.map(a => a.name).join(", ")}<br>`;
                 }
-                
+
                 const investCountry = investmentData.countries.find(c => c.name === country.name);
                 if (investCountry) {
                     content += `<strong>💰 US investment:</strong> ${investCountry.investments.united_states.total_estimate_1995_2025}`;
                 }
-                
+
                 content += `<br><br><em style="color: var(--primary-color);">Click for detailed information</em>`;
                 content += `</div>`;
             } else if (d.data.children) {
@@ -858,7 +943,7 @@
                 content += `<em style="color: var(--primary-color);">Click to view category details</em>`;
                 content += `</div>`;
             }
-            
+
             tooltip.html(content)
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 10) + "px");
@@ -870,20 +955,20 @@
 
         function handleClick(event, d) {
             console.log('Clicked:', d); // Debug log
-            
+
             // Handle clicks on individual countries
             if (d.data.data) {
                 showCountryInfo(d.data.data);
                 return;
             }
-            
+
             // Handle clicks on category segments
             if (d.data.name && d.children) {
                 // Show category information
                 showCategoryInfo(d.data);
                 return;
             }
-            
+
             // Fallback - try to find country data
             if (d.data.name && !d.children) {
                 // This might be a country without the nested data structure
@@ -896,9 +981,9 @@
 
         function showCountryInfo(country) {
             console.log('Showing country info for:', country.name); // Debug log
-            
+
             const investCountry = investmentData.countries.find(c => c.name === country.name);
-            
+
             let html = `
                 <h3 style="color: var(--primary-color); margin-bottom: 20px;">🏛️ ${country.name}</h3>
                 
@@ -914,23 +999,23 @@
                     </div>
                 </div>
             `;
-            
+
             if (country.details && country.details.agreements && country.details.agreements.length > 0) {
                 html += `
                     <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
                         <strong style="color: var(--text-color);">📋 Key Agreements</strong><br>
                         <div style="margin-top: 8px;">
-                            ${country.details.agreements.map(agreement => 
-                                `<div style="margin: 5px 0; padding: 5px 0; border-left: 3px solid var(--primary-color); padding-left: 10px;">
+                            ${country.details.agreements.map(agreement =>
+                    `<div style="margin: 5px 0; padding: 5px 0; border-left: 3px solid var(--primary-color); padding-left: 10px;">
                                     <strong>${agreement.name}</strong> (${agreement.year})<br>
                                     <small style="color: var(--text-secondary);">${agreement.description || ''}</small>
                                 </div>`
-                            ).join('')}
+                ).join('')}
                         </div>
                     </div>
                 `;
             }
-            
+
             if (investCountry) {
                 html += `
                     <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
@@ -941,9 +1026,9 @@
                                 <span style="color: var(--investment-high); font-weight: 500;">${investCountry.investments.united_states.total_estimate_1995_2025}</span>
                             </div>
                 `;
-                
-                if (investCountry.investments.israel && 
-                    investCountry.investments.israel.total_estimate_1995_2025 !== "None recorded." && 
+
+                if (investCountry.investments.israel &&
+                    investCountry.investments.israel.total_estimate_1995_2025 !== "None recorded." &&
                     investCountry.investments.israel.total_estimate_1995_2025 !== "Negligible.") {
                     html += `
                             <div style="margin: 8px 0;">
@@ -952,13 +1037,13 @@
                             </div>
                     `;
                 }
-                
+
                 html += `
                         </div>
                     </div>
                 `;
             }
-            
+
             if (country.details && country.details.cooperation) {
                 html += `
                     <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
@@ -980,7 +1065,7 @@
                     </div>
                 `;
             }
-            
+
             if (country.details && country.details.public_sentiment) {
                 html += `
                     <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
@@ -991,13 +1076,13 @@
                     </div>
                 `;
             }
-            
+
             d3.select("#countryInfo").html(html);
         }
 
         function showCategoryInfo(categoryData) {
             console.log('Showing category info for:', categoryData.name); // Debug log
-            
+
             let html = `
                 <h3 style="color: var(--primary-color); margin-bottom: 20px;">📂 ${categoryData.name}</h3>
                 
@@ -1011,25 +1096,26 @@
                     </div>
                 </div>
             `;
-            
+
             if (categoryData.children && categoryData.children.length > 0) {
                 html += `
                     <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
                         <strong style="color: var(--text-color);">🏛️ Countries in this category</strong><br>
                         <div style="margin-top: 8px;">
-                            ${categoryData.children.map(child => 
-                                `<div style="margin: 5px 0; padding: 8px; background: var(--surface-color); border-radius: 4px; border-left: 3px solid var(--primary-color);">
+                            ${categoryData.children.map(child =>
+                    `<div style="margin: 5px 0; padding: 8px; background: var(--surface-color); border-radius: 4px; border-left: 3px solid var(--primary-color);">
                                     <strong>${child.name}</strong>
                                     ${child.data ? `<br><small style="color: var(--text-secondary);">Israel: ${child.data.ties_with_israel}, US: ${child.data.ties_with_us}</small>` : ''}
                                 </div>`
-                            ).join('')}
+                ).join('')}
                         </div>
                     </div>
                 `;
             }
-            
+
             d3.select("#countryInfo").html(html);
         }
     </script>
 </body>
+
 </html>
