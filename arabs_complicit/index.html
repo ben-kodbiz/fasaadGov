@@ -338,23 +338,201 @@
         // Tooltip
         const tooltip = d3.select("#tooltip");
 
-        // Load data
-        Promise.all([
-            d3.json("arabs_complicit.json"),
-            d3.json("arabs_investment.json")
-        ]).then(([complicitData, investData]) => {
-            data = complicitData;
-            investmentData = investData;
-            initializeVisualization();
-        }).catch(error => {
-            console.error("Error loading data:", error);
-            d3.select("#sunburst").html(`
-                <div style="text-align: center; padding: 50px; color: var(--text-secondary);">
-                    <h3>Error loading data</h3>
-                    <p>Please check the console for details.</p>
-                </div>
-            `);
-        });
+        // Embedded data to avoid CORS issues
+        const complicitData = {
+            "countries": [
+                {
+                    "name": "Egypt",
+                    "ties_with_israel": "Direct",
+                    "ties_with_us": "Direct",
+                    "details": {
+                        "agreements": [
+                            {"name": "Camp David Accords", "year": 1978, "description": "Framework for peace between Egypt and Israel, leading to the 1979 peace treaty."},
+                            {"name": "Egypt-Israel Peace Treaty", "year": 1979, "description": "Formalized diplomatic relations, with Israel withdrawing from Sinai."}
+                        ],
+                        "cooperation": {
+                            "israel": "Security coordination in Sinai, Gaza border control, and diplomatic relations with embassies in Cairo and Tel Aviv.",
+                            "us": "Receives ~$1.3 billion annually in US military aid; collaborates on counterterrorism and regional stability."
+                        },
+                        "public_sentiment": "Only 5% of Egyptians support normalization with Israel (Arab Barometer, 2022). Public protests against Israel's Gaza policies are common, but the government prioritizes strategic ties."
+                    }
+                },
+                {
+                    "name": "Jordan",
+                    "ties_with_israel": "Direct",
+                    "ties_with_us": "Direct",
+                    "details": {
+                        "agreements": [
+                            {"name": "Israel-Jordan Peace Treaty", "year": 1994, "description": "Established diplomatic relations, water-sharing agreements, and security cooperation."}
+                        ],
+                        "cooperation": {
+                            "israel": "Water sharing (Jordan River), counterterrorism, and airspace defense (e.g., intercepting Iranian drones in 2024).",
+                            "us": "Receives over $1 billion annually in US aid; hosts US military bases and conducts joint exercises."
+                        },
+                        "public_sentiment": "Normalization support is low at 5% (Arab Barometer, 2022). Pro-Palestinian protests are frequent, especially post-October 2023."
+                    }
+                },
+                {
+                    "name": "United Arab Emirates",
+                    "ties_with_israel": "Direct",
+                    "ties_with_us": "Direct",
+                    "details": {
+                        "agreements": [
+                            {"name": "Abraham Accords", "year": 2020, "description": "Normalized diplomatic and economic relations with Israel."},
+                            {"name": "Comprehensive Economic Partnership Agreement", "year": 2022, "description": "Boosted trade and investment between UAE and Israel."}
+                        ],
+                        "cooperation": {
+                            "israel": "Direct flights, trade (Israel's second-largest Middle East trading partner), and technology partnerships.",
+                            "us": "Hosts US military bases; US brokered Abraham Accords, promising F-35 jets."
+                        },
+                        "public_sentiment": "67% of Arabs view UAE's Gaza stance negatively (2023 survey). Domestic support for normalization is higher but still limited."
+                    }
+                },
+                {
+                    "name": "Bahrain",
+                    "ties_with_israel": "Direct",
+                    "ties_with_us": "Direct",
+                    "details": {
+                        "agreements": [
+                            {"name": "Abraham Accords", "year": 2020, "description": "Formalized diplomatic and economic ties with Israel."}
+                        ],
+                        "cooperation": {
+                            "israel": "Diplomatic relations, trade, and security coordination.",
+                            "us": "Hosts US Navy's Fifth Fleet; strong defense partnership."
+                        },
+                        "public_sentiment": "Significant domestic opposition, particularly from Shia communities, limits public support for normalization."
+                    }
+                },
+                {
+                    "name": "Morocco",
+                    "ties_with_israel": "Direct",
+                    "ties_with_us": "Direct",
+                    "details": {
+                        "agreements": [
+                            {"name": "Abraham Accords", "year": 2020, "description": "Restored diplomatic ties with Israel, including trade and tourism."}
+                        ],
+                        "cooperation": {
+                            "israel": "Trade, tourism, direct flights; Israel recognized Morocco's Western Sahara claim.",
+                            "us": "Receives US military and economic aid; US supported Western Sahara claim."
+                        },
+                        "public_sentiment": "Support for normalization fell from 31% in 2022 to 13% post-October 2023 (Arab Barometer)."
+                    }
+                },
+                {
+                    "name": "Sudan",
+                    "ties_with_israel": "Direct",
+                    "ties_with_us": "Direct",
+                    "details": {
+                        "agreements": [
+                            {"name": "Abraham Accords", "year": 2020, "description": "Agreed to normalize relations with Israel, though implementation is stalled."}
+                        ],
+                        "cooperation": {
+                            "israel": "Limited due to internal conflict; initial steps toward diplomatic ties.",
+                            "us": "US removed Sudan from terrorism list and provided aid post-normalization agreement."
+                        },
+                        "public_sentiment": "Widespread opposition to normalization; ongoing conflict limits public discourse."
+                    }
+                },
+                {
+                    "name": "Saudi Arabia",
+                    "ties_with_israel": "Indirect",
+                    "ties_with_us": "Direct",
+                    "details": {
+                        "agreements": [],
+                        "cooperation": {
+                            "israel": "Tacit intelligence sharing, airspace access (e.g., 2024 Iranian drone defense); no formal ties.",
+                            "us": "Major US ally; hosts US military assets and purchases billions in US weapons."
+                        },
+                        "public_sentiment": "Strong public opposition to normalization; 96% prioritize Palestinian cause (2023 poll)."
+                    }
+                },
+                {
+                    "name": "Oman",
+                    "ties_with_israel": "Indirect",
+                    "ties_with_us": "Direct",
+                    "details": {
+                        "agreements": [],
+                        "cooperation": {
+                            "israel": "Backchannel communication; hosted Israeli officials (e.g., Netanyahu in 2018).",
+                            "us": "Hosts US military facilities; strong defense and trade ties."
+                        },
+                        "public_sentiment": "Limited support for normalization; Oman's neutral stance moderates public debate."
+                    }
+                },
+                {
+                    "name": "Qatar",
+                    "ties_with_israel": "Indirect",
+                    "ties_with_us": "Direct",
+                    "details": {
+                        "agreements": [],
+                        "cooperation": {
+                            "israel": "Backchannel coordination for Gaza aid; hosted Hamas office with Israel's approval.",
+                            "us": "Hosts Al Udeid Air Base; key US partner in defense and diplomacy."
+                        },
+                        "public_sentiment": "Strong public support for Palestine; normalization is unpopular."
+                    }
+                }
+            ]
+        };
+
+        const investData = {
+            "countries": [
+                {
+                    "name": "Saudi Arabia",
+                    "investments": {
+                        "united_states": {"total_estimate_1995_2025": "Over $800 billion (conservative estimate, including government and private investments)."},
+                        "israel": {"total_estimate_1995_2025": "Under $1 billion, mostly post-2020 and indirect."}
+                    }
+                },
+                {
+                    "name": "United Arab Emirates",
+                    "investments": {
+                        "united_states": {"total_estimate_1995_2025": "Over $1.5 trillion, driven by sovereign wealth funds."},
+                        "israel": {"total_estimate_1995_2025": "Approximately $2 billion, mostly post-2020."}
+                    }
+                },
+                {
+                    "name": "Qatar",
+                    "investments": {
+                        "united_states": {"total_estimate_1995_2025": "Over $1.3 trillion, including 2025 pledge."},
+                        "israel": {"total_estimate_1995_2025": "Negligible, likely under $100 million in indirect aid-related funding."}
+                    }
+                },
+                {
+                    "name": "Kuwait",
+                    "investments": {
+                        "united_states": {"total_estimate_1995_2025": "Approximately $200–$300 billion, based on KIA's global portfolio estimates."},
+                        "israel": {"total_estimate_1995_2025": "None recorded."}
+                    }
+                },
+                {
+                    "name": "Bahrain",
+                    "investments": {
+                        "united_states": {"total_estimate_1995_2025": "Approximately $5–$10 billion, limited by Bahrain's smaller economy."},
+                        "israel": {"total_estimate_1995_2025": "Under $100 million, post-2020."}
+                    }
+                },
+                {
+                    "name": "Egypt",
+                    "investments": {
+                        "united_states": {"total_estimate_1995_2025": "Under $1 billion, primarily private sector."},
+                        "israel": {"total_estimate_1995_2025": "Negligible."}
+                    }
+                },
+                {
+                    "name": "Jordan",
+                    "investments": {
+                        "united_states": {"total_estimate_1995_2025": "Under $500 million, mostly private."},
+                        "israel": {"total_estimate_1995_2025": "Negligible."}
+                    }
+                }
+            ]
+        };
+
+        // Initialize with embedded data
+        data = complicitData;
+        investmentData = investData;
+        initializeVisualization();
 
         function initializeVisualization() {
             updateVisualization();

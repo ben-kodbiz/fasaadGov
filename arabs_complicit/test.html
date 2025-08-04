@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .country { margin: 10px 0; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Data Test</h1>
+    <div id="results"></div>
+
+    <script>
+        // Test embedded data
+        const complicitData = {
+            "countries": [
+                {"name": "Egypt", "ties_with_israel": "Direct", "ties_with_us": "Direct"},
+                {"name": "Jordan", "ties_with_israel": "Direct", "ties_with_us": "Direct"},
+                {"name": "United Arab Emirates", "ties_with_israel": "Direct", "ties_with_us": "Direct"},
+                {"name": "Bahrain", "ties_with_israel": "Direct", "ties_with_us": "Direct"},
+                {"name": "Morocco", "ties_with_israel": "Direct", "ties_with_us": "Direct"},
+                {"name": "Sudan", "ties_with_israel": "Direct", "ties_with_us": "Direct"},
+                {"name": "Saudi Arabia", "ties_with_israel": "Indirect", "ties_with_us": "Direct"},
+                {"name": "Oman", "ties_with_israel": "Indirect", "ties_with_us": "Direct"},
+                {"name": "Qatar", "ties_with_israel": "Indirect", "ties_with_us": "Direct"}
+            ]
+        };
+
+        const investData = {
+            "countries": [
+                {"name": "Saudi Arabia", "investments": {"united_states": {"total_estimate_1995_2025": "Over $800 billion"}}},
+                {"name": "United Arab Emirates", "investments": {"united_states": {"total_estimate_1995_2025": "Over $1.5 trillion"}}},
+                {"name": "Qatar", "investments": {"united_states": {"total_estimate_1995_2025": "Over $1.3 trillion"}}}
+            ]
+        };
+
+        const results = document.getElementById('results');
+        
+        // Test data loading
+        if (complicitData && complicitData.countries) {
+            results.innerHTML += `<div class="country success">✅ Complicity data loaded: ${complicitData.countries.length} countries</div>`;
+        } else {
+            results.innerHTML += `<div class="country error">❌ Failed to load complicity data</div>`;
+        }
+
+        if (investData && investData.countries) {
+            results.innerHTML += `<div class="country success">✅ Investment data loaded: ${investData.countries.length} countries</div>`;
+        } else {
+            results.innerHTML += `<div class="country error">❌ Failed to load investment data</div>`;
+        }
+
+        // Test data structure
+        complicitData.countries.forEach(country => {
+            const hasRequiredFields = country.name && country.ties_with_israel && country.ties_with_us;
+            if (hasRequiredFields) {
+                results.innerHTML += `<div class="country success">✅ ${country.name}: ${country.ties_with_israel} Israel, ${country.ties_with_us} US</div>`;
+            } else {
+                results.innerHTML += `<div class="country error">❌ ${country.name}: Missing required fields</div>`;
+            }
+        });
+
+        results.innerHTML += `<div style="margin-top: 20px;"><a href="index.html">🚀 Go to Main Visualization</a></div>`;
+    </script>
+</body>
+</html>
