@@ -512,12 +512,21 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
       font-size: 0.75rem;
       font-weight: 600;
-      padding: 4px;
+      padding: 2px;
       cursor: pointer;
       transition: all 0.2s ease;
       border-radius: 4px;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.3);
+      /* Improved text shadow for better readability */
+      text-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.8), 
+        0 0 1px rgba(255, 255, 255, 0.4),
+        1px 1px 1px rgba(0, 0, 0, 0.6);
+      /* Ensure text doesn't wrap */
+      white-space: nowrap;
+      /* Better text rendering */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .node:hover {
@@ -1013,12 +1022,20 @@
       return hsl.toString();
     }
 
-    // Dynamic text sizing based on node dimensions
+    // Improved dynamic text sizing based on node dimensions
     function calculateFontSize(width, height, textLength) {
       const area = width * height;
-      const baseSize = Math.sqrt(area) / 8;
-      const lengthFactor = Math.max(0.5, 1 - (textLength / 50));
-      return Math.max(8, Math.min(16, baseSize * lengthFactor));
+      const isMobile = window.innerWidth <= 768;
+      
+      // More generous base size calculation
+      const baseSize = Math.sqrt(area) / (isMobile ? 6 : 7);
+      const lengthFactor = Math.max(0.6, 1 - (textLength / 60));
+      
+      // Increased minimum font size and more reasonable maximum
+      const minSize = isMobile ? 7 : 8;
+      const maxSize = isMobile ? 14 : 16;
+      
+      return Math.max(minSize, Math.min(maxSize, baseSize * lengthFactor));
     }
 
     // Enhanced text color calculation for better readability
@@ -1417,23 +1434,49 @@
           return calculateFontSize(nodeWidth, nodeHeight, title.length) + "px";
         })
         .text(d => {
-          const title = d.data.title || d.data.name;
+          // Improved title fallback with better handling of incomplete data
+          let title = d.data.title || d.data.name || "";
+          
+          // Handle cases where title might be incomplete or just a fragment
+          if (!title && d.data.summary) {
+            // Extract first meaningful part from summary as fallback
+            const summaryWords = d.data.summary.split(' ').slice(0, 5);
+            title = summaryWords.join(' ');
+          }
+          
+          // If still no title, use a generic identifier
+          if (!title) {
+            const eventType = d.data.type === "news_article" ? "News Event" : "Historical Event";
+            const date = d.data.date || d.data.year || "Unknown Date";
+            title = `${eventType} (${date})`;
+          }
+          
           const nodeWidth = d.x1 - d.x0;
           const nodeHeight = d.y1 - d.y0;
           const isMobile = window.innerWidth <= 768;
 
-          // More lenient text display on mobile
-          const minWidth = isMobile ? 35 : 50;
-          const minHeight = isMobile ? 25 : 20;
+          // Much more lenient text display - show text even for smaller blocks
+          const minWidth = isMobile ? 25 : 30;
+          const minHeight = isMobile ? 15 : 15;
 
           if (nodeWidth < minWidth || nodeHeight < minHeight) return "";
 
-          // Dynamic text truncation based on node size
-          const maxLength = Math.floor(nodeWidth / 8);
-          if (title && title.length > maxLength) {
-            return title.substring(0, maxLength) + "...";
+          // Improved dynamic text truncation based on node size
+          const baseCharWidth = isMobile ? 6 : 7; // Adjust character width estimation
+          const maxLength = Math.max(3, Math.floor(nodeWidth / baseCharWidth));
+          
+          if (!title) return "";
+          
+          // For very small blocks, show at least first few characters
+          if (maxLength < 8 && title.length > 3) {
+            return title.substring(0, 3) + "...";
           }
-          return title || "";
+          
+          if (title.length > maxLength) {
+            return title.substring(0, maxLength - 3) + "...";
+          }
+          
+          return title;
         })
         .on("click", (event, d) => {
           event.stopPropagation();

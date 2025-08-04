@@ -237,14 +237,35 @@ class MarkdownProcessor:
     
     def extract_title(self, text: str) -> str:
         """Extract a title from the event text"""
-        # Take first sentence or first 100 characters
+        # Take first sentence or first meaningful part
         sentences = re.split(r'[.!?]', text)
         if sentences:
             title = sentences[0].strip()
-            if len(title) > 100:
-                title = title[:100] + "..."
+            # Increased title length limit and better truncation
+            if len(title) > 200:
+                # Try to find a good breaking point (comma, semicolon, etc.)
+                break_points = [', ', '; ', ' - ', ' – ']
+                for bp in break_points:
+                    if bp in title[:180]:
+                        title = title[:title.find(bp, 0, 180)] + bp.strip()
+                        break
+                else:
+                    # If no good break point, truncate at word boundary
+                    words = title[:180].split()
+                    if len(words) > 1:
+                        title = ' '.join(words[:-1]) + "..."
+                    else:
+                        title = title[:180] + "..."
             return title
-        return text[:100] + "..." if len(text) > 100 else text
+        
+        # Fallback: use first 180 characters with word boundary
+        if len(text) > 180:
+            words = text[:180].split()
+            if len(words) > 1:
+                return ' '.join(words[:-1]) + "..."
+            else:
+                return text[:180] + "..."
+        return text
     
     def extract_casualties(self, text: str) -> Optional[int]:
         """Extract casualty numbers from text"""
