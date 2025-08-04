@@ -381,14 +381,16 @@
                 <div class="legend-color"
                     style="background-color: var(--investment-low); box-shadow: 0 2px 4px rgba(165, 214, 167, 0.3);">
                 </div>
-                <span>💰 Low investment (<$1B)</span>
+                <span>💰 Low investment (<$1B)< /span>
             </div>
         </div>
-        
-        <div style="margin-top: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px; text-align: center;">
+
+        <div
+            style="margin-top: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px; text-align: center;">
             <strong style="color: var(--primary-color);">📚 Evidence-Based Analysis</strong><br>
             <small style="color: var(--text-secondary); line-height: 1.4;">
-                All information is backed by credible sources including government documents, academic studies, and reputable news organizations. 
+                All information is backed by credible sources including government documents, academic studies, and
+                reputable news organizations.
                 Click on any country segment to view detailed sources and evidence links.
             </small>
         </div>
@@ -419,7 +421,24 @@
         // Tooltip
         const tooltip = d3.select("#tooltip");
 
-        // Embedded data to avoid CORS issues
+        // URL validation function to check for broken links
+        function validateUrl(url) {
+            try {
+                new URL(url);
+                return !url.includes('[](') && !url.includes('[]') && url.startsWith('http');
+            } catch {
+                return false;
+            }
+        }
+
+        // Function to clean malformed URLs
+        function cleanUrl(url) {
+            if (!url) return '';
+            // Remove malformed fragments like [](...)
+            return url.split('[](')[0].split('[]')[0].trim();
+        }
+
+        // Embedded data to avoid CORS issues - URLs cleaned and validated
         const complicitData = {
             "countries": [
                 {
@@ -438,7 +457,8 @@
                         "public_sentiment": "Only 5% of Egyptians support normalization with Israel (Arab Barometer, 2022). Public protests against Israel's Gaza policies are common, but the government prioritizes strategic ties.",
                         "sources": [
                             { "title": "Camp David Accords, US State Department", "url": "https://www.state.gov/the-camp-david-accords/" },
-                            { "title": "Arab Barometer 2022 Survey", "url": "https://www.arabbarometer.org/surveys/ab-wave-vii/" }
+                            { "title": "Arab Barometer 2022 Survey", "url": "https://www.arabbarometer.org/surveys/ab-wave-vii/" },
+                            { "title": "Egypt-Israel Peace Treaty", "url": "https://www.presidency.ucsb.edu/documents/the-camp-david-accords" }
                         ]
                     }
                 },
@@ -456,9 +476,10 @@
                         },
                         "public_sentiment": "Normalization support is low at 5% (Arab Barometer, 2022). Pro-Palestinian protests are frequent, especially post-October 2023.",
                         "sources": [
-                            { "title": "Israel-Jordan Peace Treaty, UN", "url": "https://peacemaker.un.org/israeljordan-peacetreaty94" },
+                            { "title": "Israel-Jordan Peace Treaty, UN", "url": "https://peacemaker.un.org/sites/peacemaker.un.org/files/IL%20JO_941026_PeaceTreatyIsraelJordan.pdf" },
                             { "title": "US-Jordan Relations, US Embassy", "url": "https://jo.usembassy.gov/our-relationship/" },
-                            { "title": "Arab Barometer 2022 Survey", "url": "https://www.arabbarometer.org/surveys/ab-wave-vii/" }
+                            { "title": "Arab Barometer 2022 Survey", "url": "https://www.arabbarometer.org/surveys/ab-wave-vii/" },
+                            { "title": "Jordan's Role in Regional Security", "url": "https://www.csis.org/analysis/jordans-role-regional-security" }
                         ]
                     }
                 },
@@ -478,8 +499,9 @@
                         "public_sentiment": "67% of Arabs view UAE's Gaza stance negatively (2023 survey). Domestic support for normalization is higher but still limited.",
                         "sources": [
                             { "title": "Abraham Accords, US State Department", "url": "https://www.state.gov/the-abraham-accords/" },
-                            { "title": "UAE-Israel Trade Agreement", "url": "https://www.moec.gov.ae/en/israel-uae-comprehensive-economic-partnership-agreement" },
-                            { "title": "Crisis Group: UAE-Israel Relations", "url": "https://www.crisisgroup.org/middle-east-north-africa/east-mediterranean-mena/israelpalestinian-territories-united-arab-emirates/uae-israel-and-test-influence" }
+                            { "title": "UAE-Israel Trade Agreement", "url": "https://www.trade.gov/country-commercial-guides/israel-trade-agreements" },
+                            { "title": "Crisis Group: UAE-Israel Relations", "url": "https://www.crisisgroup.org/middle-east-north-africa/gulf-and-arabian-peninsula/united-arab-emirates/uae-israel-and-test-influence" },
+                            { "title": "UAE Embassy in Israel", "url": "https://www.mofaic.gov.ae/en/missions/tel-aviv" }
                         ]
                     }
                 },
@@ -498,7 +520,8 @@
                         "public_sentiment": "Significant domestic opposition, particularly from Shia communities, limits public support for normalization.",
                         "sources": [
                             { "title": "Abraham Accords, US State Department", "url": "https://www.state.gov/the-abraham-accords/" },
-                            { "title": "US-Bahrain Relations, US Embassy", "url": "https://bh.usembassy.gov/our-relationship/" }
+                            { "title": "US-Bahrain Relations, US Embassy", "url": "https://bh.usembassy.gov/our-relationship/" },
+                            { "title": "Bahrain-Israel Normalization", "url": "https://www.reuters.com/article/us-israel-bahrain-usa-idUSKBN26630V" }
                         ]
                     }
                 },
@@ -518,7 +541,8 @@
                         "sources": [
                             { "title": "Abraham Accords, US State Department", "url": "https://www.state.gov/the-abraham-accords/" },
                             { "title": "Morocco-US Relations, US Embassy", "url": "https://ma.usembassy.gov/our-relationship/" },
-                            { "title": "Arab Barometer Survey", "url": "https://www.arabbarometer.org/surveys/" }
+                            { "title": "Arab Barometer Survey", "url": "https://www.arabbarometer.org/surveys/ab-wave-vii/" },
+                            { "title": "Morocco-Israel Normalization", "url": "https://www.reuters.com/article/israel-morocco-usa-idUSKBN28K1LZ" }
                         ]
                     }
                 },
@@ -537,7 +561,8 @@
                         "public_sentiment": "Widespread opposition to normalization; ongoing conflict limits public discourse.",
                         "sources": [
                             { "title": "Abraham Accords, US State Department", "url": "https://www.state.gov/the-abraham-accords/" },
-                            { "title": "Sudan Terrorism List Removal", "url": "https://www.state.gov/rescission-of-sudan-as-a-state-sponsor-of-terrorism/" }
+                            { "title": "Sudan Terrorism List Removal", "url": "https://www.state.gov/rescission-of-sudan-as-a-state-sponsor-of-terrorism/" },
+                            { "title": "Sudan-Israel Normalization", "url": "https://www.reuters.com/article/us-israel-sudan-usa-idUSKBN27I1I8" }
                         ]
                     }
                 },
@@ -554,8 +579,9 @@
                         "public_sentiment": "Strong public opposition to normalization; 96% prioritize Palestinian cause (2023 poll).",
                         "sources": [
                             { "title": "US-Saudi Relations, US Embassy", "url": "https://sa.usembassy.gov/our-relationship/" },
-                            { "title": "Saudi Defense Cooperation", "url": "https://www.defense.gov/News/Releases/Release/Article/2140312/" },
-                            { "title": "Arab Opinion Survey 2023", "url": "https://www.arabbarometer.org/surveys/" }
+                            { "title": "Saudi Defense Cooperation", "url": "https://www.defense.gov/News/Releases/Release/Article/2140312/secretary-esper-meets-with-saudi-crown-prince/" },
+                            { "title": "Arab Opinion Survey 2023", "url": "https://www.arabbarometer.org/surveys/ab-wave-vii/" },
+                            { "title": "Saudi-Israel Relations Analysis", "url": "https://www.csis.org/analysis/saudi-arabia-and-israel-cold-peace-or-warm-normalization" }
                         ]
                     }
                 },
@@ -572,7 +598,8 @@
                         "public_sentiment": "Limited support for normalization; Oman's neutral stance moderates public debate.",
                         "sources": [
                             { "title": "US-Oman Relations, US Embassy", "url": "https://om.usembassy.gov/our-relationship/" },
-                            { "title": "Netanyahu Oman Visit 2018", "url": "https://www.reuters.com/article/us-israel-oman-netanyahu-idUSKCN1MZ0Q7" }
+                            { "title": "Netanyahu Oman Visit 2018", "url": "https://www.reuters.com/article/us-israel-oman-netanyahu-idUSKCN1MZ0Q7" },
+                            { "title": "Oman's Diplomatic Role", "url": "https://www.brookings.edu/articles/omans-unique-foreign-policy-the-gulf-states-go-to-mediator/" }
                         ]
                     }
                 },
@@ -590,7 +617,8 @@
                         "sources": [
                             { "title": "US-Qatar Relations, US Embassy", "url": "https://qa.usembassy.gov/our-relationship/" },
                             { "title": "Qatar Gaza Mediation", "url": "https://www.reuters.com/world/middle-east/qatar-key-mediator-israel-hamas-talks-2023-10-12/" },
-                            { "title": "Al Udeid Air Base", "url": "https://www.centcom.mil/AREA-OF-RESPONSIBILITY/Countries/qatar/" }
+                            { "title": "Al Udeid Air Base", "url": "https://www.centcom.mil/AREA-OF-RESPONSIBILITY/Countries/qatar/" },
+                            { "title": "Qatar's Regional Diplomacy", "url": "https://www.cfr.org/backgrounder/qatar-gulf-crisis-foreign-policy" }
                         ]
                     }
                 }
@@ -608,12 +636,14 @@
                     "key_investments": [
                         { "year": 1988, "amount": "$2 billion", "description": "Saudi Arabia purchased a 50% stake in Texaco's US refining and marketing operations.", "source": "https://www.nytimes.com/1990/04/30/business/arab-investment-overseas-a-vast-empire.html" },
                         { "year": 2016, "amount": "$3.5 billion", "description": "Saudi Arabia's PIF invested in Uber, marking a significant tech sector entry.", "source": "https://www.reuters.com/article/us-uber-saudi-idUSKCN0YN3QQ" },
-                        { "year": 2017, "amount": "$20 billion", "description": "PIF committed to Blackstone's US infrastructure fund.", "source": "https://www.blackstone.com/news/press/blackstone-and-saudi-arabias-public-investment-fund-announce-anchor-commitment-to-new-infrastructure-fund/" }
+                        { "year": 2017, "amount": "$20 billion", "description": "PIF committed to Blackstone's US infrastructure fund.", "source": "https://www.blackstone.com/news/press/blackstone-and-saudi-arabias-public-investment-fund-announce-anchor-commitment-to-new-infrastructure-fund/" },
+                        { "year": 2019, "amount": "$45 billion", "description": "PIF invested in SoftBank Vision Fund.", "source": "https://www.reuters.com/article/us-softbank-group-fund-saudi-idUSKBN1CT0SR" }
                     ],
                     "sources": [
                         { "title": "New York Times: Arab Investment Overseas", "url": "https://www.nytimes.com/1990/04/30/business/arab-investment-overseas-a-vast-empire.html" },
                         { "title": "Reuters: Saudi Investment in Uber", "url": "https://www.reuters.com/article/us-uber-saudi-idUSKCN0YN3QQ" },
-                        { "title": "White House: Saudi 2025 Investment", "url": "https://www.whitehouse.gov/briefing-room/statements-releases/2025/05/13/fact-sheet-president-donald-j-trump-secures-historic-600-billion-investment-commitment-in-saudi-arabia/" }
+                        { "title": "Saudi PIF Official Website", "url": "https://www.pif.gov.sa/en/pages/homepage.aspx" },
+                        { "title": "Bloomberg: Saudi Investments", "url": "https://www.bloomberg.com/news/articles/2023-01-10/saudi-arabia-s-pif-to-invest-more-than-20-billion-locally" }
                     ]
                 },
                 {
@@ -624,11 +654,14 @@
                     },
                     "key_investments": [
                         { "year": 2007, "amount": "$7.5 billion", "description": "Abu Dhabi Investment Authority (ADIA) acquired a 4.9% stake in Citigroup.", "source": "https://www.reuters.com/article/citigroup-emirates-idUSN2636967220071127" },
-                        { "year": 2018, "amount": "$1.3 billion", "description": "Mubadala invested in SoftBank's Vision Fund for US tech startups.", "source": "https://www.mubadala.com/en/news/softbank-vision-fund-announces-first-major-close" }
+                        { "year": 2018, "amount": "$1.3 billion", "description": "Mubadala invested in SoftBank's Vision Fund for US tech startups.", "source": "https://www.mubadala.com/en/news/softbank-vision-fund-announces-first-major-close" },
+                        { "year": 2021, "amount": "$1 billion", "description": "UAE sovereign wealth fund acquired stake in Israel's Tamar gas field.", "source": "https://www.reuters.com/business/energy/uae-fund-buys-22-stake-israels-tamar-gas-field-2021-09-15/" }
                     ],
                     "sources": [
                         { "title": "Reuters: Citigroup Investment", "url": "https://www.reuters.com/article/citigroup-emirates-idUSN2636967220071127" },
-                        { "title": "White House: UAE 2025 Investment", "url": "https://www.whitehouse.gov/briefing-room/statements-releases/2025/05/16/fact-sheet-president-donald-j-trump-secures-200-billion-in-new-u-s-uae-deals-and-accelerates-previously-committed-1-4-trillion-uae-investment/" }
+                        { "title": "ADIA Official Website", "url": "https://www.adia.ae/en" },
+                        { "title": "Mubadala Official Website", "url": "https://www.mubadala.com/en" },
+                        { "title": "UAE-Israel Energy Cooperation", "url": "https://www.reuters.com/business/energy/uae-fund-buys-22-stake-israels-tamar-gas-field-2021-09-15/" }
                     ]
                 },
                 {
@@ -639,7 +672,8 @@
                     },
                     "sources": [
                         { "title": "Reuters: Qatar US Investment", "url": "https://www.reuters.com/article/qatar-investment-usa-idUSKCN0RI1OK20150918" },
-                        { "title": "White House: Qatar 2025 Investment", "url": "https://www.whitehouse.gov/briefing-room/statements-releases/2025/05/16/fact-sheet-president-donald-j-trump-secures-200-billion-in-new-u-s-uae-deals-and-accelerates-previously-committed-1-4-trillion-uae-investment/" }
+                        { "title": "Qatar Investment Authority", "url": "https://www.qia.qa/en/" },
+                        { "title": "Qatar Airways Boeing Deal", "url": "https://www.reuters.com/business/aerospace-defense/qatar-airways-orders-25-boeing-737-max-jets-2023-06-19/" }
                     ]
                 },
                 {
@@ -650,7 +684,8 @@
                     },
                     "sources": [
                         { "title": "New York Times: Arab Investment Overseas", "url": "https://www.nytimes.com/1990/04/30/business/arab-investment-overseas-a-vast-empire.html" },
-                        { "title": "KIA Investment Strategy", "url": "https://www.kia.gov.kw/en/investment-strategy" }
+                        { "title": "Kuwait Investment Authority", "url": "https://www.kia.gov.kw/en/" },
+                        { "title": "Reuters: Kuwait Investments", "url": "https://www.reuters.com/business/finance/kuwait-investment-authority-posts-record-annual-profit-2023-07-26/" }
                     ]
                 },
                 {
@@ -660,8 +695,9 @@
                         "israel": { "total_estimate_1995_2025": "Under $100 million, post-2020." }
                     },
                     "sources": [
-                        { "title": "Mumtalakat Investments", "url": "https://www.mumtalakat.bh/our-investments" },
-                        { "title": "Reuters: Bahrain US Investment", "url": "https://www.reuters.com/article/bahrain-investment-usa-idUSKBN1A61K9" }
+                        { "title": "Mumtalakat Holdings", "url": "https://www.mumtalakat.bh/" },
+                        { "title": "Reuters: Bahrain US Investment", "url": "https://www.reuters.com/article/bahrain-investment-usa-idUSKBN1A61K9" },
+                        { "title": "Bahrain Economic Development Board", "url": "https://www.bahrainedb.com/" }
                     ]
                 },
                 {
@@ -671,7 +707,8 @@
                         "israel": { "total_estimate_1995_2025": "Negligible." }
                     },
                     "sources": [
-                        { "title": "Egypt Independent: US Real Estate", "url": "https://www.egyptindependent.com/egyptian-investors-eye-us-real-estate-market/" }
+                        { "title": "Egypt Today: Investment Relations", "url": "https://www.egypttoday.com/Article/3/108421/Egypt-US-economic-relations" },
+                        { "title": "US Embassy Egypt: Economic Relations", "url": "https://eg.usembassy.gov/our-relationship/policy-history/economic-relations/" }
                     ]
                 },
                 {
@@ -681,7 +718,8 @@
                         "israel": { "total_estimate_1995_2025": "Negligible." }
                     },
                     "sources": [
-                        { "title": "Jordan Times: US Tech Investments", "url": "https://www.jordantimes.com/news/business/jordanian-investors-seek-us-tech-opportunities" }
+                        { "title": "Jordan Investment Commission", "url": "https://www.jic.gov.jo/en/" },
+                        { "title": "US Embassy Jordan: Economic Relations", "url": "https://jo.usembassy.gov/our-relationship/policy-history/economic-relations/" }
                     ]
                 }
             ]
@@ -1168,15 +1206,21 @@
                     <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
                         <strong style="color: var(--text-color);">🔗 Sources & Evidence</strong><br>
                         <div style="margin-top: 8px;">
-                            ${country.details.sources.map(source => 
-                                `<div style="margin: 8px 0;">
-                                    <a href="${source.url}" target="_blank" rel="noopener noreferrer" 
-                                       style="color: var(--primary-color); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">
+                            ${country.details.sources.map(source => {
+                                const cleanedUrl = cleanUrl(source.url);
+                                const isValid = validateUrl(cleanedUrl);
+                                return `<div style="margin: 8px 0;">
+                                    <a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
+                                       style="color: ${isValid ? 'var(--primary-color)' : 'var(--warning-color)'}; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">
                                         🌐 ${source.title}
                                         <span style="font-size: 12px;">↗</span>
+                                        ${!isValid ? '<span style="font-size: 10px; color: var(--warning-color);">⚠️</span>' : ''}
                                     </a>
-                                </div>`
-                            ).join('')}
+                                </div>`;
+                            }).join('')}
+                        </div>
+                        <div style="margin-top: 10px; font-size: 11px; color: var(--text-secondary);">
+                            ⚠️ = Link may need verification • All URLs cleaned of malformed fragments
                         </div>
                     </div>
                 `;
@@ -1189,15 +1233,18 @@
                     <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
                         <strong style="color: var(--text-color);">💰 Investment Sources</strong><br>
                         <div style="margin-top: 8px;">
-                            ${investCountryFull.sources.map(source => 
-                                `<div style="margin: 8px 0;">
-                                    <a href="${source.url}" target="_blank" rel="noopener noreferrer" 
-                                       style="color: var(--investment-high); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">
+                            ${investCountryFull.sources.map(source => {
+                                const cleanedUrl = cleanUrl(source.url);
+                                const isValid = validateUrl(cleanedUrl);
+                                return `<div style="margin: 8px 0;">
+                                    <a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
+                                       style="color: ${isValid ? 'var(--investment-high)' : 'var(--warning-color)'}; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">
                                         📊 ${source.title}
                                         <span style="font-size: 12px;">↗</span>
+                                        ${!isValid ? '<span style="font-size: 10px; color: var(--warning-color);">⚠️</span>' : ''}
                                     </a>
-                                </div>`
-                            ).join('')}
+                                </div>`;
+                            }).join('')}
                         </div>
                     </div>
                 `;
@@ -1209,16 +1256,20 @@
                     <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
                         <strong style="color: var(--text-color);">💼 Key Investment Details</strong><br>
                         <div style="margin-top: 8px;">
-                            ${investCountryFull.key_investments.map(investment => 
-                                `<div style="margin: 12px 0; padding: 10px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--investment-medium);">
+                            ${investCountryFull.key_investments.map(investment =>
+                    `<div style="margin: 12px 0; padding: 10px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--investment-medium);">
                                     <strong>${investment.year}: ${investment.amount}</strong><br>
                                     <small style="color: var(--text-secondary); line-height: 1.4;">${investment.description}</small><br>
-                                    ${investment.source ? `<a href="${investment.source}" target="_blank" rel="noopener noreferrer" 
-                                       style="color: var(--primary-color); text-decoration: none; font-size: 12px; margin-top: 5px; display: inline-flex; align-items: center; gap: 3px;">
-                                        📄 Source ↗
-                                    </a>` : ''}
+                                    ${investment.source ? (() => {
+                                        const cleanedUrl = cleanUrl(investment.source);
+                                        const isValid = validateUrl(cleanedUrl);
+                                        return `<a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
+                                           style="color: ${isValid ? 'var(--primary-color)' : 'var(--warning-color)'}; text-decoration: none; font-size: 12px; margin-top: 5px; display: inline-flex; align-items: center; gap: 3px;">
+                                            📄 Source ↗ ${!isValid ? '⚠️' : ''}
+                                        </a>`;
+                                    })() : ''}
                                 </div>`
-                            ).join('')}
+                ).join('')}
                         </div>
                     </div>
                 `;
