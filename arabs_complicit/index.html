@@ -8,34 +8,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Material Design 3 Colors */
             --primary-color: #1976d2;
-            --secondary-color: #dc004e;
+            --primary-variant: #1565c0;
+            --secondary-color: #03dac6;
+            --secondary-variant: #018786;
             --background-color: #fafafa;
             --surface-color: #ffffff;
+            --surface-variant: #f5f5f5;
             --text-color: #1c1b1f;
             --text-secondary: #49454f;
             --border-color: #79747e;
             --shadow: rgba(0, 0, 0, 0.12);
             --shadow-dark: rgba(0, 0, 0, 0.24);
             
-            /* Relationship colors */
-            --direct-israel: #e53e3e;
-            --indirect-israel: #fd9853;
-            --direct-us: #3182ce;
-            --indirect-us: #63b3ed;
-            --investment-high: #38a169;
-            --investment-medium: #68d391;
-            --investment-low: #c6f6d5;
+            /* Material Design relationship colors - no black */
+            --direct-israel: #d32f2f;      /* Material Red 700 */
+            --indirect-israel: #ff9800;    /* Material Orange 500 */
+            --direct-us: #1976d2;          /* Material Blue 700 */
+            --indirect-us: #42a5f5;        /* Material Blue 400 */
+            --investment-high: #388e3c;    /* Material Green 700 */
+            --investment-medium: #66bb6a;  /* Material Green 400 */
+            --investment-low: #a5d6a7;     /* Material Green 200 */
+            
+            /* Additional Material colors */
+            --error-color: #b00020;
+            --warning-color: #ff6f00;
+            --success-color: #00c853;
+            --info-color: #2196f3;
         }
 
         [data-theme="dark"] {
+            /* Material Design 3 Dark Theme */
             --background-color: #121212;
             --surface-color: #1e1e1e;
+            --surface-variant: #2d2d2d;
             --text-color: #e6e1e5;
             --text-secondary: #cac4d0;
             --border-color: #938f99;
             --shadow: rgba(0, 0, 0, 0.3);
             --shadow-dark: rgba(0, 0, 0, 0.5);
+            
+            /* Adjusted colors for dark theme - still no black */
+            --direct-israel: #ef5350;      /* Material Red 400 */
+            --indirect-israel: #ffb74d;    /* Material Orange 300 */
+            --direct-us: #42a5f5;          /* Material Blue 400 */
+            --indirect-us: #90caf9;        /* Material Blue 200 */
+            --investment-high: #66bb6a;    /* Material Green 400 */
+            --investment-medium: #a5d6a7;  /* Material Green 200 */
+            --investment-low: #c8e6c9;     /* Material Green 100 */
         }
 
         * {
@@ -265,6 +286,7 @@
             </select>
         </div>
         <button id="resetView" class="btn">Reset View</button>
+        <button id="themeToggle" class="btn" style="background: var(--secondary-color);">🌙 Dark Mode</button>
     </div>
 
     <div class="visualization-container">
@@ -274,7 +296,21 @@
         <div class="info-panel">
             <h3>Country Information</h3>
             <div id="countryInfo">
-                <p>Click on a segment to view detailed information about a country's relationships and investments.</p>
+                <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                    <h4 style="color: var(--primary-color); margin-bottom: 15px;">🎯 Getting Started</h4>
+                    <p style="line-height: 1.6; margin-bottom: 15px;">
+                        Click on any segment in the sunburst chart to view detailed information about a country's relationships and investments.
+                    </p>
+                    <div style="background: var(--surface-variant); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong style="color: var(--text-color);">💡 Tips:</strong><br>
+                        <small style="line-height: 1.4;">
+                            • Hover over segments for quick info<br>
+                            • Use the controls above to change views<br>
+                            • Try different focus filters<br>
+                            • Toggle dark mode for better viewing
+                        </small>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -283,32 +319,32 @@
         <h3>Legend</h3>
         <div class="legend-grid">
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--direct-israel);"></div>
-                <span>Direct ties with Israel</span>
+                <div class="legend-color" style="background-color: var(--direct-israel); box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3);"></div>
+                <span>🇮🇱 Direct ties with Israel</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--indirect-israel);"></div>
-                <span>Indirect ties with Israel</span>
+                <div class="legend-color" style="background-color: var(--indirect-israel); box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);"></div>
+                <span>🇮🇱 Indirect ties with Israel</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--direct-us);"></div>
-                <span>Direct ties with US</span>
+                <div class="legend-color" style="background-color: var(--direct-us); box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3);"></div>
+                <span>🇺🇸 Direct ties with US</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--indirect-us);"></div>
-                <span>Indirect ties with US</span>
+                <div class="legend-color" style="background-color: var(--indirect-us); box-shadow: 0 2px 4px rgba(66, 165, 245, 0.3);"></div>
+                <span>🇺🇸 Indirect ties with US</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--investment-high);"></div>
-                <span>High investment (>$100B)</span>
+                <div class="legend-color" style="background-color: var(--investment-high); box-shadow: 0 2px 4px rgba(56, 142, 60, 0.3);"></div>
+                <span>💰 High investment (>$100B)</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--investment-medium);"></div>
-                <span>Medium investment ($1B-$100B)</span>
+                <div class="legend-color" style="background-color: var(--investment-medium); box-shadow: 0 2px 4px rgba(102, 187, 106, 0.3);"></div>
+                <span>💰 Medium investment ($1B-$100B)</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background-color: var(--investment-low);"></div>
-                <span>Low investment (<$1B)</span>
+                <div class="legend-color" style="background-color: var(--investment-low); box-shadow: 0 2px 4px rgba(165, 214, 167, 0.3);"></div>
+                <span>💰 Low investment (<$1B)</span>
             </div>
         </div>
     </div>
@@ -535,6 +571,7 @@
         initializeVisualization();
 
         function initializeVisualization() {
+            console.log('Initializing visualization with data:', data); // Debug log
             updateVisualization();
             setupEventListeners();
         }
@@ -555,6 +592,18 @@
                 currentFocus = 'all';
                 d3.select("#viewMode").property("value", "relationships");
                 d3.select("#focusFilter").property("value", "all");
+                updateVisualization();
+            });
+
+            d3.select("#themeToggle").on("click", function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                
+                // Update button text
+                d3.select(this).text(newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
+                
+                // Re-render visualization with new colors
                 updateVisualization();
             });
         }
@@ -670,22 +719,38 @@
         }
 
         function getColor(d) {
+            // Get computed CSS custom property values
+            const computedStyle = getComputedStyle(document.documentElement);
+            
             if (d.data.type) {
                 switch (d.data.type) {
-                    case 'direct-israel': return 'var(--direct-israel)';
-                    case 'indirect-israel': return 'var(--indirect-israel)';
-                    case 'investment-high': return 'var(--investment-high)';
-                    case 'investment-medium': return 'var(--investment-medium)';
-                    case 'investment-low': return 'var(--investment-low)';
+                    case 'direct-israel': 
+                        return computedStyle.getPropertyValue('--direct-israel').trim();
+                    case 'indirect-israel': 
+                        return computedStyle.getPropertyValue('--indirect-israel').trim();
+                    case 'investment-high': 
+                        return computedStyle.getPropertyValue('--investment-high').trim();
+                    case 'investment-medium': 
+                        return computedStyle.getPropertyValue('--investment-medium').trim();
+                    case 'investment-low': 
+                        return computedStyle.getPropertyValue('--investment-low').trim();
+                    case 'direct-us':
+                        return computedStyle.getPropertyValue('--direct-us').trim();
+                    case 'indirect-us':
+                        return computedStyle.getPropertyValue('--indirect-us').trim();
                 }
             }
             
             if (d.parent && d.parent.data.type) {
                 const parentColor = getColor(d.parent);
-                return d3.color(parentColor).brighter(0.3);
+                try {
+                    return d3.color(parentColor).brighter(0.4).toString();
+                } catch (e) {
+                    return computedStyle.getPropertyValue('--primary-color').trim();
+                }
             }
             
-            return 'var(--primary-color)';
+            return computedStyle.getPropertyValue('--primary-color').trim();
         }
 
         function updateVisualization() {
@@ -771,18 +836,26 @@
             if (d.data.data) {
                 const country = d.data.data;
                 content += `<div class="tooltip-content">`;
-                content += `<strong>Israel ties:</strong> ${country.ties_with_israel}<br>`;
-                content += `<strong>US ties:</strong> ${country.ties_with_us}<br>`;
+                content += `<strong>🇮🇱 Israel ties:</strong> <span style="color: ${country.ties_with_israel === 'Direct' ? 'var(--direct-israel)' : 'var(--indirect-israel)'};">${country.ties_with_israel}</span><br>`;
+                content += `<strong>🇺🇸 US ties:</strong> <span style="color: var(--direct-us);">${country.ties_with_us}</span><br>`;
                 
-                if (country.details.agreements.length > 0) {
-                    content += `<strong>Key agreements:</strong> ${country.details.agreements.map(a => a.name).join(", ")}<br>`;
+                if (country.details && country.details.agreements && country.details.agreements.length > 0) {
+                    content += `<strong>📋 Key agreements:</strong> ${country.details.agreements.map(a => a.name).join(", ")}<br>`;
                 }
                 
                 const investCountry = investmentData.countries.find(c => c.name === country.name);
                 if (investCountry) {
-                    content += `<strong>US investment:</strong> ${investCountry.investments.united_states.total_estimate_1995_2025}`;
+                    content += `<strong>💰 US investment:</strong> ${investCountry.investments.united_states.total_estimate_1995_2025}`;
                 }
                 
+                content += `<br><br><em style="color: var(--primary-color);">Click for detailed information</em>`;
+                content += `</div>`;
+            } else if (d.data.children) {
+                // Category tooltip
+                content += `<div class="tooltip-content">`;
+                content += `<strong>📂 Category:</strong> ${d.data.name}<br>`;
+                content += `<strong>🏛️ Countries:</strong> ${d.data.children.length}<br>`;
+                content += `<em style="color: var(--primary-color);">Click to view category details</em>`;
                 content += `</div>`;
             }
             
@@ -796,58 +869,161 @@
         }
 
         function handleClick(event, d) {
+            console.log('Clicked:', d); // Debug log
+            
+            // Handle clicks on individual countries
             if (d.data.data) {
                 showCountryInfo(d.data.data);
+                return;
+            }
+            
+            // Handle clicks on category segments
+            if (d.data.name && d.children) {
+                // Show category information
+                showCategoryInfo(d.data);
+                return;
+            }
+            
+            // Fallback - try to find country data
+            if (d.data.name && !d.children) {
+                // This might be a country without the nested data structure
+                const countryData = data.countries.find(c => c.name === d.data.name);
+                if (countryData) {
+                    showCountryInfo(countryData);
+                }
             }
         }
 
         function showCountryInfo(country) {
+            console.log('Showing country info for:', country.name); // Debug log
+            
             const investCountry = investmentData.countries.find(c => c.name === country.name);
             
             let html = `
-                <h3>${country.name}</h3>
-                <div style="margin-bottom: 15px;">
-                    <strong>Relationship Status:</strong><br>
-                    • Israel: ${country.ties_with_israel}<br>
-                    • United States: ${country.ties_with_us}
+                <h3 style="color: var(--primary-color); margin-bottom: 20px;">🏛️ ${country.name}</h3>
+                
+                <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
+                    <strong style="color: var(--text-color);">🤝 Relationship Status</strong><br>
+                    <div style="margin-top: 8px;">
+                        <span style="display: inline-block; margin-right: 15px;">
+                            🇮🇱 Israel: <span style="color: ${country.ties_with_israel === 'Direct' ? 'var(--direct-israel)' : 'var(--indirect-israel)'}; font-weight: 500;">${country.ties_with_israel}</span>
+                        </span>
+                        <span style="display: inline-block;">
+                            🇺🇸 United States: <span style="color: var(--direct-us); font-weight: 500;">${country.ties_with_us}</span>
+                        </span>
+                    </div>
                 </div>
             `;
             
-            if (country.details.agreements.length > 0) {
+            if (country.details && country.details.agreements && country.details.agreements.length > 0) {
                 html += `
-                    <div style="margin-bottom: 15px;">
-                        <strong>Key Agreements:</strong><br>
-                        ${country.details.agreements.map(agreement => 
-                            `• ${agreement.name} (${agreement.year})`
-                        ).join('<br>')}
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
+                        <strong style="color: var(--text-color);">📋 Key Agreements</strong><br>
+                        <div style="margin-top: 8px;">
+                            ${country.details.agreements.map(agreement => 
+                                `<div style="margin: 5px 0; padding: 5px 0; border-left: 3px solid var(--primary-color); padding-left: 10px;">
+                                    <strong>${agreement.name}</strong> (${agreement.year})<br>
+                                    <small style="color: var(--text-secondary);">${agreement.description || ''}</small>
+                                </div>`
+                            ).join('')}
+                        </div>
                     </div>
                 `;
             }
             
             if (investCountry) {
                 html += `
-                    <div style="margin-bottom: 15px;">
-                        <strong>US Investment (1995-2025):</strong><br>
-                        ${investCountry.investments.united_states.total_estimate_1995_2025}
-                    </div>
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
+                        <strong style="color: var(--text-color);">💰 Investment Data (1995-2025)</strong><br>
+                        <div style="margin-top: 8px;">
+                            <div style="margin: 8px 0;">
+                                <strong>🇺🇸 US Investment:</strong><br>
+                                <span style="color: var(--investment-high); font-weight: 500;">${investCountry.investments.united_states.total_estimate_1995_2025}</span>
+                            </div>
                 `;
                 
-                if (investCountry.investments.israel.total_estimate_1995_2025 !== "None recorded." && 
+                if (investCountry.investments.israel && 
+                    investCountry.investments.israel.total_estimate_1995_2025 !== "None recorded." && 
                     investCountry.investments.israel.total_estimate_1995_2025 !== "Negligible.") {
                     html += `
-                        <div style="margin-bottom: 15px;">
-                            <strong>Israel Investment (1995-2025):</strong><br>
-                            ${investCountry.investments.israel.total_estimate_1995_2025}
-                        </div>
+                            <div style="margin: 8px 0;">
+                                <strong>🇮🇱 Israel Investment:</strong><br>
+                                <span style="color: var(--investment-medium); font-weight: 500;">${investCountry.investments.israel.total_estimate_1995_2025}</span>
+                            </div>
                     `;
                 }
+                
+                html += `
+                        </div>
+                    </div>
+                `;
             }
             
-            if (country.details.public_sentiment) {
+            if (country.details && country.details.cooperation) {
                 html += `
-                    <div style="margin-bottom: 15px;">
-                        <strong>Public Sentiment:</strong><br>
-                        ${country.details.public_sentiment}
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
+                        <strong style="color: var(--text-color);">🔗 Cooperation Details</strong><br>
+                        <div style="margin-top: 8px;">
+                            ${country.details.cooperation.israel ? `
+                                <div style="margin: 8px 0;">
+                                    <strong>🇮🇱 With Israel:</strong><br>
+                                    <small style="color: var(--text-secondary); line-height: 1.4;">${country.details.cooperation.israel}</small>
+                                </div>
+                            ` : ''}
+                            ${country.details.cooperation.us ? `
+                                <div style="margin: 8px 0;">
+                                    <strong>🇺🇸 With US:</strong><br>
+                                    <small style="color: var(--text-secondary); line-height: 1.4;">${country.details.cooperation.us}</small>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (country.details && country.details.public_sentiment) {
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
+                        <strong style="color: var(--text-color);">📊 Public Sentiment</strong><br>
+                        <div style="margin-top: 8px;">
+                            <small style="color: var(--text-secondary); line-height: 1.4;">${country.details.public_sentiment}</small>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            d3.select("#countryInfo").html(html);
+        }
+
+        function showCategoryInfo(categoryData) {
+            console.log('Showing category info for:', categoryData.name); // Debug log
+            
+            let html = `
+                <h3 style="color: var(--primary-color); margin-bottom: 20px;">📂 ${categoryData.name}</h3>
+                
+                <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
+                    <strong style="color: var(--text-color);">📈 Category Overview</strong><br>
+                    <div style="margin-top: 8px;">
+                        <p style="color: var(--text-secondary); line-height: 1.4;">
+                            This category contains ${categoryData.children ? categoryData.children.length : 0} countries.
+                            Click on individual country segments to view detailed information.
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            if (categoryData.children && categoryData.children.length > 0) {
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
+                        <strong style="color: var(--text-color);">🏛️ Countries in this category</strong><br>
+                        <div style="margin-top: 8px;">
+                            ${categoryData.children.map(child => 
+                                `<div style="margin: 5px 0; padding: 8px; background: var(--surface-color); border-radius: 4px; border-left: 3px solid var(--primary-color);">
+                                    <strong>${child.name}</strong>
+                                    ${child.data ? `<br><small style="color: var(--text-secondary);">Israel: ${child.data.ties_with_israel}, US: ${child.data.ties_with_us}</small>` : ''}
+                                </div>`
+                            ).join('')}
+                        </div>
                     </div>
                 `;
             }
