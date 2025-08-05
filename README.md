@@ -1,5 +1,11 @@
 # Accountability Hub - Data Visualizations
 
+**WORK IN PROGRESS - ALPHA STAGE**
+
+This project is currently under active development and in alpha stage. Data, visualizations, and documentation are subject to significant changes. Users should expect incomplete features, potential inaccuracies, and ongoing updates as the project evolves.
+
+---
+
 A comprehensive platform documenting networks of complicity that enable oppression, occupation, and human rights violations through interactive D3.js data visualizations.
 
 ## Overview
