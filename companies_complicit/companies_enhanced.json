@@ -141,6 +141,27 @@
           "involvement": "Palestinian area destruction, colony transportation, armoured buses",
           "revenue": "$48 billion (2023)",
           "headquarters": "Gothenburg, Sweden"
+        },
+        {
+          "name": "Heidelberg Materials AG",
+          "summary": "German construction materials company that through subsidiary Hanson Israel has contributed to pillage of millions of tons of dolomite rock from Nahal Raba quarry on land seized from Palestinian villages in West Bank. Won 2018 public tender to supply materials from seized quarry for colony construction, nearly exhausting the quarry and prompting ongoing expansion requests.",
+          "involvement": "Resource pillage from seized Palestinian land, colony construction materials",
+          "revenue": "$20 billion (2023)",
+          "headquarters": "Heidelberg, Germany"
+        },
+        {
+          "name": "Construcciones Auxiliar de Ferrocarriles",
+          "summary": "Spanish/Basque railway company that joined consortium to maintain and expand Jerusalem Light Rail Red Line and build new Green Line, including 27 kilometers of new tracks and 50 stations in West Bank connecting colonies with West Jerusalem. Continued operations when other companies withdrew due to international pressure.",
+          "involvement": "Colony railway infrastructure, West Bank transportation systems",
+          "revenue": "$2.1 billion (2023)",
+          "headquarters": "Beasain, Spain"
+        },
+        {
+          "name": "Merkavim Transportation Technologies Ltd.",
+          "summary": "Israeli company jointly owned by Volvo producing armoured buses sold to service colonies. Provides transportation infrastructure that connects illegal settlements while excluding and segregating Palestinians.",
+          "involvement": "Armoured colony buses, segregated transportation systems",
+          "revenue": "$150 million (2023)",
+          "headquarters": "Petah Tikva, Israel"
         }
       ]
     },
@@ -226,6 +247,44 @@
           "involvement": "Stores in occupied territories",
           "revenue": "$36 billion (2023)",
           "headquarters": "Seattle, Washington, USA"
+        }
+      ]
+    },
+    {
+      "name": "Real Estate & Tourism",
+      "children": [
+        {
+          "name": "Keller Williams Realty LLC",
+          "summary": "Global real estate group that through Israeli franchisee KW Israel has branches based in colonies. Ran real estate roadshow in Canada and US in March 2024 through franchisee Home in Israel, jointly sponsored with companies developing thousands of apartments in colonies.",
+          "involvement": "Colony real estate sales, international marketing of settlement properties",
+          "revenue": "$2.8 billion (2023)",
+          "headquarters": "Austin, Texas, USA"
+        },
+        {
+          "name": "Booking Holdings Inc.",
+          "summary": "Online travel company providing booking services for accommodations in illegal settlements. Platform normalizes and profits from tourism to occupied territories.",
+          "involvement": "Settlement accommodation bookings",
+          "revenue": "$21 billion (2023)",
+          "headquarters": "Norwalk, Connecticut, USA"
+        },
+        {
+          "name": "Airbnb, Inc.",
+          "summary": "Home-sharing platform that lists properties in illegal settlements. Despite policy changes, continues to facilitate tourism and normalization of occupation.",
+          "involvement": "Settlement property listings",
+          "revenue": "$8.4 billion (2023)",
+          "headquarters": "San Francisco, California, USA"
+        }
+      ]
+    },
+    {
+      "name": "Utilities & Resources",
+      "children": [
+        {
+          "name": "Mekorot",
+          "summary": "Israeli national water company with water monopoly in occupied Palestinian territory. Forces Palestinians to purchase water from their own aquifers at inflated prices with intermittent supply. Post-October 2023, ran Gaza pipelines at 22% capacity, leaving Gaza City without water 95% of the time, actively aiding transformation of water into tool of genocide.",
+          "involvement": "Water monopoly, genocide through water deprivation, resource theft",
+          "revenue": "$1.2 billion (2023)",
+          "headquarters": "Tel Aviv, Israel"
         }
       ]
     }
