@@ -1,92 +1,136 @@
 {
-    "name": "Companies",
-    "children": [
-      {
-        "name": "Military Sector",
-        "children": [
-          { "name": "Elbit Systems", "country": "Israel", "value": 1 },
-          { "name": "Israel Aerospace Industries (IAI)", "country": "Israel", "value": 1 },
-          { "name": "Lockheed Martin", "country": "USA", "value": 1 },
-          { "name": "Leonardo S.p.A", "country": "Italy", "value": 1 },
-          { "name": "FANUC Corporation", "country": "Japan", "value": 1 },
-          { "name": "A.P. Moller – Maersk A/S", "country": "Denmark", "value": 1 }
-        ]
-      },
-      {
-        "name": "Tech Sector",
-        "children": [
-          { "name": "NSO Group", "country": "Israel", "value": 1 },
-          { "name": "IBM", "country": "USA", "value": 1 },
-          { "name": "Hewlett Packard Enterprises (HPE)", "country": "USA", "value": 1 },
-          { "name": "Microsoft", "country": "USA", "value": 1 },
-          { "name": "Alphabet Inc. (Google)", "country": "USA", "value": 1 },
-          { "name": "Amazon.com Inc.", "country": "USA", "value": 1 },
-          { "name": "Palantir Technology Inc.", "country": "USA", "value": 1 }
-        ]
-      },
-      {
-        "name": "Heavy Machinery Sector",
-        "children": [
-          { "name": "Caterpillar Inc.", "country": "USA", "value": 1 },
-          { "name": "HD Hyundai", "country": "South Korea", "value": 1 },
-          { "name": "Doosan", "country": "South Korea", "value": 1 },
-          { "name": "Volvo Group", "country": "Sweden", "value": 1 }
-        ]
-      },
-      {
-        "name": "Construction and Real Estate Sector",
-        "children": [
-          { "name": "Heidelberg Materials AG", "country": "Germany", "value": 1 },
-          { "name": "Keller Williams Realty LLC", "country": "USA", "value": 1 },
-          { "name": "Construcciones Auxiliar de Ferrocarriles", "country": "Spain", "value": 1 }
-        ]
-      },
-      {
-        "name": "Energy Sector",
-        "children": [
-          { "name": "Drummond Company Inc.", "country": "USA", "value": 1 },
-          { "name": "Glencore plc", "country": "Switzerland", "value": 1 },
-          { "name": "Chevron Corporation", "country": "USA", "value": 1 },
-          { "name": "BP p.l.c.", "country": "UK", "value": 1 },
-          { "name": "NewMedEnergy", "country": "Israel", "value": 1 },
-          { "name": "Petrobras", "country": "Brazil", "value": 1 }
-        ]
-      },
-      {
-        "name": "Agribusiness Sector",
-        "children": [
-          { "name": "Tnuva", "country": "Israel", "value": 1 },
-          { "name": "Bright Dairy & Food Co. Ltd", "country": "China", "value": 1 },
-          { "name": "Netafim", "country": "Israel", "value": 1 },
-          { "name": "Orbia Advance Corporation", "country": "Mexico", "value": 1 }
-        ]
-      },
-      {
-        "name": "Global Retail and Tourism Sector",
-        "children": [
-          { "name": "A.P. Moller – Maersk A/S", "country": "Denmark", "value": 1 },
-          { "name": "Booking Holdings Inc.", "country": "USA", "value": 1 },
-          { "name": "Airbnb, Inc.", "country": "USA", "value": 1 }
-        ]
-      },
-      {
-        "name": "Financial Sector",
-        "children": [
-          { "name": "Blackrock", "country": "USA", "value": 1 },
-          { "name": "Vanguard", "country": "USA", "value": 1 },
-          { "name": "Allianz", "country": "Germany", "value": 1 },
-          { "name": "PIMCO", "country": "USA", "value": 1 },
-          { "name": "AXA", "country": "France", "value": 1 },
-          { "name": "BNP Paribas", "country": "France", "value": 1 },
-          { "name": "Barclays", "country": "UK", "value": 1 },
-          { "name": "Development Corporation for Israel (DCI)", "country": "Israel", "value": 1 }
-        ]
-      },
-      {
-        "name": "Other",
-        "children": [
-          { "name": "Jewish National Fund (KKL-JNF)", "country": "Israel", "value": 1 }
-        ]
-      }
-    ]
-  }
+  "name": "Corporate Involvement",
+  "children": [
+    {
+      "name": "Military & Defense",
+      "children": [
+        {"name": "Elbit Systems"},
+        {"name": "Israel Aerospace Industries"},
+        {"name": "Lockheed Martin"},
+        {"name": "Leonardo S.p.A."},
+        {"name": "FANUC Corporation"},
+        {"name": "RADA Electronic Industries"}
+      ]
+    },
+    {
+      "name": "Surveillance & Technology",
+      "children": [
+        {"name": "NSO Group"},
+        {"name": "Palantir Technologies Inc."},
+        {"name": "Alphabet Inc. (Google)"},
+        {"name": "Amazon.com, Inc."},
+        {"name": "Microsoft"},
+        {"name": "IBM"},
+        {"name": "Hewlett Packard Enterprises (HPE)"},
+        {"name": "HP Inc."}
+      ]
+    },
+    {
+      "name": "Heavy Machinery & Construction",
+      "children": [
+        {"name": "Caterpillar Inc."},
+        {"name": "HD Hyundai"},
+        {"name": "Doosan"},
+        {"name": "Volvo Group"},
+        {
+          "name": "Heidelberg Materials AG",
+          "children": [
+            {"name": "Hanson Israel"}
+          ]
+        },
+        {"name": "Construcciones Auxiliar de Ferrocarriles"},
+        {"name": "Merkavim Transportation Technologies Ltd."}
+      ]
+    },
+    {
+      "name": "Finance & Insurance",
+      "children": [
+        {
+          "name": "Blackrock",
+          "children": [
+            {"name": "iShares"}
+          ]
+        },
+        {"name": "Vanguard"},
+        {"name": "BNP Paribas"},
+        {"name": "Barclays"},
+        {
+          "name": "Allianz",
+           "children": [
+            {"name": "PIMCO"}
+          ]
+        },
+        {"name": "AXA"},
+        {"name": "Development Corporation for Israel (Israel Bonds)"}
+      ]
+    },
+    {
+      "name": "Energy & Extractive Industries",
+      "children": [
+        {"name": "Chevron Corporation"},
+        {"name": "BP PLC"},
+        {
+          "name": "Delek Group",
+          "children": [
+            {"name": "NewMed Energy"}
+          ]
+        },
+        {"name": "Drummond Company, Inc."},
+        {"name": "Glencore PLC"},
+        {"name": "Petrobras"},
+        {"name": "Paz Retail and Energy Ltd."}
+      ]
+    },
+    {
+      "name": "Agribusiness & Food",
+      "children": [
+        {
+          "name": "Bright Food (Group) Co., Ltd.",
+          "children": [
+            {"name": "Tnuva"}
+          ]
+        },
+        {
+          "name": "Orbia Advance Corporation",
+          "children": [
+            {"name": "Netafim"}
+          ]
+        },
+        {"name": "General Mills"}
+      ]
+    },
+    {
+      "name": "Logistics & Shipping",
+      "children": [
+        {"name": "A.P. Moller - Maersk A/S"}
+      ]
+    },
+    {
+      "name": "Tourism & Hospitality",
+      "children": [
+        {"name": "Booking Holdings Inc."},
+        {"name": "Airbnb, Inc."}
+      ]
+    },
+    {
+      "name": "Consumer Goods & Retail",
+      "children": [
+        {"name": "Unilever"},
+        {"name": "Yokohama"},
+        {"name": "Pret a Manger"},
+        {"name": "Adidas"},
+        {"name": "PUMA"},
+        {"name": "Erreà"}
+      ]
+    },
+    {
+      "name": "Non-Profit & Charitable Enablers",
+      "children": [
+        {"name": "Jewish National Fund (KKL-JNF)"},
+        {"name": "Israel Gives"},
+        {"name": "Christian Friends of Israeli Communities"},
+        {"name": "Christenen voor Israël"}
+      ]
+    }
+  ]
+}

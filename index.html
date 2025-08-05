@@ -518,8 +518,8 @@
       border-radius: 4px;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       /* Improved text shadow for better readability */
-      text-shadow: 
-        0 1px 2px rgba(0, 0, 0, 0.8), 
+      text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.8),
         0 0 1px rgba(255, 255, 255, 0.4),
         1px 1px 1px rgba(0, 0, 0, 0.6);
       /* Ensure text doesn't wrap */
@@ -773,6 +773,10 @@
         <span class="material-icons" aria-hidden="true">analytics</span>
         Arab Complicity
       </a>
+      <a href="companies_complicit/index.html" class="btn btn-primary" aria-label="Corporate Complicity Network">
+        <span class="material-icons" aria-hidden="true">business</span>
+        Corporate Network
+      </a>
       <a href="upload.html" class="btn btn-primary" aria-label="Upload news articles">
         <span class="material-icons" aria-hidden="true">upload</span>
         Upload Articles
@@ -793,8 +797,9 @@
       <div class="disclaimer-content">
         <div class="disclaimer-icon">⚠️</div>
         <div class="disclaimer-text">
-          <strong>Educational Purpose Only:</strong> This visualization presents historical casualty estimates for educational awareness. 
-          All figures are estimates from various sources and should be independently verified. 
+          <strong>Educational Purpose Only:</strong> This visualization presents historical casualty estimates for
+          educational awareness.
+          All figures are estimates from various sources and should be independently verified.
           <strong>For mobile users:</strong> Please select "List View" in the controls below for better experience.
         </div>
         <button class="disclaimer-close" id="dismissDisclaimer" aria-label="Dismiss disclaimer">×</button>
@@ -903,7 +908,7 @@
     document.getElementById('dismissDisclaimer').addEventListener('click', () => {
       const disclaimerElement = document.querySelector('.top-disclaimers');
       disclaimerElement.classList.add('dismissed');
-      
+
       // Store dismissal in localStorage so it stays dismissed for the session
       localStorage.setItem('disclaimerDismissed', 'true');
     });
@@ -920,7 +925,7 @@
     // Show mobile view toggle on mobile devices
     if (isMobile()) {
       document.getElementById('mobileViewToggle').style.display = 'block';
-      
+
       // Add mobile-specific notice
       const mobileNotice = document.createElement('div');
       mobileNotice.className = 'mobile-notice';
@@ -932,7 +937,7 @@
           </span>
         </div>
       `;
-      
+
       // Insert notice after controls
       const controlsContainer = document.querySelector('.controls-container');
       controlsContainer.appendChild(mobileNotice);
@@ -1030,15 +1035,15 @@
     function calculateFontSize(width, height, textLength) {
       const area = width * height;
       const isMobile = window.innerWidth <= 768;
-      
+
       // More generous base size calculation
       const baseSize = Math.sqrt(area) / (isMobile ? 6 : 7);
       const lengthFactor = Math.max(0.6, 1 - (textLength / 60));
-      
+
       // Increased minimum font size and more reasonable maximum
       const minSize = isMobile ? 7 : 8;
       const maxSize = isMobile ? 14 : 16;
-      
+
       return Math.max(minSize, Math.min(maxSize, baseSize * lengthFactor));
     }
 
@@ -1440,21 +1445,21 @@
         .text(d => {
           // Improved title fallback with better handling of incomplete data
           let title = d.data.title || d.data.name || "";
-          
+
           // Handle cases where title might be incomplete or just a fragment
           if (!title && d.data.summary) {
             // Extract first meaningful part from summary as fallback
             const summaryWords = d.data.summary.split(' ').slice(0, 5);
             title = summaryWords.join(' ');
           }
-          
+
           // If still no title, use a generic identifier
           if (!title) {
             const eventType = d.data.type === "news_article" ? "News Event" : "Historical Event";
             const date = d.data.date || d.data.year || "Unknown Date";
             title = `${eventType} (${date})`;
           }
-          
+
           const nodeWidth = d.x1 - d.x0;
           const nodeHeight = d.y1 - d.y0;
           const isMobile = window.innerWidth <= 768;
@@ -1468,18 +1473,18 @@
           // Improved dynamic text truncation based on node size
           const baseCharWidth = isMobile ? 6 : 7; // Adjust character width estimation
           const maxLength = Math.max(3, Math.floor(nodeWidth / baseCharWidth));
-          
+
           if (!title) return "";
-          
+
           // For very small blocks, show at least first few characters
           if (maxLength < 8 && title.length > 3) {
             return title.substring(0, 3) + "...";
           }
-          
+
           if (title.length > maxLength) {
             return title.substring(0, maxLength - 3) + "...";
           }
-          
+
           return title;
         })
         .on("click", (event, d) => {
