@@ -263,11 +263,8 @@
         <script>
             // Load and process data
             d3.json("companies_enhanced.json").then(function (rawData) {
-                console.log("Data loaded:", rawData);
                 data = rawData;
                 processData();
-                console.log("Nodes created:", nodes.length);
-                console.log("Links created:", links.length);
                 initializeVisualization();
                 setupEventListeners();
             }).catch(error => {
@@ -404,13 +401,9 @@
                         return 10;
                     })
                     .attr("fill", d => {
-                        if (d.type === "root") return "#1976d2";
-                        if (d.type === "category") {
-                            const colorVar = categoryColors[d.category] || '--primary-color';
-                            return getComputedStyle(document.documentElement).getPropertyValue(colorVar).trim() || "#1976d2";
-                        }
-                        const colorVar = categoryColors[d.category] || '--primary-color';
-                        return getComputedStyle(document.documentElement).getPropertyValue(colorVar).trim() || "#1976d2";
+                        if (d.type === "root") return "var(--primary-color)";
+                        if (d.type === "category") return getComputedStyle(document.documentElement).getPropertyValue(categoryColors[d.category] || '--primary-color').trim();
+                        return getComputedStyle(document.documentElement).getPropertyValue(categoryColors[d.category] || '--primary-color').trim();
                     })
                     .attr("stroke", "#fff")
                     .attr("stroke-width", 2)
@@ -477,7 +470,6 @@
             }
 
             function handleClick(event, d) {
-                console.log("Node clicked:", d);
                 showCompanyInfo(d);
             }
 
@@ -501,9 +493,6 @@
             }
 
             function showCompanyInfo(nodeData) {
-                console.log("showCompanyInfo called with:", nodeData);
-                console.log("Data object:", data);
-                
                 // Find the company data from the original dataset
                 let companyData = null;
                 if (nodeData.type === 'company') {
