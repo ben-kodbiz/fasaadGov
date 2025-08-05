@@ -1,127 +1,194 @@
-# US Atrocities Treemap - Interactive Historical Visualization
+# Accountability Hub - Data Visualizations
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-blue)](https://ben-kodbiz.github.io/fasaadGov/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![GitHub Pages](https://img.shields.io/badge/Deployed%20on-GitHub%20Pages-brightgreen)](https://ben-kodbiz.github.io/fasaadGov/)
+A comprehensive platform documenting networks of complicity that enable oppression, occupation, and human rights violations through interactive D3.js data visualizations.
 
-An interactive D3.js treemap visualization documenting US atrocities and military interventions throughout history. This educational tool provides a visual representation of historical events with casualty estimates from academic sources.
+## Overview
 
-## 🎯 Purpose
+The Accountability Hub consists of three data visualizations that reveal different aspects of systemic complicity and accountability gaps in international relations, corporate behavior, and geopolitical dynamics.
 
-This visualization serves as an educational resource to:
-- Document historical US military interventions and atrocities
-- Provide visual context for the scale of human casualties
-- Enable exploration of data through interactive filtering
-- Raise awareness about historical events often underrepresented in mainstream discourse
+## Visualizations
 
-## 📊 Major Historical Events Included
+### 1. US Atrocities Treemap
 
-### International Interventions
-- **Vietnam War (1955-1975)**: ~3 million casualties
-- **Korean War (1950-1953)**: ~2.5 million casualties  
-- **Iraq War (2003-2011)**: 655,000 - 1 million casualties
-- **Afghanistan War (2001-2021)**: ~176,000 casualties
-- **Gulf War (1991)**: ~158,000 casualties
-- **Iraq Sanctions (1990-2003)**: ~500,000 casualties
+An interactive treemap visualization documenting US interventions and military actions worldwide from 1945 to present.
 
-### Domestic Atrocities
-- **Native American Genocide (1492-1900)**: ~12 million casualties
-- **Transatlantic Slavery (1619-1865)**: ~2 million casualties
-- **Lynching Era (1877-1950)**: ~5,000 casualties
-- **Tulsa Race Massacre (1921)**: ~300 casualties
+**Data Coverage:**
+- 1,338 documented events across 75+ years
+- 47 categories of interventions and military actions
+- Detailed casualty data and impact assessments
+- Geographic distribution across all continents
 
-### Latin American Interventions
-- **Guatemala Genocide (1981-1983)**: ~200,000 casualties
-- **Nicaragua Contra War (1981-1990)**: ~30,000 casualties
-- **El Salvador Civil War (1980-1992)**: ~75,000 casualties
-- **Chile Coup/Pinochet Dictatorship (1973-1990)**: ~40,000 casualties
+**Visualization Features:**
+- Hierarchical treemap structure showing scale and frequency
+- Interactive filtering by region, time period, and intervention type
+- Detailed event information with casualty figures
+- Search functionality for specific events or locations
 
-## 🚀 Features
+**Data Sources:**
+- Congressional Research Service reports
+- Department of Defense historical records
+- Academic research from universities and think tanks
+- Declassified government documents
+- International news organizations
 
-- **Interactive Treemap**: D3.js-powered visualization with zoom and drill-down capabilities
-- **Advanced Filtering**: Search by keyword, filter by type, region, and time period
-- **Mobile Responsive**: Optimized for desktop, tablet, and mobile devices
-- **Dark Mode**: Toggle between light and dark themes
-- **Accessibility**: Screen reader support, keyboard navigation, ARIA labels
-- **Real-time Updates**: Support for adding new articles and events
-- **Export Capabilities**: Share filtered views and export data
+### 2. Arab Complicity Analysis
 
-## 🛠️ Technology Stack
+A sunburst visualization analyzing Arab countries' diplomatic, economic, and military relationships with Israel and the United States.
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Visualization**: D3.js v7
-- **Styling**: Material Design principles, CSS Grid, Flexbox
-- **Data**: JSON format with structured event information
-- **Deployment**: GitHub Pages
-- **SEO**: Structured data, Open Graph, Twitter Cards
+**Data Coverage:**
+- 9 Arab countries with documented ties
+- Over 3 trillion USD in documented investments and agreements
+- 6 countries with direct normalization agreements
+- Economic partnerships and military cooperation data
 
-## 📱 Usage
+**Visualization Features:**
+- Multi-level sunburst showing relationship hierarchies
+- Investment flow analysis with financial breakdowns
+- Timeline of diplomatic developments
+- Comparative analysis of different relationship types
 
-### Basic Navigation
-1. **Explore the Treemap**: Hover over rectangles to see event details
-2. **Filter Data**: Use the controls to filter by type, region, or search terms
-3. **Zoom In**: Click on category rectangles to drill down into specific regions
-4. **Mobile View**: Switch to list view on mobile devices for better readability
+**Data Sources:**
+- Official government announcements and treaties
+- Financial disclosure reports
+- Trade and investment databases
+- Diplomatic cables and official statements
+- Regional news sources and analysis
 
-### Advanced Features
-- **Search**: Use the search box to find specific events or keywords
-- **Theme Toggle**: Switch between light and dark modes
-- **Data Refresh**: Use the refresh button to reload the latest data
-- **Upload Articles**: Add new articles through the upload interface
+### 3. Corporate Complicity Network
 
-## 🔍 SEO Optimization
+A force-directed network graph revealing corporate entities involved in enabling human rights violations and supporting oppressive systems.
 
-This site is optimized for search engines with:
-- **Semantic HTML5**: Proper heading structure and ARIA labels
-- **Meta Tags**: Comprehensive title, description, and keyword tags
-- **Open Graph**: Social media sharing optimization
-- **Structured Data**: JSON-LD markup for rich snippets
-- **Sitemap**: XML sitemap for better crawling
-- **Mobile-First**: Responsive design for all devices
-- **Fast Loading**: Optimized assets and efficient code
+**Data Coverage:**
+- 25+ major corporations across 8 sectors
+- Combined revenue exceeding 1 trillion USD
+- Detailed involvement analysis based on UN investigations
+- Corporate subsidiary and partnership networks
 
-## ⚠️ Important Disclaimers
+**Visualization Features:**
+- Interactive network graph showing corporate connections
+- Detailed company profiles with involvement summaries
+- Sector-based filtering and analysis
+- Revenue and impact data visualization
 
-**Educational Purpose Only**: This visualization is created for educational and awareness purposes. It is not intended as an authoritative historical source.
+**Data Sources:**
+- UN Human Rights Council Report A/HRC/59/23
+- Corporate financial filings and annual reports
+- Human rights organization investigations
+- Government procurement records
+- Academic research on corporate accountability
 
-**Casualty Estimates**: All casualty figures are estimates from various historical sources and academic studies. Actual numbers may vary significantly due to limited documentation, different methodologies, and ongoing scholarly debate.
+## Technical Implementation
 
-**Verify Information**: Users should independently verify all information and consult multiple academic sources, historical records, and peer-reviewed research before drawing conclusions.
+**Frontend Technologies:**
+- HTML5, CSS3, JavaScript ES6+
+- D3.js v7 for data visualization
+- Responsive design with CSS Grid and Flexbox
+- Material Design principles for UI components
 
-**No Warranty**: The creators make no warranties about the accuracy, completeness, or reliability of the information presented.
+**Data Processing:**
+- Python scripts for data cleaning and validation
+- JSON data formats for efficient loading
+- Automated data verification processes
+- Source attribution and link validation
 
-## 📚 Sources and Methodology
+**Deployment:**
+- Static site architecture
+- Compatible with GitHub Pages and similar platforms
+- Optimized for performance and accessibility
+- Cross-browser compatibility
 
-Casualty estimates are compiled from:
-- Academic research and peer-reviewed studies
-- Government documents and official records
-- Truth and reconciliation commission reports
-- International court findings
-- Historical archives and documentation projects
+## Data Methodology
 
-## 🤝 Contributing
+All visualizations follow strict data collection and verification protocols:
 
-We welcome contributions to improve the accuracy and completeness of this historical documentation:
+**Source Verification:**
+- Multiple independent sources required for each data point
+- Primary sources prioritized over secondary reporting
+- Government documents and official records preferred
+- Academic peer review when available
 
-1. **Data Corrections**: Submit issues for factual corrections with sources
-2. **New Events**: Propose additional historical events with documentation
-3. **Technical Improvements**: Contribute code improvements and bug fixes
-4. **Documentation**: Help improve documentation and accessibility
+**Data Processing:**
+- Standardized data formats across all visualizations
+- Automated consistency checks and validation
+- Regular updates as new information becomes available
+- Version control for data changes and corrections
 
-## 📄 License
+**Quality Assurance:**
+- Cross-referencing with multiple databases
+- Fact-checking against original documents
+- Regular audits of data accuracy and completeness
+- Community feedback integration for corrections
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Project Structure
 
-## 🔗 Links
+```
+├── index.html                    # Main landing page
+├── treemap.html                  # US Atrocities visualization
+├── arabs_complicit/
+│   ├── index.html               # Arab complicity analysis
+│   ├── arabs_complicit.json     # Relationship data
+│   └── arabs_investment.json    # Investment data
+├── companies_complicit/
+│   ├── index.html               # Corporate network graph
+│   └── companies_enhanced.json  # Enhanced company data
+├── data/
+│   └── us_interventions.json    # US interventions dataset
+└── scripts/                     # Data processing utilities
+```
 
-- **Live Demo**: [https://ben-kodbiz.github.io/fasaadGov/](https://ben-kodbiz.github.io/fasaadGov/)
-- **GitHub Repository**: [https://github.com/ben-kodbiz/fasaadGov](https://github.com/ben-kodbiz/fasaadGov)
-- **Data API**: [https://ben-kodbiz.github.io/fasaadGov/data/us_interventions.json](https://ben-kodbiz.github.io/fasaadGov/data/us_interventions.json)
+## Contributing
 
-## 📞 Contact
+Contributions to data accuracy and completeness are welcome. All contributions must meet the following requirements:
 
-For questions, corrections, or collaboration opportunities, please open an issue on GitHub.
+**Data Standards:**
+- Verifiable sources with working URLs
+- Multiple source confirmation when possible
+- Proper citation format and attribution
+- Objective presentation without editorial commentary
 
----
+**Documentation Requirements:**
+- Clear methodology for data collection
+- Source reliability assessment
+- Data processing steps documented
+- Version control for all changes
 
-*This project is dedicated to historical education and remembrance of those affected by these tragic events.*
+## Disclaimers
+
+**Data Accuracy:** All information presented must be independently verified. This platform compiles data from various sources and users should cross-reference with original documents before drawing conclusions.
+
+**Educational Purpose:** This platform is designed for educational and research purposes only. It is not intended to provide legal, political, or investment advice.
+
+**Source Responsibility:** While efforts are made to ensure accuracy, users are responsible for verifying all claims and conducting their own research before making decisions based on this information.
+
+**Ongoing Updates:** Data is continuously updated as new information becomes available. Historical data may be revised based on new evidence or corrections to original sources.
+
+**Neutrality:** The platform aims to present factual information objectively. Users should consider multiple perspectives and sources when interpreting the data.
+
+**Casualty Estimates:** All casualty figures are estimates from various historical sources and academic studies. Actual numbers may vary significantly due to limited documentation, different methodologies, and ongoing scholarly debate.
+
+**Corporate Information:** Corporate complicity data is based on publicly available information, UN investigations, and credible reporting. Companies mentioned should be considered within the context of the evidence presented and users should conduct independent research.
+
+**Geopolitical Analysis:** Analysis of Arab-Israeli relations and regional dynamics reflects documented agreements and investments. Political interpretations may vary and users should consult multiple sources for comprehensive understanding.
+
+## Legal Notice
+
+This project operates under fair use provisions for educational and research purposes. All data is compiled from publicly available sources. Original source attribution is provided throughout the platform.
+
+The platform does not endorse any particular political viewpoint but aims to present documented information for educational analysis. Users are encouraged to form their own conclusions based on comprehensive research.
+
+For questions about data sources, methodology, or corrections, please refer to the original source documents linked within each visualization.
+
+## License
+
+Released under the MIT License for educational and research purposes.
+
+## Technical Credits
+
+- D3.js visualization library
+- Material Design principles
+- Open source web technologies
+- Community contributions and feedback
+
+## Contact
+
+For technical issues, data corrections, or academic collaboration, please submit issues through the project repository or contact the maintainers directly.
