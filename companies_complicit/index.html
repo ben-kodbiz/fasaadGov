@@ -114,7 +114,7 @@
             style="padding: 10px 16px; border: none; border-radius: 8px; background: var(--secondary-color); color: white; font-family: inherit; font-size: 0.875rem; cursor: pointer;">🌙
             Dark Mode</button>
     </div>
-    <di v class="visualization-container" style="display: flex; gap: 20px; margin: 20px;">
+    <div class="visualization-container" style="display: flex; gap: 20px; margin: 20px;">
         <div class="network-container"
             style="flex: 2; background: var(--surface-color); border-radius: 12px; box-shadow: 0 1px 3px var(--shadow); padding: 20px; min-height: 600px;">
             <div id="network"></div>
@@ -142,9 +142,9 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
-        <div class="legend"
+    <div class="legend"
             style="background: var(--surface-color); margin: 20px; padding: 20px; border-radius: 12px; box-shadow: 0 1px 3px var(--shadow);">
             <h3 style="margin-top: 0; color: var(--primary-color);">Legend</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
@@ -263,8 +263,11 @@
         <script>
             // Load and process data
             d3.json("companies_enhanced.json").then(function (rawData) {
+                console.log("Data loaded:", rawData);
                 data = rawData;
                 processData();
+                console.log("Nodes created:", nodes.length);
+                console.log("Links created:", links.length);
                 initializeVisualization();
                 setupEventListeners();
             }).catch(error => {
@@ -401,9 +404,13 @@
                         return 10;
                     })
                     .attr("fill", d => {
-                        if (d.type === "root") return "var(--primary-color)";
-                        if (d.type === "category") return getComputedStyle(document.documentElement).getPropertyValue(categoryColors[d.category] || '--primary-color').trim();
-                        return getComputedStyle(document.documentElement).getPropertyValue(categoryColors[d.category] || '--primary-color').trim();
+                        if (d.type === "root") return "#1976d2";
+                        if (d.type === "category") {
+                            const colorVar = categoryColors[d.category] || '--primary-color';
+                            return getComputedStyle(document.documentElement).getPropertyValue(colorVar).trim() || "#1976d2";
+                        }
+                        const colorVar = categoryColors[d.category] || '--primary-color';
+                        return getComputedStyle(document.documentElement).getPropertyValue(colorVar).trim() || "#1976d2";
                     })
                     .attr("stroke", "#fff")
                     .attr("stroke-width", 2)
@@ -470,6 +477,7 @@
             }
 
             function handleClick(event, d) {
+                console.log("Node clicked:", d);
                 showCompanyInfo(d);
             }
 
@@ -493,6 +501,9 @@
             }
 
             function showCompanyInfo(nodeData) {
+                console.log("showCompanyInfo called with:", nodeData);
+                console.log("Data object:", data);
+                
                 // Find the company data from the original dataset
                 let companyData = null;
                 if (nodeData.type === 'company') {
