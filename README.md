@@ -10,7 +10,7 @@ The Accountability Hub consists of three data visualizations that reveal differe
 
 ### 1. US Atrocities Treemap
 
-An interactive treemap visualization documenting US interventions and military actions worldwide from 1945 to present.
+An interactive treemap visualization documenting US interventions and military actions worldwide from 1945 to present. Based on comprehensive research compiled by dessalines.
 
 **Data Coverage:**
 - 1,338 documented events across 75+ years
@@ -25,6 +25,7 @@ An interactive treemap visualization documenting US interventions and military a
 - Search functionality for specific events or locations
 
 **Data Sources:**
+- Original research compilation by dessalines (https://github.com/dessalines/essays/blob/main/us_atrocities.md)
 - Congressional Research Service reports
 - Department of Defense historical records
 - Academic research from universities and think tanks
@@ -188,6 +189,42 @@ Released under the MIT License for educational and research purposes.
 - Material Design principles
 - Open source web technologies
 - Community contributions and feedback
+
+## US Atrocities Data Attribution
+
+The US Atrocities Treemap visualization is built upon comprehensive research compiled by dessalines in their essay "A List of Atrocities committed by US authorities" available at: https://github.com/dessalines/essays/blob/main/us_atrocities.md
+
+**Credit and Attribution:**
+- Original research compilation: dessalines
+- Source repository: https://github.com/dessalines/essays
+- Essay title: "A List of Atrocities committed by US authorities"
+- Data adaptation and visualization: This project
+
+**Scope of Original Work:**
+The original essay by dessalines provides extensive documentation of US military interventions, domestic atrocities, and foreign policy actions with detailed source citations and casualty estimates. The research covers:
+
+- Historical military interventions and wars
+- Domestic violence against marginalized communities
+- Support for authoritarian regimes and dictatorships
+- Economic warfare and sanctions
+- Covert operations and intelligence activities
+- Environmental and nuclear testing impacts
+
+**Data Processing:**
+The treemap visualization adapts this research by:
+- Converting narrative documentation into structured JSON data
+- Organizing events by geographic regions and categories
+- Implementing interactive filtering and search capabilities
+- Adding visual representation of scale and impact
+- Maintaining source attribution for each documented event
+
+**Academic Value:**
+dessalines' original work represents significant scholarly effort in compiling and documenting historical events often underrepresented in mainstream historical narratives. The research includes extensive citations to academic sources, government documents, and credible news organizations.
+
+**Acknowledgment:**
+We acknowledge dessalines' substantial contribution to historical documentation and research. This visualization project serves to make their compiled research more accessible through interactive data visualization while maintaining the integrity and attribution of the original work.
+
+Users interested in the full scope of the research, detailed citations, and comprehensive analysis should refer to the original essay at the GitHub repository linked above.
 
 ## Contact
 
