@@ -1,0 +1,233 @@
+{
+  "name": "Corporate Involvement",
+  "children": [
+    {
+      "name": "Military & Defense",
+      "children": [
+        {
+          "name": "Elbit Systems",
+          "summary": "Israeli defense contractor that has profited significantly from the ongoing genocide, with the 65% surge in Israeli military spending generating sharp increases in annual profits. Partners with companies like Caterpillar to evolve bulldozers into automated, remote-commanded weaponry deployed in military activities. Provides surveillance systems, drones, and military equipment used in occupied territories.",
+          "involvement": "Direct supplier of military technology, automated weaponry partnerships, profiting from genocide",
+          "revenue": "$5.8 billion (2023) - Record profits during genocide",
+          "headquarters": "Haifa, Israel"
+        },
+        {
+          "name": "Israel Aerospace Industries",
+          "summary": "State-owned Israeli aerospace and defense company that has experienced record profits and orders during the genocide. Partners with Caterpillar to develop automated military bulldozers. Manufacturing military aircraft, missiles, and surveillance systems used in military operations against civilian populations.",
+          "involvement": "State-owned weapons manufacturer, automated weaponry development, record genocide profits",
+          "revenue": "$4.8 billion (2023) - Record profits during genocide",
+          "headquarters": "Lod, Israel"
+        },
+        {
+          "name": "Lockheed Martin",
+          "summary": "US defense contractor providing F-35 fighter jets, missile systems, and military technology to Israel under US military aid packages. Profits from weapons sales that enable military operations.",
+          "involvement": "Major weapons supplier through US military aid",
+          "revenue": "$67 billion (2023)",
+          "headquarters": "Bethesda, Maryland, USA"
+        },
+        {
+          "name": "Leonardo S.p.A.",
+          "summary": "Italian aerospace and defense company providing military helicopters, radar systems, and defense technology. Involved in joint ventures and technology transfers for military applications.",
+          "involvement": "Defense technology supplier",
+          "revenue": "$15.3 billion (2023)",
+          "headquarters": "Rome, Italy"
+        },
+        {
+          "name": "FANUC Corporation",
+          "summary": "Japanese industrial automation company whose precision machinery and robotics are used in weapons manufacturing. Provides manufacturing equipment for defense contractors.",
+          "involvement": "Manufacturing equipment for weapons production",
+          "revenue": "$5.9 billion (2023)",
+          "headquarters": "Yamanashi, Japan"
+        },
+        {
+          "name": "RADA Electronic Industries",
+          "summary": "Israeli defense technology company specializing in radar and electronic warfare systems. Provides tactical radar systems used in military operations and border surveillance.",
+          "involvement": "Electronic warfare and surveillance systems",
+          "revenue": "$180 million (2023)",
+          "headquarters": "Netanya, Israel"
+        }
+      ]
+    },
+    
+{
+      "name": "Surveillance & Technology",
+      "children": [
+        {
+          "name": "NSO Group",
+          "summary": "Israeli cyber-intelligence company founded by ex-Unit 8200 members, developing Pegasus spyware designed for covert smartphone surveillance. Used against Palestinian activists and licensed globally to target leaders, journalists and human rights defenders. Enables 'spyware diplomacy' while reinforcing State impunity through surveillance technology exports.",
+          "involvement": "Spyware targeting Palestinian activists and global human rights defenders",
+          "revenue": "$243 million (2021)",
+          "headquarters": "Herzliya, Israel"
+        },
+        {
+          "name": "Palantir Technologies Inc.",
+          "summary": "US data analytics company with tech collaboration with Israel that expanded support to Israeli military post-October 2023. Provides automatic predictive policing technology, core defence infrastructure for rapid military software deployment, and AI Platform for real-time battlefield data integration. CEO stated 'mostly terrorists' when accused of killing Palestinians in Gaza, showing executive-level knowledge of unlawful force.",
+          "involvement": "Predictive policing, military AI, battlefield data integration, executive complicity",
+          "revenue": "$2.2 billion (2023)",
+          "headquarters": "Denver, Colorado, USA"
+        },
+        {
+          "name": "Alphabet Inc. (Google)",
+          "summary": "Tech giant awarded $1.2 billion Project Nimbus contract with Amazon to provide core tech infrastructure to Israel, largely funded through Ministry of Defense expenditure. Grants Israel virtually government-wide access to cloud and AI technologies, enhancing surveillance and analysis capacities. Israel-located servers ensure data sovereignty and shield from accountability under favorable contracts with minimal restrictions.",
+          "involvement": "Project Nimbus cloud infrastructure, AI for military surveillance, data sovereignty protection",
+          "revenue": "$307 billion (2023)",
+          "headquarters": "Mountain View, California, USA"
+        },
+        {
+          "name": "Amazon.com, Inc.",
+          "summary": "E-commerce and cloud computing giant awarded $1.2 billion Project Nimbus contract with Google to provide core tech infrastructure to Israel. Grants Israel virtually government-wide access to cloud and AI technologies, enhancing data processing, decision-making and surveillance capacities. Part of consortium that stepped in with critical cloud infrastructure when Israeli internal military cloud overloaded in October 2023.",
+          "involvement": "Project Nimbus cloud infrastructure, military cloud backup, AI for surveillance",
+          "revenue": "$574 billion (2023)",
+          "headquarters": "Seattle, Washington, USA"
+        },
+        {
+          "name": "Microsoft",
+          "summary": "Technology corporation active in Israel since 1991, developing its largest center outside the US. Technologies embedded in prison service, police, universities and schools including in colonies. Integrating systems across Israeli military since 2003, acquiring Israeli cybersecurity start-ups. Azure platform stepped in with critical cloud and AI infrastructure when Israeli military cloud overloaded, with Israeli colonel describing cloud tech as 'a weapon in every sense of the word'.",
+          "involvement": "Military cloud infrastructure, prison/police systems, colony technology, cybersecurity acquisitions",
+          "revenue": "$211 billion (2023)",
+          "headquarters": "Redmond, Washington, USA"
+        },
+        {
+          "name": "IBM",
+          "summary": "Technology company operating in Israel since 1972, training military and intelligence personnel especially from Unit 8200 for the technology sector. Since 2019, IBM Israel operates and upgrades the central database of the Population and Immigration Authority, enabling collection, storage and governmental use of biometric data on Palestinians, supporting the discriminatory permit regime.",
+          "involvement": "Biometric database management, discriminatory permit system, Unit 8200 training",
+          "revenue": "$60 billion (2023)",
+          "headquarters": "Armonk, New York, USA"
+        },
+        {
+          "name": "Hewlett Packard Enterprises (HPE)",
+          "summary": "Enterprise technology company that previously maintained the Population and Immigration Authority database before IBM. Israeli subsidiary still provides servers supporting the discriminatory permit regime. Opaque business structures across seven Israeli subsidiaries obscure their roles in enabling apartheid systems.",
+          "involvement": "Database servers for discriminatory systems, opaque subsidiary structures",
+          "revenue": "$28 billion (2023)",
+          "headquarters": "Spring, Texas, USA"
+        },
+        {
+          "name": "HP Inc.",
+          "summary": "Computer hardware company that has long enabled Israeli apartheid systems, supplying technology to COGAT (Coordination of Government Activities in the Territories), prison service and police. Since 2015 company split, opaque business structures across seven Israeli subsidiaries obscure their continuing roles in supporting occupation infrastructure.",
+          "involvement": "COGAT technology, prison/police systems, opaque subsidiary operations",
+          "revenue": "$63 billion (2023)",
+          "headquarters": "Palo Alto, California, USA"
+        }
+      ]
+    },
+  
+  {
+      "name": "Heavy Machinery & Construction",
+      "children": [
+        {
+          "name": "Caterpillar Inc.",
+          "summary": "US heavy machinery manufacturer that has provided Israel with equipment used to demolish Palestinian homes and infrastructure for decades, through both US Foreign Military Financing programme and exclusive Israeli licensee. Partners with Elbit Systems and Israel Aerospace Industries to evolve D9 bulldozers into automated, remote-commanded weaponry deployed in military activities. Since October 2023, equipment documented carrying out mass demolitions, raiding hospitals, and burying alive wounded Palestinians. Secured further multi-million dollar contract with Israel in 2025.",
+          "involvement": "Automated military bulldozers, mass demolitions, home destructions, hospital raids",
+          "revenue": "$67 billion (2023)",
+          "headquarters": "Peoria, Illinois, USA"
+        },
+        {
+          "name": "HD Hyundai",
+          "summary": "Korean heavy machinery manufacturer linked to destruction of Palestinian property for over a decade. Machinery used to demolish Palestinian homes and raze farmland including olive groves. After October 2023, Israel increased use of HD Hyundai equipment in urban destruction of Gaza, including flattening Rafah and Jabalia, with military later obscuring company logos.",
+          "involvement": "Home demolitions, farmland destruction, Gaza urban destruction",
+          "revenue": "$35 billion (2023)",
+          "headquarters": "Ulsan, South Korea"
+        },
+        {
+          "name": "Doosan",
+          "summary": "Korean construction equipment manufacturer, partially owned subsidiary of HD Hyundai. Equipment used in demolition of Palestinian homes and infrastructure destruction. Continues supplying Israeli market despite abundant evidence of criminal use of machinery.",
+          "involvement": "Infrastructure destruction, home demolitions",
+          "revenue": "$15 billion (2023)",
+          "headquarters": "Seoul, South Korea"
+        },
+        {
+          "name": "Volvo Group",
+          "summary": "Swedish manufacturer linked to destruction of Palestinian property since at least 2007. Machinery used to raze Palestinian areas including East Jerusalem and Masafer Yatta. Licensee is OHCHR database-listed company, together owning Merkavim Transportation Technologies producing armoured buses for colonies. Continues supplying despite repeated calls from human rights groups to sever ties.",
+          "involvement": "Palestinian area destruction, colony transportation, armoured buses",
+          "revenue": "$48 billion (2023)",
+          "headquarters": "Gothenburg, Sweden"
+        }
+      ]
+    },
+    {
+      "name": "Finance & Insurance",
+      "children": [
+        {
+          "name": "JPMorgan Chase & Co.",
+          "summary": "US investment bank providing financing and banking services to defense contractors and companies involved in settlement construction. Investments enable military operations and occupation infrastructure.",
+          "involvement": "Financing for defense contractors",
+          "revenue": "$162 billion (2023)",
+          "headquarters": "New York City, New York, USA"
+        },
+        {
+          "name": "Bank of America",
+          "summary": "US bank providing loans and financial services to military contractors and companies operating in occupied territories. Financial backing enables continued operations.",
+          "involvement": "Banking services for military contractors",
+          "revenue": "$94 billion (2023)",
+          "headquarters": "Charlotte, North Carolina, USA"
+        },
+        {
+          "name": "BlackRock, Inc.",
+          "summary": "World's largest asset manager with significant investments in defense contractors and companies profiting from occupation. Shareholder influence enables continued complicity.",
+          "involvement": "Major shareholder in defense contractors",
+          "revenue": "$17 billion (2023)",
+          "headquarters": "New York City, New York, USA"
+        },
+        {
+          "name": "Vanguard Group",
+          "summary": "Investment management company with large holdings in defense contractors and complicit corporations. Passive investment strategy enables continued funding of harmful activities.",
+          "involvement": "Large investments in defense sector",
+          "revenue": "$8 billion (2023)",
+          "headquarters": "Malvern, Pennsylvania, USA"
+        }
+      ]
+    },
+    {
+      "name": "Energy & Extractive Industries",
+      "children": [
+        {
+          "name": "Chevron Corporation",
+          "summary": "US oil and gas company with operations and partnerships that support occupation infrastructure. Energy supplies enable continued military operations and settlement expansion.",
+          "involvement": "Energy supplies for occupation infrastructure",
+          "revenue": "$200 billion (2023)",
+          "headquarters": "San Ramon, California, USA"
+        },
+        {
+          "name": "ExxonMobil",
+          "summary": "US multinational oil and gas corporation providing fuel and energy services that support military operations. Strategic partnerships enable continued occupation activities.",
+          "involvement": "Fuel supplies for military operations",
+          "revenue": "$413 billion (2023)",
+          "headquarters": "Irving, Texas, USA"
+        },
+        {
+          "name": "TotalEnergies SE",
+          "summary": "French multinational oil and gas company with operations in the region. Energy infrastructure and supplies support occupation and settlement activities.",
+          "involvement": "Energy infrastructure in occupied territories",
+          "revenue": "$209 billion (2023)",
+          "headquarters": "Courbevoie, France"
+        }
+      ]
+    },
+    {
+      "name": "Consumer Goods & Retail",
+      "children": [
+        {
+          "name": "Coca-Cola Company",
+          "summary": "US beverage corporation with operations in occupied territories and settlements. Business presence normalizes and economically supports illegal settlement activities.",
+          "involvement": "Operations in illegal settlements",
+          "revenue": "$45 billion (2023)",
+          "headquarters": "Atlanta, Georgia, USA"
+        },
+        {
+          "name": "McDonald's Corporation",
+          "summary": "US fast-food chain with restaurants in settlements and occupied territories. Business operations provide economic support and normalization of illegal occupation.",
+          "involvement": "Restaurants in settlements",
+          "revenue": "$23 billion (2023)",
+          "headquarters": "Chicago, Illinois, USA"
+        },
+        {
+          "name": "Starbucks Corporation",
+          "summary": "US coffeehouse chain with locations in occupied territories. Business presence supports settlement economy and normalizes occupation activities.",
+          "involvement": "Stores in occupied territories",
+          "revenue": "$36 billion (2023)",
+          "headquarters": "Seattle, Washington, USA"
+        }
+      ]
+    }
+  ]
+}
