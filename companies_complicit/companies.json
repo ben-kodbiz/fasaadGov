@@ -4,42 +4,84 @@
     {
       "name": "Military & Defense",
       "children": [
-        {"name": "Elbit Systems"},
-        {"name": "Israel Aerospace Industries"},
-        {"name": "Lockheed Martin"},
-        {"name": "Leonardo S.p.A."},
-        {"name": "FANUC Corporation"},
-        {"name": "RADA Electronic Industries"}
+        {
+          "name": "Elbit Systems"
+        },
+        {
+          "name": "Israel Aerospace Industries"
+        },
+        {
+          "name": "Lockheed Martin"
+        },
+        {
+          "name": "Leonardo S.p.A."
+        },
+        {
+          "name": "FANUC Corporation"
+        },
+        {
+          "name": "RADA Electronic Industries"
+        }
       ]
     },
     {
       "name": "Surveillance & Technology",
       "children": [
-        {"name": "NSO Group"},
-        {"name": "Palantir Technologies Inc."},
-        {"name": "Alphabet Inc. (Google)"},
-        {"name": "Amazon.com, Inc."},
-        {"name": "Microsoft"},
-        {"name": "IBM"},
-        {"name": "Hewlett Packard Enterprises (HPE)"},
-        {"name": "HP Inc."}
+        {
+          "name": "NSO Group"
+        },
+        {
+          "name": "Palantir Technologies Inc."
+        },
+        {
+          "name": "Alphabet Inc. (Google)"
+        },
+        {
+          "name": "Amazon.com, Inc."
+        },
+        {
+          "name": "Microsoft"
+        },
+        {
+          "name": "IBM"
+        },
+        {
+          "name": "Hewlett Packard Enterprises (HPE)"
+        },
+        {
+          "name": "HP Inc."
+        }
       ]
     },
     {
       "name": "Heavy Machinery & Construction",
       "children": [
-        {"name": "Caterpillar Inc."},
-        {"name": "HD Hyundai"},
-        {"name": "Doosan"},
-        {"name": "Volvo Group"},
+        {
+          "name": "Caterpillar Inc."
+        },
+        {
+          "name": "HD Hyundai"
+        },
+        {
+          "name": "Doosan"
+        },
+        {
+          "name": "Volvo Group"
+        },
         {
           "name": "Heidelberg Materials AG",
           "children": [
-            {"name": "Hanson Israel"}
+            {
+              "name": "Hanson Israel"
+            }
           ]
         },
-        {"name": "Construcciones Auxiliar de Ferrocarriles"},
-        {"name": "Merkavim Transportation Technologies Ltd."}
+        {
+          "name": "Construcciones Auxiliar de Ferrocarriles"
+        },
+        {
+          "name": "Merkavim Transportation Technologies Ltd."
+        }
       ]
     },
     {
@@ -48,37 +90,65 @@
         {
           "name": "Blackrock",
           "children": [
-            {"name": "iShares"}
+            {
+              "name": "iShares"
+            }
           ]
         },
-        {"name": "Vanguard"},
-        {"name": "BNP Paribas"},
-        {"name": "Barclays"},
+        {
+          "name": "Vanguard"
+        },
+        {
+          "name": "BNP Paribas"
+        },
+        {
+          "name": "Barclays"
+        },
         {
           "name": "Allianz",
-           "children": [
-            {"name": "PIMCO"}
+          "children": [
+            {
+              "name": "PIMCO"
+            }
           ]
         },
-        {"name": "AXA"},
-        {"name": "Development Corporation for Israel (Israel Bonds)"}
+        {
+          "name": "AXA"
+        },
+        {
+          "name": "Development Corporation for Israel (Israel Bonds)"
+        }
       ]
     },
     {
       "name": "Energy & Extractive Industries",
       "children": [
-        {"name": "Chevron Corporation"},
-        {"name": "BP PLC"},
+        {
+          "name": "Chevron Corporation"
+        },
+        {
+          "name": "BP PLC"
+        },
         {
           "name": "Delek Group",
           "children": [
-            {"name": "NewMed Energy"}
+            {
+              "name": "NewMed Energy"
+            }
           ]
         },
-        {"name": "Drummond Company, Inc."},
-        {"name": "Glencore PLC"},
-        {"name": "Petrobras"},
-        {"name": "Paz Retail and Energy Ltd."}
+        {
+          "name": "Drummond Company, Inc."
+        },
+        {
+          "name": "Glencore PLC"
+        },
+        {
+          "name": "Petrobras"
+        },
+        {
+          "name": "Paz Retail and Energy Ltd."
+        }
       ]
     },
     {
@@ -87,49 +157,81 @@
         {
           "name": "Bright Food (Group) Co., Ltd.",
           "children": [
-            {"name": "Tnuva"}
+            {
+              "name": "Tnuva"
+            }
           ]
         },
         {
           "name": "Orbia Advance Corporation",
           "children": [
-            {"name": "Netafim"}
+            {
+              "name": "Netafim"
+            }
           ]
         },
-        {"name": "General Mills"}
+        {
+          "name": "General Mills"
+        }
       ]
     },
     {
       "name": "Logistics & Shipping",
       "children": [
-        {"name": "A.P. Moller - Maersk A/S"}
+        {
+          "name": "A.P. Moller - Maersk A/S"
+        }
       ]
     },
     {
       "name": "Tourism & Hospitality",
       "children": [
-        {"name": "Booking Holdings Inc."},
-        {"name": "Airbnb, Inc."}
+        {
+          "name": "Booking Holdings Inc."
+        },
+        {
+          "name": "Airbnb, Inc."
+        }
       ]
     },
     {
       "name": "Consumer Goods & Retail",
       "children": [
-        {"name": "Unilever"},
-        {"name": "Yokohama"},
-        {"name": "Pret a Manger"},
-        {"name": "Adidas"},
-        {"name": "PUMA"},
-        {"name": "Erreà"}
+        {
+          "name": "Unilever"
+        },
+        {
+          "name": "Yokohama"
+        },
+        {
+          "name": "Pret a Manger"
+        },
+        {
+          "name": "Adidas"
+        },
+        {
+          "name": "PUMA"
+        },
+        {
+          "name": "Erreà"
+        }
       ]
     },
     {
       "name": "Non-Profit & Charitable Enablers",
       "children": [
-        {"name": "Jewish National Fund (KKL-JNF)"},
-        {"name": "Israel Gives"},
-        {"name": "Christian Friends of Israeli Communities"},
-        {"name": "Christenen voor Israël"}
+        {
+          "name": "Jewish National Fund (KKL-JNF)"
+        },
+        {
+          "name": "Israel Gives"
+        },
+        {
+          "name": "Christian Friends of Israeli Communities"
+        },
+        {
+          "name": "Christenen voor Israël"
+        }
       ]
     }
   ]
