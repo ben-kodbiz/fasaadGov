@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ben-kodbiz.github.io/fasaadGov/sitemap.xml
+
+# Allow important pages
+Allow: /index.html
+Allow: /upload.html
+Allow: /data/us_interventions.json
+
+# Disallow temporary or development files
+Disallow: /test_casualties.js
+Disallow: /contrast_test.html
+Disallow: /*_test.html
+Disallow: /*.md
+
+# Crawl delay (optional - be respectful to search engines)
+Crawl-delay: 1

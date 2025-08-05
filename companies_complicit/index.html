@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Complicity Network - Force-Directed Graph</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1976d2;
+            --secondary-color: #dc004e;
+            --background-color: #fafafa;
+            --surface-color: #ffffff;
+            --text-color: #1c1b1f;
+            --text-secondary: #49454f;
+            --border-color: #79747e;
+            --shadow: rgba(0, 0, 0, 0.12);
+            --shadow-dark: rgba(0, 0, 0, 0.24);
+
+            /* Category colors */
+            --military-color: #d32f2f;
+            --surveillance-color: #7b1fa2;
+            --construction-color: #f57c00;
+            --finance-color: #388e3c;
+            --energy-color: #1976d2;
+            --agribusiness-color: #689f38;
+            --logistics-color: #5d4037;
+            --tourism-color: #e91e63;
+            --consumer-color: #00796b;
+            --nonprofit-color: #455a64;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #ffffff;
+            --text-secondary: #b3b3b3;
+            --border-color: #666666;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-dark: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header"
+        style="background: var(--surface-color); padding: 20px; box-shadow: 0 2px 4px var(--shadow); text-align: center;">
+        <h1 style="margin: 0; color: var(--primary-color); font-size: 2rem; font-weight: 500;">🏢 Corporate Complicity
+            Network</h1>
+        <p style="margin: 10px 0 0 0; color: var(--text-secondary); font-size: 1.1rem;">Interactive network
+            visualization of corporate involvement and connections</p>
+
+        <div
+            style="margin: 20px auto; max-width: 800px; padding: 20px; background: var(--surface-color); border-radius: 12px; border-left: 4px solid var(--secondary-color); text-align: left; box-shadow: 0 2px 8px var(--shadow);">
+            <h3 style="color: var(--secondary-color); margin-top: 0;">⚖️ Corporate Accountability</h3>
+            <p style="font-style: italic; margin-bottom: 15px;">"The master's tools will never dismantle the master's
+                house." — Audre Lorde</p>
+
+            <p>Behind every act of oppression lies a network of enablers. Corporations that profit from suffering.
+                Shareholders who turn blind eyes to blood money. Executives who choose quarterly reports over human
+                rights.</p>
+
+            <p>This network reveals the corporate web of complicity — from defense contractors manufacturing weapons of
+                destruction, to tech giants providing surveillance infrastructure, to financial institutions funding the
+                machinery of oppression.</p>
+
+            <p style="text-align: center; font-weight: bold; color: var(--secondary-color); margin: 20px 0;">💼 Every
+                purchase is a vote.<br>Every investment is a choice.<br>Every silence is complicity.</p>
+
+            <p style="text-align: center; font-weight: bold;">Divest. Boycott. Hold them accountable.</p>
+        </div>
+    </div>
+
+    <div class="controls"
+        style="background: var(--surface-color); padding: 20px; margin: 20px; border-radius: 12px; box-shadow: 0 1px 3px var(--shadow); display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-size: 0.875rem; font-weight: 500; color: var(--text-secondary);">Filter by
+                Category</label>
+            <select id="categoryFilter"
+                style="padding: 10px 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); font-family: inherit; font-size: 0.875rem;">
+                <option value="all">All Categories</option>
+                <option value="Military & Defense">Military & Defense</option>
+                <option value="Surveillance & Technology">Surveillance & Technology</option>
+                <option value="Heavy Machinery & Construction">Heavy Machinery & Construction</option>
+                <option value="Finance & Insurance">Finance & Insurance</option>
+                <option value="Energy & Extractive Industries">Energy & Extractive Industries</option>
+                <option value="Consumer Goods & Retail">Consumer Goods & Retail</option>
+                <option value="Real Estate & Tourism">Real Estate & Tourism</option>
+                <option value="Utilities & Resources">Utilities & Resources</option>
+            </select>
+        </div>
+        <a href="../index.html"
+            style="padding: 10px 16px; border: none; border-radius: 8px; background: var(--border-color); color: var(--text-color); font-family: inherit; font-size: 0.875rem; cursor: pointer; text-decoration: none; display: inline-block;">←
+            Back to Hub</a>
+        <button id="resetView"
+            style="padding: 10px 16px; border: none; border-radius: 8px; background: var(--primary-color); color: white; font-family: inherit; font-size: 0.875rem; cursor: pointer;">Reset
+            View</button>
+        <button id="themeToggle"
+            style="padding: 10px 16px; border: none; border-radius: 8px; background: var(--secondary-color); color: white; font-family: inherit; font-size: 0.875rem; cursor: pointer;">🌙
+            Dark Mode</button>
+    </div>
+    <div class="visualization-container" style="display: flex; gap: 20px; margin: 20px;">
+        <div class="network-container"
+            style="flex: 2; background: var(--surface-color); border-radius: 12px; box-shadow: 0 1px 3px var(--shadow); padding: 20px; min-height: 600px;">
+            <div id="network"></div>
+        </div>
+        <div class="info-panel"
+            style="flex: 1; background: var(--surface-color); border-radius: 12px; box-shadow: 0 1px 3px var(--shadow); padding: 20px; max-height: 600px; overflow-y: auto;">
+            <h3 style="color: var(--primary-color);">Company Information</h3>
+            <div id="companyInfo">
+                <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                    <h4 style="color: var(--primary-color); margin-bottom: 15px;">🎯 Getting Started</h4>
+                    <p style="line-height: 1.6; margin-bottom: 15px;">
+                        Click on any node in the network to view detailed information about companies and their
+                        connections.
+                    </p>
+                    <div
+                        style="background: var(--background-color); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong style="color: var(--text-color);">💡 Tips:</strong><br>
+                        <small style="line-height: 1.4;">
+                            • Drag nodes to explore connections<br>
+                            • Use category filter to focus<br>
+                            • Hover for quick information<br>
+                            • Toggle dark mode for better viewing
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend"
+            style="background: var(--surface-color); margin: 20px; padding: 20px; border-radius: 12px; box-shadow: 0 1px 3px var(--shadow);">
+            <h3 style="margin-top: 0; color: var(--primary-color);">Legend</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div
+                        style="width: 20px; height: 20px; border-radius: 50%; background-color: var(--military-color);">
+                    </div>
+                    <span>🎖️ Military & Defense</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div
+                        style="width: 20px; height: 20px; border-radius: 50%; background-color: var(--surveillance-color);">
+                    </div>
+                    <span>👁️ Surveillance & Technology</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div
+                        style="width: 20px; height: 20px; border-radius: 50%; background-color: var(--construction-color);">
+                    </div>
+                    <span>🏗️ Heavy Machinery & Construction</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 20px; height: 20px; border-radius: 50%; background-color: var(--finance-color);">
+                    </div>
+                    <span>💰 Finance & Insurance</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 20px; height: 20px; border-radius: 50%; background-color: var(--energy-color);">
+                    </div>
+                    <span>⚡ Energy & Extractive Industries</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div
+                        style="width: 20px; height: 20px; border-radius: 50%; background-color: var(--consumer-color);">
+                    </div>
+                    <span>🛍️ Consumer Goods & Retail</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 20px; height: 20px; border-radius: 50%; background-color: var(--tourism-color);">
+                    </div>
+                    <span>🏨 Real Estate & Tourism</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div
+                        style="width: 20px; height: 20px; border-radius: 50%; background-color: var(--logistics-color);">
+                    </div>
+                    <span>💧 Utilities & Resources</span>
+                </div>
+            </div>
+        </div>
+
+        <div
+            style="margin: 20px; padding: 20px; background: var(--background-color); border-radius: 8px; border: 2px solid var(--secondary-color);">
+            <h4 style="color: var(--secondary-color); margin-top: 0; text-align: center;">📄 UN Human Rights Council
+                Source</h4>
+            <p
+                style="text-align: center; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 15px;">
+                <strong>All corporate information is based on the official UN Human Rights Council Report
+                    A/HRC/59/23:</strong><br>
+                <a href="https://www.ohchr.org/en/documents/country-reports/ahrc5923-economy-occupation-economy-genocide-report-special-rapporteur"
+                    target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">
+                    "From economy of occupation to economy of genocide" - Report of the Special Rapporteur
+                </a>
+            </p>
+            <h4 style="color: var(--secondary-color); margin-top: 20px; text-align: center;">⚠️ DISCLAIMER</h4>
+            <p style="text-align: center; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary);">
+                <strong>All information presented must be independently verified.</strong><br>
+                This site is not responsible for any incorrect information. Data is compiled from the UN report and
+                should be cross-referenced with original documents.
+                Users are encouraged to conduct their own research and verification of all claims and sources presented.
+            </p>
+            <p style="text-align: center; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0;">
+                This visualization is for educational and analytical purposes only.
+            </p>
+        </div>
+
+        <div class="tooltip" id="tooltip"
+            style="position: absolute; background: var(--surface-color); color: var(--text-color); padding: 12px; border-radius: 8px; box-shadow: 0 4px 16px var(--shadow-dark); pointer-events: none; font-size: 0.875rem; max-width: 300px; z-index: 1000; border: 1px solid var(--border-color); opacity: 0; transition: opacity 0.2s ease;">
+        </div>
+
+        <script>
+            // Global variables
+            let data = {};
+            let currentFilter = 'all';
+            let nodes = [];
+            let links = [];
+            let simulation;
+
+            // Dimensions
+            const width = 800;
+            const height = 600;
+
+            // Create SVG
+            const svg = d3.select("#network")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .style("border", "1px solid var(--border-color)")
+                .style("border-radius", "8px");
+
+            // Tooltip
+            const tooltip = d3.select("#tooltip");
+
+            // Color mapping for categories
+            const categoryColors = {
+                "Military & Defense": "var(--military-color)",
+                "Surveillance & Technology": "var(--surveillance-color)",
+                "Heavy Machinery & Construction": "var(--construction-color)",
+                "Finance & Insurance": "var(--finance-color)",
+                "Energy & Extractive Industries": "var(--energy-color)",
+                "Consumer Goods & Retail": "var(--consumer-color)",
+                "Real Estate & Tourism": "var(--tourism-color)",
+                "Utilities & Resources": "var(--logistics-color)"
+            };
+        </script>
+        <script>
+            // Load and process data
+            d3.json("companies_enhanced.json").then(function (rawData) {
+                data = rawData;
+                processData();
+                initializeVisualization();
+                setupEventListeners();
+            }).catch(error => {
+                console.error("Error loading data:", error);
+                d3.select("#network").html(`
+                <div style="text-align: center; padding: 50px; color: var(--text-secondary);">
+                    <h3>Error loading data</h3>
+                    <p>Please check the console for details.</p>
+                </div>
+            `);
+            });
+
+            function processData() {
+                nodes = [];
+                links = [];
+
+                // Add root node
+                nodes.push({
+                    id: data.name,
+                    name: data.name,
+                    type: "root",
+                    category: "root",
+                    level: 0
+                });
+
+                // Process categories and companies
+                data.children.forEach(category => {
+                    // Add category node
+                    nodes.push({
+                        id: category.name,
+                        name: category.name,
+                        type: "category",
+                        category: category.name,
+                        level: 1
+                    });
+
+                    // Link category to root
+                    links.push({
+                        source: data.name,
+                        target: category.name,
+                        type: "root-category"
+                    });
+
+                    // Process companies in category
+                    category.children.forEach(company => {
+                        processCompany(company, category.name, 2);
+                    });
+                });
+            }
+
+            function processCompany(company, categoryName, level) {
+                // Add company node
+                nodes.push({
+                    id: company.name,
+                    name: company.name,
+                    type: "company",
+                    category: categoryName,
+                    level: level
+                });
+
+                // Link company to category
+                links.push({
+                    source: categoryName,
+                    target: company.name,
+                    type: "category-company"
+                });
+
+                // Process subsidiaries if they exist
+                if (company.children) {
+                    company.children.forEach(subsidiary => {
+                        processCompany(subsidiary, categoryName, level + 1);
+
+                        // Link subsidiary to parent company
+                        links.push({
+                            source: company.name,
+                            target: subsidiary.name,
+                            type: "company-subsidiary"
+                        });
+                    });
+                }
+            }
+        </script>
+        <script>
+            function initializeVisualization() {
+                // Clear previous visualization
+                svg.selectAll("*").remove();
+
+                // Filter data based on current filter
+                let filteredNodes = nodes;
+                let filteredLinks = links;
+
+                if (currentFilter !== 'all') {
+                    filteredNodes = nodes.filter(n =>
+                        n.type === 'root' ||
+                        n.category === currentFilter ||
+                        (n.type === 'category' && n.name === currentFilter)
+                    );
+
+                    const nodeIds = new Set(filteredNodes.map(n => n.id));
+                    filteredLinks = links.filter(l =>
+                        nodeIds.has(l.source.id || l.source) &&
+                        nodeIds.has(l.target.id || l.target)
+                    );
+                }
+
+                // Create force simulation
+                simulation = d3.forceSimulation(filteredNodes)
+                    .force("link", d3.forceLink(filteredLinks).id(d => d.id).distance(100))
+                    .force("charge", d3.forceManyBody().strength(-300))
+                    .force("center", d3.forceCenter(width / 2, height / 2))
+                    .force("collision", d3.forceCollide().radius(30));
+
+                // Create links
+                const link = svg.append("g")
+                    .selectAll("line")
+                    .data(filteredLinks)
+                    .enter().append("line")
+                    .attr("stroke", "#999")
+                    .attr("stroke-opacity", 0.6)
+                    .attr("stroke-width", d => {
+                        if (d.type === "root-category") return 3;
+                        if (d.type === "category-company") return 2;
+                        return 1;
+                    });
+
+                // Create nodes
+                const node = svg.append("g")
+                    .selectAll("circle")
+                    .data(filteredNodes)
+                    .enter().append("circle")
+                    .attr("r", d => {
+                        if (d.type === "root") return 20;
+                        if (d.type === "category") return 15;
+                        return 10;
+                    })
+                    .attr("fill", d => {
+                        if (d.type === "root") return "var(--primary-color)";
+                        if (d.type === "category") return getComputedStyle(document.documentElement).getPropertyValue(categoryColors[d.category] || '--primary-color').trim();
+                        return getComputedStyle(document.documentElement).getPropertyValue(categoryColors[d.category] || '--primary-color').trim();
+                    })
+                    .attr("stroke", "#fff")
+                    .attr("stroke-width", 2)
+                    .style("cursor", "pointer")
+                    .call(d3.drag()
+                        .on("start", dragstarted)
+                        .on("drag", dragged)
+                        .on("end", dragended))
+                    .on("click", handleClick)
+                    .on("mouseover", handleMouseOver)
+                    .on("mouseout", handleMouseOut);
+
+                // Add labels
+                const labels = svg.append("g")
+                    .selectAll("text")
+                    .data(filteredNodes)
+                    .enter().append("text")
+                    .text(d => d.name)
+                    .style("font-size", d => {
+                        if (d.type === "root") return "14px";
+                        if (d.type === "category") return "12px";
+                        return "10px";
+                    })
+                    .style("font-weight", d => d.type === "root" ? "bold" : "normal")
+                    .style("fill", "var(--text-color)")
+                    .style("text-anchor", "middle")
+                    .style("pointer-events", "none");
+
+                // Update positions on simulation tick
+                simulation.on("tick", () => {
+                    link
+                        .attr("x1", d => d.source.x)
+                        .attr("y1", d => d.source.y)
+                        .attr("x2", d => d.target.x)
+                        .attr("y2", d => d.target.y);
+
+                    node
+                        .attr("cx", d => d.x)
+                        .attr("cy", d => d.y);
+
+                    labels
+                        .attr("x", d => d.x)
+                        .attr("y", d => d.y + 25);
+                });
+            }
+        </script>
+        <script>
+            // Event handlers
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+            function handleClick(event, d) {
+                showCompanyInfo(d);
+            }
+
+            function handleMouseOver(event, d) {
+                tooltip.style("opacity", 1);
+
+                let content = `<div style="font-weight: 500; margin-bottom: 8px; color: var(--primary-color);">${d.name}</div>`;
+                content += `<div>Type: ${d.type}</div>`;
+                if (d.category !== d.name) {
+                    content += `<div>Category: ${d.category}</div>`;
+                }
+                content += `<div style="margin-top: 8px; font-style: italic; color: var(--primary-color);">Click for details</div>`;
+
+                tooltip.html(content)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            }
+
+            function handleMouseOut() {
+                tooltip.style("opacity", 0);
+            }
+
+            function showCompanyInfo(nodeData) {
+                // Find the company data from the original dataset
+                let companyData = null;
+                if (nodeData.type === 'company') {
+                    data.children.forEach(category => {
+                        category.children.forEach(company => {
+                            if (company.name === nodeData.name) {
+                                companyData = company;
+                            }
+                            // Check subsidiaries too
+                            if (company.children) {
+                                company.children.forEach(subsidiary => {
+                                    if (subsidiary.name === nodeData.name) {
+                                        companyData = subsidiary;
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+
+                let html = `
+                <h3 style="color: var(--primary-color); margin-bottom: 20px;">🏢 ${nodeData.name}</h3>
+            `;
+
+                if (companyData && companyData.summary) {
+                    html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+                        <strong style="color: var(--text-color);">📋 Company Summary</strong><br>
+                        <div style="margin-top: 8px;">
+                            <p style="color: var(--text-secondary); line-height: 1.5;">${companyData.summary}</p>
+                        </div>
+                    </div>
+                `;
+
+                    if (companyData.involvement) {
+                        html += `
+                        <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+                            <strong style="color: var(--text-color);">⚠️ Involvement</strong><br>
+                            <div style="margin-top: 8px;">
+                                <p style="color: var(--secondary-color); font-weight: 500; line-height: 1.4;">${companyData.involvement}</p>
+                            </div>
+                        </div>
+                    `;
+                    }
+
+                    if (companyData.revenue || companyData.headquarters) {
+                        html += `
+                        <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px;">
+                            <strong style="color: var(--text-color);">📊 Company Details</strong><br>
+                            <div style="margin-top: 8px;">
+                                ${companyData.revenue ? `<div style="margin: 5px 0;"><strong>Revenue:</strong> ${companyData.revenue}</div>` : ''}
+                                ${companyData.headquarters ? `<div style="margin: 5px 0;"><strong>Headquarters:</strong> ${companyData.headquarters}</div>` : ''}
+                                <div style="margin: 5px 0;"><strong>Category:</strong> ${nodeData.category}</div>
+                            </div>
+                        </div>
+                    `;
+                    }
+                } else {
+                    // Fallback for nodes without detailed data
+                    html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px;">
+                        <strong style="color: var(--text-color);">📊 Node Information</strong><br>
+                        <div style="margin-top: 8px;">
+                            <div style="margin: 5px 0;"><strong>Type:</strong> ${nodeData.type}</div>
+                            <div style="margin: 5px 0;"><strong>Category:</strong> ${nodeData.category}</div>
+                            <div style="margin: 5px 0;"><strong>Level:</strong> ${nodeData.level}</div>
+                        </div>
+                    </div>
+                `;
+                }
+
+                html += `
+                <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border: 1px solid var(--border-color);">
+                    <strong style="color: var(--text-color);">📄 UN Source</strong><br>
+                    <div style="margin-top: 8px;">
+                        <small style="color: var(--text-secondary); line-height: 1.4;">
+                            Information based on UN Human Rights Council Report A/HRC/59/23: 
+                            <a href="https://www.ohchr.org/en/documents/country-reports/ahrc5923-economy-occupation-economy-genocide-report-special-rapporteur" 
+                               target="_blank" style="color: var(--primary-color);">
+                               "From economy of occupation to economy of genocide"
+                            </a>
+                        </small>
+                    </div>
+                </div>
+            `;
+
+                html += `
+                <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border: 1px solid var(--border-color);">
+                    <strong style="color: var(--text-color);">⚠️ Disclaimer</strong><br>
+                    <div style="margin-top: 8px;">
+                        <small style="color: var(--text-secondary); line-height: 1.4;">
+                            Information presented should be independently verified. This analysis is based on publicly available data and reports. 
+                            Users should conduct their own research to verify claims and gather additional evidence.
+                        </small>
+                    </div>
+                </div>
+            `;
+
+                d3.select("#companyInfo").html(html);
+            }
+
+            function setupEventListeners() {
+                d3.select("#categoryFilter").on("change", function () {
+                    currentFilter = this.value;
+                    initializeVisualization();
+                });
+
+                d3.select("#resetView").on("click", function () {
+                    currentFilter = 'all';
+                    d3.select("#categoryFilter").property("value", "all");
+                    initializeVisualization();
+                });
+
+                d3.select("#themeToggle").on("click", function () {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+
+                    d3.select(this).text(newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
+
+                    // Re-render with new theme colors
+                    initializeVisualization();
+                });
+            }
+        </script>
+</body>
+
+</html>

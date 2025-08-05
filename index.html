@@ -1,9 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>US Atrocities Treemap - Interactive Visualization</title>
+
+  <!-- SEO Meta Tags -->
+  <title>US Atrocities Treemap - Interactive Historical Visualization | Vietnam War, Iraq War, Native American Genocide
+  </title>
+  <meta name="description"
+    content="Interactive treemap visualization of documented US atrocities and interventions throughout history. Explore data on Vietnam War (3M casualties), Korean War (2.5M), Iraq War (655k-1M), Afghanistan War (176k), Native American Genocide (12M), and more.">
+  <meta name="keywords"
+    content="US atrocities, American interventions, Vietnam War casualties, Iraq War deaths, Korean War, Afghanistan War, Native American genocide, historical data visualization, treemap, D3.js, war crimes, military interventions">
+  <meta name="author" content="US Atrocities Documentation Project">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ben-kodbiz.github.io/fasaadGov/">
+  <meta property="og:title" content="US Atrocities Treemap - Interactive Historical Visualization">
+  <meta property="og:description"
+    content="Explore documented US atrocities and interventions through an interactive treemap. Vietnam War: 3M casualties, Korean War: 2.5M, Iraq War: 655k-1M, Native American Genocide: 12M casualties.">
+  <meta property="og:image" content="https://ben-kodbiz.github.io/fasaadGov/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="US Atrocities Treemap">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://ben-kodbiz.github.io/fasaadGov/">
+  <meta property="twitter:title" content="US Atrocities Treemap - Interactive Historical Visualization">
+  <meta property="twitter:description"
+    content="Interactive visualization of US atrocities: Vietnam War (3M), Korean War (2.5M), Iraq War (655k-1M), Afghanistan (176k), Native American Genocide (12M) casualties.">
+  <meta property="twitter:image" content="https://ben-kodbiz.github.io/fasaadGov/og-image.png">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://ben-kodbiz.github.io/fasaadGov/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "US Atrocities Treemap",
+    "description": "Interactive treemap visualization of documented US atrocities and military interventions throughout history, including Vietnam War, Iraq War, Korean War, Afghanistan War, and Native American Genocide.",
+    "url": "https://ben-kodbiz.github.io/fasaadGov/",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "US Atrocities Documentation Project"
+    },
+    "keywords": "US atrocities, military interventions, Vietnam War, Iraq War, Korean War, Afghanistan War, Native American genocide, historical data, visualization, treemap",
+    "inLanguage": "en-US",
+    "isAccessibleForFree": true,
+    "educationalUse": "research, education, awareness",
+    "audience": {
+      "@type": "EducationalAudience",
+      "educationalRole": "student, researcher, educator, journalist"
+    }
+  }
+  </script>
+
+  <!-- Additional Structured Data for Historical Events -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "US Historical Atrocities and Interventions Data",
+    "description": "Comprehensive dataset of documented US military interventions and atrocities including casualty estimates from academic sources.",
+    "url": "https://ben-kodbiz.github.io/fasaadGov/",
+    "keywords": ["Vietnam War casualties", "Iraq War deaths", "Korean War", "Afghanistan War", "Native American genocide", "historical atrocities"],
+    "creator": {
+      "@type": "Organization",
+      "name": "US Atrocities Documentation Project"
+    },
+    "distribution": {
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://ben-kodbiz.github.io/fasaadGov/data/us_interventions.json"
+    },
+    "temporalCoverage": "1492/2024",
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "Global"
+    }
+  }
+  </script>
+
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -22,7 +119,7 @@
       --outline: #79747e;
       --shadow: rgba(0, 0, 0, 0.12);
       --shadow-dark: rgba(0, 0, 0, 0.24);
-      
+
       /* Treemap colors - softer, more accessible */
       --color-middle-east: #e57373;
       --color-latin-america: #ffb74d;
@@ -53,7 +150,7 @@
       --outline: #938f99;
       --shadow: rgba(0, 0, 0, 0.3);
       --shadow-dark: rgba(0, 0, 0, 0.5);
-      
+
       /* Darker, more muted treemap colors for dark mode */
       --color-middle-east: #c62828;
       --color-latin-america: #ef6c00;
@@ -76,6 +173,190 @@
 
     * {
       box-sizing: border-box;
+    }
+
+    /* Accessibility improvements */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: var(--primary-color);
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 0 0 4px 4px;
+      z-index: 9999;
+      transition: top 0.3s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    /* Top disclaimers styling */
+    .top-disclaimers {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #fff3cd;
+      border-bottom: 2px solid #ffeaa7;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] .top-disclaimers {
+      background: #2d2a1f;
+      border-bottom-color: #4a4419;
+    }
+
+    .disclaimer-banner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .disclaimer-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      position: relative;
+    }
+
+    .disclaimer-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .disclaimer-text {
+      flex: 1;
+      font-size: 0.875rem;
+      line-height: 1.4;
+      color: #856404;
+    }
+
+    [data-theme="dark"] .disclaimer-text {
+      color: #e6d690;
+    }
+
+    .disclaimer-text strong {
+      font-weight: 600;
+      color: #664d03;
+    }
+
+    [data-theme="dark"] .disclaimer-text strong {
+      color: #ffd93d;
+    }
+
+    .disclaimer-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #856404;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    [data-theme="dark"] .disclaimer-close {
+      color: #e6d690;
+    }
+
+    .disclaimer-close:hover {
+      background: rgba(133, 100, 4, 0.1);
+    }
+
+    [data-theme="dark"] .disclaimer-close:hover {
+      background: rgba(230, 214, 144, 0.1);
+    }
+
+    .disclaimer-close:focus {
+      outline: 2px solid #856404;
+      outline-offset: 2px;
+    }
+
+    /* Hide disclaimers when dismissed */
+    .top-disclaimers.dismissed {
+      display: none;
+    }
+
+    /* Mobile notice styling */
+    .mobile-notice {
+      margin-top: 16px;
+      background: #e3f2fd;
+      border: 1px solid #90caf9;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    [data-theme="dark"] .mobile-notice {
+      background: #1a237e;
+      border-color: #3f51b5;
+    }
+
+    .mobile-notice-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mobile-notice-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .mobile-notice-text {
+      font-size: 0.875rem;
+      color: #1565c0;
+      line-height: 1.4;
+    }
+
+    [data-theme="dark"] .mobile-notice-text {
+      color: #90caf9;
+    }
+
+    .mobile-notice-text strong {
+      font-weight: 600;
+      color: #0d47a1;
+    }
+
+    [data-theme="dark"] .mobile-notice-text strong {
+      color: #bbdefb;
+    }
+
+    /* Mobile responsive for disclaimers */
+    @media (max-width: 768px) {
+      .disclaimer-content {
+        padding: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .disclaimer-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+      }
+
+      .disclaimer-text {
+        font-size: 0.8rem;
+        padding-right: 32px;
+      }
     }
 
     body {
@@ -208,6 +489,8 @@
       border-radius: 12px;
       box-shadow: 0 1px 3px var(--shadow);
       overflow: hidden;
+      resize: vertical;
+      min-height: 400px;
     }
 
     #chart {
@@ -215,6 +498,8 @@
       width: 100%;
       height: 600px;
       background: var(--surface-variant);
+      overflow: hidden;
+      min-height: 400px;
     }
 
     .node {
@@ -226,12 +511,22 @@
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.2);
       font-size: 0.75rem;
-      font-weight: 400;
-      padding: 4px;
+      font-weight: 600;
+      padding: 2px;
       cursor: pointer;
       transition: all 0.2s ease;
       border-radius: 4px;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      /* Improved text shadow for better readability */
+      text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.8),
+        0 0 1px rgba(255, 255, 255, 0.4),
+        1px 1px 1px rgba(0, 0, 0, 0.6);
+      /* Ensure text doesn't wrap */
+      white-space: nowrap;
+      /* Better text rendering */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .node:hover {
@@ -337,8 +632,13 @@
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     .error {
@@ -357,57 +657,167 @@
       margin-bottom: 16px;
     }
 
+    /* Mobile-first responsive design */
     @media (max-width: 768px) {
       .app-bar {
         padding: 12px 16px;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
       }
-      
+
       .app-title {
         font-size: 1.25rem;
       }
-      
+
       .controls-container,
       .chart-container,
       .legend-container {
-        margin: 16px;
+        margin: 8px;
         padding: 16px;
       }
-      
+
       .controls {
         flex-direction: column;
         align-items: stretch;
+        gap: 16px;
       }
-      
+
       .control-group {
         min-width: auto;
       }
-      
+
       #chart {
-        height: 500px;
+        height: 70vh;
+        /* Use viewport height for better mobile experience */
+        min-height: 400px;
       }
-      
+
+      .node {
+        font-size: 0.7rem;
+        font-weight: 500;
+        min-width: 40px !important;
+        min-height: 30px !important;
+        border-width: 2px;
+      }
+
       .legend-items {
         grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .legend-item {
+        padding: 12px;
+        border-radius: 8px;
+        background: var(--surface-variant);
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 20px;
+      }
+
+      .tooltip {
+        max-width: 90vw;
+        font-size: 0.8rem;
+        padding: 12px;
+      }
+    }
+
+    /* Extra small screens (phones in portrait) */
+    @media (max-width: 480px) {
+      .app-title {
+        font-size: 1.1rem;
+      }
+
+      .controls-container,
+      .chart-container,
+      .legend-container {
+        margin: 4px;
+        padding: 12px;
+      }
+
+      #chart {
+        height: 60vh;
+        min-height: 350px;
+      }
+
+      .node {
+        font-size: 0.65rem;
+        min-width: 35px !important;
+        min-height: 25px !important;
+        padding: 2px;
+      }
+
+      .btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+      }
+
+      .select {
+        padding: 10px 12px;
+        font-size: 0.8rem;
       }
     }
   </style>
 </head>
+
 <body>
-  <div class="app-bar">
+  <!-- Skip to main content for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="app-bar" role="banner">
     <h1 class="app-title">🗺️ US Atrocities Treemap</h1>
-    <div class="app-actions">
-      <a href="upload.html" class="btn btn-primary">
-        <span class="material-icons">upload</span>
+    <nav class="app-actions" role="navigation" aria-label="Main navigation">
+      <a href="arabs_complicit/index.html" class="btn btn-primary" aria-label="Arab Complicity Analysis">
+        <span class="material-icons" aria-hidden="true">analytics</span>
+        Arab Complicity
+      </a>
+      <a href="companies_complicit/index.html" class="btn btn-primary" aria-label="Corporate Complicity Network">
+        <span class="material-icons" aria-hidden="true">business</span>
+        Corporate Network
+      </a>
+      <a href="upload.html" class="btn btn-primary" aria-label="Upload news articles">
+        <span class="material-icons" aria-hidden="true">upload</span>
         Upload Articles
       </a>
-      <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode">
-        <span class="material-icons">dark_mode</span>
+      <button class="btn btn-icon" id="refreshData" title="Refresh data" aria-label="Refresh visualization data">
+        <span class="material-icons" aria-hidden="true">refresh</span>
       </button>
+      <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode"
+        aria-label="Toggle between light and dark theme">
+        <span class="material-icons" aria-hidden="true">dark_mode</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Top Disclaimers and Mobile Notice -->
+  <div class="top-disclaimers">
+    <div class="disclaimer-banner">
+      <div class="disclaimer-content">
+        <div class="disclaimer-icon">⚠️</div>
+        <div class="disclaimer-text">
+          <strong>Educational Purpose Only:</strong> This visualization presents historical casualty estimates for
+          educational awareness.
+          All figures are estimates from various sources and should be independently verified.
+          <strong>For mobile users:</strong> Please select "List View" in the controls below for better experience.
+        </div>
+        <button class="disclaimer-close" id="dismissDisclaimer" aria-label="Dismiss disclaimer">×</button>
+      </div>
     </div>
   </div>
 
-  <div class="controls-container">
-    <div class="controls">
+  <main id="main-content" role="main">
+    <section class="controls-container" aria-label="Visualization controls">
+      <h2 class="visually-hidden">Filter and Search Controls</h2>
+      <div class="controls"></div>
+      <div class="control-group">
+        <label class="control-label" for="searchInput">Search Events</label>
+        <input type="text" id="searchInput" class="select" placeholder="Search by title or description..."
+          style="padding: 12px 16px;" aria-describedby="search-help">
+        <div id="search-help" class="visually-hidden">Search through historical events and atrocities by title,
+          description, or source</div>
+      </div>
       <div class="control-group">
         <label class="control-label">Filter by Type</label>
         <select id="typeFilter" class="select">
@@ -438,55 +848,152 @@
           <option value="Israel Atrocities">Israel Atrocities</option>
         </select>
       </div>
-    </div>
-  </div>
-
-  <div class="chart-container">
-    <div id="chart">
-      <div class="loading">
-        <div class="loading-spinner"></div>
-        <div>Loading treemap data...</div>
+      <div class="control-group" id="mobileViewToggle" style="display: none;">
+        <label class="control-label">Mobile View</label>
+        <select id="viewMode" class="select">
+          <option value="treemap">Treemap View</option>
+          <option value="list">List View</option>
+        </select>
       </div>
-    </div>
-  </div>
+      </div>
+      </div>
 
-  <div class="legend-container">
-    <h3 class="legend-title">Categories</h3>
-    <div id="legend-items" class="legend-items"></div>
-  </div>
+      <section class="chart-container" aria-label="Interactive treemap visualization">
+        <h2 class="visually-hidden">US Atrocities and Interventions Treemap</h2>
+        <div id="chart" role="img"
+          aria-label="Interactive treemap showing US atrocities and interventions with casualty data">
+          <div class="loading">
+            <div class="loading-spinner"></div>
+            <div>Loading treemap data...</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="legend-container" aria-label="Category legend">
+        <h3 class="legend-title">Categories</h3>
+        <div id="legend-items" class="legend-items" role="list"></div>
+      </section>
+  </main>
 
   <script>
     // Theme management
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = themeToggle.querySelector('.material-icons');
-    
+
     // Check for saved theme or default to light
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
-    
+
     themeToggle.addEventListener('click', () => {
       const currentTheme = document.documentElement.getAttribute('data-theme');
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      
+
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
       updateThemeIcon(newTheme);
     });
-    
+
     function updateThemeIcon(theme) {
       themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
     }
 
+    // Add refresh data functionality
+    document.getElementById('refreshData').addEventListener('click', () => {
+      console.log("Manual data refresh triggered");
+      location.reload(true); // Force reload from server
+    });
+
+    // Disclaimer dismiss functionality
+    document.getElementById('dismissDisclaimer').addEventListener('click', () => {
+      const disclaimerElement = document.querySelector('.top-disclaimers');
+      disclaimerElement.classList.add('dismissed');
+
+      // Store dismissal in localStorage so it stays dismissed for the session
+      localStorage.setItem('disclaimerDismissed', 'true');
+    });
+
+    // Check if disclaimer was previously dismissed
+    if (localStorage.getItem('disclaimerDismissed') === 'true') {
+      document.querySelector('.top-disclaimers').classList.add('dismissed');
+    }
+
+    // Mobile detection and view mode
+    const isMobile = () => window.innerWidth <= 768;
+    let currentViewMode = 'treemap';
+
+    // Show mobile view toggle on mobile devices
+    if (isMobile()) {
+      document.getElementById('mobileViewToggle').style.display = 'block';
+
+      // Add mobile-specific notice
+      const mobileNotice = document.createElement('div');
+      mobileNotice.className = 'mobile-notice';
+      mobileNotice.innerHTML = `
+        <div class="mobile-notice-content">
+          <span class="mobile-notice-icon">📱</span>
+          <span class="mobile-notice-text">
+            <strong>Mobile User:</strong> For better experience, select "List View" below
+          </span>
+        </div>
+      `;
+
+      // Insert notice after controls
+      const controlsContainer = document.querySelector('.controls-container');
+      controlsContainer.appendChild(mobileNotice);
+    }
+
     // D3.js visualization
     const chartElement = document.getElementById("chart");
-    const width = chartElement.clientWidth;
-    const height = 600;
+    let width = chartElement.clientWidth;
+    let height = 600;
     const tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+
+    // Enhanced D3.js features
+    let currentZoomLevel = null;
+    let zoomHistory = [];
+    const dispatch = d3.dispatch("update", "zoom", "filter");
+
+    // Color scale with improved accessibility
+    const colorScale = d3.scaleOrdinal()
+      .domain([
+        "Middle East", "Western hemisphere", "Africa", "Asia", "Europe",
+        "Native Americans", "Black people", "Latinos", "Asians", "Women",
+        "Workers and the Poor", "Children", "Prisoners", "Religious minorities",
+        "Pervasive", "Israel Atrocities"
+      ])
+      .range(d3.schemeTableau10.concat(d3.schemeDark2));
+
+    // Function to get current dimensions
+    function getCurrentDimensions() {
+      const rect = chartElement.getBoundingClientRect();
+      const containerWidth = Math.max(rect.width, 300); // Minimum width
+      const containerHeight = isMobile() ?
+        Math.min(window.innerHeight * 0.6, 500) :
+        Math.max(Math.min(window.innerHeight * 0.7, 800), 400); // Responsive height
+
+      return {
+        width: containerWidth,
+        height: containerHeight
+      };
+    }
+
+    // Observer to watch for container size changes
+    if (window.ResizeObserver) {
+      const resizeObserver = new ResizeObserver(entries => {
+        if (rawData && entries.length > 0) {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            filterData();
+          }, 100);
+        }
+      });
+      resizeObserver.observe(chartElement);
+    }
 
     let rawData;
 
-    // Color mapping function
+    // Enhanced color mapping function with D3 color scales
     function getCategoryColor(category) {
       const colorMap = {
         "Middle East": "var(--color-middle-east)",
@@ -509,9 +1016,339 @@
       return colorMap[category] || "var(--color-news)";
     }
 
-    const render = (data) => {
+    // Enhanced severity-based color scaling
+    function getSeverityColor(casualties, category) {
+      if (!casualties || casualties === 0) {
+        return getCategoryColor(category);
+      }
+
+      const baseColor = getCategoryColor(category);
+      const severity = Math.min(casualties / 1000, 1); // Normalize to 0-1
+
+      // Create a darker shade for higher casualties
+      const hsl = d3.hsl(baseColor.replace('var(', '').replace(')', ''));
+      hsl.l = Math.max(0.3, hsl.l - (severity * 0.3)); // Darken based on severity
+      return hsl.toString();
+    }
+
+    // Improved dynamic text sizing based on node dimensions
+    function calculateFontSize(width, height, textLength) {
+      const area = width * height;
+      const isMobile = window.innerWidth <= 768;
+
+      // More generous base size calculation
+      const baseSize = Math.sqrt(area) / (isMobile ? 6 : 7);
+      const lengthFactor = Math.max(0.6, 1 - (textLength / 60));
+
+      // Increased minimum font size and more reasonable maximum
+      const minSize = isMobile ? 7 : 8;
+      const maxSize = isMobile ? 14 : 16;
+
+      return Math.max(minSize, Math.min(maxSize, baseSize * lengthFactor));
+    }
+
+    // Enhanced text color calculation for better readability
+    function getOptimalTextColor(category, casualties = 0) {
+      // Categories that need white text (darker backgrounds)
+      const whiteTextCategories = [
+        "Black people",
+        "Prisoners",
+        "Workers and the Poor",
+        "Middle East",
+        "Africa",
+        "Asia",
+        "Pervasive",
+        "Israel Atrocities",
+        "Europe",  // Dark blue background
+        "Western hemisphere",  // Orange background
+        "Native Americans",  // Orange-red background
+        "Women"  // Pink background
+      ];
+
+      // Categories that need dark text (lighter backgrounds)  
+      const darkTextCategories = [
+        "Latinos",  // Bright yellow background
+        "Children",  // Light orange background
+        "Religious minorities",  // Light green background
+        "Asians"  // Light purple background
+      ];
+
+      // High casualty events get darker backgrounds, so use white text
+      if (casualties > 500) {
+        return "white";
+      }
+
+      // Check category-specific text color needs
+      if (whiteTextCategories.includes(category)) {
+        return "white";
+      }
+
+      if (darkTextCategories.includes(category)) {
+        return "rgba(0, 0, 0, 0.87)";
+      }
+
+      // Default to white text for safety (most colors tend to be darker)
+      return "white";
+    }
+
+    const renderListView = (data) => {
       d3.select("#chart").selectAll("*").remove();
-      
+
+      if (!data || data.length === 0) {
+        d3.select("#chart").html(`
+          <div class="error">
+            <div class="error-icon">📊</div>
+            <div>No data available for the selected filters</div>
+          </div>
+        `);
+        return;
+      }
+
+      const container = d3.select("#chart")
+        .style("height", "auto")
+        .style("padding", "16px")
+        .style("overflow-y", "auto")
+        .style("max-height", "70vh");
+
+      // Performance optimization: limit initial render for large datasets
+      const totalEvents = data.reduce((sum, cat) => sum + cat.children.length, 0);
+      const shouldPaginate = totalEvents > 100;
+      let displayedEvents = 0;
+      const maxInitialEvents = 50;
+
+      data.forEach(category => {
+        if (shouldPaginate && displayedEvents >= maxInitialEvents) return;
+
+        const categoryDiv = container.append("div")
+          .style("margin-bottom", "24px")
+          .style("background", "var(--surface-color)")
+          .style("border-radius", "8px")
+          .style("padding", "16px")
+          .style("box-shadow", "0 1px 3px var(--shadow)");
+
+        categoryDiv.append("h3")
+          .style("margin", "0 0 12px 0")
+          .style("color", "var(--primary-color)")
+          .style("font-size", "1.1rem")
+          .text(`${category.name} (${category.children.length} events)`);
+
+        const eventsList = categoryDiv.append("div");
+
+        const eventsToShow = shouldPaginate ?
+          category.children.slice(0, Math.max(1, maxInitialEvents - displayedEvents)) :
+          category.children;
+
+        eventsToShow.forEach(event => {
+          const eventDiv = eventsList.append("div")
+            .style("padding", "12px")
+            .style("margin-bottom", "8px")
+            .style("background", "var(--surface-variant)")
+            .style("border-radius", "6px")
+            .style("border-left", `4px solid var(${getCategoryColor(category.name).replace('var(', '').replace(')', '')})`)
+            .style("cursor", "pointer")
+            .style("transition", "all 0.2s ease")
+            .on("click", () => showEventDetails(event))
+            .on("mouseover", function () {
+              d3.select(this).style("background", "var(--primary-color)")
+                .style("color", "white");
+            })
+            .on("mouseout", function () {
+              d3.select(this).style("background", "var(--surface-variant)")
+                .style("color", "var(--on-surface)");
+            });
+
+          eventDiv.append("div")
+            .style("font-weight", "500")
+            .style("margin-bottom", "4px")
+            .text(event.title || event.name);
+
+          const metaDiv = eventDiv.append("div")
+            .style("font-size", "0.8rem")
+            .style("color", "var(--on-surface-variant)")
+            .style("margin-bottom", "8px");
+
+          let metaInfo = [];
+          if (event.date) metaInfo.push(`📅 ${event.date}`);
+          if (event.casualties || event.estimated_deaths) {
+            const casualties = event.casualties || event.estimated_deaths;
+            metaInfo.push(`💀 ${casualties.toLocaleString()} casualties`);
+          }
+          metaInfo.push(`🏷️ ${event.type === "news_article" ? "News" : "Historical"}`);
+
+          metaDiv.text(metaInfo.join(" • "));
+
+          if (event.summary || event.description) {
+            const description = event.summary || event.description;
+            eventDiv.append("div")
+              .style("font-size", "0.85rem")
+              .style("line-height", "1.4")
+              .style("color", "var(--on-surface)")
+              .text(description.length > 150 ? description.substring(0, 150) + "..." : description);
+          }
+        });
+
+        displayedEvents += eventsToShow.length;
+
+        // Add "Show more" button if there are more events
+        if (shouldPaginate && eventsToShow.length < category.children.length) {
+          const showMoreBtn = eventsList.append("div")
+            .style("text-align", "center")
+            .style("margin-top", "12px");
+
+          showMoreBtn.append("button")
+            .style("background", "var(--primary-color)")
+            .style("color", "white")
+            .style("border", "none")
+            .style("padding", "8px 16px")
+            .style("border-radius", "20px")
+            .style("cursor", "pointer")
+            .style("font-size", "0.875rem")
+            .text(`Show ${category.children.length - eventsToShow.length} more events`)
+            .on("click", function () {
+              // Expand this category
+              eventsList.selectAll("*").remove();
+              category.children.forEach(event => {
+                // Re-render all events for this category
+                const eventDiv = eventsList.append("div")
+                  .style("padding", "12px")
+                  .style("margin-bottom", "8px")
+                  .style("background", "var(--surface-variant)")
+                  .style("border-radius", "6px")
+                  .style("border-left", `4px solid var(${getCategoryColor(category.name).replace('var(', '').replace(')', '')})`)
+                  .style("cursor", "pointer")
+                  .on("click", () => showEventDetails(event));
+
+                eventDiv.append("div")
+                  .style("font-weight", "500")
+                  .style("margin-bottom", "4px")
+                  .text(event.title || event.name);
+
+                const metaDiv = eventDiv.append("div")
+                  .style("font-size", "0.8rem")
+                  .style("color", "var(--on-surface-variant)")
+                  .style("margin-bottom", "8px");
+
+                let metaInfo = [];
+                if (event.date) metaInfo.push(`📅 ${event.date}`);
+                if (event.casualties || event.estimated_deaths) {
+                  const casualties = event.casualties || event.estimated_deaths;
+                  metaInfo.push(`💀 ${casualties.toLocaleString()} casualties`);
+                }
+                metaInfo.push(`🏷️ ${event.type === "news_article" ? "News" : "Historical"}`);
+
+                metaDiv.text(metaInfo.join(" • "));
+
+                if (event.summary || event.description) {
+                  const description = event.summary || event.description;
+                  eventDiv.append("div")
+                    .style("font-size", "0.85rem")
+                    .style("line-height", "1.4")
+                    .style("color", "var(--on-surface)")
+                    .text(description.length > 150 ? description.substring(0, 150) + "..." : description);
+                }
+              });
+            });
+        }
+      });
+
+      // Show pagination info if applicable
+      if (shouldPaginate && displayedEvents < totalEvents) {
+        container.append("div")
+          .style("text-align", "center")
+          .style("margin-top", "24px")
+          .style("padding", "16px")
+          .style("background", "var(--surface-variant)")
+          .style("border-radius", "8px")
+          .style("color", "var(--on-surface-variant)")
+          .html(`Showing ${displayedEvents} of ${totalEvents} events. Use search or filters to narrow results.`);
+      }
+    };
+
+    // Enhanced zoom and drill-down functionality
+    function zoomToCategory(categoryData) {
+      currentZoomLevel = categoryData;
+      zoomHistory.push(categoryData);
+
+      // Create zoom view with just this category's events
+      const zoomedData = [{
+        name: categoryData.name,
+        category: categoryData.category,
+        children: categoryData.children
+      }];
+
+      renderTreemap(zoomedData, true);
+      showBackButton();
+    }
+
+    function zoomOut() {
+      if (zoomHistory.length > 0) {
+        zoomHistory.pop();
+        currentZoomLevel = zoomHistory.length > 0 ? zoomHistory[zoomHistory.length - 1] : null;
+
+        if (currentZoomLevel) {
+          zoomToCategory(currentZoomLevel);
+        } else {
+          hideBackButton();
+          filterData(); // Return to full view
+        }
+      }
+    }
+
+    function showBackButton() {
+      let backButton = d3.select("#backButton");
+      if (backButton.empty()) {
+        backButton = d3.select("#chart")
+          .append("div")
+          .attr("id", "backButton")
+          .style("position", "absolute")
+          .style("top", "10px")
+          .style("left", "10px")
+          .style("z-index", "1000")
+          .style("background", "var(--primary-color)")
+          .style("color", "white")
+          .style("padding", "8px 16px")
+          .style("border-radius", "20px")
+          .style("cursor", "pointer")
+          .style("font-size", "0.875rem")
+          .style("font-weight", "500")
+          .style("box-shadow", "0 2px 8px var(--shadow-dark)")
+          .style("transition", "all 0.2s ease")
+          .text("← Back to Overview")
+          .on("click", zoomOut)
+          .on("mouseover", function () {
+            d3.select(this).style("transform", "translateY(-1px)");
+          })
+          .on("mouseout", function () {
+            d3.select(this).style("transform", "translateY(0)");
+          });
+      }
+    }
+
+    function hideBackButton() {
+      d3.select("#backButton").remove();
+    }
+
+    const render = (data) => {
+      if (currentViewMode === 'list' && isMobile()) {
+        renderListView(data);
+        return;
+      }
+
+      renderTreemap(data, false);
+    }
+
+    const renderTreemap = (data, isZoomed = false) => {
+      // Update dimensions on each render
+      const dimensions = getCurrentDimensions();
+      width = dimensions.width;
+      height = dimensions.height;
+
+      d3.select("#chart").selectAll("*").remove();
+      d3.select("#chart")
+        .style("height", height + "px")
+        .style("padding", "0")
+        .style("width", "100%");
+
       if (!data || data.length === 0) {
         d3.select("#chart").html(`
           <div class="error">
@@ -531,42 +1368,140 @@
         })
         .sort((a, b) => b.value - a.value);
 
-      d3.treemap()
+      // Enhanced treemap with better padding
+      const treemap = d3.treemap()
         .size([width, height])
-        .padding(2)
-        .paddingInner(1)
-        .paddingOuter(3)(root);
+        .paddingInner(isZoomed ? 3 : 2)
+        .paddingOuter(isZoomed ? 5 : 3)
+        .paddingTop(isZoomed ? 30 : 3); // Extra space for back button when zoomed
 
+      treemap(root);
+
+      // Enhanced node rendering with animations and improved interactions
       const chart = d3.select("#chart")
         .selectAll("div")
         .data(root.leaves())
-        .join("div")
-        .attr("class", "node")
+        .join(
+          enter => enter.append("div")
+            .attr("class", "node")
+            .style("opacity", 0)
+            .style("transform", "scale(0.8)")
+            .call(enter => enter.transition()
+              .duration(750)
+              .ease(d3.easeCubicOut)
+              .style("opacity", 1)
+              .style("transform", "scale(1)")
+            ),
+          update => update
+            .call(update => update.transition()
+              .duration(500)
+              .ease(d3.easeCubicInOut)
+            ),
+          exit => exit
+            .call(exit => exit.transition()
+              .duration(300)
+              .style("opacity", 0)
+              .style("transform", "scale(0.8)")
+              .remove()
+            )
+        )
         .style("left", d => d.x0 + "px")
         .style("top", d => d.y0 + "px")
-        .style("width", d => Math.max(d.x1 - d.x0, 20) + "px")
-        .style("height", d => Math.max(d.y1 - d.y0, 15) + "px")
+        .style("width", d => {
+          const nodeWidth = d.x1 - d.x0;
+          const isMobile = window.innerWidth <= 768;
+          return Math.max(nodeWidth, isMobile ? 35 : 20) + "px";
+        })
+        .style("height", d => {
+          const nodeHeight = d.y1 - d.y0;
+          const isMobile = window.innerWidth <= 768;
+          return Math.max(nodeHeight, isMobile ? 25 : 15) + "px";
+        })
         .style("background", d => {
           const category = d.parent.data.name || d.parent.data.category;
+          const casualties = d.data.casualties || d.data.estimated_deaths || 0;
+
+          // Use severity-based coloring if casualties are available
+          if (casualties > 0) {
+            return getSeverityColor(casualties, category);
+          }
+
           const color = getCategoryColor(category);
           return `var(${color.replace('var(', '').replace(')', '')})`;
         })
         .style("color", d => {
-          // Ensure good contrast
           const category = d.parent.data.name || d.parent.data.category;
-          const darkCategories = ["Black people", "Prisoners", "Workers and the Poor"];
-          return darkCategories.includes(category) ? "white" : "rgba(0, 0, 0, 0.87)";
+          const casualties = d.data.casualties || d.data.estimated_deaths || 0;
+
+          // Use enhanced text color calculation
+          return getOptimalTextColor(category, casualties);
+        })
+        .style("font-size", d => {
+          const nodeWidth = d.x1 - d.x0;
+          const nodeHeight = d.y1 - d.y0;
+          const title = d.data.title || d.data.name || "";
+          return calculateFontSize(nodeWidth, nodeHeight, title.length) + "px";
         })
         .text(d => {
-          const title = d.data.title || d.data.name;
-          const width = d.x1 - d.x0;
-          const height = d.y1 - d.y0;
-          
-          if (width < 50 || height < 20) return "";
-          if (width < 100 && title && title.length > 20) {
-            return title.substring(0, 20) + "...";
+          // Improved title fallback with better handling of incomplete data
+          let title = d.data.title || d.data.name || "";
+
+          // Handle cases where title might be incomplete or just a fragment
+          if (!title && d.data.summary) {
+            // Extract first meaningful part from summary as fallback
+            const summaryWords = d.data.summary.split(' ').slice(0, 5);
+            title = summaryWords.join(' ');
           }
-          return title || "";
+
+          // If still no title, use a generic identifier
+          if (!title) {
+            const eventType = d.data.type === "news_article" ? "News Event" : "Historical Event";
+            const date = d.data.date || d.data.year || "Unknown Date";
+            title = `${eventType} (${date})`;
+          }
+
+          const nodeWidth = d.x1 - d.x0;
+          const nodeHeight = d.y1 - d.y0;
+          const isMobile = window.innerWidth <= 768;
+
+          // Much more lenient text display - show text even for smaller blocks
+          const minWidth = isMobile ? 25 : 30;
+          const minHeight = isMobile ? 15 : 15;
+
+          if (nodeWidth < minWidth || nodeHeight < minHeight) return "";
+
+          // Improved dynamic text truncation based on node size
+          const baseCharWidth = isMobile ? 6 : 7; // Adjust character width estimation
+          const maxLength = Math.max(3, Math.floor(nodeWidth / baseCharWidth));
+
+          if (!title) return "";
+
+          // For very small blocks, show at least first few characters
+          if (maxLength < 8 && title.length > 3) {
+            return title.substring(0, 3) + "...";
+          }
+
+          if (title.length > maxLength) {
+            return title.substring(0, maxLength - 3) + "...";
+          }
+
+          return title;
+        })
+        .on("click", (event, d) => {
+          event.stopPropagation();
+
+          // If we're not zoomed and this is a category with multiple events, zoom in
+          if (!isZoomed && d.parent.data.children && d.parent.data.children.length > 1) {
+            const categoryData = {
+              name: d.parent.data.name || d.parent.data.category,
+              category: d.parent.data.name || d.parent.data.category,
+              children: d.parent.data.children
+            };
+            zoomToCategory(categoryData);
+          } else {
+            // Show detailed modal or sidebar for individual events
+            showEventDetails(d.data);
+          }
         })
         .on("mousemove", (event, d) => {
           tooltip.transition().duration(200).style("opacity", 1);
@@ -581,22 +1516,29 @@
           const source = d.data.source;
 
           let tooltipContent = `<div class="tooltip-title">${title}</div>`;
-          
+
           let metaInfo = [];
           if (date) metaInfo.push(`📅 ${date}`);
-          if (deaths) metaInfo.push(`💀 ${deaths} casualties`);
+          if (deaths) metaInfo.push(`💀 ${deaths.toLocaleString()} casualties`);
           metaInfo.push(`📂 ${region}`);
           metaInfo.push(`🏷️ ${isNewsArticle ? "News Article" : type}`);
-          
+
           tooltipContent += `<div class="tooltip-meta">${metaInfo.join(" • ")}</div>`;
-          
+
           if (description) {
             const shortDesc = description.length > 200 ? description.substring(0, 200) + "..." : description;
             tooltipContent += `<div class="tooltip-description">${shortDesc}</div>`;
           }
-          
+
           if (source) {
             tooltipContent += `<div class="tooltip-meta" style="margin-top: 8px;"><em>Source: ${source}</em></div>`;
+          }
+
+          // Add click hint for zoomable categories
+          if (!isZoomed && d.parent.data.children && d.parent.data.children.length > 1) {
+            tooltipContent += `<div class="tooltip-meta" style="margin-top: 8px; color: var(--primary-color);"><strong>Click to zoom into ${region}</strong></div>`;
+          } else {
+            tooltipContent += `<div class="tooltip-meta" style="margin-top: 8px; color: var(--primary-color);"><strong>Click for details</strong></div>`;
           }
 
           tooltip.html(tooltipContent)
@@ -607,7 +1549,210 @@
           tooltip.transition().duration(300).style("opacity", 0);
         });
 
+      // Show back button if zoomed
+      if (isZoomed) {
+        showBackButton();
+      }
+
       updateLegend(data);
+
+      // Add accessibility features after rendering
+      setTimeout(addAccessibilityFeatures, 100);
+    }
+
+    // Enhanced event details modal
+    function showEventDetails(eventData) {
+      // Remove existing modal if present
+      d3.select("#eventModal").remove();
+
+      const modal = d3.select("body")
+        .append("div")
+        .attr("id", "eventModal")
+        .style("position", "fixed")
+        .style("top", "0")
+        .style("left", "0")
+        .style("width", "100%")
+        .style("height", "100%")
+        .style("background", "rgba(0, 0, 0, 0.5)")
+        .style("display", "flex")
+        .style("align-items", "center")
+        .style("justify-content", "center")
+        .style("z-index", "2000")
+        .style("opacity", "0")
+        .on("click", function (event) {
+          if (event.target === this) closeEventModal();
+        });
+
+      const modalContent = modal.append("div")
+        .style("background", "var(--surface-color)")
+        .style("color", "var(--on-surface)")
+        .style("border-radius", "12px")
+        .style("padding", "24px")
+        .style("max-width", "600px")
+        .style("max-height", "80vh")
+        .style("overflow-y", "auto")
+        .style("margin", "20px")
+        .style("box-shadow", "0 8px 32px var(--shadow-dark)")
+        .style("transform", "scale(0.9)")
+        .on("click", function (event) {
+          event.stopPropagation();
+        });
+
+      // Modal header
+      const header = modalContent.append("div")
+        .style("display", "flex")
+        .style("justify-content", "space-between")
+        .style("align-items", "flex-start")
+        .style("margin-bottom", "16px");
+
+      header.append("h2")
+        .style("margin", "0")
+        .style("color", "var(--primary-color)")
+        .style("font-size", "1.5rem")
+        .style("line-height", "1.3")
+        .text(eventData.title || eventData.name);
+
+      header.append("button")
+        .style("background", "none")
+        .style("border", "none")
+        .style("font-size", "1.5rem")
+        .style("cursor", "pointer")
+        .style("color", "var(--on-surface-variant)")
+        .style("padding", "4px")
+        .text("×")
+        .on("click", closeEventModal);
+
+      // Event metadata
+      const metadata = modalContent.append("div")
+        .style("margin-bottom", "16px")
+        .style("padding", "12px")
+        .style("background", "var(--surface-variant)")
+        .style("border-radius", "8px");
+
+      const metaItems = [];
+      if (eventData.date) metaItems.push(`📅 Date: ${eventData.date}`);
+      if (eventData.casualties || eventData.estimated_deaths) {
+        const casualties = eventData.casualties || eventData.estimated_deaths;
+        metaItems.push(`💀 Casualties: ${casualties.toLocaleString()}`);
+      }
+      if (eventData.region) metaItems.push(`🌍 Region: ${eventData.region}`);
+      metaItems.push(`🏷️ Type: ${eventData.type === "news_article" ? "News Article" : "Historical Event"}`);
+
+      metaItems.forEach(item => {
+        metadata.append("div")
+          .style("margin-bottom", "4px")
+          .style("font-size", "0.9rem")
+          .text(item);
+      });
+
+      // Event description
+      if (eventData.summary || eventData.description) {
+        modalContent.append("h3")
+          .style("margin", "16px 0 8px 0")
+          .style("font-size", "1.1rem")
+          .text("Description");
+
+        modalContent.append("div")
+          .style("line-height", "1.6")
+          .style("margin-bottom", "16px")
+          .text(eventData.summary || eventData.description);
+      }
+
+      // Source information
+      if (eventData.source) {
+        modalContent.append("h3")
+          .style("margin", "16px 0 8px 0")
+          .style("font-size", "1.1rem")
+          .text("Source");
+
+        const sourceDiv = modalContent.append("div")
+          .style("margin-bottom", "16px");
+
+        if (eventData.sourceUrl) {
+          sourceDiv.append("a")
+            .attr("href", eventData.sourceUrl)
+            .attr("target", "_blank")
+            .style("color", "var(--primary-color)")
+            .style("text-decoration", "none")
+            .text(eventData.source)
+            .on("mouseover", function () {
+              d3.select(this).style("text-decoration", "underline");
+            })
+            .on("mouseout", function () {
+              d3.select(this).style("text-decoration", "none");
+            });
+        } else {
+          sourceDiv.text(eventData.source);
+        }
+      }
+
+      // Animate modal in
+      modal.transition()
+        .duration(300)
+        .ease(d3.easeCubicOut)
+        .style("opacity", "1");
+
+      modalContent.transition()
+        .duration(300)
+        .ease(d3.easeCubicOut)
+        .style("transform", "scale(1)");
+    }
+
+    function closeEventModal() {
+      const modal = d3.select("#eventModal");
+      if (!modal.empty()) {
+        modal.transition()
+          .duration(200)
+          .style("opacity", "0")
+          .on("end", function () {
+            modal.remove();
+          });
+      }
+    }
+
+    // Enhanced keyboard navigation and accessibility
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeEventModal();
+
+        // Also zoom out if we're in a zoomed view
+        if (currentZoomLevel) {
+          zoomOut();
+        }
+      }
+
+      // Quick search focus with Ctrl+F or Cmd+F
+      if ((event.ctrlKey || event.metaKey) && event.key === "f") {
+        event.preventDefault();
+        document.getElementById("searchInput").focus();
+      }
+    });
+
+    // Add ARIA labels and keyboard support to nodes
+    function addAccessibilityFeatures() {
+      d3.selectAll(".node")
+        .attr("tabindex", "0")
+        .attr("role", "button")
+        .attr("aria-label", d => {
+          const title = d.data.title || d.data.name;
+          const category = d.parent.data.name || d.parent.data.category;
+          const casualties = d.data.casualties || d.data.estimated_deaths;
+          let label = `${title} in ${category}`;
+          if (casualties) label += `, ${casualties} casualties`;
+          return label;
+        })
+        .on("keydown", function (event, d) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            // Trigger the same action as click
+            const clickEvent = new MouseEvent("click", {
+              bubbles: true,
+              cancelable: true,
+              view: window
+            });
+            this.dispatchEvent(clickEvent);
+          }
+        });
     }
 
     const updateLegend = (data) => {
@@ -638,14 +1783,29 @@
       function filterData() {
         const selectedType = document.getElementById("typeFilter").value;
         const selectedRegion = document.getElementById("regionFilter").value;
+        const searchQuery = document.getElementById("searchInput").value.toLowerCase().trim();
 
         let filtered = rawData.map(group => {
           const regionMatch = selectedRegion === "All" || group.name === selectedRegion || group.category === selectedRegion;
           if (!regionMatch) return null;
 
-          const filteredEvents = group.events.filter(e =>
-            selectedType === "All" || e.type === selectedType
-          );
+          const filteredEvents = group.events.filter(e => {
+            // Type filter
+            const typeMatch = selectedType === "All" || e.type === selectedType;
+
+            // Search filter
+            let searchMatch = true;
+            if (searchQuery) {
+              const title = (e.title || e.name || "").toLowerCase();
+              const summary = (e.summary || e.description || "").toLowerCase();
+              const source = (e.source || "").toLowerCase();
+              searchMatch = title.includes(searchQuery) ||
+                summary.includes(searchQuery) ||
+                source.includes(searchQuery);
+            }
+
+            return typeMatch && searchMatch;
+          });
 
           return filteredEvents.length ? {
             name: group.name || group.category,
@@ -655,13 +1815,43 @@
         }).filter(Boolean);
 
         render(filtered);
+
+
       }
+
+
 
       document.getElementById("typeFilter").addEventListener("change", filterData);
       document.getElementById("regionFilter").addEventListener("change", filterData);
 
+      // Enhanced search with debouncing
+      let searchTimeout;
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          filterData();
+        }, 300); // Debounce search for better performance
+      });
+
+      // Clear search on Escape key
+      document.getElementById("searchInput").addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          e.target.value = "";
+          filterData();
+        }
+      });
+
+      // View mode change handler
+      const viewModeSelect = document.getElementById("viewMode");
+      if (viewModeSelect) {
+        viewModeSelect.addEventListener("change", (e) => {
+          currentViewMode = e.target.value;
+          filterData();
+        });
+      }
+
       filterData(); // Initial render
-    }).catch(function(error) {
+    }).catch(function (error) {
       console.error("Error loading data:", error);
       d3.select("#chart").html(`
         <div class="error">
@@ -674,16 +1864,223 @@
       `);
     });
 
-    // Handle window resize
+    // Handle window resize and mobile detection
+    // Debounced resize handler for better performance
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-      if (rawData) {
-        const typeFilter = document.getElementById("typeFilter");
-        const regionFilter = document.getElementById("regionFilter");
-        if (typeFilter && regionFilter) {
-          typeFilter.dispatchEvent(new Event('change'));
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // Show/hide mobile view toggle based on screen size
+        const mobileToggle = document.getElementById('mobileViewToggle');
+        if (mobileToggle) {
+          mobileToggle.style.display = isMobile() ? 'block' : 'none';
         }
-      }
+
+        // Reset to treemap view on desktop
+        if (!isMobile() && currentViewMode === 'list') {
+          currentViewMode = 'treemap';
+          const viewModeSelect = document.getElementById("viewMode");
+          if (viewModeSelect) viewModeSelect.value = 'treemap';
+        }
+
+        // Re-render with new dimensions
+        if (rawData) {
+          filterData();
+        }
+      }, 250); // Debounce resize events
+    });
+
+    // Handle orientation change on mobile devices
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        if (rawData) {
+          filterData();
+        }
+      }, 500); // Wait for orientation change to complete
     });
   </script>
+
+  <!-- Casualties Reference Section -->
+  <div class="casualties-reference">
+    <h3 class="casualties-title">📊 Major Historical Casualties (Estimated)</h3>
+    <div class="casualties-grid">
+      <div class="casualty-item">
+        <span class="casualty-event">Vietnam War:</span>
+        <span class="casualty-count">3 million casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Korean War:</span>
+        <span class="casualty-count">2.5 million casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Iraq War:</span>
+        <span class="casualty-count">655,000 - 1 million casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Afghanistan War:</span>
+        <span class="casualty-count">176,000 casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Native American Genocide:</span>
+        <span class="casualty-count">12 million casualties</span>
+      </div>
+      <div class="casualty-item">
+        <span class="casualty-event">Transatlantic Slavery:</span>
+        <span class="casualty-count">2 million casualties</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimers Section -->
+  <div class="disclaimers">
+    <h3 class="disclaimer-title">⚠️ Important Disclaimers</h3>
+    <div class="disclaimer-content">
+      <p><strong>Educational Purpose Only:</strong> This visualization is created for educational and awareness
+        purposes. It is not intended as an authoritative historical source.</p>
+
+      <p><strong>Casualty Estimates:</strong> All casualty figures are estimates from various historical sources and
+        academic studies. Actual numbers may vary significantly due to limited documentation, different methodologies,
+        and ongoing scholarly debate.</p>
+
+      <p><strong>Verify Information:</strong> Users should independently verify all information and consult multiple
+        academic sources, historical records, and peer-reviewed research before drawing conclusions.</p>
+
+      <p><strong>No Warranty:</strong> The creators make no warranties about the accuracy, completeness, or reliability
+        of the information presented. This tool should not be used as the sole source for academic research, journalism,
+        or policy decisions.</p>
+
+      <p><strong>Ongoing Research:</strong> Historical casualty figures are subject to ongoing research and revision as
+        new evidence emerges and methodologies improve.</p>
+
+      <p><strong>Consult Experts:</strong> For authoritative information, please consult academic historians,
+        peer-reviewed publications, official government records, and established historical institutions.</p>
+    </div>
+  </div>
+
+  <style>
+    .casualties-reference {
+      margin: 24px;
+      background: var(--surface-color);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px var(--shadow);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .casualties-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      color: var(--on-surface);
+    }
+
+    .casualties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 12px;
+    }
+
+    .casualty-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--surface-variant);
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .casualty-item:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .casualty-event {
+      font-weight: 500;
+      color: var(--on-surface);
+    }
+
+    .casualty-item:hover .casualty-event {
+      color: white;
+    }
+
+    .casualty-count {
+      font-weight: 600;
+      color: var(--secondary-color);
+    }
+
+    .casualty-item:hover .casualty-count {
+      color: white;
+    }
+
+    .disclaimers {
+      margin: 24px;
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px var(--shadow);
+    }
+
+    [data-theme="dark"] .disclaimers {
+      background: #2d2a1f;
+      border-color: #4a4419;
+    }
+
+    .disclaimer-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      color: #856404;
+    }
+
+    [data-theme="dark"] .disclaimer-title {
+      color: #ffd93d;
+    }
+
+    .disclaimer-content {
+      line-height: 1.6;
+      color: #856404;
+    }
+
+    [data-theme="dark"] .disclaimer-content {
+      color: #e6d690;
+    }
+
+    .disclaimer-content p {
+      margin-bottom: 12px;
+    }
+
+    .disclaimer-content strong {
+      font-weight: 600;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+
+      .casualties-reference,
+      .disclaimers {
+        margin: 8px;
+        padding: 16px;
+      }
+
+      .casualties-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .casualty-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .disclaimer-content {
+        font-size: 0.875rem;
+      }
+    }
+  </style>
+
 </body>
+
 </html>
