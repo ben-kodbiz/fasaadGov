@@ -120,24 +120,24 @@
       --shadow: rgba(0, 0, 0, 0.12);
       --shadow-dark: rgba(0, 0, 0, 0.24);
 
-      /* Treemap colors - softer, more accessible */
-      --color-middle-east: #e57373;
-      --color-latin-america: #ffb74d;
-      --color-africa: #81c784;
-      --color-asia: #ba68c8;
-      --color-europe: #64b5f6;
-      --color-native-americans: #ff8a65;
+      /* Treemap colors - vibrant and colorful */
+      --color-middle-east: #ff6b6b;
+      --color-latin-america: #ffa726;
+      --color-africa: #66bb6a;
+      --color-asia: #ab47bc;
+      --color-europe: #42a5f5;
+      --color-native-americans: #ff7043;
       --color-black-people: #8d6e63;
-      --color-latinos: #ffcc02;
-      --color-asians: #ce93d8;
-      --color-women: #f06292;
+      --color-latinos: #ffee58;
+      --color-asians: #ba68c8;
+      --color-women: #ec407a;
       --color-workers: #a1887f;
-      --color-children: #ffab40;
-      --color-prisoners: #90a4ae;
-      --color-religious: #aed581;
+      --color-children: #ffb74d;
+      --color-prisoners: #78909c;
+      --color-religious: #9ccc65;
       --color-pervasive: #ef5350;
-      --color-israel: #ff7043;
-      --color-news: #42a5f5;
+      --color-israel: #ff8a65;
+      --color-news: #29b6f6;
     }
 
     [data-theme="dark"] {
@@ -151,24 +151,24 @@
       --shadow: rgba(0, 0, 0, 0.3);
       --shadow-dark: rgba(0, 0, 0, 0.5);
 
-      /* Darker, more muted treemap colors for dark mode */
-      --color-middle-east: #c62828;
-      --color-latin-america: #ef6c00;
-      --color-africa: #2e7d32;
-      --color-asia: #7b1fa2;
-      --color-europe: #1976d2;
-      --color-native-americans: #d84315;
-      --color-black-people: #5d4037;
-      --color-latinos: #f57f17;
-      --color-asians: #8e24aa;
-      --color-women: #c2185b;
-      --color-workers: #6d4c41;
-      --color-children: #ff8f00;
-      --color-prisoners: #546e7a;
-      --color-religious: #689f38;
-      --color-pervasive: #d32f2f;
-      --color-israel: #e64a19;
-      --color-news: #1976d2;
+      /* Bright, vibrant colors for dark mode too */
+      --color-middle-east: #ff5252;
+      --color-latin-america: #ff9800;
+      --color-africa: #4caf50;
+      --color-asia: #9c27b0;
+      --color-europe: #2196f3;
+      --color-native-americans: #ff5722;
+      --color-black-people: #795548;
+      --color-latinos: #ffeb3b;
+      --color-asians: #e91e63;
+      --color-women: #f44336;
+      --color-workers: #607d8b;
+      --color-children: #ff9800;
+      --color-prisoners: #9e9e9e;
+      --color-religious: #8bc34a;
+      --color-pervasive: #f44336;
+      --color-israel: #ff7043;
+      --color-news: #03a9f4;
     }
 
     * {
@@ -357,6 +357,47 @@
         font-size: 0.8rem;
         padding-right: 32px;
       }
+    }
+
+    /* Top bar styling */
+    .top-bar {
+      background: var(--surface-color);
+      border-bottom: 1px solid var(--outline);
+      padding: 8px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1001;
+    }
+
+    .top-bar-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .dark-mode-toggle {
+      background: transparent;
+      color: var(--on-surface-variant);
+      border: 1px solid var(--outline);
+      padding: 12px;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1.2rem;
+    }
+
+    .dark-mode-toggle:hover {
+      background: var(--surface-variant);
+      color: var(--on-surface);
+      transform: scale(1.05);
     }
 
     body {
@@ -659,6 +700,10 @@
 
     /* Mobile-first responsive design */
     @media (max-width: 768px) {
+      .top-bar-content {
+        padding: 0 16px;
+      }
+
       .app-bar {
         padding: 12px 16px;
         flex-direction: column;
@@ -766,29 +811,35 @@
   <!-- Skip to main content for accessibility -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <header class="app-bar" role="banner">
-    <h1 class="app-title">🗺️ US Atrocities Treemap</h1>
-    <nav class="app-actions" role="navigation" aria-label="Main navigation">
-      <a href="arabs_complicit/index.html" class="btn btn-primary" aria-label="Arab Complicity Analysis">
-        <span class="material-icons" aria-hidden="true">analytics</span>
-        Arab Complicity
-      </a>
-      <a href="companies_complicit/index.html" class="btn btn-primary" aria-label="Corporate Complicity Network">
-        <span class="material-icons" aria-hidden="true">business</span>
-        Corporate Network
-      </a>
-      <a href="upload.html" class="btn btn-primary" aria-label="Upload news articles">
-        <span class="material-icons" aria-hidden="true">upload</span>
-        Upload Articles
-      </a>
-      <button class="btn btn-icon" id="refreshData" title="Refresh data" aria-label="Refresh visualization data">
-        <span class="material-icons" aria-hidden="true">refresh</span>
-      </button>
-      <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode"
+  <!-- Top bar with dark mode toggle -->
+  <div class="top-bar">
+    <div class="top-bar-content">
+      <button class="btn btn-icon dark-mode-toggle" id="themeToggle" title="Toggle dark mode"
         aria-label="Toggle between light and dark theme">
         <span class="material-icons" aria-hidden="true">dark_mode</span>
       </button>
-    </nav>
+    </div>
+  </div>
+
+  <header class="app-bar" role="banner"></header>
+  <h1 class="app-title">🗺️ US Atrocities Treemap</h1>
+  <nav class="app-actions" role="navigation" aria-label="Main navigation">
+    <a href="arabs_complicit/index.html" class="btn btn-primary" aria-label="Arab Complicity Analysis">
+      <span class="material-icons" aria-hidden="true">analytics</span>
+      Arab Complicity
+    </a>
+    <a href="companies_complicit/index.html" class="btn btn-primary" aria-label="Corporate Complicity Network">
+      <span class="material-icons" aria-hidden="true">business</span>
+      Corporate Network
+    </a>
+    <a href="upload.html" class="btn btn-primary" aria-label="Upload news articles">
+      <span class="material-icons" aria-hidden="true">upload</span>
+      Upload Articles
+    </a>
+    <button class="btn btn-icon" id="refreshData" title="Refresh data" aria-label="Refresh visualization data">
+      <span class="material-icons" aria-hidden="true">refresh</span>
+    </button>
+  </nav>
   </header>
 
   <!-- Top Disclaimers and Mobile Notice -->
@@ -993,27 +1044,27 @@
 
     let rawData;
 
-    // Enhanced color mapping function with D3 color scales
+    // Enhanced color mapping function with vibrant D3 color scales
     function getCategoryColor(category) {
       const colorMap = {
-        "Middle East": "var(--color-middle-east)",
-        "Western hemisphere": "var(--color-latin-america)",
-        "Africa": "var(--color-africa)",
-        "Asia": "var(--color-asia)",
-        "Europe": "var(--color-europe)",
-        "Native Americans": "var(--color-native-americans)",
-        "Black people": "var(--color-black-people)",
-        "Latinos": "var(--color-latinos)",
-        "Asians": "var(--color-asians)",
-        "Women": "var(--color-women)",
-        "Workers and the Poor": "var(--color-workers)",
-        "Children": "var(--color-children)",
-        "Prisoners": "var(--color-prisoners)",
-        "Religious minorities": "var(--color-religious)",
-        "Pervasive": "var(--color-pervasive)",
-        "Israel Atrocities": "var(--color-israel)"
+        "Middle East": "#ff6b6b",
+        "Western hemisphere": "#ffa726",
+        "Africa": "#66bb6a",
+        "Asia": "#ab47bc",
+        "Europe": "#42a5f5",
+        "Native Americans": "#ff7043",
+        "Black people": "#8d6e63",
+        "Latinos": "#ffee58",
+        "Asians": "#ba68c8",
+        "Women": "#ec407a",
+        "Workers and the Poor": "#a1887f",
+        "Children": "#ffb74d",
+        "Prisoners": "#78909c",
+        "Religious minorities": "#9ccc65",
+        "Pervasive": "#ef5350",
+        "Israel Atrocities": "#ff8a65"
       };
-      return colorMap[category] || "var(--color-news)";
+      return colorMap[category] || "#29b6f6";
     }
 
     // Enhanced severity-based color scaling
@@ -1026,7 +1077,7 @@
       const severity = Math.min(casualties / 1000, 1); // Normalize to 0-1
 
       // Create a darker shade for higher casualties
-      const hsl = d3.hsl(baseColor.replace('var(', '').replace(')', ''));
+      const hsl = d3.hsl(baseColor);
       hsl.l = Math.max(0.3, hsl.l - (severity * 0.3)); // Darken based on severity
       return hsl.toString();
     }
@@ -1144,7 +1195,7 @@
             .style("margin-bottom", "8px")
             .style("background", "var(--surface-variant)")
             .style("border-radius", "6px")
-            .style("border-left", `4px solid var(${getCategoryColor(category.name).replace('var(', '').replace(')', '')})`)
+            .style("border-left", `4px solid ${getCategoryColor(category.name)}`)
             .style("cursor", "pointer")
             .style("transition", "all 0.2s ease")
             .on("click", () => showEventDetails(event))
@@ -1214,7 +1265,7 @@
                   .style("margin-bottom", "8px")
                   .style("background", "var(--surface-variant)")
                   .style("border-radius", "6px")
-                  .style("border-left", `4px solid var(${getCategoryColor(category.name).replace('var(', '').replace(')', '')})`)
+                  .style("border-left", `4px solid ${getCategoryColor(category.name)}`)
                   .style("cursor", "pointer")
                   .on("click", () => showEventDetails(event));
 
@@ -1426,8 +1477,7 @@
             return getSeverityColor(casualties, category);
           }
 
-          const color = getCategoryColor(category);
-          return `var(${color.replace('var(', '').replace(')', '')})`;
+          return getCategoryColor(category);
         })
         .style("color", d => {
           const category = d.parent.data.name || d.parent.data.category;
@@ -1768,7 +1818,7 @@
 
         item.append("div")
           .attr("class", "legend-color")
-          .style("background", `var(${color.replace('var(', '').replace(')', '')})`);
+          .style("background", color);
 
         item.append("span")
           .attr("class", "legend-label")

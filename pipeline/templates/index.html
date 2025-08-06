@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Processing Pipeline</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Article Processing Pipeline</h1>
+            <p>Transform articles into structured data for accountability visualizations</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <div class="input-tabs">
+                    <button class="tab-button active" data-tab="text">
+                        <span class="material-icons">article</span>
+                        Text Input
+                    </button>
+                    <button class="tab-button" data-tab="file">
+                        <span class="material-icons">upload_file</span>
+                        File Upload
+                    </button>
+                </div>
+
+                <form id="article-form" class="article-form">
+                    <!-- Text Input Tab -->
+                    <div class="tab-content active" id="text-tab">
+                        <div class="input-group">
+                            <label for="article-text">Article Text</label>
+                            <textarea 
+                                id="article-text" 
+                                name="article_text" 
+                                placeholder="Paste your article text here (up to 50,000 characters)..."
+                                maxlength="50000"
+                                rows="15"
+                            ></textarea>
+                            <div class="char-counter">
+                                <span id="char-count">0</span> / 50,000 characters
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="source-url">Source URL (optional)</label>
+                            <input 
+                                type="url" 
+                                id="source-url" 
+                                name="source_url" 
+                                placeholder="https://example.com/article"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- File Upload Tab -->
+                    <div class="tab-content" id="file-tab">
+                        <div class="file-upload-area" id="file-upload-area">
+                            <div class="upload-icon">
+                                <span class="material-icons">cloud_upload</span>
+                            </div>
+                            <div class="upload-text">
+                                <p><strong>Drop files here or click to browse</strong></p>
+                                <p>Supported formats: PDF, HTML, TXT (max 10MB)</p>
+                            </div>
+                            <input 
+                                type="file" 
+                                id="file-input" 
+                                name="article_file" 
+                                accept=".pdf,.html,.htm,.txt"
+                                hidden
+                            >
+                        </div>
+                        <div class="file-info" id="file-info" style="display: none;">
+                            <div class="file-details">
+                                <span class="material-icons">description</span>
+                                <div class="file-text">
+                                    <div class="file-name" id="file-name"></div>
+                                    <div class="file-size" id="file-size"></div>
+                                </div>
+                                <button type="button" class="remove-file" id="remove-file">
+                                    <span class="material-icons">close</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn" id="submit-btn">
+                            <span class="material-icons">send</span>
+                            Process Article
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section" id="progress-section" style="display: none;">
+                <div class="progress-header">
+                    <h3>Processing Article...</h3>
+                    <div class="progress-status" id="progress-status">Initializing...</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-percentage" id="progress-percentage">0%</div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="results-section" style="display: none;">
+                <div class="results-header">
+                    <h3>Extraction Results</h3>
+                    <button class="collapse-btn" id="collapse-results">
+                        <span class="material-icons">expand_less</span>
+                    </button>
+                </div>
+                <div class="results-content" id="results-content">
+                    <!-- Results will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Error Section -->
+            <div class="error-section" id="error-section" style="display: none;">
+                <div class="error-content">
+                    <span class="material-icons">error</span>
+                    <div class="error-text">
+                        <h4>Processing Error</h4>
+                        <p id="error-message"></p>
+                    </div>
+                </div>
+                <button class="retry-btn" id="retry-btn">
+                    <span class="material-icons">refresh</span>
+                    Try Again
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

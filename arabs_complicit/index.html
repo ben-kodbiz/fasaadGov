@@ -267,7 +267,53 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
         }
 
+        /* Top bar styling */
+        .top-bar {
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+        }
+
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .dark-mode-toggle {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+            padding: 12px;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.4rem;
+        }
+
+        .dark-mode-toggle:hover {
+            background: var(--surface-variant);
+            color: var(--text-color);
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+        }
+
         @media (max-width: 768px) {
+            .top-bar-content {
+                padding: 0 16px;
+            }
+
             .visualization-container {
                 flex-direction: column;
             }
@@ -285,6 +331,16 @@
 </head>
 
 <body>
+    <!-- Top bar with dark mode toggle -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <button class="btn btn-icon dark-mode-toggle" id="themeToggle" title="Toggle dark mode"
+                aria-label="Toggle between light and dark theme">
+                🌙
+            </button>
+        </div>
+    </div>
+
     <div class="header">
         <h1>🌅 Arab Complicity Analysis</h1>
         <p>Interactive visualization of Arab countries' relationships with Israel and the United States</p>
@@ -354,9 +410,15 @@
                 <option value="abraham">Abraham Accords</option>
             </select>
         </div>
+        <div class="control-group" id="mobileViewToggle" style="display: none;">
+            <label class="control-label">Mobile View</label>
+            <select id="mobileViewMode" class="select">
+                <option value="sunburst">Sunburst View</option>
+                <option value="list">List View</option>
+            </select>
+        </div>
         <button id="resetView" class="btn">Reset View</button>
         <button id="themeToggle" class="btn" style="background: var(--secondary-color);">🌙 Dark Mode</button>
-        <button id="debugInvestments" class="btn" style="background: var(--warning-color);">🔍 Debug</button>
     </div>
 
     <div class="visualization-container">
@@ -464,6 +526,15 @@
         let investmentData = {};
         let currentView = 'relationships';
         let currentFocus = 'all';
+        let currentViewMode = 'sunburst';
+
+        // Mobile detection and view mode
+        const isMobile = () => window.innerWidth <= 768;
+        
+        // Show mobile view toggle on mobile devices
+        if (isMobile()) {
+            document.getElementById('mobileViewToggle').style.display = 'block';
+        }
 
         // Dimensions
         const width = 600;
@@ -758,10 +829,111 @@
             setupEventListeners();
         }
 
+        function renderListView() {
+            // Clear the sunburst container
+            d3.select("#sunburst").selectAll("*").remove();
+            
+            // Create list container
+            const listContainer = d3.select("#sunburst")
+                .append("div")
+                .style("max-height", "600px")
+                .style("overflow-y", "auto")
+                .style("padding", "20px");
+
+            // Process data for list view
+            const countries = data.countries || [];
+            
+            countries.forEach(country => {
+                const countryDiv = listContainer.append("div")
+                    .style("background", "var(--surface-variant)")
+                    .style("margin-bottom", "16px")
+                    .style("padding", "16px")
+                    .style("border-radius", "8px")
+                    .style("border-left", `4px solid ${getCountryColor(country)}`)
+                    .style("cursor", "pointer")
+                    .on("click", () => showCountryInfo(country));
+
+                // Country name and flag
+                countryDiv.append("h3")
+                    .style("margin", "0 0 8px 0")
+                    .style("color", "var(--primary-color)")
+                    .text(`${country.flag || ''} ${country.name}`);
+
+                // Relationship status
+                countryDiv.append("div")
+                    .style("font-size", "0.9rem")
+                    .style("color", "var(--text-secondary)")
+                    .style("margin-bottom", "8px")
+                    .text(`🇮🇱 Israel: ${country.ties_with_israel || 'Unknown'} | 🇺🇸 US: ${country.ties_with_us || 'Unknown'}`);
+
+                // Investment info if available
+                const investCountry = investmentData.countries?.find(c => c.name === country.name);
+                if (investCountry) {
+                    const amount = investCountry.investments?.united_states?.total_estimate_1995_2025;
+                    if (amount) {
+                        countryDiv.append("div")
+                            .style("font-size", "0.85rem")
+                            .style("color", "var(--success-color)")
+                            .text(`💰 US Investment: ${amount}`);
+                    }
+                }
+
+                // Brief description
+                if (country.details?.public_sentiment) {
+                    countryDiv.append("div")
+                        .style("font-size", "0.8rem")
+                        .style("color", "var(--text-secondary)")
+                        .style("margin-top", "8px")
+                        .style("line-height", "1.4")
+                        .text(country.details.public_sentiment.substring(0, 150) + "...");
+                }
+            });
+        }
+
+        function renderSunburstView() {
+            // Clear the container and recreate SVG
+            d3.select("#sunburst").selectAll("*").remove();
+            
+            const svg = d3.select("#sunburst")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${width / 2}, ${height / 2})`);
+            
+            // Re-render the sunburst
+            updateVisualization();
+        }
+
+        function getCountryColor(country) {
+            // Return color based on relationship type
+            if (country.ties_with_israel === 'Direct') {
+                return 'var(--direct-israel)';
+            } else if (country.ties_with_israel === 'Indirect') {
+                return 'var(--indirect-israel)';
+            } else if (country.ties_with_us === 'Direct') {
+                return 'var(--direct-us)';
+            } else if (country.ties_with_us === 'Indirect') {
+                return 'var(--indirect-us)';
+            }
+            return 'var(--border-color)';
+        }
+
         function setupEventListeners() {
+            // Handle main view mode change (relationships/investments/timeline)
             d3.select("#viewMode").on("change", function () {
                 currentView = this.value;
                 updateVisualization();
+            });
+
+            // Handle mobile view mode change (sunburst/list)
+            d3.select("#mobileViewMode").on("change", function () {
+                currentViewMode = this.value;
+                if (currentViewMode === 'list') {
+                    renderListView();
+                } else {
+                    renderSunburstView();
+                }
             });
 
             d3.select("#focusFilter").on("change", function () {
@@ -789,15 +961,7 @@
                 updateVisualization();
             });
 
-            d3.select("#debugInvestments").on("click", function () {
-                console.log('=== INVESTMENT DEBUG ===');
-                investmentData.countries.forEach(country => {
-                    const amount = country.investments.united_states.total_estimate_1995_2025;
-                    const parsed = parseInvestmentAmount(amount);
-                    console.log(`${country.name}: "${amount}" -> ${parsed}B`);
-                });
-                console.log('=== END DEBUG ===');
-            });
+
         }
 
         function processData() {
