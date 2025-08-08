@@ -1,0 +1,117 @@
+{
+  "company_name": "The Boeing Company",
+  "metadata": {
+    "scraped_at": "2025-08-09T07:16:04.194523",
+    "source_url": "https://afsc.org/gaza-genocide-companies",
+    "scraper_version": "1.0.0"
+  },
+  "basic_info": {
+    "name": "The Boeing Company",
+    "headquarters": "Arlington, Virginia, the company has important production facilities outside of Los Angeles, Seattle, and St",
+    "revenue": null,
+    "industry": "Defense/Military"
+  },
+  "involvement": {
+    "summary": "The world's fifth largest weapons manufacturer, Boeing manufactures F-15 fighter jets and Apache AH-64 attack helicopters, which the Israeli Air Force has used extensively in all of its attacks on Gaza and Lebanon, including in 2023.Boeing manufactures the Joint Direct Attack Munition (JDAM) kits, which convert unguided bombs of the MK-80 series, made by General Dynamics (see below), into guided munitions. Israel has been using these bombs extensively, including in:A March 27 air strike on an emergency and relief center in the Habbarieh, South Lebanon, that killed seven civilian volunteers. According to Human Rights, this was “an unlawful attack on civilians that failed to take all necessary precautions” and “should be investigated as an apparent war crime.”The Nov. 1 bombing of Gaza’s Jabalia refugee camp, which killed hundreds of Palestinian civilians and could amount to a war crime, according to the UN High Commissioner for Human Rights.Bombings on Oct. 10 and 22 that killed 24 people of the al-Najjar family and 19 people of the Abu Mu'eileq family in Deir al-Balah, in what Amnesty International called unlawful air strikes on homes full of civilians\" that could amount to a war crime.Boeing also makes the 250-pound GBU-39 guided small diameter bomb (SDB), which is also extensively used by the Israeli Air Force. According to the New York Times and CNN, Israel dropped two such bombs in its May 26 airstrike of the Tel al-Sultan refugee camp in Rafah. The attack caused a massive fire that resulted in the death of at least 45 people, mostly civilians.Immediately after Oct. 7, Boeing expedited delivery of 1,000 small diameter bombs, and another 1,800 JDAM kits, to Israel. Both deliveries were part of an older order that Israel placed in 2021 during its previous large-scale attack on Gaza.Headquartered in Arlington, Virginia, the company has important production facilities outside of Los Angeles, Seattle, and St. Louis. For more locations, see this map.For more information on this company (not including these latest developments), see our company profile on the Investigate database.",
+    "specific_activities": []
+  },
+  "incidents": [
+    {
+      "description": "The world's fifth largest weapons manufacturer, Boeing manufactures F-15 fighter jets and Apache AH-64 attack helicopters, which the Israeli Air Force has used extensively in all of its attacks on Gaza and Lebanon, including in 2023",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "Boeing manufactures the Joint Direct Attack Munition (JDAM) kits, which convert unguided bombs of the MK-80 series, made by General Dynamics (see below), into guided munitions",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "Israel has been using these bombs extensively, including in:A March 27 air strike on an emergency and relief center in the Habbarieh, South Lebanon, that killed seven civilian volunteers",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "According to Human Rights, this was “an unlawful attack on civilians that failed to take all necessary precautions” and “should be investigated as an apparent war crime",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "1 bombing of Gaza’s Jabalia refugee camp, which killed hundreds of Palestinian civilians and could amount to a war crime, according to the UN High Commissioner for Human Rights",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "10 and 22 that killed 24 people of the al-Najjar family and 19 people of the Abu Mu'eileq family in Deir al-Balah, in what Amnesty International called unlawful air strikes on homes full of civilians\" that could amount to a war crime",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "According to the New York Times and CNN, Israel dropped two such bombs in its May 26 airstrike of the Tel al-Sultan refugee camp in Rafah",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "The attack caused a massive fire that resulted in the death of at least 45 people, mostly civilians",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "Both deliveries were part of an older order that Israel placed in 2021 during its previous large-scale attack on Gaza",
+      "date": null,
+      "extracted_from": "text_analysis"
+    }
+  ],
+  "sources": [
+    {
+      "type": "reference",
+      "url": "https://www.hrw.org/news/2024/05/07/israel-us-arms-used-strike-killed-lebanon-aid-workers",
+      "title": "air strike"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.theguardian.com/world/2023/nov/01/jabalia-camp-airstrike-gaza",
+      "title": "bombing"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.aljazeera.com/news/2023/11/2/un-rights-office-says-israeli-attacks-on-jabalia-could-be-war-crime",
+      "title": "could amount to a war crime"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.amnesty.org/en/latest/news/2023/12/israel-opt-us-made-munitions-killed-43-civilians-in-two-documented-israeli-air-strikes-in-gaza-new-investigation/",
+      "title": "Amnesty International"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.nytimes.com/live/2024/05/29/world/israel-gaza-war-hamas-rafah?smid=url-share#israel-us-rafah-bombs",
+      "title": "New York Times"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.cnn.com/2024/05/28/middleeast/gaza-us-munitions-rafah-strike-analysis-intl-hnk/index.html",
+      "title": "CNN"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.bloomberg.com/news/articles/2023-10-10/boeing-sped-1-000-smart-bombs-to-israel-after-the-hamas-attacks",
+      "title": "expedited"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.bloomberg.com/news/articles/2023-10-18/boeing-accelerates-delivery-of-up-to-1-800-gps-guidance-bomb-kits-to-israel?embedded-checkout=true",
+      "title": "another"
+    },
+    {
+      "type": "reference",
+      "url": "https://thebusinessofwar.substack.com/p/mapping-the-business-of-war",
+      "title": "this map"
+    },
+    {
+      "type": "reference",
+      "url": "https://investigate.info/company/boeing",
+      "title": "company profile"
+    }
+  ]
+}

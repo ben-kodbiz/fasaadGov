@@ -1,0 +1,488 @@
+{
+  "scrape_info": {
+    "scraped_at": "2025-08-09T07:22:03.222851",
+    "source_url": "https://afsc.org/gaza-genocide-companies",
+    "scraper_version": "1.0.0",
+    "total_companies": 59
+  },
+  "company_list": [
+    {
+      "name": "AeroVironment",
+      "filename": "aerovironment.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Agilite",
+      "filename": "agilite.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Aimpoint",
+      "filename": "aimpoint.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Amazon",
+      "filename": "amazon.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "AM General",
+      "filename": "am_general.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "BAE Systems",
+      "filename": "bae_systems.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Boeing",
+      "filename": "boeing.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Caterpillar",
+      "filename": "caterpillar.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Cellebrite DI Ltd",
+      "filename": "cellebrite_di_ltd.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Cisco",
+      "filename": "cisco.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Colt",
+      "filename": "colt.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Corsight",
+      "filename": "corsight.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Day & Zimmermann",
+      "filename": "day_zimmermann.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "DJI",
+      "filename": "dji.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Elbit Systems",
+      "filename": "elbit_systems.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Emtan",
+      "filename": "emtan.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Flyer Defense",
+      "filename": "flyer_defense.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Ford",
+      "filename": "ford.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "General Dynamics",
+      "filename": "general_dynamics.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "General Electric",
+      "filename": "general_electric.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "General Motors",
+      "filename": "general_motors.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Ghost Robotics",
+      "filename": "ghost_robotics.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Google/Alphabet",
+      "filename": "googlealphabet.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Honeywell",
+      "filename": "honeywell.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Hyundai",
+      "filename": "hyundai.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "InfiniDome",
+      "filename": "infinidome.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Israel Aerospace Industries",
+      "filename": "israel_aerospace_industries.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "JCB",
+      "filename": "jcb.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "L3Harris Technologies",
+      "filename": "l3harris_technologies.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Leonardo",
+      "filename": "leonardo.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Leupold & Stevens",
+      "filename": "leupold_stevens.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Lockheed Martin",
+      "filename": "lockheed_martin.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "MDT Armor",
+      "filename": "mdt_armor.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Mercedes",
+      "filename": "mercedes.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Microsoft",
+      "filename": "microsoft.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "NextVision",
+      "filename": "nextvision.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Nordic Ammunition Company",
+      "filename": "nordic_ammunition_company.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Northrop Grumman",
+      "filename": "northrop_grumman.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Oshkosh",
+      "filename": "oshkosh.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Palantir",
+      "filename": "palantir.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Paz Oil",
+      "filename": "paz_oil.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Plasan",
+      "filename": "plasan.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Rafael",
+      "filename": "rafael.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Renk",
+      "filename": "renk.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Rheinmetall",
+      "filename": "rheinmetall.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Rolls-Royce",
+      "filename": "rolls_royce.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "RTX",
+      "filename": "rtx.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Shield AI",
+      "filename": "shield_ai.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "SK Group",
+      "filename": "sk_group.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Skydio",
+      "filename": "skydio.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "SMARTSHOOTER",
+      "filename": "smartshooter.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "SpearUAV",
+      "filename": "spearuav.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Textron",
+      "filename": "textron.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "ThyssenKrupp",
+      "filename": "thyssenkrupp.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Toyota",
+      "filename": "toyota.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Valero",
+      "filename": "valero.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Woodward Inc",
+      "filename": "woodward_inc.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "XTEND",
+      "filename": "xtend.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    },
+    {
+      "name": "Airlines, Shipping, Logistics",
+      "filename": "airlines_shipping_logistics.json",
+      "has_revenue": true,
+      "has_headquarters": true,
+      "incident_count": 77,
+      "source_count": 278
+    }
+  ],
+  "statistics": {
+    "companies_with_revenue": 59,
+    "companies_with_headquarters": 59,
+    "total_incidents": 4543,
+    "total_sources": 16402
+  }
+}

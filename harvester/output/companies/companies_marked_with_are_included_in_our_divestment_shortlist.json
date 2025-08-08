@@ -1,0 +1,20 @@
+{
+  "company_name": "Companies marked with (*) are included in our divestment shortlist",
+  "metadata": {
+    "scraped_at": "2025-08-09T07:13:26.606656",
+    "source_url": "https://afsc.org/gaza-genocide-companies",
+    "scraper_version": "1.0.0"
+  },
+  "basic_info": {
+    "name": "Companies marked with (*) are included in our divestment shortlist",
+    "headquarters": null,
+    "revenue": null,
+    "industry": "Defense/Military"
+  },
+  "involvement": {
+    "summary": "Companies marked with (*) are included in our divestment shortlist. The list below is not intended to be used as either a divestment list or a boycott list, as it includes many privately-owned companies as well as companies with a very minor or one-time involvement.",
+    "specific_activities": []
+  },
+  "incidents": [],
+  "sources": []
+}
