@@ -391,3 +391,7 @@ Users interested in the full scope of the research, detailed citations, and comp
 ## Contact
 
 For technical issues, data corrections, or academic collaboration, please submit issues through the project repository or contact the maintainers directly.
+
+---
+
+**Made by The Kangarian, From Perlis with Love**
