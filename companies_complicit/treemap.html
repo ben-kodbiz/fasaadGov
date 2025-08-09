@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Complicity Treemap</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1976d2;
+            --secondary-color: #dc004e;
+            --background-color: #fafafa;
+            --surface-color: #ffffff;
+            --text-color: #1c1b1f;
+            --text-secondary: #49454f;
+            --border-color: #79747e;
+            --shadow: rgba(0, 0, 0, 0.12);
+            --shadow-dark: rgba(0, 0, 0, 0.24);
+
+            /* Category colors */
+            --military-color: #d32f2f;
+            --surveillance-color: #7b1fa2;
+            --construction-color: #f57c00;
+            --finance-color: #388e3c;
+            --energy-color: #1976d2;
+            --consumer-color: #00796b;
+            --tourism-color: #e91e63;
+            --utilities-color: #5d4037;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #ffffff;
+            --text-secondary: #b3b3b3;
+            --border-color: #666666;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-dark: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            background: var(--surface-color);
+            padding: 20px;
+            box-shadow: 0 2px 4px var(--shadow);
+            text-align: center;
+        }
+
+        .controls {
+            background: var(--surface-color);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .visualization-container {
+            margin: 20px;
+        }
+
+        .treemap-container {
+            background: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+            padding: 20px;
+            min-height: 750px;
+            margin-bottom: 20px;
+        }
+
+        .info-panel {
+            background: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+            padding: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .treemap-node {
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            stroke: #fff;
+            stroke-width: 1px;
+        }
+
+        .treemap-node:hover {
+            opacity: 0.8;
+        }
+
+        .treemap-text {
+            font-size: 12px;
+            font-weight: 500;
+            fill: white;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        .category-text {
+            font-size: 16px;
+            font-weight: bold;
+            fill: white;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .tooltip {
+            position: absolute;
+            background: var(--surface-color);
+            color: var(--text-color);
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px var(--shadow-dark);
+            pointer-events: none;
+            font-size: 0.875rem;
+            max-width: 300px;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .legend {
+            background: var(--surface-color);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1 style="margin: 0; color: var(--primary-color); font-size: 2rem; font-weight: 500;">🏢 Corporate Complicity Treemap</h1>
+        <p style="margin: 10px 0 0 0; color: var(--text-secondary); font-size: 1.1rem;">Equal-sized view of all companies for better readability</p>
+        <p id="companyCount" style="margin: 5px 0 0 0; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500;"></p>
+
+        <div style="margin: 20px auto; max-width: 800px; padding: 20px; background: var(--surface-color); border-radius: 12px; border-left: 4px solid var(--secondary-color); text-align: left; box-shadow: 0 2px 8px var(--shadow);">
+            <h3 style="color: var(--secondary-color); margin-top: 0;">⚖️ Corporate Accountability</h3>
+            <p style="font-style: italic; margin-bottom: 15px;">"The master's tools will never dismantle the master's house." — Audre Lorde</p>
+
+            <p>This treemap reveals the scale of corporate complicity. Larger rectangles represent companies with higher revenues - showing how much money flows through these enablers of oppression.</p>
+
+            <p style="text-align: center; font-weight: bold; color: var(--secondary-color); margin: 20px 0;">💼 Size = Revenue Power<br>🎯 Color = Category<br>📊 Click = Details</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-size: 0.875rem; font-weight: 500; color: var(--text-secondary);">Filter by Category</label>
+            <select id="categoryFilter" class="btn btn-outline">
+                <option value="all">All Categories</option>
+                <option value="Military & Defense">Military & Defense</option>
+                <option value="Surveillance & Technology">Surveillance & Technology</option>
+                <option value="Heavy Machinery & Construction">Heavy Machinery & Construction</option>
+                <option value="Finance & Insurance">Finance & Insurance</option>
+                <option value="Energy & Extractive Industries">Energy & Extractive Industries</option>
+                <option value="Consumer Goods & Retail">Consumer Goods & Retail</option>
+                <option value="Real Estate & Tourism">Real Estate & Tourism</option>
+                <option value="Utilities & Resources">Utilities & Resources</option>
+            </select>
+        </div>
+        <a href="index.html" class="btn btn-outline">← Back to Network</a>
+        <a href="../index.html" class="btn btn-outline">← Back to Hub</a>
+        <button id="resetView" class="btn btn-primary">Reset View</button>
+        <button id="themeToggle" class="btn btn-secondary">🌙 Dark Mode</button>
+    </div>
+
+    <div class="visualization-container">
+        <div class="treemap-container">
+            <div id="treemap"></div>
+        </div>
+        
+        <div class="info-panel">
+            <h3 style="color: var(--primary-color);">Company Information</h3>
+            <div id="companyInfo">
+                <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                    <h4 style="color: var(--primary-color); margin-bottom: 15px;">🎯 Getting Started</h4>
+                    <p style="line-height: 1.6; margin-bottom: 15px;">
+                        Click on any company rectangle above to view detailed information about their involvement and revenue.
+                    </p>
+                    <div style="background: var(--background-color); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong style="color: var(--text-color);">💡 Tips:</strong><br>
+                        <small style="line-height: 1.4;">
+                            • All rectangles are equal size for better readability<br>
+                            • Colors represent different categories<br>
+                            • Use category filter to focus on specific sectors<br>
+                            • Company details will appear here when clicked
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <h3 style="margin-top: 0; color: var(--primary-color);">Category Legend</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--military-color);"></div>
+                <span>🎖️ Military & Defense</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--surveillance-color);"></div>
+                <span>👁️ Surveillance & Technology</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--construction-color);"></div>
+                <span>🏗️ Heavy Machinery & Construction</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--finance-color);"></div>
+                <span>💰 Finance & Insurance</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--energy-color);"></div>
+                <span>⚡ Energy & Extractive Industries</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--consumer-color);"></div>
+                <span>🛍️ Consumer Goods & Retail</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--tourism-color);"></div>
+                <span>🏨 Real Estate & Tourism</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--utilities-color);"></div>
+                <span>💧 Utilities & Resources</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin: 20px; padding: 20px; background: var(--background-color); border-radius: 8px; border: 2px solid var(--secondary-color);">
+        <h4 style="color: var(--secondary-color); margin-top: 0; text-align: center;">📄 UN Human Rights Council Source</h4>
+        <p style="text-align: center; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 15px;">
+            <strong>All corporate information is based on the official UN Human Rights Council Report A/HRC/59/23:</strong><br>
+            <a href="https://www.ohchr.org/en/documents/country-reports/ahrc5923-economy-occupation-economy-genocide-report-special-rapporteur"
+                target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">
+                "From economy of occupation to economy of genocide" - Report of the Special Rapporteur
+            </a>
+        </p>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Global variables
+        let data = {};
+        let currentFilter = 'all';
+        
+        // Dimensions
+        const width = 1200;
+        const height = 700;
+
+        // Create SVG
+        const svg = d3.select("#treemap")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .style("border", "1px solid var(--border-color)")
+            .style("border-radius", "8px");
+
+        // Tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Color mapping for categories
+        const categoryColors = {
+            "Military & Defense": "#d32f2f",
+            "Surveillance & Technology": "#7b1fa2",
+            "Heavy Machinery & Construction": "#f57c00",
+            "Finance & Insurance": "#388e3c",
+            "Energy & Extractive Industries": "#1976d2",
+            "Consumer Goods & Retail": "#00796b",
+            "Real Estate & Tourism": "#e91e63",
+            "Utilities & Resources": "#5d4037"
+        };
+
+        // Load and process data
+        d3.json("companies_enhanced.json").then(function (rawData) {
+            data = rawData;
+            initializeTreemap();
+            setupEventListeners();
+        }).catch(error => {
+            console.error("Error loading data:", error);
+            d3.select("#treemap").html(`
+                <div style="text-align: center; padding: 50px; color: var(--text-secondary);">
+                    <h3>Error loading data</h3>
+                    <p>Please check the console for details.</p>
+                </div>
+            `);
+        });
+
+        function initializeTreemap() {
+            // Clear previous visualization
+            svg.selectAll("*").remove();
+            
+            // Process data for treemap
+            let processedData = JSON.parse(JSON.stringify(data));
+            
+            // Count total companies for verification
+            let totalCompanies = 0;
+            processedData.children.forEach(category => {
+                totalCompanies += category.children.length;
+            });
+            console.log(`Total companies to display: ${totalCompanies}`);
+            
+            // Filter data if needed
+            if (currentFilter !== 'all') {
+                processedData.children = processedData.children.filter(category => 
+                    category.name === currentFilter
+                );
+                // Recalculate count after filtering
+                totalCompanies = 0;
+                processedData.children.forEach(category => {
+                    totalCompanies += category.children.length;
+                });
+            }
+            
+            // Update company count display
+            d3.select("#companyCount").text(`Displaying ${totalCompanies} companies across ${processedData.children.length} categories`);
+            
+            // Set equal values for all companies (ignore revenue for sizing)
+            processedData.children.forEach(category => {
+                category.children.forEach(company => {
+                    company.value = 1; // Equal size for all companies
+                });
+            });
+            
+            // Create treemap with equal sizing
+            const root = d3.hierarchy(processedData)
+                .sum(d => d.value || 0)
+                .sort((a, b) => a.data.name.localeCompare(b.data.name)); // Sort alphabetically instead of by value
+            
+            d3.treemap()
+                .size([width, height])
+                .padding(3)
+                .paddingOuter(5)
+                .paddingTop(25)
+                (root);
+            
+            // Create groups for categories
+            const categoryGroups = svg.selectAll("g.category")
+                .data(root.children)
+                .enter().append("g")
+                .attr("class", "category");
+            
+            // Add category rectangles
+            categoryGroups.append("rect")
+                .attr("x", d => d.x0)
+                .attr("y", d => d.y0)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0)
+                .attr("fill", d => categoryColors[d.data.name] || "#666")
+                .attr("opacity", 0.3)
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 2);
+            
+            // Add category labels
+            categoryGroups.append("text")
+                .attr("class", "category-text")
+                .attr("x", d => d.x0 + 5)
+                .attr("y", d => d.y0 + 18)
+                .text(d => d.data.name)
+                .style("font-size", d => Math.min(16, Math.max(12, (d.x1 - d.x0) / 12)) + "px");
+            
+            // Add company rectangles
+            const companyNodes = categoryGroups.selectAll("rect.company")
+                .data(d => d.children || [])
+                .enter().append("rect")
+                .attr("class", "treemap-node company")
+                .attr("x", d => d.x0)
+                .attr("y", d => d.y0)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0)
+                .attr("fill", d => categoryColors[d.parent.data.name] || "#666")
+                .on("mouseover", handleMouseOver)
+                .on("mouseout", handleMouseOut)
+                .on("click", handleClick);
+            
+            // Add company labels
+            categoryGroups.selectAll("text.company")
+                .data(d => d.children || [])
+                .enter().append("text")
+                .attr("class", "treemap-text company")
+                .attr("x", d => d.x0 + 3)
+                .attr("y", d => d.y0 + 15)
+                .text(d => {
+                    const rectWidth = d.x1 - d.x0;
+                    const rectHeight = d.y1 - d.y0;
+                    const name = d.data.name;
+                    
+                    // Always show some text, even for small boxes
+                    if (rectWidth < 50 || rectHeight < 15) {
+                        return name.substring(0, 4); // Show at least 4 characters
+                    } else if (rectWidth < 80) {
+                        return name.substring(0, 8) + (name.length > 8 ? "..." : "");
+                    } else if (rectWidth < 120) {
+                        return name.substring(0, 12) + (name.length > 12 ? "..." : "");
+                    } else {
+                        return name.length > 20 ? name.substring(0, 20) + "..." : name;
+                    }
+                })
+                .style("font-size", d => {
+                    const rectWidth = d.x1 - d.x0;
+                    const rectHeight = d.y1 - d.y0;
+                    // Adjust font size based on box size, but ensure it's readable
+                    if (rectWidth < 60) return "9px";
+                    if (rectWidth < 100) return "10px";
+                    return "11px";
+                }); // Responsive font size
+            
+            // Add revenue labels (optional second line)
+            categoryGroups.selectAll("text.revenue")
+                .data(d => d.children || [])
+                .enter().append("text")
+                .attr("class", "treemap-text revenue")
+                .attr("x", d => d.x0 + 3)
+                .attr("y", d => d.y0 + 28)
+                .text(d => {
+                    const rectWidth = d.x1 - d.x0;
+                    const rectHeight = d.y1 - d.y0;
+                    
+                    // Only show revenue if rectangle has enough height
+                    if (rectHeight < 35) return "";
+                    
+                    const revenueStr = d.data.revenue || "";
+                    const revenueMatch = revenueStr.match(/\$([0-9.]+)\s*(billion|million)/i);
+                    if (revenueMatch) {
+                        const amount = revenueMatch[1];
+                        const unit = revenueMatch[2].charAt(0).toUpperCase();
+                        return `$${amount}${unit}`;
+                    }
+                    return "";
+                })
+                .style("font-size", "9px")
+                .style("opacity", 0.9);
+        }
+
+        function handleMouseOver(event, d) {
+            tooltip.style("opacity", 1);
+            
+            const revenueStr = d.data.revenue || "Unknown";
+            let content = `<div style="font-weight: 500; margin-bottom: 8px; color: var(--primary-color);">${d.data.name}</div>`;
+            content += `<div>Category: ${d.parent.data.name}</div>`;
+            content += `<div>Revenue: ${revenueStr}</div>`;
+            content += `<div style="margin-top: 8px; font-style: italic; color: var(--primary-color);">Click for details</div>`;
+            
+            tooltip.html(content)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+        }
+
+        function handleMouseOut() {
+            tooltip.style("opacity", 0);
+        }
+
+        function handleClick(event, d) {
+            showCompanyInfo(d.data);
+        }
+
+        function showCompanyInfo(companyData) {
+            let html = `<h3 style="color: var(--primary-color); margin-bottom: 20px;">🏢 ${companyData.name}</h3>`;
+            
+            if (companyData.summary) {
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+                        <strong style="color: var(--text-color);">📋 Company Summary</strong><br>
+                        <div style="margin-top: 8px;">
+                            <p style="color: var(--text-secondary); line-height: 1.5;">${companyData.summary}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (companyData.involvement) {
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+                        <strong style="color: var(--text-color);">⚠️ Involvement</strong><br>
+                        <div style="margin-top: 8px;">
+                            <p style="color: var(--secondary-color); font-weight: 500; line-height: 1.4;">${companyData.involvement}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (companyData.revenue || companyData.headquarters) {
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px;">
+                        <strong style="color: var(--text-color);">📊 Company Details</strong><br>
+                        <div style="margin-top: 8px;">
+                            ${companyData.revenue ? `<div style="margin: 5px 0;"><strong>Revenue:</strong> ${companyData.revenue}</div>` : ''}
+                            ${companyData.headquarters ? `<div style="margin: 5px 0;"><strong>Headquarters:</strong> ${companyData.headquarters}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Add news articles section if available
+            if (companyData.news_articles && companyData.news_articles.length > 0) {
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--primary-color);">
+                        <strong style="color: var(--text-color);">📰 Recent News Articles</strong><br>
+                        <div style="margin-top: 12px;">
+                `;
+                
+                // Show up to 3 most recent articles
+                const recentArticles = companyData.news_articles
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .slice(0, 3);
+                
+                recentArticles.forEach(article => {
+                    html += `
+                        <div style="margin-bottom: 15px; padding: 12px; background: var(--surface-color); border-radius: 6px; border: 1px solid var(--border-color);">
+                            <div style="font-weight: 500; color: var(--text-color); margin-bottom: 6px;">
+                                ${article.url ? `<a href="${article.url}" target="_blank" style="color: var(--primary-color); text-decoration: none;">${article.title}</a>` : article.title}
+                            </div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 8px;">
+                                📅 ${article.date} | 📰 ${article.source}
+                            </div>
+                            ${article.summary ? `<div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">${article.summary.substring(0, 200)}...</div>` : ''}
+                        </div>
+                    `;
+                });
+                
+                if (companyData.news_articles.length > 3) {
+                    html += `
+                        <div style="text-align: center; margin-top: 10px;">
+                            <small style="color: var(--text-secondary);">
+                                Showing 3 of ${companyData.news_articles.length} articles
+                            </small>
+                        </div>
+                    `;
+                }
+                
+                html += `</div></div>`;
+            }
+
+            d3.select("#companyInfo").html(html);
+        }
+
+        function setupEventListeners() {
+            d3.select("#categoryFilter").on("change", function () {
+                currentFilter = this.value;
+                initializeTreemap();
+            });
+            
+            d3.select("#resetView").on("click", function () {
+                currentFilter = 'all';
+                d3.select("#categoryFilter").property("value", "all");
+                initializeTreemap();
+            });
+            
+            d3.select("#themeToggle").on("click", function () {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                
+                const button = d3.select(this);
+                button.text(newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
+                
+                // Reinitialize to update colors
+                initializeTreemap();
+            });
+        }
+    </script>
+</body>
+</html>
