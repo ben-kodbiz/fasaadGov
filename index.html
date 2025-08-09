@@ -766,6 +766,14 @@
   <!-- Skip to main content for accessibility -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
+  <!-- Top Theme Toggle -->
+  <div
+    style="background: var(--surface-color); padding: 8px 24px; border-bottom: 1px solid var(--outline); display: flex; justify-content: flex-end;">
+    <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode"
+      aria-label="Toggle between light and dark theme">
+      <span class="material-icons" aria-hidden="true">dark_mode</span>
+    </button>
+  </div>
   <header class="app-bar" role="banner">
     <h1 class="app-title">🗺️ US Atrocities Treemap</h1>
     <nav class="app-actions" role="navigation" aria-label="Main navigation">
@@ -783,10 +791,6 @@
       </a>
       <button class="btn btn-icon" id="refreshData" title="Refresh data" aria-label="Refresh visualization data">
         <span class="material-icons" aria-hidden="true">refresh</span>
-      </button>
-      <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode"
-        aria-label="Toggle between light and dark theme">
-        <span class="material-icons" aria-hidden="true">dark_mode</span>
       </button>
     </nav>
   </header>

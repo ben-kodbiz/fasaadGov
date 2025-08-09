@@ -1,0 +1,72 @@
+{
+  "company_name": "Honeywell International Inc",
+  "metadata": {
+    "scraped_at": "2025-08-09T07:16:04.200379",
+    "source_url": "https://afsc.org/gaza-genocide-companies",
+    "scraper_version": "1.0.0"
+  },
+  "basic_info": {
+    "name": "Honeywell International Inc",
+    "headquarters": null,
+    "revenue": null,
+    "industry": "Defense/Military"
+  },
+  "involvement": {
+    "summary": "One of the world’s top-100 arms-producing companies, Honeywell made about 13% of its revenue from military applications as of 2022. One of its products, a family of sensors called Inertial Measurement Units (IMU), is an integral component in many guided bombs, missiles, and drones.The company’s HG1700 IMU is part of Boeing's JDAM kits, which turn unguided bombs into precise munitions and have been one of the main weapons systems used by Israel in Gaza. Similarly, Honeywell's HG1930 IMU is part of Boeing’s GBU-39 Small Diameter Bombs, which have become Israel’s “weapon of choice” in Gaza. For recent transfers of and airstrikes involving JDAM and GBU-39 bombs, see above, under Boeing.While Honeywell’s components typically leave no trace at the site of bombing, one Honeywell component was found intact following a June 6, 2024 Israeli airstrike on the UN al-Sardi school in Gaza. The attack killed 40 Palestinians, including 14 children, and wounded at least 74 others. The component was identified by Al Jazeera as a Honeywell’s HG1930 IMU, and its markings indicate that it was manufactured in 2022. While this component is part of Boeing’s GBU-39 Small Diameter Bomb, it can also be part of other weapons systems, and we cannot say definitively what bomb was used in that attack.",
+    "specific_activities": []
+  },
+  "incidents": [
+    {
+      "description": "For recent transfers of and airstrikes involving JDAM and GBU-39 bombs, see above, under Boeing",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "While Honeywell’s components typically leave no trace at the site of bombing, one Honeywell component was found intact following a June 6, 2024 Israeli airstrike on the UN al-Sardi school in Gaza",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "The attack killed 40 Palestinians, including 14 children, and wounded at least 74 others",
+      "date": null,
+      "extracted_from": "text_analysis"
+    },
+    {
+      "description": "While this component is part of Boeing’s GBU-39 Small Diameter Bomb, it can also be part of other weapons systems, and we cannot say definitively what bomb was used in that attack",
+      "date": null,
+      "extracted_from": "text_analysis"
+    }
+  ],
+  "sources": [
+    {
+      "type": "reference",
+      "url": "https://www.sipri.org/visualizations/2023/sipri-top-100-arms-producing-and-military-services-companies-world-2022",
+      "title": "made"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.ausairpower.net/TE-JDAMPt1.html",
+      "title": "part"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.scribd.com/document/501310189/TACP-1008c-IAMs",
+      "title": "part"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.nytimes.com/2024/06/08/world/middleeast/us-israel-bomb-gbu39-gaza.html",
+      "title": "become"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.aljazeera.com/news/2024/6/6/us-weapons-parts-used-in-israeli-attack-on-gaza-school-al-jazeera-analysis",
+      "title": "found"
+    },
+    {
+      "type": "reference",
+      "url": "https://www.aljazeera.com/news/2024/6/6/us-weapons-parts-used-in-israeli-attack-on-gaza-school-al-jazeera-analysis",
+      "title": "identified by Al Jazeera"
+    }
+  ]
+}

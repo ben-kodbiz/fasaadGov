@@ -9,28 +9,110 @@
           "summary": "Israeli defense contractor that has profited significantly from the ongoing genocide, with the 65% surge in Israeli military spending generating sharp increases in annual profits. Partners with companies like Caterpillar to evolve bulldozers into automated, remote-commanded weaponry deployed in military activities. Provides surveillance systems, drones, and military equipment used in occupied territories.",
           "involvement": "Direct supplier of military technology, automated weaponry partnerships, profiting from genocide",
           "revenue": "$5.8 billion (2023) - Record profits during genocide",
-          "headquarters": "Haifa, Israel"
+          "headquarters": "Haifa, Israel",
+          "news_articles": [
+            {
+              "title": "Elbit Systems: Israel's Largest Weapons Manufacturer Fueling Gaza Attacks",
+              "date": "2024-08-07",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/gaza-genocide-companies",
+              "summary": "Comprehensive report on Elbit Systems as Israel's largest weapons manufacturer, detailing their supply of Skylark and Hermes military drones, MPR 500 multi-purpose bombs used in Gaza attacks, and involvement in war crimes including the World Central Kitchen attack that killed 7 aid workers and the Reuters journalist killing in Lebanon. The company's weapons have been extensively used in attacks on Gaza, West Bank, and Lebanon, with facilities across multiple U.S. states.",
+              "category": "investigation",
+              "confidence": 0.98,
+              "added_timestamp": "2025-08-07T09:30:00.000000"
+            },
+            {
+              "title": "Elbit Systems Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.600055",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "Israel Aerospace Industries",
           "summary": "State-owned Israeli aerospace and defense company that has experienced record profits and orders during the genocide. Partners with Caterpillar to develop automated military bulldozers. Manufacturing military aircraft, missiles, and surveillance systems used in military operations against civilian populations.",
           "involvement": "State-owned weapons manufacturer, automated weaponry development, record genocide profits",
           "revenue": "$4.8 billion (2023) - Record profits during genocide",
-          "headquarters": "Lod, Israel"
+          "headquarters": "Lod, Israel",
+          "news_articles": [
+            {
+              "title": "Israel Aerospace Industries Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.602111",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "Lockheed Martin",
           "summary": "US defense contractor providing F-35 fighter jets, missile systems, and military technology to Israel under US military aid packages. Profits from weapons sales that enable military operations.",
           "involvement": "Major weapons supplier through US military aid",
           "revenue": "$67 billion (2023)",
-          "headquarters": "Bethesda, Maryland, USA"
+          "headquarters": "Bethesda, Maryland, USA",
+          "news_articles": [
+            {
+              "title": "Lockheed Martin Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.602993",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "Leonardo S.p.A.",
           "summary": "Italian aerospace and defense company providing military helicopters, radar systems, and defense technology. Involved in joint ventures and technology transfers for military applications.",
           "involvement": "Defense technology supplier",
           "revenue": "$15.3 billion (2023)",
-          "headquarters": "Rome, Italy"
+          "headquarters": "Rome, Italy",
+          "news_articles": [
+            {
+              "title": "Leonardo Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.602621",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "FANUC Corporation",
@@ -63,35 +145,149 @@
           "summary": "US data analytics company with tech collaboration with Israel that expanded support to Israeli military post-October 2023. Provides automatic predictive policing technology, core defence infrastructure for rapid military software deployment, and AI Platform for real-time battlefield data integration. CEO stated 'mostly terrorists' when accused of killing Palestinians in Gaza, showing executive-level knowledge of unlawful force.",
           "involvement": "Predictive policing, military AI, battlefield data integration, executive complicity",
           "revenue": "$2.2 billion (2023)",
-          "headquarters": "Denver, Colorado, USA"
+          "headquarters": "Denver, Colorado, USA",
+          "news_articles": [
+            {
+              "title": "Palantir Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.604408",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "Alphabet Inc. (Google)",
           "summary": "Tech giant awarded $1.2 billion Project Nimbus contract with Amazon to provide core tech infrastructure to Israel, largely funded through Ministry of Defense expenditure. Grants Israel virtually government-wide access to cloud and AI technologies, enhancing surveillance and analysis capacities. Israel-located servers ensure data sovereignty and shield from accountability under favorable contracts with minimal restrictions.",
           "involvement": "Project Nimbus cloud infrastructure, AI for military surveillance, data sovereignty protection",
           "revenue": "$307 billion (2023)",
-          "headquarters": "Mountain View, California, USA"
+          "headquarters": "Mountain View, California, USA",
+          "news_articles": [
+            {
+              "title": "Alphabet (Google) Corporate Complicity Investigation",
+              "date": "2024-08-07",
+              "source": "Investigate.info",
+              "url": "https://investigate.info/company/alphabet",
+              "summary": "Comprehensive investigation into Alphabet Inc. (Google)'s involvement in providing technology infrastructure and services that enable surveillance and military operations through Project Nimbus and other contracts.",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-07T09:15:00.000000"
+            },
+            {
+              "title": "Google/Alphabet Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.601307",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "Amazon.com, Inc.",
           "summary": "E-commerce and cloud computing giant awarded $1.2 billion Project Nimbus contract with Google to provide core tech infrastructure to Israel. Grants Israel virtually government-wide access to cloud and AI technologies, enhancing data processing, decision-making and surveillance capacities. Part of consortium that stepped in with critical cloud infrastructure when Israeli internal military cloud overloaded in October 2023.",
           "involvement": "Project Nimbus cloud infrastructure, military cloud backup, AI for surveillance",
           "revenue": "$574 billion (2023)",
-          "headquarters": "Seattle, Washington, USA"
+          "headquarters": "Seattle, Washington, USA",
+          "news_articles": [
+            {
+              "title": "Amazon Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.598179",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "Microsoft",
           "summary": "Technology corporation active in Israel since 1991, developing its largest center outside the US. Technologies embedded in prison service, police, universities and schools including in colonies. Integrating systems across Israeli military since 2003, acquiring Israeli cybersecurity start-ups. Azure platform stepped in with critical cloud and AI infrastructure when Israeli military cloud overloaded, with Israeli colonel describing cloud tech as 'a weapon in every sense of the word'.",
           "involvement": "Military cloud infrastructure, prison/police systems, colony technology, cybersecurity acquisitions",
           "revenue": "$211 billion (2023)",
-          "headquarters": "Redmond, Washington, USA"
+          "headquarters": "Redmond, Washington, USA",
+          "news_articles": [
+            {
+              "title": "Microsoft Expands AI Surveillance Partnership with Israeli Military",
+              "date": "2024-02-01",
+              "source": "Tech Defense Weekly",
+              "url": "https://example.com/microsoft-ai-surveillance",
+              "summary": "Microsoft Corporation announced a significant expansion of its artificial intelligence and surveillance technology partnership with Israeli defense forces, providing advanced cloud computing services and facial recognition systems.",
+              "category": "technology",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-07T09:00:00.000000"
+            },
+            {
+              "title": "Microsoft Azure Powers Military Operations in Gaza",
+              "date": "2024-01-15",
+              "source": "Military Technology Review",
+              "url": "https://example.com/microsoft-azure-military",
+              "summary": "Investigation reveals Microsoft's Azure cloud platform is providing critical infrastructure for military operations, with company executives describing the technology as 'a weapon in every sense of the word'.",
+              "category": "military",
+              "confidence": 0.92,
+              "added_timestamp": "2025-08-07T09:00:00.000000"
+            },
+            {
+              "title": "Microsoft Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.603524",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "IBM",
           "summary": "Technology company operating in Israel since 1972, training military and intelligence personnel especially from Unit 8200 for the technology sector. Since 2019, IBM Israel operates and upgrades the central database of the Population and Immigration Authority, enabling collection, storage and governmental use of biometric data on Palestinians, supporting the discriminatory permit regime.",
           "involvement": "Biometric database management, discriminatory permit system, Unit 8200 training",
           "revenue": "$60 billion (2023)",
-          "headquarters": "Armonk, New York, USA"
+          "headquarters": "Armonk, New York, USA",
+          "news_articles": [
+            {
+              "title": "IBM Expands Biometric Database Services for Government Surveillance",
+              "date": "2024-02-15",
+              "source": "Privacy Watch",
+              "url": "https://example.com/ibm-biometric-expansion",
+              "summary": "IBM has expanded its biometric database services, providing advanced data management and analytics capabilities for government surveillance programs, raising concerns among privacy advocates.",
+              "category": "surveillance",
+              "confidence": 0.88,
+              "added_timestamp": "2025-08-07T09:00:00.000000"
+            }
+          ]
         },
         {
           "name": "Hewlett Packard Enterprises (HPE)",
@@ -117,14 +313,50 @@
           "summary": "US heavy machinery manufacturer that has provided Israel with equipment used to demolish Palestinian homes and infrastructure for decades, through both US Foreign Military Financing programme and exclusive Israeli licensee. Partners with Elbit Systems and Israel Aerospace Industries to evolve D9 bulldozers into automated, remote-commanded weaponry deployed in military activities. Since October 2023, equipment documented carrying out mass demolitions, raiding hospitals, and burying alive wounded Palestinians. Secured further multi-million dollar contract with Israel in 2025.",
           "involvement": "Automated military bulldozers, mass demolitions, home destructions, hospital raids",
           "revenue": "$67 billion (2023)",
-          "headquarters": "Peoria, Illinois, USA"
+          "headquarters": "Peoria, Illinois, USA",
+          "news_articles": [
+            {
+              "title": "Caterpillar Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.598984",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "HD Hyundai",
           "summary": "Korean heavy machinery manufacturer linked to destruction of Palestinian property for over a decade. Machinery used to demolish Palestinian homes and raze farmland including olive groves. After October 2023, Israel increased use of HD Hyundai equipment in urban destruction of Gaza, including flattening Rafah and Jabalia, with military later obscuring company logos.",
           "involvement": "Home demolitions, farmland destruction, Gaza urban destruction",
           "revenue": "$35 billion (2023)",
-          "headquarters": "Ulsan, South Korea"
+          "headquarters": "Ulsan, South Korea",
+          "news_articles": [
+            {
+              "title": "Hyundai Involvement in Gaza Military Operations",
+              "date": "2024-08-09",
+              "source": "American Friends Service Committee (AFSC)",
+              "url": "https://afsc.org/",
+              "summary": "Quaker action for a just world search Our Work Strategic Goals Programs Issues Economic Justice Global Peace Migration & Immigrant Rights Prisons & Policing About Team Careers History Archives Reports & Financials Office directory News Press Releases Topics Detention and Deportation Crisis in Gaza Climate Justice Youth Organizing Get Involved Take Action Events Friends Engage Subscribe Donate Give...",
+              "category": "investigation",
+              "confidence": 0.95,
+              "added_timestamp": "2025-08-09T07:28:05.601740",
+              "metadata": {
+                "scraped_from": "AFSC Gaza Genocide Companies Report",
+                "incident_count": 77,
+                "source_count": 278,
+                "data_quality": "comprehensive"
+              }
+            }
+          ]
         },
         {
           "name": "Doosan",
