@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Israel Atrocities Timeline - Treemap</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1976d2;
+            --secondary-color: #dc004e;
+            --background-color: #fafafa;
+            --surface-color: #ffffff;
+            --text-color: #1c1b1f;
+            --text-secondary: #49454f;
+            --border-color: #79747e;
+            --shadow: rgba(0, 0, 0, 0.12);
+            --shadow-dark: rgba(0, 0, 0, 0.24);
+
+            /* Severity colors */
+            --low-severity: #ff9800;
+            --medium-severity: #f44336;
+            --high-severity: #b71c1c;
+            --genocide-color: #4a148c;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #ffffff;
+            --text-secondary: #b3b3b3;
+            --border-color: #666666;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-dark: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            background: var(--surface-color);
+            padding: 20px;
+            box-shadow: 0 2px 4px var(--shadow);
+            text-align: center;
+        }
+
+        .controls {
+            background: var(--surface-color);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .visualization-container {
+            margin: 20px;
+        }
+
+        .treemap-container {
+            background: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+            padding: 20px;
+            min-height: 700px;
+            margin-bottom: 20px;
+        }
+
+        .info-panel {
+            background: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+            padding: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .treemap-node {
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        .treemap-node:hover {
+            opacity: 0.8;
+        }
+
+        .treemap-text {
+            font-size: 11px;
+            font-weight: 500;
+            fill: white;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .period-text {
+            font-size: 14px;
+            font-weight: bold;
+            fill: white;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+        }
+
+        .tooltip {
+            position: absolute;
+            background: var(--surface-color);
+            color: var(--text-color);
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px var(--shadow-dark);
+            pointer-events: none;
+            font-size: 0.875rem;
+            max-width: 400px;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .legend {
+            background: var(--surface-color);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .stats-summary {
+            background: var(--surface-color);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: var(--background-color);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1 style="margin: 0; color: var(--primary-color); font-size: 2rem; font-weight: 500;">📊 Israel Atrocities Timeline</h1>
+        <p style="margin: 10px 0 0 0; color: var(--text-secondary); font-size: 1.1rem;">Historical data visualization (2020-2025)</p>
+        <p id="incidentCount" style="margin: 5px 0 0 0; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500;"></p>
+
+        <div style="margin: 20px auto; max-width: 900px; padding: 20px; background: var(--surface-color); border-radius: 12px; border-left: 4px solid var(--secondary-color); text-align: left; box-shadow: 0 2px 8px var(--shadow);">
+            <h3 style="color: var(--secondary-color); margin-top: 0;">⚖️ Historical Documentation</h3>
+            <p style="font-style: italic; margin-bottom: 15px;">"The arc of the moral universe is long, but it bends toward justice." — Theodore Parker</p>
+
+            <p>This treemap visualizes documented atrocities and violations of international law from 2020-2025. Rectangle size represents the scale of casualties and human impact.</p>
+
+            <div style="background: var(--background-color); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <strong style="color: var(--text-color);">⚠️ Content Warning:</strong><br>
+                <small style="line-height: 1.4; color: var(--text-secondary);">
+                    This visualization contains documentation of violence, casualties, and human rights violations. 
+                    All data is sourced from credible human rights organizations and international bodies.
+                </small>
+            </div>
+
+            <p style="text-align: center; font-weight: bold; color: var(--secondary-color); margin: 20px 0;">📈 Size = Scale of Impact<br>🎨 Color = Severity Level<br>📅 Timeline = 2020-2025</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-size: 0.875rem; font-weight: 500; color: var(--text-secondary);">View Mode</label>
+            <select id="viewMode" class="btn btn-outline">
+                <option value="casualties">By Casualties</option>
+                <option value="chronological">Chronological</option>
+                <option value="location">By Location</option>
+            </select>
+        </div>
+        <a href="../index.html" class="btn btn-outline">← Back to Hub</a>
+        <button id="resetView" class="btn btn-primary">Reset View</button>
+        <button id="themeToggle" class="btn btn-secondary">🌙 Dark Mode</button>
+    </div>
+
+    <div class="stats-summary" id="statsSummary">
+        <!-- Stats will be populated by JavaScript -->
+    </div>
+
+    <div class="visualization-container">
+        <div class="treemap-container">
+            <div id="treemap"></div>
+        </div>
+        
+        <div class="info-panel">
+            <h3 style="color: var(--primary-color);">Incident Information</h3>
+            <div id="incidentInfo">
+                <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                    <h4 style="color: var(--primary-color); margin-bottom: 15px;">📋 Documentation Overview</h4>
+                    <p style="line-height: 1.6; margin-bottom: 15px;">
+                        Click on any incident rectangle above to view detailed information about documented violations and casualties.
+                    </p>
+                    <div style="background: var(--background-color); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong style="color: var(--text-color);">💡 Understanding the Data:</strong><br>
+                        <small style="line-height: 1.4;">
+                            • Rectangle size reflects casualty scale<br>
+                            • Colors indicate severity levels<br>
+                            • All data from credible sources<br>
+                            • Click for detailed documentation
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <h3 style="margin-top: 0; color: var(--primary-color);">Severity Legend</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--low-severity);"></div>
+                <span>⚠️ Limited Scale (< 100 casualties)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--medium-severity);"></div>
+                <span>🔥 Major Incident (100-1000 casualties)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--high-severity);"></div>
+                <span>💀 Mass Atrocity (1000+ casualties)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: var(--genocide-color);"></div>
+                <span>⚫ Genocidal Campaign (10,000+ casualties)</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin: 20px; padding: 20px; background: var(--background-color); border-radius: 8px; border: 2px solid var(--secondary-color);">
+        <h4 style="color: var(--secondary-color); margin-top: 0; text-align: center;">📄 Sources & Documentation</h4>
+        <p style="text-align: center; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 15px;">
+            <strong>All data compiled from credible sources including:</strong><br>
+            UN Human Rights Council, Human Rights Watch, Amnesty International, Middle East Eye, 
+            Global Centre for the Responsibility to Protect, and other documented sources.
+        </p>
+        <h4 style="color: var(--secondary-color); margin-top: 20px; text-align: center;">⚠️ DISCLAIMER</h4>
+        <p style="text-align: center; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary);">
+            <strong>This visualization presents documented incidents for educational purposes.</strong><br>
+            All information should be independently verified. Users are encouraged to review original sources and documentation.
+        </p>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Global variables
+        let data = {};
+        let currentViewMode = 'casualties';
+        
+        // Dimensions
+        const width = 1200;
+        const height = 600;
+
+        // Create SVG
+        const svg = d3.select("#treemap")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .style("border", "1px solid var(--border-color)")
+            .style("border-radius", "8px");
+
+        // Tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Load and process data
+        d3.json("atro_israel.json").then(function (rawData) {
+            console.log("Data loaded successfully:", rawData);
+            data = rawData;
+            console.log("Number of atrocities:", data.atrocities.length);
+            calculateStats();
+            initializeTreemap();
+            setupEventListeners();
+        }).catch(error => {
+            console.error("Error loading data:", error);
+            d3.select("#treemap").html(`
+                <div style="text-align: center; padding: 50px; color: var(--text-secondary);">
+                    <h3>Error loading data</h3>
+                    <p>Error: ${error.message}</p>
+                    <p>Please check the console for details.</p>
+                </div>
+            `);
+        });
+
+        function calculateStats() {
+            let totalKilled = 0;
+            let totalInjured = 0;
+            let totalChildren = 0;
+            let totalIncidents = data.atrocities.length;
+
+            data.atrocities.forEach(incident => {
+                if (incident.casualties) {
+                    totalKilled += incident.casualties.killed || 0;
+                    totalInjured += incident.casualties.injured || 0;
+                    totalChildren += incident.casualties.children_killed || 0;
+                }
+            });
+
+            // Update stats display
+            d3.select("#statsSummary").html(`
+                <div class="stat-item">
+                    <div class="stat-number">${totalIncidents}</div>
+                    <div class="stat-label">Documented Incidents</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${totalKilled.toLocaleString()}</div>
+                    <div class="stat-label">Total Killed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${totalInjured.toLocaleString()}</div>
+                    <div class="stat-label">Total Injured</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${totalChildren.toLocaleString()}</div>
+                    <div class="stat-label">Children Killed</div>
+                </div>
+            `);
+
+            d3.select("#incidentCount").text(`Documenting ${totalIncidents} incidents from 2020-2025`);
+        }
+
+        function initializeTreemap() {
+            console.log("Initializing treemap with mode:", currentViewMode);
+            console.log("Data available:", data);
+            
+            // Clear previous visualization
+            svg.selectAll("*").remove();
+            
+            // Process data for treemap
+            const processedData = {
+                name: "Israel Atrocities Timeline",
+                children: []
+            };
+            
+            if (!data || !data.atrocities || data.atrocities.length === 0) {
+                console.error("No atrocities data available");
+                svg.append("text")
+                    .attr("x", width / 2)
+                    .attr("y", height / 2)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "var(--text-secondary)")
+                    .text("No data available");
+                return;
+            }
+
+            if (currentViewMode === 'casualties') {
+                // Group by casualty scale
+                const scales = {
+                    "Genocidal Campaign": { incidents: [], min: 10000 },
+                    "Mass Atrocity": { incidents: [], min: 1000 },
+                    "Major Incident": { incidents: [], min: 100 },
+                    "Limited Scale": { incidents: [], min: 0 }
+                };
+
+                data.atrocities.forEach(incident => {
+                    const casualties = incident.casualties ? incident.casualties.killed || 0 : 0;
+                    
+                    if (casualties >= 10000) {
+                        scales["Genocidal Campaign"].incidents.push(incident);
+                    } else if (casualties >= 1000) {
+                        scales["Mass Atrocity"].incidents.push(incident);
+                    } else if (casualties >= 100) {
+                        scales["Major Incident"].incidents.push(incident);
+                    } else {
+                        scales["Limited Scale"].incidents.push(incident);
+                    }
+                });
+
+                Object.keys(scales).forEach(scaleName => {
+                    console.log(`Scale ${scaleName}: ${scales[scaleName].incidents.length} incidents`);
+                    if (scales[scaleName].incidents.length > 0) {
+                        processedData.children.push({
+                            name: scaleName,
+                            children: scales[scaleName].incidents.map(incident => ({
+                                ...incident,
+                                value: Math.max(1, incident.casualties ? incident.casualties.killed || 1 : 1)
+                            }))
+                        });
+                    }
+                });
+                
+                console.log("Processed data:", processedData);
+            } else if (currentViewMode === 'chronological') {
+                // Group by time periods
+                const periods = {
+                    "2020-2021": [],
+                    "2022": [],
+                    "2023-2025": []
+                };
+
+                data.atrocities.forEach(incident => {
+                    const date = incident.date;
+                    if (date.includes('2020') || date.includes('2021')) {
+                        periods["2020-2021"].push(incident);
+                    } else if (date.includes('2022')) {
+                        periods["2022"].push(incident);
+                    } else {
+                        periods["2023-2025"].push(incident);
+                    }
+                });
+
+                Object.keys(periods).forEach(period => {
+                    if (periods[period].length > 0) {
+                        processedData.children.push({
+                            name: period,
+                            children: periods[period].map(incident => ({
+                                ...incident,
+                                value: Math.max(1, incident.casualties ? incident.casualties.killed || 1 : 1)
+                            }))
+                        });
+                    }
+                });
+            } else {
+                // Group by location
+                const locations = {};
+                
+                data.atrocities.forEach(incident => {
+                    const location = incident.location || "Unknown";
+                    if (!locations[location]) {
+                        locations[location] = [];
+                    }
+                    locations[location].push(incident);
+                });
+
+                Object.keys(locations).forEach(location => {
+                    processedData.children.push({
+                        name: location,
+                        children: locations[location].map(incident => ({
+                            ...incident,
+                            value: Math.max(1, incident.casualties ? incident.casualties.killed || 1 : 1)
+                        }))
+                    });
+                });
+            }
+
+            // Check if we have data to visualize
+            if (processedData.children.length === 0) {
+                console.warn("No processed data to visualize");
+                svg.append("text")
+                    .attr("x", width / 2)
+                    .attr("y", height / 2)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "var(--text-secondary)")
+                    .text("No data available for current view mode");
+                return;
+            }
+
+            // Create treemap
+            const root = d3.hierarchy(processedData)
+                .sum(d => d.value || 0)
+                .sort((a, b) => b.value - a.value);
+            
+            console.log("Hierarchy created:", root);
+            
+            d3.treemap()
+                .size([width, height])
+                .padding(3)
+                .paddingOuter(5)
+                .paddingTop(25)
+                (root);
+                
+            console.log("Treemap layout complete");
+            
+            // Create groups for categories
+            const categoryGroups = svg.selectAll("g.category")
+                .data(root.children)
+                .enter().append("g")
+                .attr("class", "category");
+            
+            // Add category rectangles
+            categoryGroups.append("rect")
+                .attr("x", d => d.x0)
+                .attr("y", d => d.y0)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0)
+                .attr("fill", d => getCategoryColor(d.data.name))
+                .attr("opacity", 0.3)
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 2);
+            
+            // Add category labels
+            categoryGroups.append("text")
+                .attr("class", "period-text")
+                .attr("x", d => d.x0 + 5)
+                .attr("y", d => d.y0 + 18)
+                .text(d => d.data.name)
+                .style("font-size", d => Math.min(16, Math.max(12, (d.x1 - d.x0) / 12)) + "px");
+            
+            // Add incident rectangles
+            const incidentNodes = categoryGroups.selectAll("rect.incident")
+                .data(d => d.children || [])
+                .enter().append("rect")
+                .attr("class", "treemap-node incident")
+                .attr("x", d => d.x0)
+                .attr("y", d => d.y0)
+                .attr("width", d => d.x1 - d.x0)
+                .attr("height", d => d.y1 - d.y0)
+                .attr("fill", d => getIncidentColor(d.data))
+                .on("mouseover", handleMouseOver)
+                .on("mouseout", handleMouseOut)
+                .on("click", handleClick);
+            
+            // Add incident labels
+            categoryGroups.selectAll("text.incident")
+                .data(d => d.children || [])
+                .enter().append("text")
+                .attr("class", "treemap-text incident")
+                .attr("x", d => d.x0 + 3)
+                .attr("y", d => d.y0 + 15)
+                .text(d => {
+                    const rectWidth = d.x1 - d.x0;
+                    const rectHeight = d.y1 - d.y0;
+                    const name = d.data.incident;
+                    
+                    if (rectWidth < 60 || rectHeight < 20) return "";
+                    
+                    if (rectWidth < 100) {
+                        return name.substring(0, 8) + "...";
+                    } else if (rectWidth < 150) {
+                        return name.substring(0, 15) + (name.length > 15 ? "..." : "");
+                    } else {
+                        return name.length > 25 ? name.substring(0, 25) + "..." : name;
+                    }
+                })
+                .style("font-size", d => {
+                    const rectWidth = d.x1 - d.x0;
+                    if (rectWidth < 80) return "9px";
+                    if (rectWidth < 120) return "10px";
+                    return "11px";
+                });
+            
+            // Add casualty info
+            categoryGroups.selectAll("text.casualties")
+                .data(d => d.children || [])
+                .enter().append("text")
+                .attr("class", "treemap-text casualties")
+                .attr("x", d => d.x0 + 3)
+                .attr("y", d => d.y0 + 28)
+                .text(d => {
+                    const rectWidth = d.x1 - d.x0;
+                    const rectHeight = d.y1 - d.y0;
+                    
+                    if (rectWidth < 80 || rectHeight < 35) return "";
+                    
+                    const casualties = d.data.casualties;
+                    if (casualties && casualties.killed) {
+                        return `${casualties.killed.toLocaleString()} killed`;
+                    }
+                    return "";
+                })
+                .style("font-size", "9px")
+                .style("opacity", 0.9);
+        }
+
+        function getCategoryColor(categoryName) {
+            const colors = {
+                "Genocidal Campaign": "#4a148c",
+                "Mass Atrocity": "#b71c1c", 
+                "Major Incident": "#f44336",
+                "Limited Scale": "#ff9800",
+                "2020-2021": "#1976d2",
+                "2022": "#388e3c",
+                "2023-2025": "#7b1fa2",
+                "Gaza": "#d32f2f",
+                "West Bank": "#f57c00",
+                "Jerusalem": "#1976d2"
+            };
+            return colors[categoryName] || "#666";
+        }
+
+        function getIncidentColor(incident) {
+            const casualties = incident.casualties ? incident.casualties.killed || 0 : 0;
+            
+            if (casualties >= 10000) return "#4a148c"; // Genocidal
+            if (casualties >= 1000) return "#b71c1c";  // Mass atrocity
+            if (casualties >= 100) return "#f44336";   // Major incident
+            return "#ff9800"; // Limited scale
+        }
+
+        function handleMouseOver(event, d) {
+            tooltip.style("opacity", 1);
+            
+            const incident = d.data;
+            const casualties = incident.casualties || {};
+            
+            let content = `<div style="font-weight: 500; margin-bottom: 8px; color: var(--primary-color);">${incident.incident}</div>`;
+            content += `<div><strong>Date:</strong> ${incident.date}</div>`;
+            content += `<div><strong>Location:</strong> ${incident.location}</div>`;
+            
+            if (casualties.killed) {
+                content += `<div style="margin-top: 8px;"><strong>Casualties:</strong></div>`;
+                content += `<div>• Killed: ${casualties.killed.toLocaleString()}</div>`;
+                if (casualties.injured) content += `<div>• Injured: ${casualties.injured.toLocaleString()}</div>`;
+                if (casualties.children_killed) content += `<div>• Children killed: ${casualties.children_killed.toLocaleString()}</div>`;
+            }
+            
+            content += `<div style="margin-top: 8px; font-style: italic; color: var(--primary-color);">Click for full details</div>`;
+            
+            tooltip.html(content)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+        }
+
+        function handleMouseOut() {
+            tooltip.style("opacity", 0);
+        }
+
+        function handleClick(event, d) {
+            showIncidentInfo(d.data);
+        }
+
+        function showIncidentInfo(incident) {
+            let html = `<h3 style="color: var(--primary-color); margin-bottom: 20px;">📋 ${incident.incident}</h3>`;
+            
+            // Basic info
+            html += `
+                <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--primary-color);">
+                    <strong style="color: var(--text-color);">📅 Incident Details</strong><br>
+                    <div style="margin-top: 8px;">
+                        <div><strong>Date:</strong> ${incident.date}</div>
+                        <div><strong>Location:</strong> ${incident.location}</div>
+                    </div>
+                </div>
+            `;
+
+            // Description
+            if (incident.description) {
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+                        <strong style="color: var(--text-color);">📝 Description</strong><br>
+                        <div style="margin-top: 8px;">
+                            <p style="color: var(--text-secondary); line-height: 1.5;">${incident.description}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Casualties
+            if (incident.casualties) {
+                const casualties = incident.casualties;
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+                        <strong style="color: var(--text-color);">💀 Casualties</strong><br>
+                        <div style="margin-top: 8px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                `;
+                
+                if (casualties.killed) html += `<div><strong>Killed:</strong> ${casualties.killed.toLocaleString()}</div>`;
+                if (casualties.injured) html += `<div><strong>Injured:</strong> ${casualties.injured.toLocaleString()}</div>`;
+                if (casualties.children_killed) html += `<div><strong>Children killed:</strong> ${casualties.children_killed.toLocaleString()}</div>`;
+                if (casualties.women_killed) html += `<div><strong>Women killed:</strong> ${casualties.women_killed.toLocaleString()}</div>`;
+                if (casualties.medical_workers_killed) html += `<div><strong>Medical workers:</strong> ${casualties.medical_workers_killed.toLocaleString()}</div>`;
+                if (casualties.journalists_killed) html += `<div><strong>Journalists:</strong> ${casualties.journalists_killed.toLocaleString()}</div>`;
+                
+                html += `</div></div>`;
+            }
+
+            // Violations
+            if (incident.specific_violations) {
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--genocide-color);">
+                        <strong style="color: var(--text-color);">⚖️ Legal Violations</strong><br>
+                        <div style="margin-top: 8px;">
+                `;
+                
+                incident.specific_violations.forEach(violation => {
+                    html += `
+                        <div style="margin-bottom: 10px; padding: 10px; background: var(--surface-color); border-radius: 4px;">
+                            <strong style="color: var(--genocide-color);">${violation.type}</strong><br>
+                            <small style="color: var(--text-secondary);">${violation.details}</small>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+            }
+
+            // References
+            if (incident.references && incident.references.length > 0) {
+                html += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: var(--background-color); border-radius: 8px; border-left: 4px solid var(--primary-color);">
+                        <strong style="color: var(--text-color);">📚 Sources</strong><br>
+                        <div style="margin-top: 8px;">
+                `;
+                
+                incident.references.slice(0, 5).forEach(ref => {
+                    html += `
+                        <div style="margin-bottom: 8px;">
+                            <a href="${ref.url}" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">
+                                ${ref.source}
+                            </a>
+                        </div>
+                    `;
+                });
+                
+                if (incident.references.length > 5) {
+                    html += `<div style="text-align: center; margin-top: 10px;"><small style="color: var(--text-secondary);">And ${incident.references.length - 5} more sources...</small></div>`;
+                }
+                
+                html += `</div></div>`;
+            }
+
+            d3.select("#incidentInfo").html(html);
+        }
+
+        function setupEventListeners() {
+            d3.select("#viewMode").on("change", function () {
+                currentViewMode = this.value;
+                initializeTreemap();
+            });
+            
+            d3.select("#resetView").on("click", function () {
+                currentViewMode = 'casualties';
+                d3.select("#viewMode").property("value", "casualties");
+                initializeTreemap();
+            });
+            
+            d3.select("#themeToggle").on("click", function () {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                
+                const button = d3.select(this);
+                button.text(newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
+                
+                // Reinitialize to update colors
+                initializeTreemap();
+            });
+        }
+    </script>
+</body>
+</html>

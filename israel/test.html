@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Israel Data</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <h1>Testing Israel Atrocities Data</h1>
+    <div id="result"></div>
+    
+    <script>
+        d3.json("atro_israel.json").then(function(data) {
+            console.log("Data loaded:", data);
+            document.getElementById("result").innerHTML = `
+                <p>✅ Data loaded successfully!</p>
+                <p>Number of atrocities: ${data.atrocities.length}</p>
+                <ul>
+                    ${data.atrocities.map(a => `<li>${a.incident} (${a.date}) - ${a.casualties ? a.casualties.killed || 0 : 0} killed</li>`).join('')}
+                </ul>
+            `;
+        }).catch(error => {
+            console.error("Error:", error);
+            document.getElementById("result").innerHTML = `<p>❌ Error: ${error.message}</p>`;
+        });
+    </script>
+</body>
+</html>
