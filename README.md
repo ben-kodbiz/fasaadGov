@@ -8,6 +8,96 @@ This project is currently under active development and in alpha stage. Data, vis
 
 A comprehensive platform documenting networks of complicity that enable oppression, occupation, and human rights violations through interactive D3.js data visualizations.
 
+## Site Architecture
+
+```
+Accountability Hub
+├── Main Hub (index.html)
+│   ├── US Atrocities Treemap
+│   ├── Arab Complicity Analysis  
+│   ├── Corporate Network
+│   └── Israel Timeline
+│
+├── US Atrocities Section
+│   ├── Interactive Treemap (index.html)
+│   ├── Data: us_interventions.json (1,338 events)
+│   ├── Search & Filter System
+│   └── Regional/Category Views
+│
+├── Arab Complicity Section (arabs_complicit/)
+│   ├── Sunburst Visualization (index.html)
+│   ├── Investment Data (arabs_investment.json)
+│   ├── Relationship Data (arabs_complicit.json)
+│   └── Financial Flow Analysis
+│
+├── Corporate Network Section (companies_complicit/)
+│   ├── Network Graph (index.html)
+│   ├── Treemap View (treemap.html)
+│   ├── Company Data (companies_enhanced.json)
+│   └── News Integration System
+│
+├── Israel Documentation Section (israel/)
+│   ├── Incident Treemap (simple_treemap.html)
+│   │   ├── 14 documented incidents (1996-2025)
+│   │   ├── Equal-sized visualization
+│   │   └── Source: atro_israel.json
+│   │
+│   └── Casualties Timeline (timeline.html)
+│       ├── 30-year historical data (2000-2025)
+│       ├── Interactive bar chart
+│       ├── Linear/Log scale toggle
+│       ├── Lancet study integration
+│       └── Source: casualties_data.json
+│
+├── Data Processing Pipeline
+│   ├── Python validation scripts
+│   ├── JSON data formats
+│   ├── Source verification system
+│   └── Automated updates
+│
+└── Technical Infrastructure
+    ├── D3.js v7 visualizations
+    ├── Responsive CSS design
+    ├── Cross-browser compatibility
+    └── Static site deployment
+```
+
+## Navigation Flow
+
+```
+Main Hub
+    ├── US Atrocities → Treemap Visualization
+    ├── Arab Complicity → Sunburst Analysis
+    ├── Corporate Network → Network Graph ↔ Treemap View
+    └── Israel Timeline → Incident Treemap ↔ Casualties Timeline
+```
+
+## Data Sources Integration
+
+```
+Primary Sources
+├── UN Human Rights Council Reports
+├── Gaza Health Ministry Records
+├── B'Tselem Documentation
+├── OCHA Casualty Data
+├── Congressional Research Service
+├── Academic Research Papers
+└── Government Documents
+
+Processing Pipeline
+├── Source Verification
+├── Data Standardization  
+├── Cross-Reference Validation
+├── JSON Format Conversion
+└── Automated Quality Checks
+
+Visualization Output
+├── Interactive Charts
+├── Searchable Databases
+├── Filtered Views
+└── Detailed Information Panels
+```
+
 ## Overview
 
 The Accountability Hub consists of three data visualizations that reveal different aspects of systemic complicity and accountability gaps in international relations, corporate behavior, and geopolitical dynamics.
@@ -31,7 +121,7 @@ An interactive treemap visualization documenting US interventions and military a
 - Search functionality for specific events or locations
 
 **Data Sources:**
-- Original research compilation by dessalines (https://github.com/dessalines/essays/blob/main/us_atrocities.md)
+- Original research compilation by dessalines
 - Congressional Research Service reports
 - Department of Defense historical records
 - Academic research from universities and think tanks
@@ -63,26 +153,61 @@ A sunburst visualization analyzing Arab countries' diplomatic, economic, and mil
 
 ### 3. Corporate Complicity Network
 
-A force-directed network graph revealing corporate entities involved in enabling human rights violations and supporting oppressive systems.
+A dual-view system revealing corporate entities involved in enabling human rights violations and supporting oppressive systems.
 
 **Data Coverage:**
-- 25+ major corporations across 8 sectors
+- 39 major corporations across 8 sectors
 - Combined revenue exceeding 1 trillion USD
 - Detailed involvement analysis based on UN investigations
-- Corporate subsidiary and partnership networks
+- Integrated news articles from AFSC investigations
 
 **Visualization Features:**
 - Interactive network graph showing corporate connections
+- Equal-sized treemap for better company visibility
 - Detailed company profiles with involvement summaries
 - Sector-based filtering and analysis
-- Revenue and impact data visualization
+- News articles integration with confidence scoring
 
 **Data Sources:**
 - UN Human Rights Council Report A/HRC/59/23
+- American Friends Service Committee investigations
 - Corporate financial filings and annual reports
 - Human rights organization investigations
 - Government procurement records
-- Academic research on corporate accountability
+
+### 4. Israel Documentation System
+
+A comprehensive documentation system with dual visualization approaches for historical incident analysis.
+
+**Data Coverage:**
+- 14 documented incidents spanning 1996-2025
+- 30-year casualty timeline with multiple source integration
+- Lancet study integration showing under-reporting estimates
+- Legal violations documentation (genocide, war crimes, crimes against humanity)
+
+**Visualization Features:**
+
+**Incident Treemap:**
+- Equal-sized rectangles for all documented incidents
+- Color intensity based on casualty scale
+- Detailed incident information with source attribution
+- Legal violations breakdown and evidence documentation
+
+**Casualties Timeline:**
+- Interactive bar chart spanning 2000-2025
+- Linear and logarithmic scale options
+- Multiple data source integration (Gaza Health Ministry, UN OCHA, B'Tselem)
+- Lancet study estimates including indirect deaths (186,000+ total estimate)
+
+**Data Sources:**
+- Gaza Health Ministry records
+- UN Office for the Coordination of Humanitarian Affairs (OCHA)
+- B'Tselem documentation
+- The Lancet peer-reviewed studies
+- Human Rights Watch investigations
+- Amnesty International reports
+- Middle East Eye documentation
+- Global Centre for the Responsibility to Protect
 
 ## Technical Implementation
 
@@ -129,18 +254,49 @@ All visualizations follow strict data collection and verification protocols:
 ## Project Structure
 
 ```
-├── index.html                    # Main landing page
-├── treemap.html                  # US Atrocities visualization
-├── arabs_complicit/
-│   ├── index.html               # Arab complicity analysis
-│   ├── arabs_complicit.json     # Relationship data
-│   └── arabs_investment.json    # Investment data
-├── companies_complicit/
-│   ├── index.html               # Corporate network graph
-│   └── companies_enhanced.json  # Enhanced company data
-├── data/
-│   └── us_interventions.json    # US interventions dataset
-└── scripts/                     # Data processing utilities
+├── index.html                          # Main hub with navigation
+├── upload.html                         # Article upload interface
+├── robots.txt                          # Search engine directives
+├── sitemap.xml                         # Site structure map
+│
+├── arabs_complicit/                    # Arab Complicity Analysis
+│   ├── index.html                      # Sunburst visualization
+│   ├── demo.html                       # Demo version
+│   ├── arabs_complicit.json           # Relationship data
+│   └── arabs_investment.json          # Investment flow data
+│
+├── companies_complicit/                # Corporate Network Analysis
+│   ├── index.html                      # Network graph visualization
+│   ├── treemap.html                    # Treemap view
+│   ├── companies_enhanced.json        # Company data with news
+│   └── sankey.html                     # Flow diagram (legacy)
+│
+├── israel/                             # Israel Documentation
+│   ├── simple_treemap.html            # Incident treemap (1996-2025)
+│   ├── timeline.html                   # Casualties timeline (2000-2025)
+│   ├── atro_israel.json               # Incident documentation
+│   ├── casualties_data.json           # Historical casualty data
+│   └── test.html                       # Data validation tool
+│
+├── data/                               # Core datasets
+│   ├── us_interventions.json          # US interventions (1,338 events)
+│   └── us_interventions_backup.json   # Data backup
+│
+├── harvester/                          # News integration system
+│   ├── scraper.py                      # News article scraper
+│   ├── integrate_news.py               # Data integration tool
+│   ├── output/                         # Scraped data storage
+│   └── utils/                          # Processing utilities
+│
+├── scripts/                            # Data processing tools
+│   └── markdown_to_json.py             # Format conversion
+│
+├── .kiro/                              # Development environment
+│   ├── specs/                          # Project specifications
+│   └── steering/                       # Development guidelines
+│
+└── tests/                              # Quality assurance
+    └── validation scripts
 ```
 
 ## Contributing

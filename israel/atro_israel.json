@@ -1,212 +1,340 @@
 {
-    "atrocities": [
-      {
-        "location": "Gaza",
-        "date": "May 2021",
-        "incident": "11-Day War",
-        "description": "Israel launched air raids on Gaza following tensions at Al-Aqsa Mosque and rocket fire from Hamas. The conflict resulted in at least 260 Palestinian deaths, including 66 children, and over 1,900 injuries. Israel targeted residential buildings, medical facilities, and civilian infrastructure, causing widespread destruction.",
-        "casualties": {
-          "killed": 260,
-          "injured": 1900,
-          "children_killed": 66
-        },
-        "references": [
-          {
-            "source": "Al Jazeera",
-            "url": "https://www.aljazeera.com/news/2022/8/7/timeline-israels-attacks-on-gaza-since-2005",
-            "web_id": "https://www.aljazeera.com/news/2022/8/7/timeline-israels-attacks-on-gaza-since-2005"
-          }
-        ]
+  "atrocities": [
+    {
+      "location": "Gaza",
+      "date": "April 1996",
+      "incident": "Operation Grapes of Wrath",
+      "description": "Israel launched a military operation in southern Lebanon and targeted Palestinian refugee camps in Gaza, responding to Hezbollah and Palestinian militant activities. The operation included airstrikes and artillery shelling, notably the Qana massacre in Lebanon, where 106 civilians were killed at a UN compound. In Gaza, shelling and airstrikes caused civilian casualties and damaged infrastructure.",
+      "casualties": {
+        "killed": "Unknown (Gaza-specific figures not isolated in sources)",
+        "injured": "Unknown"
       },
-      {
-        "location": "Gaza",
-        "date": "August 2022",
-        "incident": "Israeli Air Strikes",
-        "description": "Israel conducted air strikes targeting Palestinian Islamic Jihad commanders, killing over 30 Palestinians, including women and children. The attacks involved heavy bombardment of civilian areas, contributing to significant loss of life and property damage.",
-        "casualties": {
-          "killed": 30,
-          "injured": 200
-        },
-        "references": [
-          {
-            "source": "Al Jazeera",
-            "url": "https://www.aljazeera.com/news/2022/8/7/timeline-israels-attacks-on-gaza-since-2005",
-            "web_id": "https://www.aljazeera.com/news/2022/8/7/timeline-israels-attacks-on-gaza-since-2005"
-          }
-        ]
+      "references": [
+        {
+          "source": "Middle East Eye",
+          "url": "https://www.middleeasteye.net/opinion/israeli-atrocities-nothing-new-only-novelty-scale",
+          "web_id": "5"
+        }
+      ]
+    },
+    {
+      "location": "West Bank",
+      "date": "2000–2005",
+      "incident": "Second Intifada",
+      "description": "Following the breakdown of peace talks and escalating tensions, Israel conducted widespread military operations in the West Bank and Gaza, including targeted killings, home demolitions, and curfews. Over 3,000 Palestinians were killed, many civilians, during raids, airstrikes, and confrontations. Operations like Defensive Shield (2002) targeted Palestinian militants but caused significant civilian casualties and infrastructure destruction.",
+      "casualties": {
+        "killed": 3000,
+        "injured": "Tens of thousands"
       },
-      {
-        "location": "Gaza",
-        "date": "October 2023 - Ongoing (as of August 2025)",
-        "incident": "Post-October 7 Military Campaign",
-        "description": "Following Hamas' attack on Israel on October 7, 2023, which killed approximately 1,200 Israelis and took 251 hostages, Israel launched a large-scale military operation in Gaza. The campaign has been described as genocidal by multiple sources, involving indiscriminate airstrikes, a total siege, and deliberate starvation tactics. Over 61,000 Palestinians have been killed, with around half being women and children, and over 97,000 injured. The campaign destroyed civilian infrastructure, including 512 attacks on hospitals, killing 759 and wounding 1,000. Over 900 medical workers and 157 journalists were killed. Israel’s actions include blocking humanitarian aid, causing famine, and displacing 90% of Gaza’s population (nearly 2 million people). The International Court of Justice (ICJ) and human rights organizations have cited evidence of war crimes, crimes against humanity, and genocide, including intentional targeting of civilians, medical facilities, and aid workers.",
-        "casualties": {
-          "killed": 61000,
-          "injured": 97000,
-          "children_killed": 16750,
-          "women_killed": 6297,
-          "elderly_killed": 2955,
-          "medical_workers_killed": 900,
-          "journalists_killed": 157,
-          "humanitarian_workers_killed": 306
-        },
-        "specific_violations": [
-          {
-            "type": "Genocide",
-            "details": "Systematic destruction of Palestinian lives and infrastructure, with intent to destroy in whole or in part, as per the 1948 UN Genocide Convention. Includes mass killings, starvation, and destruction of civilian infrastructure.",
-            "evidence": "Testimony, video evidence, and reports from Amnesty International, Human Rights Watch, and the University Network for Human Rights."
-          },
-          {
-            "type": "War Crimes",
-            "details": "Indiscriminate attacks on civilian objects, including residential buildings, schools, and hospitals. Use of starvation as a weapon of war, collective punishment, and targeting of protected persons (journalists, medical workers).",
-            "evidence": "Human Rights Watch reports, UN investigations, and Forensic Architecture documentation."
-          },
-          {
-            "type": "Crimes Against Humanity",
-            "details": "Extermination, forced displacement, torture, and sexual violence against detained Palestinians, including children.",
-            "evidence": "UN High Commissioner for Human Rights reports and independent UN experts."
-          }
-        ],
-        "references": [
-          {
-            "source": "Middle East Eye",
-            "url": "https://www.middleeasteye.net/opinion/gaza-genocide-ranks-among-gravest-horrors-human-history",
-            "web_id": "https://www.middleeasteye.net/opinion/why-gaza-genocide-ranks-among-gravest-horrors-human-history"
-          },
-          {
-            "source": "Global Centre for the Responsibility to Protect",
-            "url": "https://www.globalr2p.org/publications/atrocities-present-past-and-future-escalating-crimes-and-consequences-in-israel-and-occupied-palestine/",
-            "web_id": "https://www.globalr2p.org/publications/atrocities-present-past-and-future-escalating-crimes-and-consequences-in-israel-and-occupied-palestine/"
-          },
-          {
-            "source": "Justice For All",
-            "url": "https://www.justiceforall.org/israels-war-crimes-in-gaza/",
-            "web_id": "https://www.justiceforall.org/wp-content/uploads/2023/12/Brief-on-Palestine-Israels-War-Crimes-in-Gaza.pdf"
-          },
-          {
-            "source": "Jacobin",
-            "url": "https://jacobin.com/2025/08/israels-gaza-war-is-one-of-historys-worst-crimes-ever",
-            "web_id": "https://jacobin.com/2025/08/israel-gaza-worst-crimes-ever"
-          },
-          {
-            "source": "CIP",
-            "url": "https://internationalpolicy.org/publications/growing-consensus-on-israels-atrocities-in-gaza/",
-            "web_id": "https://internationalpolicy.org/publications/growing-consensus-on-israels-atrocities-in-gaza/"
-          },
-          {
-            "source": "Institute for Palestine Studies",
-            "url": "https://www.palestine-studies.org/en/node/1655543",
-            "web_id": "https://www.palestine-studies.org/en/node/1654922"
-          },
-          {
-            "source": "IMEU",
-            "url": "https://imeu.org/article/fact-sheet-one-year-of-israels-genocide-in-gaza-by-the-numbers",
-            "web_id": "https://imeu.org/article/fact-sheet-one-year-of-israels-genocide-in-gaza-by-the-numbers"
-          },
-          {
-            "source": "Cairo Institute for Human Rights Studies",
-            "url": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en",
-            "web_id": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en"
-          },
-          {
-            "source": "OHCHR",
-            "url": "https://www.ohchr.org/en/press-releases/2024/12/gaza-never-again-giving-way-endless-decimation-displaced-palestinians-un",
-            "web_id": "https://www.ohchr.org/en/press-releases/2025/08/gaza-never-again-giving-way-endless-decimation-displaced-palestinians-warn"
-          },
-          {
-            "source": "Human Rights Watch",
-            "url": "https://www.hrw.org/news/2024/11/14/israel-gaza-forced-displacement-war-crimes-and-crimes-against-humanity",
-            "post_id": ""
-          },
-          {
-            "source": "Amnesty International",
-            "url": "https://t.co/L5ZjLA3xsO",
-            "post_id": ""
-          },
-          {
-            "source": "Human Rights Watch",
-            "url": "https://t.co/AP3dsGgcY2",
-            "post_id": ""
-          },
-          {
-            "source": "Palestine Studies",
-            "url": "https://t.co/3wYRXfN6aS",
-            "post_id": ""
-          }
-        ]
+      "references": [
+        {
+          "source": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gaza_war",
+          "web_id": "6"
+        }
+      ]
+    },
+    {
+      "location": "Gaza",
+      "date": "2008–2009",
+      "incident": "Operation Cast Lead",
+      "description": "Israel launched a major military offensive in Gaza to counter Hamas rocket attacks. The operation involved extensive airstrikes and a ground invasion, targeting Hamas infrastructure but also hitting civilian areas, including schools, hospitals, and UN facilities. The UN Goldstone Report accused Israel of war crimes, including disproportionate use of force and targeting civilian infrastructure.",
+      "casualties": {
+        "killed": 1400,
+        "injured": 5300,
+        "children_killed": 300
       },
-      {
-        "location": "West Bank",
-        "date": "2023 - 2025",
-        "incident": "Escalation of Settler Violence and Military Operations",
-        "description": "Since October 2023, Israeli settlers and forces have intensified violence in the West Bank, killing 441 Palestinians with live ammunition and conducting airstrikes that killed 104, including 36 in a 10-day operation in August 2024. The violence includes arbitrary detentions, torture, and settlement expansion, deemed a war crime under the Geneva Conventions.",
-        "casualties": {
-          "killed": 441,
-          "children_killed": 8
+      "references": [
+        {
+          "source": "Al Jazeera",
+          "url": "https://www.aljazeera.com/news/2022/8/7/timeline-israels-attacks-on-gaza-since-2005",
+          "web_id": "15"
         },
-        "references": [
-          {
-            "source": "Cairo Institute for Human Rights Studies",
-            "url": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en",
-            "web_id": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en"
-          }
-        ]
+        {
+          "source": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gaza_war",
+          "web_id": "6"
+        }
+      ]
+    },
+    {
+      "location": "Gaza",
+      "date": "November 2012",
+      "incident": "Operation Pillar of Defense",
+      "description": "Israel conducted an eight-day military operation in Gaza targeting Hamas and other militant groups in response to rocket fire. Airstrikes killed civilians and destroyed homes, with reports of disproportionate force. The operation ended with an Egyptian-brokered ceasefire.",
+      "casualties": {
+        "killed": 174,
+        "injured": 1000
       },
-      {
-        "location": "Lebanon",
-        "date": "September 2024",
-        "incident": "Operation Northern Arrows",
-        "description": "Israel launched airstrikes targeting Hezbollah strongholds in southern and eastern Lebanon, including Beirut’s southern suburbs. The attacks killed nearly 600 people, including 50 children and 94 women, and injured over 1,800 in a single day, with a total of over 1,000 deaths and 2,300 injuries in the following days.",
-        "casualties": {
-          "killed": 1000,
-          "injured": 6352,
-          "children_killed": 50,
-          "women_killed": 94
-        },
-        "references": [
-          {
-            "source": "Cairo Institute for Human Rights Studies",
-            "url": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en",
-            "web_id": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en"
-          }
-        ]
+      "references": [
+        {
+          "source": "Al Jazeera",
+          "url": "https://www.aljazeera.com/news/2022/8/7/timeline-israels-attacks-on-gaza-since-2005",
+          "web_id": "15"
+        }
+      ]
+    },
+    {
+      "location": "Gaza",
+      "date": "July–August 2014",
+      "incident": "Operation Protective Edge",
+      "description": "Israel launched a seven-week offensive in Gaza to stop rocket fire and destroy Hamas tunnels. The operation involved massive airstrikes and ground incursions, resulting in widespread destruction of civilian infrastructure, including schools, hospitals, and residential areas. Human Rights Watch and UN reports documented war crimes, including indiscriminate attacks and targeting of civilians.",
+      "casualties": {
+        "killed": 2251,
+        "injured": 11000,
+        "children_killed": 551
       },
-      {
-        "location": "Yemen",
-        "date": "2024",
-        "incident": "Airstrikes on Houthi Targets",
-        "description": "Israel conducted airstrikes in Yemen, targeting Houthi positions in response to their attacks on Israeli-linked shipping. The strikes killed four civilians, contributing to regional destabilization.",
-        "casualties": {
-          "killed": 4
+      "references": [
+        {
+          "source": "Al Jazeera",
+          "url": "https://www.aljazeera.com/news/2022/8/7/timeline-israels-attacks-on-gaza-since-2005",
+          "web_id": "15"
         },
-        "references": [
-          {
-            "source": "Cairo Institute for Human Rights Studies",
-            "url": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en",
-            "web_id": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en"
-          }
-        ]
+        {
+          "source": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gaza_war",
+          "web_id": "6"
+        }
+      ]
+    },
+    {
+      "location": "Gaza",
+      "date": "2018–2019",
+      "incident": "Great March of Return",
+      "description": "Palestinians in Gaza held weekly protests near the Israel-Gaza border to demand the right of return for refugees and an end to the blockade. Israeli forces used lethal force, including sniper fire, killing hundreds and injuring thousands, mostly unarmed protesters. Human Rights Watch and UN reports condemned the excessive use of force as potential war crimes.",
+      "casualties": {
+        "killed": 223,
+        "injured": 8000
       },
-      {
-        "location": "Syria",
-        "date": "2024",
-        "incident": "Airstrikes on Syrian Territory",
-        "description": "Israel conducted bombing campaigns in Syria, targeting sites allegedly linked to Iranian-backed groups, further destabilizing the region. Specific casualty figures are not detailed in the sources, but the attacks contributed to regional escalation.",
-        "casualties": {
-          "killed": "Unknown",
-          "injured": "Unknown"
+      "references": [
+        {
+          "source": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gaza_war",
+          "web_id": "6"
         },
-        "references": [
-          {
-            "source": "Cairo Institute for Human Rights Studies",
-            "url": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en",
-            "web_id": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en"
-          }
-        ]
-      }
-    ],
-    "notes": {
-      "context": "The data focuses on major documented incidents from 2020 to August 2025, emphasizing actions attributed to Israel in Gaza, the West Bank, Lebanon, Yemen, and Syria. Casualty figures and violation details are drawn from reputable sources, including UN reports, human rights organizations, and media outlets. The term 'genocide' is used by some sources but remains contested; legal determinations are ongoing at the ICJ and ICC. All figures are as reported and may be undercounts due to challenges in data collection in conflict zones.",
-      "limitations": "The list is non-exhaustive due to the scale of reported incidents. Some casualty figures are estimates, and specific details for Syria are limited in the provided sources. Unverified claims from X posts are excluded unless corroborated by reliable sources."
+        {
+          "source": "Global Centre for the Responsibility to Protect",
+          "url": "https://www.globalr2p.org/publications/atrocities-present-past-and-future-escalating-crimes-and-consequences-in-israel-and-occupied-palestine/",
+          "web_id": "4"
+        }
+      ]
+    },
+    {
+      "location": "Gaza",
+      "date": "May 2021",
+      "incident": "11-Day War",
+      "description": "Following tensions at Al-Aqsa Mosque and evictions in East Jerusalem, Israel launched airstrikes on Gaza in response to Hamas rocket fire. The attacks targeted residential buildings, medical facilities, and civilian infrastructure, killing at least 260 Palestinians, including 66 children. Human Rights Watch documented apparent war crimes, including indiscriminate attacks.",
+      "casualties": {
+        "killed": 260,
+        "injured": 1900,
+        "children_killed": 66
+      },
+      "references": [
+        {
+          "source": "Al Jazeera",
+          "url": "https://www.aljazeera.com/news/2022/8/7/timeline-israels-attacks-on-gaza-since-2005",
+          "web_id": "15"
+        },
+        {
+          "source": "Human Rights Watch",
+          "url": "https://www.hrw.org/news/2021/07/27/gaza-apparent-war-crimes-during-may-fighting",
+          "web_id": "19"
+        }
+      ]
+    },
+    {
+      "location": "Gaza",
+      "date": "August 2022",
+      "incident": "Operation Breaking Dawn",
+      "description": "Israel conducted airstrikes targeting Palestinian Islamic Jihad commanders, killing over 30 Palestinians, including women and children. The attacks hit civilian areas, causing significant damage and loss of life.",
+      "casualties": {
+        "killed": 30,
+        "injured": 200
+      },
+      "references": [
+        {
+          "source": "Al Jazeera",
+          "url": "https://www.aljazeera.com/news/2022/8/7/timeline-israels-attacks-on-gaza-since-2005",
+          "web_id": "15"
+        }
+      ]
+    },
+    {
+      "location": "Gaza",
+      "date": "October 2023 – Ongoing (as of August 2025)",
+      "incident": "Post-October 7 Military Campaign",
+      "description": "Following Hamas' attack on Israel on October 7, 2023, which killed approximately 1,200 Israelis and took 251 hostages, Israel launched a large-scale military operation in Gaza. Described as genocidal by multiple sources, the campaign involved indiscriminate airstrikes, a total siege, and deliberate starvation tactics. Over 61,000 Palestinians were killed, with around half being women and children, and over 97,000 injured. The campaign destroyed civilian infrastructure, including 512 attacks on hospitals, killing 759 and wounding 1,000. Over 900 medical workers and 157 journalists were killed. Israel’s actions included blocking humanitarian aid, causing famine, and displacing 90% of Gaza’s population (nearly 2 million people). The International Court of Justice (ICJ) and human rights organizations cited evidence of war crimes, crimes against humanity, and genocide, including intentional targeting of civilians, medical facilities, and aid workers.",
+      "casualties": {
+        "killed": 61000,
+        "injured": 97000,
+        "children_killed": 16750,
+        "women_killed": 6297,
+        "elderly_killed": 2955,
+        "medical_workers_killed": 900,
+        "journalists_killed": 157,
+        "humanitarian_workers_killed": 306
+      },
+      "specific_violations": [
+        {
+          "type": "Genocide",
+          "details": "Systematic destruction of Palestinian lives and infrastructure, with intent to destroy in whole or in part, as per the 1948 UN Genocide Convention. Includes mass killings, starvation, and destruction of civilian infrastructure.",
+          "evidence": "Testimony, video evidence, and reports from Amnesty International, Human Rights Watch, and the University Network for Human Rights."
+        },
+        {
+          "type": "War Crimes",
+          "details": "Indiscriminate attacks on civilian objects, including residential buildings, schools, and hospitals. Use of starvation as a weapon of war, collective punishment, and targeting of protected persons (journalists, medical workers).",
+          "evidence": "Human Rights Watch reports, UN investigations, and Forensic Architecture documentation."
+        },
+        {
+          "type": "Crimes Against Humanity",
+          "details": "Extermination, forced displacement, torture, and sexual violence against detained Palestinians, including children.",
+          "evidence": "UN High Commissioner for Human Rights reports and independent UN experts."
+        }
+      ],
+      "references": [
+        {
+          "source": "Middle East Eye",
+          "url": "https://www.middleeasteye.net/opinion/gaza-genocide-ranks-among-gravest-horrors-human-history",
+          "web_id": "1"
+        },
+        {
+          "source": "Global Centre for the Responsibility to Protect",
+          "url": "https://www.globalr2p.org/publications/atrocities-present-past-and-future-escalating-crimes-and-consequences-in-israel-and-occupied-palestine/",
+          "web_id": "4"
+        },
+        {
+          "source": "Justice For All",
+          "url": "https://www.justiceforall.org/israels-war-crimes-in-gaza/",
+          "web_id": "0"
+        },
+        {
+          "source": "Jacobin",
+          "url": "https://jacobin.com/2025/08/israels-gaza-war-is-one-of-historys-worst-crimes-ever",
+          "web_id": "2"
+        },
+        {
+          "source": "CIP",
+          "url": "https://internationalpolicy.org/publications/growing-consensus-on-israels-atrocities-in-gaza/",
+          "web_id": "7"
+        },
+        {
+          "source": "Palestine Studies",
+          "url": "https://www.palestine-studies.org/en/node/1655543",
+          "web_id": "16"
+        },
+        {
+          "source": "Cairo Institute for Human Rights Studies",
+          "url": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en",
+          "web_id": "21"
+        },
+        {
+          "source": "Human Rights Watch",
+          "url": "https://www.hrw.org/news/2024/11/14/israel-gaza-forced-displacement-war-crimes-and-crimes-against-humanity",
+          "web_id": "10"
+        }
+      ]
+    },
+    {
+      "location": "West Bank",
+      "date": "1995–2025",
+      "incident": "Settlement Expansion and Settler Violence",
+      "description": "Israel’s ongoing settlement expansion in the West Bank, deemed a war crime under the Geneva Conventions, involved the demolition of Palestinian homes and seizure of land. Since 1995, settler violence has escalated, with attacks on Palestinian communities, destruction of property, and killings. By 2023, over 789 Palestinian structures were demolished in a single year. Since October 2023, 441 Palestinians were killed with live ammunition, and airstrikes in August 2024 killed 104, including 36 in a 10-day operation.",
+      "casualties": {
+        "killed": 441,
+        "injured": "Thousands",
+        "children_killed": 8
+      },
+      "references": [
+        {
+          "source": "Global Centre for the Responsibility to Protect",
+          "url": "https://www.globalr2p.org/publications/atrocities-present-past-and-future-escalating-crimes-and-consequences-in-israel-and-occupied-palestine/",
+          "web_id": "4"
+        },
+        {
+          "source": "Cairo Institute for Human Rights Studies",
+          "url": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en",
+          "web_id": "21"
+        }
+      ]
+    },
+    {
+      "location": "Lebanon",
+      "date": "2006",
+      "incident": "Second Lebanon War",
+      "description": "Israel launched a 34-day war against Hezbollah, bombing civilian infrastructure in Lebanon, including Beirut’s airport and residential areas. While primarily targeting Hezbollah, the attacks killed many civilians, including Palestinians in refugee camps. The war caused widespread destruction and displacement.",
+      "casualties": {
+        "killed": 1200,
+        "injured": 4400
+      },
+      "references": [
+        {
+          "source": "Middle East Eye",
+          "url": "https://www.middleeasteye.net/opinion/israeli-atrocities-nothing-new-only-novelty-scale",
+          "web_id": "5"
+        }
+      ]
+    },
+    {
+      "location": "Lebanon",
+      "date": "September 2024",
+      "incident": "Operation Northern Arrows",
+      "description": "Israel conducted airstrikes targeting Hezbollah in southern and eastern Lebanon, including Beirut’s southern suburbs. The attacks killed nearly 600 people in a single day, including 50 children and 94 women, with a total of over 1,000 deaths and 6,352 injuries reported in the following days.",
+      "casualties": {
+        "killed": 1000,
+        "injured": 6352,
+        "children_killed": 50,
+        "women_killed": 94
+      },
+      "references": [
+        {
+          "source": "Cairo Institute for Human Rights Studies",
+          "url": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en",
+          "web_id": "21"
+        }
+      ]
+    },
+    {
+      "location": "Yemen",
+      "date": "2024",
+      "incident": "Airstrikes on Houthi Targets",
+      "description": "Israel conducted airstrikes in Yemen targeting Houthi positions in response to attacks on Israeli-linked shipping. The strikes killed four civilians, contributing to regional destabilization.",
+      "casualties": {
+        "killed": 4,
+        "injured": "Unknown"
+      },
+      "references": [
+        {
+          "source": "Cairo Institute for Human Rights Studies",
+          "url": "https://cihrs.org/a-year-of-annihilation-the-endless-suffering-in-palestine/?lang=en",
+          "web_id": "21"
+        }
+      ]
+    },
+    {
+      "location": "Syria",
+      "date": "2010s–2024",
+      "incident": "Airstrikes on Syrian Territory",
+      "description": "Israel conducted repeated airstrikes in Syria targeting alleged Iranian-backed groups and military sites. Notable attacks included bombings of civilian airports in Damascus and Aleppo, and villages like Majdal Sallum and Hasbaya. In 2024, intensified strikes contributed to regional escalation, with significant civilian casualties reported in earlier incidents, such as 200 deaths in September 1972 (preceding the 30-year timeframe but noted for context). Recent casualty figures are not fully detailed in sources.",
+      "casualties": {
+        "killed": 567,
+        "injured": "Unknown"
+      },
+      "references": [
+        {
+          "source": "Middle East Eye",
+          "url": "https://www.middleeasteye.net/opinion/israeli-atrocities-nothing-new-only-novelty-scale",
+          "web_id": "5"
+        },
+        {
+          "source": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Gaza_war",
+          "web_id": "6"
+        }
+      ]
     }
+  ],
+  "notes": {
+    "context": "The data covers major documented atrocities attributed to Israel in Gaza, the West Bank, Lebanon, Yemen, and Syria from 1995 to August 2025. The focus is on significant military operations, settler violence, and airstrikes, with casualty figures and violations drawn from reputable sources like UN reports, Human Rights Watch, Amnesty International, and media outlets. The term 'genocide' is used by some sources for the 2023–2025 Gaza campaign but remains contested; legal proceedings are ongoing at the ICJ and ICC. Casualty figures may be undercounts due to challenges in conflict zones.",
+    "limitations": "The list is non-exhaustive due to the 30-year timeframe and volume of incidents. Some casualty figures, especially for Syria, are incomplete or not isolated in sources. Pre-1995 incidents (e.g., 1967–1970s bombings) are referenced for context in some sources but excluded unless within the timeframe. Unverified X posts are not used unless corroborated by reliable sources."
   }
+}

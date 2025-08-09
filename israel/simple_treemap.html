@@ -69,10 +69,11 @@
 
 <body>
     <div class="header">
-        <h1>🏛️ Israel Atrocities Timeline (2020-2025)</h1>
-        <p>Equal-sized rectangles for all documented incidents - Color intensity shows casualty scale</p>
+        <h1>🏛️ Israel Atrocities Timeline (1996-2025)</h1>
+        <p>30-year historical documentation - Equal-sized rectangles, color shows casualty scale</p>
         <div id="stats"></div>
         <div style="margin-top: 15px;">
+            <a href="timeline.html" style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-right: 10px;">📈 View Timeline Chart</a>
             <a href="../index.html"
                 style="background: #1976d2; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">←
                 Back to Main Hub</a>
@@ -86,6 +87,42 @@
     <div class="info-panel">
         <h3>Incident Details</h3>
         <div id="details">Click on any rectangle above to see incident details.</div>
+    </div>
+
+    <div style="margin: 20px; padding: 20px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 8px;">
+        <h4 style="color: #856404; margin-top: 0;">📊 Lancet Study: Potential Under-reporting</h4>
+        <p style="color: #856404; line-height: 1.6;">
+            A <strong>July 2024 Lancet study</strong> suggests that the actual death toll in Gaza could be significantly higher than reported figures. 
+            The study estimates that <strong>indirect deaths could push the total to 186,000 or more</strong>, accounting for deaths from 
+            disease, malnutrition, and lack of medical care caused by the destruction of healthcare infrastructure.
+        </p>
+        <p style="color: #856404; line-height: 1.6;">
+            <strong>Source:</strong> <a href="https://www.aljazeera.com/news/2024/7/8/gaza-toll-could-exceed-186000-lancet-study-says" 
+            target="_blank" style="color: #856404; text-decoration: underline;">
+            Al Jazeera - "Gaza toll could exceed 186,000, Lancet study says"</a>
+        </p>
+    </div>
+
+    <div style="margin: 20px; padding: 20px; background: #f8d7da; border-left: 4px solid #dc3545; border-radius: 8px;">
+        <h4 style="color: #721c24; margin-top: 0;">⚠️ IMPORTANT DISCLAIMER</h4>
+        <p style="color: #721c24; line-height: 1.6; margin-bottom: 15px;">
+            <strong>Educational and Documentation Purpose Only:</strong> This visualization presents documented incident data 
+            for educational awareness and historical documentation. All information represents human lives lost and should be 
+            treated with appropriate gravity and respect.
+        </p>
+        <p style="color: #721c24; line-height: 1.6; margin-bottom: 15px;">
+            <strong>Data Sources and Verification:</strong> All data is compiled from credible sources including UN Human Rights Council, 
+            Human Rights Watch, Amnesty International, Middle East Eye, and other documented sources. 
+            Users are encouraged to independently verify information and consult original sources.
+        </p>
+        <p style="color: #721c24; line-height: 1.6; margin-bottom: 15px;">
+            <strong>Methodology Note:</strong> Different organizations may use varying methodologies for incident documentation and casualty counting. 
+            This visualization aims to present documented incidents while acknowledging that the full scope of impact may be broader.
+        </p>
+        <p style="color: #721c24; line-height: 1.6; margin-bottom: 0;">
+            <strong>Ongoing Situation:</strong> As this represents an ongoing situation, information continues to evolve. 
+            This visualization aims to provide historical context and document the scale of documented incidents over time.
+        </p>
     </div>
 
     <div class="tooltip" id="tooltip"></div>
@@ -114,21 +151,41 @@
             const atrocities = rawData.atrocities;
             console.log("Number of atrocities:", atrocities.length);
 
-            // Calculate stats
+            // Calculate stats - handle both numbers and strings
             let totalKilled = 0;
             let totalInjured = 0;
+            let unknownCount = 0;
 
             atrocities.forEach(incident => {
                 if (incident.casualties) {
-                    totalKilled += incident.casualties.killed || 0;
-                    totalInjured += incident.casualties.injured || 0;
+                    const killed = incident.casualties.killed;
+                    const injured = incident.casualties.injured;
+                    
+                    // Handle killed casualties
+                    if (typeof killed === 'number') {
+                        totalKilled += killed;
+                    } else if (typeof killed === 'string' && killed.toLowerCase().includes('unknown')) {
+                        unknownCount++;
+                    }
+                    
+                    // Handle injured casualties  
+                    if (typeof injured === 'number') {
+                        totalInjured += injured;
+                    } else if (typeof injured === 'string' && !injured.toLowerCase().includes('unknown')) {
+                        // Try to extract numbers from strings like "Tens of thousands"
+                        const match = injured.match(/(\d+)/);
+                        if (match) {
+                            totalInjured += parseInt(match[1]);
+                        }
+                    }
                 }
             });
 
             document.getElementById("stats").innerHTML = `
-                <strong>${atrocities.length} incidents documented | 
-                ${totalKilled.toLocaleString()} killed | 
-                ${totalInjured.toLocaleString()} injured</strong>
+                <strong>${atrocities.length} incidents documented (1996-2025) | 
+                ${totalKilled.toLocaleString()}+ killed | 
+                ${totalInjured.toLocaleString()}+ injured
+                ${unknownCount > 0 ? ` | ${unknownCount} incidents with incomplete data` : ''}</strong>
             `;
 
             // Prepare data for treemap - EQUAL SIZE FOR ALL INCIDENTS
@@ -157,7 +214,12 @@
             console.log("Treemap created, leaves:", root.leaves().length);
 
             // Color scale based on actual casualties for coloring
-            const maxCasualties = d3.max(atrocities, d => d.casualties ? d.casualties.killed || 0 : 0);
+            const maxCasualties = d3.max(atrocities, d => {
+                if (d.casualties && typeof d.casualties.killed === 'number') {
+                    return d.casualties.killed;
+                }
+                return 0;
+            });
             console.log("Max casualties:", maxCasualties);
 
             // Use a better color scale with more contrast
@@ -176,9 +238,14 @@
                 .attr("width", d => d.x1 - d.x0)
                 .attr("height", d => d.y1 - d.y0)
                 .attr("fill", d => {
-                    const casualties = d.data.data.casualties ? d.data.data.casualties.killed || 0 : 0;
-                    // Ensure minimum color for incidents with no casualty data
-                    return colorScale(Math.max(1, casualties));
+                    const casualties = d.data.data.casualties ? d.data.data.casualties.killed : 0;
+                    // Handle both numbers and strings
+                    if (typeof casualties === 'number') {
+                        return colorScale(Math.max(1, casualties));
+                    } else {
+                        // Use a neutral color for unknown data
+                        return "#666666";
+                    }
                 })
                 .on("mouseover", function (event, d) {
                     tooltip.style("opacity", 1)
@@ -186,7 +253,16 @@
                             <strong>${d.data.name}</strong><br>
                             Date: ${d.data.data.date}<br>
                             Location: ${d.data.data.location}<br>
-                            Killed: ${d.data.data.casualties && d.data.data.casualties.killed ? d.data.data.casualties.killed.toLocaleString() : "Data pending"}
+                            Killed: ${(() => {
+                                const casualties = d.data.data.casualties ? d.data.data.casualties.killed : null;
+                                if (typeof casualties === 'number') {
+                                    return casualties.toLocaleString();
+                                } else if (typeof casualties === 'string') {
+                                    return casualties;
+                                } else {
+                                    return "Data pending";
+                                }
+                            })()}
                         `)
                         .style("left", (event.pageX + 10) + "px")
                         .style("top", (event.pageY - 10) + "px");
@@ -226,9 +302,20 @@
                     const width = d.x1 - d.x0;
                     const height = d.y1 - d.y0;
                     if (width < 80 || height < 35) return "";
-                    const casualties = d.data.data.casualties ? d.data.data.casualties.killed || 0 : 0;
-                    if (casualties === 0) return "Data pending";
-                    return `${casualties.toLocaleString()} killed`;
+                    
+                    const casualties = d.data.data.casualties ? d.data.data.casualties.killed : null;
+                    
+                    if (typeof casualties === 'number') {
+                        return `${casualties.toLocaleString()} killed`;
+                    } else if (typeof casualties === 'string') {
+                        if (casualties.toLowerCase().includes('unknown')) {
+                            return "Unknown casualties";
+                        } else {
+                            return casualties.length > 15 ? casualties.substring(0, 15) + "..." : casualties;
+                        }
+                    } else {
+                        return "Data pending";
+                    }
                 });
 
             console.log("Visualization complete");

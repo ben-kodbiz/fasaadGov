@@ -1,0 +1,176 @@
+{
+  "title": "Palestinian Casualties 1995-2025",
+  "description": "Annual recorded fatalities from multiple sources including Gaza Health Ministry, OCHA, and B'Tselem",
+  "sources": ["Gaza Health Ministry", "OCHA", "B'Tselem", "The Lancet"],
+  "years": [
+    {
+      "year": 2000,
+      "casualties": 282,
+      "source": "B'Tselem",
+      "note": "Second Intifada begins"
+    },
+    {
+      "year": 2001,
+      "casualties": 469,
+      "source": "B'Tselem",
+      "note": "Second Intifada escalation"
+    },
+    {
+      "year": 2002,
+      "casualties": 1032,
+      "source": "B'Tselem",
+      "note": "Operation Defensive Shield"
+    },
+    {
+      "year": 2003,
+      "casualties": 588,
+      "source": "B'Tselem",
+      "note": "Continued military operations"
+    },
+    {
+      "year": 2004,
+      "casualties": 832,
+      "source": "B'Tselem",
+      "note": "Military operations continue"
+    },
+    {
+      "year": 2005,
+      "casualties": 190,
+      "source": "B'Tselem",
+      "note": "Israeli withdrawal from Gaza"
+    },
+    {
+      "year": 2006,
+      "casualties": 665,
+      "source": "B'Tselem",
+      "note": "Operation Summer Rains"
+    },
+    {
+      "year": 2007,
+      "casualties": 385,
+      "source": "B'Tselem",
+      "note": "Gaza blockade begins"
+    },
+    {
+      "year": 2008,
+      "casualties": 1440,
+      "source": "Gaza Health Ministry",
+      "note": "Operation Cast Lead begins",
+      "major_operation": true
+    },
+    {
+      "year": 2009,
+      "casualties": 1034,
+      "source": "OCHA",
+      "note": "Cast Lead continues"
+    },
+    {
+      "year": 2010,
+      "casualties": 82,
+      "source": "OCHA",
+      "note": "Relative calm period"
+    },
+    {
+      "year": 2011,
+      "casualties": 118,
+      "source": "OCHA",
+      "note": "Sporadic violence"
+    },
+    {
+      "year": 2012,
+      "casualties": 255,
+      "source": "OCHA",
+      "note": "Operation Pillar of Defense"
+    },
+    {
+      "year": 2013,
+      "casualties": 39,
+      "source": "OCHA",
+      "note": "Lowest casualties in years"
+    },
+    {
+      "year": 2014,
+      "casualties": 2310,
+      "source": "Gaza Health Ministry",
+      "note": "Operation Protective Edge",
+      "major_operation": true
+    },
+    {
+      "year": 2015,
+      "casualties": 180,
+      "source": "OCHA",
+      "note": "Post-war period"
+    },
+    {
+      "year": 2016,
+      "casualties": 109,
+      "source": "OCHA",
+      "note": "Continued tensions"
+    },
+    {
+      "year": 2017,
+      "casualties": 67,
+      "source": "OCHA",
+      "note": "Relatively quiet year"
+    },
+    {
+      "year": 2018,
+      "casualties": 295,
+      "source": "OCHA",
+      "note": "Great March of Return protests"
+    },
+    {
+      "year": 2019,
+      "casualties": 133,
+      "source": "OCHA",
+      "note": "Protests continue"
+    },
+    {
+      "year": 2020,
+      "casualties": 27,
+      "source": "OCHA",
+      "note": "COVID-19 pandemic year"
+    },
+    {
+      "year": 2021,
+      "casualties": 260,
+      "source": "Gaza Health Ministry",
+      "note": "11-Day War in May"
+    },
+    {
+      "year": 2022,
+      "casualties": 176,
+      "source": "OCHA",
+      "note": "West Bank operations increase",
+      "west_bank_focus": true
+    },
+    {
+      "year": 2023,
+      "casualties": 22185,
+      "source": "Gaza Health Ministry",
+      "note": "Oct 7 - Dec 31: Post-October 7 campaign begins",
+      "major_operation": true,
+      "period": "Oct-Dec 2023"
+    },
+    {
+      "year": 2024,
+      "casualties": 37600,
+      "lancet_adjusted": 64260,
+      "lancet_total_estimate": 186000,
+      "source": "Gaza Health Ministry / Lancet",
+      "note": "Jan-Jun: Lancet study shows significant under-reporting. July 2024 Lancet study estimates total deaths could exceed 186,000 including indirect deaths",
+      "major_operation": true,
+      "period": "Jan-Jun 2024"
+    },
+    {
+      "year": 2025,
+      "casualties": 60034,
+      "source": "Gaza Health Ministry",
+      "note": "As of July 29, 2025 - ongoing campaign",
+      "major_operation": true,
+      "period": "As of Jul 2025",
+      "estimated_total": "80000+",
+      "estimated_note": "Studies suggest >80,000 direct + indirect deaths"
+    }
+  ]
+}
