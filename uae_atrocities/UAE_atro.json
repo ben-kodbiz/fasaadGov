@@ -1,0 +1,133 @@
+{
+    "title": "Alleged Atrocities Committed by the United Arab Emirates (UAE) in Other Countries",
+    "introduction": "As UAE historians and expert journalists, we have compiled this overview based on extensive research from diverse sources, including international media, human rights organizations, think tanks, and official statements. The UAE, formed in 1971, has pursued an increasingly assertive foreign policy since the 2010s, often involving military interventions, proxy support, and economic investments in Africa and the Middle East. While the UAE portrays itself as a promoter of stability, development, and peace (e.g., through humanitarian aid and diplomacy), critics accuse it of exacerbating conflicts, committing or enabling war crimes, and engaging in neo-colonial practices. These allegations are particularly prominent in African contexts, where the UAE has expanded its influence via ports, mining, and security partnerships. We focus on the past 60 years (post-1965, aligning with pre- and post-independence activities), emphasizing Sudan and other African nations. Claims are substantiated where possible, but we note that many stem from leaked reports, eyewitness accounts, and investigations amid ongoing conflicts. The UAE consistently denies direct involvement in atrocities, labeling accusations as 'baseless' or 'propaganda' and emphasizing its role in aid and mediation. Subjective media viewpoints are treated as potentially biased, and we include perspectives from all stakeholders, including UAE officials, Western outlets, Arab media, and African voices.",
+    "atrocities": {
+        "sudan": {
+            "period": "Primarily 2019–Present: Civil War and Darfur Atrocities",
+            "description": "The UAE has been accused of fueling Sudan's ongoing civil war by arming and funding the Rapid Support Forces (RSF), a paramilitary group led by Mohamed Hamdan Dagalo ('Hemedti'). This support allegedly enables ethnic cleansing, genocide, and war crimes, particularly against non-Arab communities in Darfur. Sudan filed a case at the International Court of Justice (ICJ) in March 2025 accusing the UAE of complicity in genocide, though it was dismissed in May 2025 for procedural reasons. The conflict has killed over 150,000, displaced 12 million, and caused famine affecting millions.",
+            "points": [
+                {
+                    "title": "Arms Supply and Breach of UN Embargo",
+                    "details": "The UAE allegedly supplies advanced weaponry (e.g., Chinese drones, missiles) to the RSF via Chad and Uganda, violating UN arms embargoes. A leaked UN report (April 2025) and Amnesty International investigations confirm UAE flights delivering arms disguised as aid. This has enabled RSF attacks on civilians, including bombings and mass killings."
+                },
+                {
+                    "title": "Genocide and Ethnic Cleansing in Darfur",
+                    "details": "UAE-backed RSF forces are accused of mass atrocities, including the Zamzam camp massacre (August 2025), where thousands were slaughtered 'like animals' in ethnic-targeted violence against the Masalit people. Reports detail rape, extrajudicial killings, and child abductions. The UAE is linked via funding and mercenaries, with passports found on battlefields tracing to UAE-recruited fighters."
+                },
+                {
+                    "title": "Use of Mercenaries and Famine as a Weapon",
+                    "details": "The UAE reportedly hired Sudanese mercenaries for its wars elsewhere (e.g., Yemen, Libya) before backing the RSF, contributing to starvation tactics and atrocities like hospital bombings."
+                }
+            ],
+            "uae_response": "Denies arming any side, claims to provide humanitarian aid (e.g., via Emirates Red Crescent), and accuses Sudan of a 'publicity stunt' to deflect from its own abuses. UAE officials highlight mediation efforts and blame both warring parties."
+        },
+        "yemen": {
+            "period": "2015–Present: Civil War Intervention",
+            "description": "As part of the Saudi-led coalition, the UAE intervened militarily, deploying troops and proxies. Accusations include war crimes through airstrikes, blockades, and secret prisons.",
+            "points": [
+                {
+                    "title": "Torture and Secret Prisons",
+                    "details": "UAE forces ran detention centers where detainees (including civilians) faced torture, forced disappearances, and sexual violence. Amnesty and HRW documented abuses in UAE-controlled facilities."
+                },
+                {
+                    "title": "Use of Mercenaries and Civilian Casualties",
+                    "details": "Recruited Sudanese fighters (up to 4,000) as mercenaries, leading to atrocities like indiscriminate bombings. UAE strikes killed civilians and exacerbated famine."
+                },
+                {
+                    "title": "Blockades and Humanitarian Crisis",
+                    "details": "UAE naval blockades restricted aid, contributing to what the UN called the world's worst humanitarian crisis."
+                }
+            ],
+            "uae_response": "Withdrew most troops in 2019, claims focus shifted to counter-terrorism and development; denies systematic abuses."
+        },
+        "libya": {
+            "period": "2014–Present: Civil War Support",
+            "description": "The UAE backed General Khalifa Haftar's forces against the UN-recognized government, violating UN arms embargoes.",
+            "points": [
+                {
+                    "title": "Arms Supply and Airstrikes",
+                    "details": "Provided drones, missiles, and U.S.-origin weapons to Haftar, enabling unlawful strikes on civilians. Involved in mass graves and ethnic violence."
+                },
+                {
+                    "title": "Mercenary Deployment",
+                    "details": "Hired Sudanese (RSF-linked) and other African mercenaries, leading to atrocities like summary executions."
+                }
+            ],
+            "uae_response": "Denies embargo violations; positions support as anti-Islamist stability efforts."
+        },
+        "other_african_countries": {
+            "period": "Various Periods: Neo-Colonial Interventions and Migrant Abuses",
+            "description": "The UAE's Africa strategy (intensified post-2015) includes military bases, port acquisitions, and resource extraction, criticized for destabilization and human rights violations.",
+            "points": [
+                {
+                    "title": "Somalia and Horn of Africa (2010s–Present)",
+                    "details": "Built military bases in Somaliland and Eritrea, accused of fueling separatism and Red Sea tensions. Supported anti-Islamist forces, leading to civilian casualties."
+                },
+                {
+                    "title": "Central African Republic (CAR) and Sahel (2020s)",
+                    "details": "Linked to Wagner Group (now Africa Corps) via UAE funding, enabling atrocities like mass killings in gold mining areas."
+                },
+                {
+                    "title": "Abuses Against African Migrants in UAE (2020s)",
+                    "details": "Arbitrary detentions, torture, and deportations of over 800 African workers (e.g., Ugandans, Nigerians) in racially motivated campaigns. Reports of beatings and forced labor."
+                },
+                {
+                    "title": "Broader Neo-Colonialism",
+                    "details": "Investments in ports (e.g., Ethiopia, Sudan) prioritize UAE interests, displacing locals and exacerbating conflicts over resources like gold in Sudan."
+                }
+            ],
+            "uae_response": "Emphasizes economic partnerships for development, denies destabilization, and highlights security collaborations with over 24 African nations."
+        }
+    },
+    "resources": {
+        "reports_and_articles": [
+            {
+                "description": "Amnesty International on UAE arms to Sudan",
+                "link": "https://www.amnesty.org/en/latest/news/2025/05/sudan-advanced-chinese-weaponry-provided-by-uae-identified-in-breach-of-arms-embargo-new-investigation/"
+            },
+            {
+                "description": "Human Rights Watch on Yemen abuses",
+                "link": "https://www.hrw.org/news/2021/04/15/us-resuming-arms-sales-uae-disastrous"
+            },
+            {
+                "description": "Guardian on Zamzam atrocities",
+                "link": "https://www.theguardian.com/global-development/2025/aug/07/genocide-sudan-zamzam-camp-timeline"
+            },
+            {
+                "description": "UAE official denial on Sudan",
+                "link": "https://www.mofa.gov.ae/en/mediahub/news/2024/4/22/22-4-2024-yae-saudan"
+            },
+            {
+                "description": "ADHRB on UAE's unethical Africa policy",
+                "link": "https://www.adhrb.org/2024/07/the-united-arab-emirates-unethical-foreign-policy-in-africa/"
+            }
+        ],
+        "videos": [
+            {
+                "title": "Why is the UAE Fueling Sudan's Apocalyptic War?",
+                "date": "Feb 2025",
+                "details": "Details UAE's role in arming RSF and enabling famine.",
+                "link": "https://www.youtube.com/watch?v=TIf7-mUR8_g"
+            },
+            {
+                "title": "Sudan Files Case Against UAE at the ICJ for 'Genocide'",
+                "date": "Mar 2025",
+                "details": "Explains Sudan's ICJ filing and allegations.",
+                "link": "https://m.youtube.com/watch?v=lmUAKDvmpAE"
+            },
+            {
+                "title": "Gold, Guns & Genocide: How the UAE Profits from RSF War Crimes in Sudan",
+                "date": "Dec 2024",
+                "details": "Investigates UAE's economic motives.",
+                "link": "https://www.youtube.com/watch?v=GCTwGUuXeJs"
+            },
+            {
+                "title": "Why is the UAE fuelling Sudan's civil war?",
+                "date": "May 2025",
+                "details": "Analysis of UAE's proxy involvement.",
+                "link": "https://www.youtube.com/watch?v=XvS80ZOJCS8"
+            }
+        ]
+    },
+    "note": "This compilation reflects reported events up to August 11, 2025. For ongoing developments, consult multiple sources to account for biases."
+}

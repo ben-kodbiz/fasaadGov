@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAE Atrocities - Interactive Treemap</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Material Design 3 Colors */
+            --primary-color: #1976d2;
+            --primary-variant: #1565c0;
+            --secondary-color: #03dac6;
+            --secondary-variant: #018786;
+            --background-color: #fafafa;
+            --surface-color: #ffffff;
+            --surface-variant: #f5f5f5;
+            --on-surface: #1c1b1f;
+            --on-surface-variant: #49454f;
+            --outline: #79747e;
+            --shadow: rgba(0, 0, 0, 0.12);
+            --shadow-dark: rgba(0, 0, 0, 0.24);
+            --error-color: #b00020;
+            --warning-color: #ff6f00;
+            --success-color: #00c853;
+            --info-color: #2196f3;
+
+            /* UAE Atrocity-specific colors */
+            --color-sudan: #d32f2f;
+            --color-yemen: #ff5722;
+            --color-libya: #ff9800;
+            --color-somalia: #4caf50;
+            --color-car: #9c27b0;
+            --color-migrants: #607d8b;
+            --color-other: #795548;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --surface-variant: #2d2d2d;
+            --on-surface: #ffffff;
+            --on-surface-variant: #b3b3b3;
+            --outline: #666666;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-dark: rgba(0, 0, 0, 0.5);
+
+            /* Brighter colors for dark theme */
+            --color-sudan: #ff5252;
+            --color-yemen: #ff7043;
+            --color-libya: #ffb74d;
+            --color-somalia: #66bb6a;
+            --color-car: #ba68c8;
+            --color-migrants: #90a4ae;
+            --color-other: #a1887f;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--on-surface);
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        .app-bar {
+            background: var(--surface-color);
+            padding: 16px 24px;
+            box-shadow: 0 2px 4px var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-variant);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px var(--shadow-dark);
+        }
+
+        .btn-secondary {
+            background: var(--surface-variant);
+            color: var(--on-surface);
+            border: 1px solid var(--outline);
+        }
+
+        .btn-secondary:hover {
+            background: var(--outline);
+            color: var(--surface-color);
+        }
+
+        .btn-icon {
+            padding: 8px;
+            border-radius: 50%;
+            min-width: 40px;
+            height: 40px;
+            justify-content: center;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 16px 24px;
+            margin: 0;
+            color: #856404;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        [data-theme="dark"] .disclaimer {
+            background: #2d2a1f;
+            border-color: #4a4419;
+            color: #ffd93d;
+        }
+
+        .controls-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .control-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--on-surface);
+        }
+
+        .input,
+        .select {
+            padding: 12px 16px;
+            border: 1px solid var(--outline);
+            border-radius: 8px;
+            background: var(--surface-color);
+            color: var(--on-surface);
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .input:focus,
+        .select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+
+        .stats-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 16px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: var(--surface-variant);
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--on-surface-variant);
+            font-weight: 500;
+        }
+
+        .chart-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        #treemap {
+            width: 100%;
+            height: 600px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--surface-variant);
+        }
+
+        .node {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            word-wrap: break-word;
+            overflow: hidden;
+            min-width: 60px;
+            min-height: 40px;
+        }
+
+        .node:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .node-small {
+            font-size: 0.65rem;
+            padding: 4px;
+        }
+
+        .node-large {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: var(--surface-color);
+            color: var(--on-surface);
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px var(--shadow-dark);
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 400px;
+            border: 1px solid var(--outline);
+        }
+
+        .tooltip-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .tooltip-period {
+            font-size: 0.85rem;
+            color: var(--on-surface-variant);
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .tooltip-description {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .tooltip-points {
+            font-size: 0.85rem;
+            color: var(--on-surface-variant);
+        }
+
+        .legend-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background: var(--surface-variant);
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px var(--shadow);
+        }
+
+        .legend-label {
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--on-surface-variant);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--surface-variant);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--error-color);
+            text-align: center;
+            padding: 24px;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .summary-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .summary-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .summary-section {
+            padding: 16px;
+            background: var(--surface-variant);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .summary-section h4 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .summary-section p {
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .summary-section ul {
+            line-height: 1.6;
+            padding-left: 20px;
+        }
+
+        .summary-section li {
+            margin-bottom: 8px;
+        }
+
+        .atrocity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .atrocity-item {
+            padding: 12px;
+            background: var(--surface-color);
+            border-radius: 6px;
+            border-left: 3px solid var(--error-color);
+        }
+
+        .atrocity-item strong {
+            color: var(--error-color);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .atrocity-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .disclaimers {
+            margin: 24px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        [data-theme="dark"] .disclaimers {
+            background: #2d2a1f;
+            border-color: #4a4419;
+        }
+
+        .disclaimer-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #856404;
+        }
+
+        [data-theme="dark"] .disclaimer-title {
+            color: #ffd93d;
+        }
+
+        .disclaimer-content {
+            line-height: 1.6;
+            color: #856404;
+        }
+
+        [data-theme="dark"] .disclaimer-content {
+            color: #e6d690;
+        }
+
+        .disclaimer-content p {
+            margin-bottom: 12px;
+        }
+
+        .disclaimer-content strong {
+            font-weight: 600;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .app-bar {
+                padding: 12px 16px;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .app-title {
+                font-size: 1.25rem;
+            }
+
+            .controls-container,
+            .chart-container,
+            .stats-container,
+            .legend-container,
+            .summary-container,
+            .disclaimer,
+            .disclaimers {
+                margin: 8px;
+                padding: 16px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .control-group {
+                min-width: auto;
+            }
+
+            #treemap {
+                height: 500px;
+            }
+
+            .tooltip {
+                max-width: 90vw;
+                font-size: 0.8rem;
+                padding: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .node {
+                font-size: 0.65rem;
+                min-width: 40px !important;
+                min-height: 30px !important;
+            }
+
+            .legend-items {
+                grid-template-columns: 1fr;
+            }
+
+            .atrocity-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-title {
+                font-size: 1.1rem;
+            }
+
+            #treemap {
+                height: 400px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .node {
+                font-size: 0.6rem;
+                min-width: 35px !important;
+                min-height: 25px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Theme Toggle -->
+    <div
+        style="background: var(--surface-color); padding: 8px 24px; border-bottom: 1px solid var(--outline); display: flex; justify-content: flex-end;">
+        <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode"
+            aria-label="Toggle between light and dark theme">
+            <span class="material-icons" aria-hidden="true">dark_mode</span>
+        </button>
+    </div>
+
+    <header class="app-bar" role="banner">
+        <h1 class="app-title">
+            🇦🇪 UAE Atrocities Analysis
+        </h1>
+        <nav class="app-actions" role="navigation" aria-label="Main navigation">
+            <a href="../index.html" class="btn btn-secondary" aria-label="Back to main hub">
+                <span class="material-icons" aria-hidden="true">home</span>
+                Main Hub
+            </a>
+            <a href="../arabs_complicit/index.html" class="btn btn-secondary" aria-label="Arab Complicity Analysis">
+                <span class="material-icons" aria-hidden="true">analytics</span>
+                Arab Complicity
+            </a>
+            <a href="../other_Geno/index.html" class="btn btn-secondary" aria-label="Other Genocides">
+                <span class="material-icons" aria-hidden="true">public</span>
+                Other Genocides
+            </a>
+            <a href="../companies_complicit/index.html" class="btn btn-secondary"
+                aria-label="Corporate Complicity Network">
+                <span class="material-icons" aria-hidden="true">business</span>
+                Corporate Network
+            </a>
+            <a href="../british/index.html" class="btn btn-secondary" aria-label="British Atrocities">
+                <span class="material-icons" aria-hidden="true">flag</span>
+                British Atrocities
+            </a>
+        </nav>
+    </header>
+
+    <div class="disclaimer">
+        <strong>⚠️ Educational Documentation:</strong> This treemap visualizes alleged atrocities committed by the UAE
+        in various countries based on reports from human rights organizations, UN investigations, and credible
+        journalism. All information is sourced from documented reports and investigations. The visualization aims to
+        promote understanding of regional conflicts and accountability.
+    </div>
+
+    <main id="main-content" role="main">
+        <section class="controls-container" aria-label="Treemap controls">
+            <h2 style="margin-top: 0; color: var(--on-surface);">Filter and Search</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label class="control-label" for="searchInput">Search Regions/Countries</label>
+                    <input type="text" id="searchInput" class="input" placeholder="Search by region or atrocity type..."
+                        aria-describedby="search-help">
+                    <div id="search-help" style="font-size: 0.75rem; color: var(--on-surface-variant);">Search through
+                        regions and their documented atrocities</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Region Focus</label>
+                    <select id="regionFilter" class="select">
+                        <option value="all">All Regions</option>
+                        <option value="sudan">Sudan</option>
+                        <option value="yemen">Yemen</option>
+                        <option value="libya">Libya</option>
+                        <option value="other_african_countries">Other African Countries</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Atrocity Type</label>
+                    <select id="typeFilter" class="select">
+                        <option value="all">All Types</option>
+                        <option value="genocide">Genocide & Ethnic Cleansing</option>
+                        <option value="war-crimes">War Crimes</option>
+                        <option value="torture">Torture & Detention</option>
+                        <option value="mercenaries">Mercenary Operations</option>
+                        <option value="arms-embargo">Arms Embargo Violations</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Time Period</label>
+                    <select id="periodFilter" class="select">
+                        <option value="all">All Periods</option>
+                        <option value="ongoing">Ongoing (2019-Present)</option>
+                        <option value="recent">Recent (2015-2024)</option>
+                        <option value="historical">Historical (2010-2019)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-container" aria-label="UAE atrocities statistics">
+            <h3 style="margin-top: 0; color: var(--on-surface);">UAE Atrocities Overview</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalRegions">-</div>
+                    <div class="stat-label">Regions Affected</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalAtrocities">-</div>
+                    <div class="stat-label">Total Atrocities</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="ongoingCrises">-</div>
+                    <div class="stat-label">Ongoing Crises</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="filteredRegions">-</div>
+                    <div class="stat-label">Visible Regions</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="legend-container" aria-label="Region legend">
+            <h3 style="margin-top: 0; color: var(--on-surface);">Regions by Atrocity Type</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-sudan);"></div>
+                    <div class="legend-label">Sudan - Genocide, arms supply, RSF backing (2019-Present)</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-yemen);"></div>
+                    <div class="legend-label">Yemen - War crimes, torture, mercenaries (2015-Present)</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-libya);"></div>
+                    <div class="legend-label">Libya - Arms embargo violations, mercenaries (2014-Present)</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-somalia);"></div>
+                    <div class="legend-label">Somalia/Horn of Africa - Military bases, separatism (2010s-Present)</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-car);"></div>
+                    <div class="legend-label">Central African Republic - Wagner funding, mining atrocities (2020s)</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-migrants);"></div>
+                    <div class="legend-label">Migrant Abuses - Detention, torture, deportations (2020s)</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="chart-container" aria-label="Interactive treemap visualization">
+            <div id="treemap" role="img" aria-label="Interactive treemap showing UAE atrocities by region">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading treemap data...</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary-container" aria-label="UAE Atrocities Summary">
+            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">UAE Atrocities Analysis Overview</h3>
+            
+            <div class="summary-content">
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Scale of UAE Regional Interventions</h4>
+                    <p>This treemap documents alleged atrocities committed by the UAE across <strong>4 major regions</strong> since 2010, representing a pattern of military interventions, proxy support, and human rights violations. The visualization shows:</p>
+                    <ul>
+                        <li><strong>Ongoing Conflicts:</strong> Active involvement in Sudan, Yemen, and Libya with documented war crimes</li>
+                        <li><strong>Arms Embargo Violations:</strong> Systematic breaches of UN arms embargoes across multiple conflicts</li>
+                        <li><strong>Proxy Warfare:</strong> Use of mercenaries and local militias to advance UAE interests</li>
+                        <li><strong>Humanitarian Impact:</strong> Millions displaced, hundreds of thousands killed through UAE-backed operations</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Major Atrocities by Region</h4>
+                    <div class="atrocity-grid">
+                        <div class="atrocity-item">
+                            <strong>Sudan (2019-Present)</strong>
+                            <p>Backing RSF paramilitary forces enabling genocide in Darfur, ethnic cleansing of Masalit people, arms supply violations, and famine as weapon of war. Over 150,000 killed, 12 million displaced.</p>
+                        </div>
+                        <div class="atrocity-item">
+                            <strong>Yemen (2015-Present)</strong>
+                            <p>Saudi-led coalition participation with torture centers, mercenary recruitment, civilian bombings, and humanitarian blockades contributing to world's worst humanitarian crisis.</p>
+                        </div>
+                        <div class="atrocity-item">
+                            <strong>Libya (2014-Present)</strong>
+                            <p>Support for General Haftar through arms supply, drone strikes on civilians, mercenary deployment, and involvement in mass graves and ethnic violence.</p>
+                        </div>
+                        <div class="atrocity-item">
+                            <strong>Other African Countries</strong>
+                            <p>Military bases in Somalia/Eritrea, Wagner Group funding in CAR, migrant worker abuses in UAE, and neo-colonial resource extraction across the continent.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Current Ongoing Atrocities (2023-Present)</h4>
+                    <p>The UAE continues active involvement in multiple conflicts with documented human rights violations:</p>
+                    <ul>
+                        <li><strong>Sudan:</strong> ICJ case filed in 2025 for genocide complicity through RSF backing and arms supply</li>
+                        <li><strong>Yemen:</strong> Continued coalition support despite official troop withdrawal claims</li>
+                        <li><strong>Libya:</strong> Ongoing arms embargo violations and mercenary operations</li>
+                        <li><strong>Migrant Abuses:</strong> Systematic detention and deportation of African workers within UAE</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--error-color); margin-bottom: 12px;">Patterns of UAE Operations</h4>
+                    <p>Analysis reveals consistent patterns in UAE foreign interventions:</p>
+                    <ul>
+                        <li><strong>Proxy Warfare:</strong> Using local militias and mercenaries to avoid direct accountability</li>
+                        <li><strong>Arms Embargo Violations:</strong> Systematic breaches of UN restrictions across multiple conflicts</li>
+                        <li><strong>Economic Motivations:</strong> Resource extraction (gold, ports) driving military interventions</li>
+                        <li><strong>Denial Strategy:</strong> Consistent rejection of allegations while positioning as mediator</li>
+                        <li><strong>Humanitarian Cover:</strong> Using aid operations to disguise military supply lines</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Documentation Sources</h4>
+                    <p>This analysis is compiled from credible sources including:</p>
+                    <ul>
+                        <li><strong>Human Rights Organizations:</strong> Amnesty International, Human Rights Watch investigations</li>
+                        <li><strong>United Nations:</strong> UN reports, arms embargo monitoring, fact-finding missions</li>
+                        <li><strong>International Courts:</strong> ICJ filings, international tribunal evidence</li>
+                        <li><strong>Investigative Journalism:</strong> Guardian, leaked UN reports, eyewitness testimonies</li>
+                        <li><strong>Academic Research:</strong> Think tank analyses and regional security studies</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--warning-color); margin-bottom: 12px;">UAE Official Responses</h4>
+                    <p>The UAE consistently denies direct involvement in atrocities across all regions:</p>
+                    <ul>
+                        <li><strong>Sudan:</strong> Claims to provide only humanitarian aid, calls ICJ case a "publicity stunt"</li>
+                        <li><strong>Yemen:</strong> Emphasizes counter-terrorism focus and development projects</li>
+                        <li><strong>Libya:</strong> Positions support as anti-Islamist stability efforts</li>
+                        <li><strong>Africa:</strong> Highlights economic partnerships and security cooperation with 24+ nations</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary-container" aria-label="Resources and Documentation">
+            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">📚 Sources and Documentation</h3>
+            
+            <div class="summary-content">
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">📄 Reports and Articles</h4>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--info-color);">
+                            <strong>Amnesty International on UAE arms to Sudan</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.amnesty.org/en/latest/news/2025/05/sudan-advanced-chinese-weaponry-provided-by-uae-identified-in-breach-of-arms-embargo-new-investigation/" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   Advanced Chinese weaponry provided by UAE identified in breach of arms embargo
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--info-color);">
+                            <strong>Human Rights Watch on Yemen abuses</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.hrw.org/news/2021/04/15/us-resuming-arms-sales-uae-disastrous" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   US Resuming Arms Sales to UAE Disastrous
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--info-color);">
+                            <strong>Guardian on Zamzam atrocities</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.theguardian.com/global-development/2025/aug/07/genocide-sudan-zamzam-camp-timeline" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   Genocide in Sudan: Zamzam camp timeline
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--warning-color);">
+                            <strong>UAE official denial on Sudan</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.mofa.gov.ae/en/mediahub/news/2024/4/22/22-4-2024-yae-saudan" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   UAE Ministry of Foreign Affairs statement on Sudan
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--info-color);">
+                            <strong>ADHRB on UAE's unethical Africa policy</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.adhrb.org/2024/07/the-united-arab-emirates-unethical-foreign-policy-in-africa/" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   The United Arab Emirates' Unethical Foreign Policy in Africa
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">🎥 Video Documentation</h4>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--error-color);">
+                            <strong>Why is the UAE Fueling Sudan's Apocalyptic War?</strong>
+                            <p style="margin: 4px 0; font-size: 0.85rem; color: var(--on-surface-variant);">Feb 2025</p>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                Details UAE's role in arming RSF and enabling famine.
+                                <a href="https://www.youtube.com/watch?v=TIf7-mUR8_g" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); margin-left: 8px;">
+                                   🎬 Watch Video
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--error-color);">
+                            <strong>Sudan Files Case Against UAE at the ICJ for 'Genocide'</strong>
+                            <p style="margin: 4px 0; font-size: 0.85rem; color: var(--on-surface-variant);">Mar 2025</p>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                Explains Sudan's ICJ filing and allegations.
+                                <a href="https://m.youtube.com/watch?v=lmUAKDvmpAE" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); margin-left: 8px;">
+                                   🎬 Watch Video
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--error-color);">
+                            <strong>Gold, Guns & Genocide: How the UAE Profits from RSF War Crimes in Sudan</strong>
+                            <p style="margin: 4px 0; font-size: 0.85rem; color: var(--on-surface-variant);">Dec 2024</p>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                Investigates UAE's economic motives.
+                                <a href="https://www.youtube.com/watch?v=GCTwGUuXeJs" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); margin-left: 8px;">
+                                   🎬 Watch Video
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--error-color);">
+                            <strong>Why is the UAE fuelling Sudan's civil war?</strong>
+                            <p style="margin: 4px 0; font-size: 0.85rem; color: var(--on-surface-variant);">May 2025</p>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                Analysis of UAE's proxy involvement.
+                                <a href="https://www.youtube.com/watch?v=XvS80ZOJCS8" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); margin-left: 8px;">
+                                   🎬 Watch Video
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--warning-color); margin-bottom: 12px;">⚠️ Data Compilation Note</h4>
+                    <p style="font-style: italic; color: var(--on-surface-variant);">
+                        This compilation reflects reported events up to August 11, 2025. For ongoing developments, consult multiple sources to account for biases. Information is compiled from UAE historians and expert journalists based on extensive research from diverse sources, including international media, human rights organizations, think tanks, and official statements.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Disclaimers Section -->
+    <div class="disclaimers">
+        <h3 class="disclaimer-title">⚠️ Important Disclaimers</h3>
+        <div class="disclaimer-content">
+            <p><strong>Educational Purpose Only:</strong> This treemap is created for educational and analytical purposes to document alleged atrocities based on reports from human rights organizations, UN investigations, and credible journalism.</p>
+
+            <p><strong>Source Verification:</strong> All information is sourced from credible organizations including Amnesty International, Human Rights Watch, UN reports, and investigative journalism. Multiple sources are consulted for verification.</p>
+
+            <p><strong>Allegations vs. Convictions:</strong> Many events documented are based on credible allegations, investigations, and leaked reports. Legal proceedings are ongoing in some cases, and the UAE denies direct involvement in atrocities.</p>
+
+            <p><strong>Ongoing Situations:</strong> Several conflicts marked as ongoing are active situations. Information may evolve as new evidence emerges and situations develop.</p>
+
+            <p><strong>Multiple Perspectives:</strong> This compilation includes UAE official responses and denials alongside allegations. Users should consider all perspectives and consult multiple sources.</p>
+
+            <p><strong>Bias Considerations:</strong> Media viewpoints may contain bias. We include perspectives from UAE officials, Western outlets, Arab media, and African voices to provide balanced coverage.</p>
+
+            <p><strong>No Warranty:</strong> The creators make no warranties about the accuracy, completeness, or reliability of the information presented. Information is subject to ongoing research and revision.</p>
+
+            <p><strong>Accountability Purpose:</strong> This documentation aims to promote awareness of regional conflicts, support victims and survivors, and encourage international accountability and transparency.</p>
+
+            <p><strong>Consult Experts:</strong> For authoritative information, please consult human rights organizations, UN reports, academic researchers, and established international institutions.</p>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        // Theme management
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('.material-icons');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+        }
+
+        // Treemap visualization
+        let rawData = [];
+        let filteredData = [];
+        let tooltip;
+
+        // Load and initialize
+        async function loadData() {
+            try {
+                const response = await fetch('UAE_atro.json');
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+                const data = await response.json();
+                rawData = processUAEData(data);
+                filteredData = [...rawData];
+                initializeVisualization();
+                updateStats();
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showError('Failed to load treemap data: ' + error.message);
+            }
+        }
+
+        function processUAEData(data) {
+            const regions = [];
+
+            // Process each region from the atrocities object
+            Object.keys(data.atrocities).forEach(regionKey => {
+                const regionData = data.atrocities[regionKey];
+
+                // Calculate impact score based on various factors
+                let impactScore = 1000; // Base score
+
+                // Add points for each atrocity point
+                if (regionData.points) {
+                    impactScore += regionData.points.length * 20000;
+                }
+
+                // Boost for ongoing conflicts
+                if (regionData.period && regionData.period.includes('Present')) {
+                    impactScore *= 2.5;
+                }
+
+                // Boost for genocide/ethnic cleansing
+                const description = (regionData.description || '').toLowerCase();
+                if (description.includes('genocide') || description.includes('ethnic cleansing')) {
+                    impactScore *= 3;
+                }
+
+                // Boost for war crimes
+                if (description.includes('war crimes') || description.includes('torture')) {
+                    impactScore *= 2;
+                }
+
+                // Regional specific boosts
+                if (regionKey === 'sudan') impactScore += 100000; // Major ongoing crisis
+                if (regionKey === 'yemen') impactScore += 80000;  // Long-running conflict
+                if (regionKey === 'libya') impactScore += 60000;  // Arms embargo violations
+
+                regions.push({
+                    region: regionKey,
+                    displayName: getDisplayName(regionKey),
+                    period: regionData.period || 'Unknown period',
+                    description: regionData.description || '',
+                    points: regionData.points || [],
+                    uaeResponse: regionData.uae_response || '',
+                    impactScore: Math.min(impactScore, 500000), // Cap to prevent dominance
+                    atrocityTypes: categorizeAtrocities(regionData),
+                    timeCategory: getTimeCategory(regionData.period)
+                });
+            });
+
+            return regions;
+        }
+
+        function getDisplayName(regionKey) {
+            const names = {
+                'sudan': 'Sudan',
+                'yemen': 'Yemen',
+                'libya': 'Libya',
+                'other_african_countries': 'Other African Countries'
+            };
+            return names[regionKey] || regionKey.charAt(0).toUpperCase() + regionKey.slice(1);
+        }
+
+        function categorizeAtrocities(regionData) {
+            const types = new Set();
+            const text = ((regionData.description || '') + ' ' +
+                (regionData.points || []).map(p => p.details || '').join(' ')).toLowerCase();
+
+            if (text.includes('genocide') || text.includes('ethnic cleansing')) types.add('genocide');
+            if (text.includes('war crimes') || text.includes('massacre') || text.includes('killing')) types.add('war-crimes');
+            if (text.includes('torture') || text.includes('detention') || text.includes('prison')) types.add('torture');
+            if (text.includes('mercenaries') || text.includes('mercenary')) types.add('mercenaries');
+            if (text.includes('arms') || text.includes('embargo') || text.includes('weapons')) types.add('arms-embargo');
+
+            return Array.from(types);
+        }
+
+        function getTimeCategory(period) {
+            if (!period) return 'historical';
+            if (period.includes('Present') || period.includes('2024') || period.includes('2025')) return 'ongoing';
+            if (period.includes('2015') || period.includes('2020')) return 'recent';
+            return 'historical';
+        }
+
+        function getRegionColor(region) {
+            const colors = {
+                'sudan': 'var(--color-sudan)',
+                'yemen': 'var(--color-yemen)',
+                'libya': 'var(--color-libya)',
+                'other_african_countries': 'var(--color-somalia)'
+            };
+            return colors[region] || 'var(--color-other)';
+        }
+
+        function initializeVisualization() {
+            const container = document.getElementById('treemap');
+            container.innerHTML = '';
+
+            if (filteredData.length === 0) {
+                container.innerHTML = '<div class="error"><div class="error-icon">📊</div><div>No regions match the current filters</div></div>';
+                return;
+            }
+
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // Create tooltip
+            if (tooltip) tooltip.remove();
+            tooltip = d3.select('body').append('div')
+                .attr('class', 'tooltip')
+                .style('opacity', 0);
+
+            // Prepare data for treemap
+            const treemapData = {
+                name: 'UAE Atrocities by Region',
+                children: filteredData.map(region => ({
+                    ...region,
+                    value: region.impactScore
+                }))
+            };
+
+            // Create treemap layout
+            const treemap = d3.treemap()
+                .size([width, height])
+                .padding(2)
+                .round(true);
+
+            // Create hierarchy
+            const root = d3.hierarchy(treemapData)
+                .sum(d => d.value)
+                .sort((a, b) => b.value - a.value);
+
+            treemap(root);
+
+            // Create nodes
+            const nodes = container;
+
+            root.leaves().forEach(d => {
+                const node = document.createElement('div');
+                node.className = 'node';
+
+                // Set size and position
+                node.style.left = d.x0 + 'px';
+                node.style.top = d.y0 + 'px';
+                node.style.width = (d.x1 - d.x0) + 'px';
+                node.style.height = (d.y1 - d.y0) + 'px';
+
+                // Set color based on region
+                const color = getRegionColor(d.data.region);
+                node.style.backgroundColor = color;
+
+                // Set text content
+                const area = (d.x1 - d.x0) * (d.y1 - d.y0);
+                let displayText = d.data.displayName;
+
+                // Adjust text based on size
+                if (area < 5000) {
+                    node.classList.add('node-small');
+                } else if (area > 20000) {
+                    node.classList.add('node-large');
+                    displayText += `\n${d.data.points.length} atrocities`;
+                }
+
+                node.textContent = displayText;
+
+                // Add event listeners
+                node.addEventListener('mouseenter', (event) => handleMouseOver(event, d.data));
+                node.addEventListener('mouseleave', handleMouseOut);
+                node.addEventListener('click', (event) => handleClick(event, d.data));
+
+                nodes.appendChild(node);
+            });
+        }
+
+        function handleMouseOver(event, d) {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 1);
+
+            const pointsSummary = d.points.slice(0, 2).map(p => p.title).join('; ') +
+                (d.points.length > 2 ? '...' : '');
+
+            tooltip.html(`
+                <div class="tooltip-title">${d.displayName}</div>
+                <div class="tooltip-period">${d.period}</div>
+                <div class="tooltip-description">${d.description.substring(0, 200)}${d.description.length > 200 ? '...' : ''}</div>
+                <div class="tooltip-points"><strong>Key Points:</strong> ${pointsSummary}</div>
+                <div style="margin-top: 8px; color: var(--primary-color); font-weight: 500;">
+                    <strong>🖱️ Click for detailed information</strong>
+                </div>
+            `)
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 10) + 'px');
+        }
+
+        function handleMouseOut() {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 0);
+        }
+
+        function handleClick(event, d) {
+            console.log('Clicked region:', d);
+            showRegionDetails(d);
+        }
+
+        function updateStats() {
+            document.getElementById('totalRegions').textContent = rawData.length;
+            document.getElementById('filteredRegions').textContent = filteredData.length;
+
+            const totalAtrocities = rawData.reduce((sum, region) => sum + region.points.length, 0);
+            document.getElementById('totalAtrocities').textContent = totalAtrocities;
+
+            const ongoing = rawData.filter(region => region.timeCategory === 'ongoing').length;
+            document.getElementById('ongoingCrises').textContent = ongoing;
+        }
+
+        function filterData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const regionFilter = document.getElementById('regionFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const periodFilter = document.getElementById('periodFilter').value;
+
+            filteredData = rawData.filter(region => {
+                // Search filter
+                const matchesSearch = !searchTerm ||
+                    region.displayName.toLowerCase().includes(searchTerm) ||
+                    region.description.toLowerCase().includes(searchTerm) ||
+                    region.points.some(point =>
+                        point.title.toLowerCase().includes(searchTerm) ||
+                        point.details.toLowerCase().includes(searchTerm)
+                    );
+
+                // Region filter
+                const matchesRegion = regionFilter === 'all' || region.region === regionFilter;
+
+                // Type filter
+                let matchesType = true;
+                if (typeFilter !== 'all') {
+                    matchesType = region.atrocityTypes.includes(typeFilter);
+                }
+
+                // Period filter
+                let matchesPeriod = true;
+                if (periodFilter !== 'all') {
+                    matchesPeriod = region.timeCategory === periodFilter;
+                }
+
+                return matchesSearch && matchesRegion && matchesType && matchesPeriod;
+            });
+
+            initializeVisualization();
+            updateStats();
+        }
+
+        function showError(message) {
+            document.getElementById('treemap').innerHTML = `
+                <div class="error">
+                    <div class="error-icon">⚠️</div>
+                    <div>${message}</div>
+                </div>
+            `;
+        }
+
+        // Enhanced region details modal
+        function showRegionDetails(regionData) {
+            // Remove existing modal if present
+            d3.select("#regionModal").remove();
+
+            const modal = d3.select("body")
+                .append("div")
+                .attr("id", "regionModal")
+                .style("position", "fixed")
+                .style("top", "0")
+                .style("left", "0")
+                .style("width", "100%")
+                .style("height", "100%")
+                .style("background", "rgba(0, 0, 0, 0.5)")
+                .style("display", "flex")
+                .style("align-items", "center")
+                .style("justify-content", "center")
+                .style("z-index", "2000")
+                .style("opacity", "0")
+                .on("click", function (event) {
+                    if (event.target === this) closeRegionModal();
+                });
+
+            const modalContent = modal.append("div")
+                .style("background", "var(--surface-color)")
+                .style("color", "var(--on-surface)")
+                .style("border-radius", "12px")
+                .style("padding", "24px")
+                .style("max-width", "800px")
+                .style("max-height", "80vh")
+                .style("overflow-y", "auto")
+                .style("margin", "20px")
+                .style("box-shadow", "0 8px 32px var(--shadow-dark)")
+                .style("transform", "scale(0.9)")
+                .on("click", function (event) {
+                    event.stopPropagation();
+                });
+
+            // Modal header
+            const header = modalContent.append("div")
+                .style("display", "flex")
+                .style("justify-content", "space-between")
+                .style("align-items", "flex-start")
+                .style("margin-bottom", "16px");
+
+            header.append("h2")
+                .style("margin", "0")
+                .style("color", "var(--primary-color)")
+                .style("font-size", "1.5rem")
+                .style("line-height", "1.3")
+                .text(`UAE Atrocities in ${regionData.displayName}`);
+
+            header.append("button")
+                .style("background", "none")
+                .style("border", "none")
+                .style("font-size", "1.5rem")
+                .style("cursor", "pointer")
+                .style("color", "var(--on-surface-variant)")
+                .style("padding", "4px")
+                .text("×")
+                .on("click", closeRegionModal);
+
+            // Region metadata
+            const metadata = modalContent.append("div")
+                .style("margin-bottom", "16px")
+                .style("padding", "16px")
+                .style("background", "var(--surface-variant)")
+                .style("border-radius", "8px")
+                .style("border-left", `4px solid ${getRegionColor(regionData.region)}`);
+
+            metadata.append("div")
+                .style("margin-bottom", "6px")
+                .style("font-size", "0.95rem")
+                .style("font-weight", "500")
+                .text(`📅 Period: ${regionData.period}`);
+
+            metadata.append("div")
+                .style("margin-bottom", "6px")
+                .style("font-size", "0.95rem")
+                .style("font-weight", "500")
+                .text(`📊 Documented Atrocities: ${regionData.points.length}`);
+
+            metadata.append("div")
+                .style("margin-bottom", "6px")
+                .style("font-size", "0.95rem")
+                .style("font-weight", "500")
+                .text(`🏷️ Types: ${regionData.atrocityTypes.map(type => type.replace('-', ' ')).join(', ')}`);
+
+            // Description
+            modalContent.append("h3")
+                .style("margin", "20px 0 12px 0")
+                .style("font-size", "1.2rem")
+                .style("color", "var(--primary-color)")
+                .text("Overview");
+
+            modalContent.append("p")
+                .style("line-height", "1.6")
+                .style("margin-bottom", "20px")
+                .text(regionData.description);
+
+            // Atrocities list
+            modalContent.append("h3")
+                .style("margin", "20px 0 12px 0")
+                .style("font-size", "1.2rem")
+                .style("color", "var(--primary-color)")
+                .text("Documented Atrocities");
+
+            const atrocitiesList = modalContent.append("div")
+                .style("margin-bottom", "20px");
+
+            regionData.points.forEach((point, index) => {
+                const atrocityItem = atrocitiesList.append("div")
+                    .style("margin-bottom", "12px")
+                    .style("padding", "12px")
+                    .style("background", "var(--surface-variant)")
+                    .style("border-radius", "6px")
+                    .style("border-left", "3px solid var(--error-color)");
+
+                atrocityItem.append("div")
+                    .style("font-weight", "500")
+                    .style("color", "var(--error-color)")
+                    .style("margin-bottom", "6px")
+                    .text(`${index + 1}. ${point.title}`);
+
+                atrocityItem.append("div")
+                    .style("font-size", "0.9rem")
+                    .style("line-height", "1.4")
+                    .text(point.details);
+            });
+
+            // UAE Response
+            if (regionData.uaeResponse) {
+                modalContent.append("h3")
+                    .style("margin", "20px 0 12px 0")
+                    .style("font-size", "1.2rem")
+                    .style("color", "var(--primary-color)")
+                    .text("UAE Official Response");
+
+                modalContent.append("div")
+                    .style("padding", "12px")
+                    .style("background", "var(--surface-variant)")
+                    .style("border-radius", "6px")
+                    .style("border-left", "3px solid var(--info-color)")
+                    .style("font-size", "0.9rem")
+                    .style("line-height", "1.4")
+                    .text(regionData.uaeResponse);
+            }
+
+            // Educational disclaimer
+            const disclaimer = modalContent.append("div")
+                .style("margin-top", "20px")
+                .style("padding", "12px")
+                .style("background", "#fff3cd")
+                .style("border", "1px solid #ffeaa7")
+                .style("border-radius", "6px")
+                .style("font-size", "0.9rem")
+                .style("color", "#856404");
+
+            disclaimer.append("strong")
+                .style("color", "#664d03")
+                .text("Educational Purpose: ");
+
+            disclaimer.append("span")
+                .text("This information is compiled from human rights organizations, UN reports, and credible journalism. All allegations are documented from multiple sources. The goal is to promote awareness of regional conflicts and accountability.");
+
+            // Animate modal in
+            modal.transition()
+                .duration(300)
+                .ease(d3.easeCubicOut)
+                .style("opacity", "1");
+
+            modalContent.transition()
+                .duration(300)
+                .ease(d3.easeCubicOut)
+                .style("transform", "scale(1)");
+        }
+
+        function closeRegionModal() {
+            const modal = d3.select("#regionModal");
+            if (!modal.empty()) {
+                modal.transition()
+                    .duration(200)
+                    .style("opacity", "0")
+                    .on("end", function () {
+                        modal.remove();
+                    });
+            }
+        }
+
+        // Enhanced keyboard navigation and accessibility
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeRegionModal();
+            }
+
+            // Quick search focus with Ctrl+F or Cmd+F
+            if ((event.ctrlKey || event.metaKey) && event.key === "f") {
+                event.preventDefault();
+                document.getElementById("searchInput").focus();
+            }
+        });
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterData);
+        document.getElementById('regionFilter').addEventListener('change', filterData);
+        document.getElementById('typeFilter').addEventListener('change', filterData);
+        document.getElementById('periodFilter').addEventListener('change', filterData);
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            if (filteredData.length > 0) {
+                initializeVisualization();
+            }
+        });
+
+        // Initialize
+        loadData();
+    </script>
+
+        <section class="summary-container" aria-label="UAE Atrocities Analysis Summary">
+            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">UAE Atrocities Analysis Overview</h3>
+            
+            <div class="summary-content">
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Scale of UAE Regional Interventions</h4>
+                    <p>This treemap documents alleged atrocities committed by the UAE across <strong>4 major regions</strong> since 2010, representing a pattern of military interventions, proxy support, and human rights violations. The visualization shows:</p>
+                    <ul>
+                        <li><strong>Ongoing Conflicts:</strong> Active involvement in Sudan, Yemen, and Libya with documented war crimes</li>
+                        <li><strong>Arms Embargo Violations:</strong> Systematic breaches of UN arms embargoes across multiple conflicts</li>
+                        <li><strong>Proxy Warfare:</strong> Use of mercenaries and local militias to advance UAE interests</li>
+                        <li><strong>Humanitarian Impact:</strong> Millions displaced, hundreds of thousands killed through UAE-backed operations</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Major Atrocities by Region</h4>
+                    <div class="atrocity-grid">
+                        <div class="atrocity-item">
+                            <strong>Sudan (2019-Present)</strong>
+                            <p>Backing RSF paramilitary forces enabling genocide in Darfur, ethnic cleansing of Masalit people, arms supply violations, and famine as weapon of war. Over 150,000 killed, 12 million displaced.</p>
+                        </div>
+                        <div class="atrocity-item">
+                            <strong>Yemen (2015-Present)</strong>
+                            <p>Saudi-led coalition participation with torture centers, mercenary recruitment, civilian bombings, and humanitarian blockades contributing to world's worst humanitarian crisis.</p>
+                        </div>
+                        <div class="atrocity-item">
+                            <strong>Libya (2014-Present)</strong>
+                            <p>Support for General Haftar through arms supply, drone strikes on civilians, mercenary deployment, and involvement in mass graves and ethnic violence.</p>
+                        </div>
+                        <div class="atrocity-item">
+                            <strong>Other African Countries</strong>
+                            <p>Military bases in Somalia/Eritrea, Wagner Group funding in CAR, migrant worker abuses in UAE, and neo-colonial resource extraction across the continent.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Current Ongoing Atrocities (2023-Present)</h4>
+                    <p>The UAE continues active involvement in multiple conflicts with documented human rights violations:</p>
+                    <ul>
+                        <li><strong>Sudan:</strong> ICJ case filed in 2025 for genocide complicity through RSF backing and arms supply</li>
+                        <li><strong>Yemen:</strong> Continued coalition support despite official troop withdrawal claims</li>
+                        <li><strong>Libya:</strong> Ongoing arms embargo violations and mercenary operations</li>
+                        <li><strong>Migrant Abuses:</strong> Systematic detention and deportation of African workers within UAE</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--error-color); margin-bottom: 12px;">Patterns of UAE Operations</h4>
+                    <p>Analysis reveals consistent patterns in UAE foreign interventions:</p>
+                    <ul>
+                        <li><strong>Proxy Warfare:</strong> Using local militias and mercenaries to avoid direct accountability</li>
+                        <li><strong>Arms Embargo Violations:</strong> Systematic breaches of UN restrictions across multiple conflicts</li>
+                        <li><strong>Economic Motivations:</strong> Resource extraction (gold, ports) driving military interventions</li>
+                        <li><strong>Denial Strategy:</strong> Consistent rejection of allegations while positioning as mediator</li>
+                        <li><strong>Humanitarian Cover:</strong> Using aid operations to disguise military supply lines</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Documentation Sources</h4>
+                    <p>This analysis is compiled from credible sources including:</p>
+                    <ul>
+                        <li><strong>Human Rights Organizations:</strong> Amnesty International, Human Rights Watch investigations</li>
+                        <li><strong>United Nations:</strong> UN reports, arms embargo monitoring, fact-finding missions</li>
+                        <li><strong>International Courts:</strong> ICJ filings, international tribunal evidence</li>
+                        <li><strong>Investigative Journalism:</strong> Guardian, leaked UN reports, eyewitness testimonies</li>
+                        <li><strong>Academic Research:</strong> Think tank analyses and regional security studies</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--warning-color); margin-bottom: 12px;">UAE Official Responses</h4>
+                    <p>The UAE consistently denies direct involvement in atrocities across all regions:</p>
+                    <ul>
+                        <li><strong>Sudan:</strong> Claims to provide only humanitarian aid, calls ICJ case a "publicity stunt"</li>
+                        <li><strong>Yemen:</strong> Emphasizes counter-terrorism focus and development projects</li>
+                        <li><strong>Libya:</strong> Positions support as anti-Islamist stability efforts</li>
+                        <li><strong>Africa:</strong> Highlights economic partnerships and security cooperation with 24+ nations</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary-container" aria-label="Resources and Documentation">
+            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">📚 Sources and Documentation</h3>
+            
+            <div class="summary-content">
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">📄 Reports and Articles</h4>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--info-color);">
+                            <strong>Amnesty International on UAE arms to Sudan</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.amnesty.org/en/latest/news/2025/05/sudan-advanced-chinese-weaponry-provided-by-uae-identified-in-breach-of-arms-embargo-new-investigation/" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   Advanced Chinese weaponry provided by UAE identified in breach of arms embargo
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--info-color);">
+                            <strong>Human Rights Watch on Yemen abuses</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.hrw.org/news/2021/04/15/us-resuming-arms-sales-uae-disastrous" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   US Resuming Arms Sales to UAE Disastrous
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--info-color);">
+                            <strong>Guardian on Zamzam atrocities</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.theguardian.com/global-development/2025/aug/07/genocide-sudan-zamzam-camp-timeline" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   Genocide in Sudan: Zamzam camp timeline
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--warning-color);">
+                            <strong>UAE official denial on Sudan</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.mofa.gov.ae/en/mediahub/news/2024/4/22/22-4-2024-yae-saudan" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   UAE Ministry of Foreign Affairs statement on Sudan
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--info-color);">
+                            <strong>ADHRB on UAE's unethical Africa policy</strong>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                <a href="https://www.adhrb.org/2024/07/the-united-arab-emirates-unethical-foreign-policy-in-africa/" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">
+                                   The United Arab Emirates' Unethical Foreign Policy in Africa
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">🎥 Video Documentation</h4>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--error-color);">
+                            <strong>Why is the UAE Fueling Sudan's Apocalyptic War?</strong>
+                            <p style="margin: 4px 0; font-size: 0.85rem; color: var(--on-surface-variant);">Feb 2025</p>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                Details UAE's role in arming RSF and enabling famine.
+                                <a href="https://www.youtube.com/watch?v=TIf7-mUR8_g" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); margin-left: 8px;">
+                                   🎬 Watch Video
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--error-color);">
+                            <strong>Sudan Files Case Against UAE at the ICJ for 'Genocide'</strong>
+                            <p style="margin: 4px 0; font-size: 0.85rem; color: var(--on-surface-variant);">Mar 2025</p>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                Explains Sudan's ICJ filing and allegations.
+                                <a href="https://m.youtube.com/watch?v=lmUAKDvmpAE" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); margin-left: 8px;">
+                                   🎬 Watch Video
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--error-color);">
+                            <strong>Gold, Guns & Genocide: How the UAE Profits from RSF War Crimes in Sudan</strong>
+                            <p style="margin: 4px 0; font-size: 0.85rem; color: var(--on-surface-variant);">Dec 2024</p>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                Investigates UAE's economic motives.
+                                <a href="https://www.youtube.com/watch?v=GCTwGUuXeJs" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); margin-left: 8px;">
+                                   🎬 Watch Video
+                                </a>
+                            </p>
+                        </div>
+                        <div style="padding: 12px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--error-color);">
+                            <strong>Why is the UAE fuelling Sudan's civil war?</strong>
+                            <p style="margin: 4px 0; font-size: 0.85rem; color: var(--on-surface-variant);">May 2025</p>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">
+                                Analysis of UAE's proxy involvement.
+                                <a href="https://www.youtube.com/watch?v=XvS80ZOJCS8" 
+                                   target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); margin-left: 8px;">
+                                   🎬 Watch Video
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--warning-color); margin-bottom: 12px;">⚠️ Data Compilation Note</h4>
+                    <p style="font-style: italic; color: var(--on-surface-variant);">
+                        This compilation reflects reported events up to August 11, 2025. For ongoing developments, consult multiple sources to account for biases. Information is compiled from UAE historians and expert journalists based on extensive research from diverse sources, including international media, human rights organizations, think tanks, and official statements.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary-container" aria-label="Detailed Regional Analysis">
+            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">🌍 Detailed Regional Analysis</h3>
+            
+            <div class="summary-content">
+                <div class="summary-section">
+                    <h4 style="color: var(--color-sudan); margin-bottom: 12px;">🇸🇩 Sudan: The Genocide Enabler (2019-Present)</h4>
+                    <p><strong>Context:</strong> Sudan's civil war began in 2019 between the Sudanese Armed Forces (SAF) and the Rapid Support Forces (RSF). The UAE has been accused of backing the RSF, enabling massive atrocities.</p>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: var(--error-color); margin-bottom: 8px;">Key Atrocities:</h5>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Arms Supply Violations:</strong> UAE flights delivering Chinese drones and missiles via Chad and Uganda, violating UN arms embargoes</li>
+                            <li><strong>Zamzam Camp Massacre (Aug 2025):</strong> Thousands slaughtered in ethnic-targeted violence against Masalit people</li>
+                            <li><strong>Famine as Weapon:</strong> Hospital bombings and starvation tactics enabled by UAE-backed mercenaries</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: var(--surface-variant); padding: 12px; border-radius: 6px; margin: 12px 0;">
+                        <strong>Impact:</strong> 150,000+ killed, 12 million displaced, famine affecting millions. Sudan filed ICJ case in March 2025 accusing UAE of genocide complicity.
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 12px; border-radius: 6px; margin: 12px 0; color: #856404;">
+                        <strong>UAE Response:</strong> Denies arming RSF, claims humanitarian aid only, calls ICJ case "publicity stunt"
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--color-yemen); margin-bottom: 12px;">🇾🇪 Yemen: The Forgotten War Crimes (2015-Present)</h4>
+                    <p><strong>Context:</strong> UAE joined Saudi-led coalition in Yemen's civil war, deploying troops and establishing detention facilities across southern Yemen.</p>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: var(--error-color); margin-bottom: 8px;">Key Atrocities:</h5>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Torture Centers:</strong> UAE-run detention facilities with systematic torture, sexual violence, and forced disappearances</li>
+                            <li><strong>Mercenary Recruitment:</strong> Up to 4,000 Sudanese fighters recruited for proxy warfare</li>
+                            <li><strong>Humanitarian Blockade:</strong> Naval blockades restricting aid, contributing to world's worst humanitarian crisis</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: var(--surface-variant); padding: 12px; border-radius: 6px; margin: 12px 0;">
+                        <strong>Impact:</strong> Hundreds of thousands killed, millions facing famine, infrastructure destroyed, regional destabilization
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 12px; border-radius: 6px; margin: 12px 0; color: #856404;">
+                        <strong>UAE Response:</strong> Claims troop withdrawal in 2019, emphasizes counter-terrorism and development focus
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--color-libya); margin-bottom: 12px;">🇱🇾 Libya: The Arms Embargo Violator (2014-Present)</h4>
+                    <p><strong>Context:</strong> UAE backed General Khalifa Haftar's Libyan National Army against the UN-recognized Government of National Accord.</p>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: var(--error-color); margin-bottom: 8px;">Key Atrocities:</h5>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Arms Supply:</strong> Provided drones, missiles, and US-origin weapons enabling civilian strikes</li>
+                            <li><strong>Mercenary Operations:</strong> Deployed Sudanese and other African mercenaries leading to summary executions</li>
+                            <li><strong>Mass Graves:</strong> Involvement in ethnic violence and systematic killings</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: var(--surface-variant); padding: 12px; border-radius: 6px; margin: 12px 0;">
+                        <strong>Impact:</strong> Prolonged civil war, mass displacement, destruction of state institutions, regional instability
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 12px; border-radius: 6px; margin: 12px 0; color: #856404;">
+                        <strong>UAE Response:</strong> Denies embargo violations, positions support as anti-Islamist stability efforts
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--color-somalia); margin-bottom: 12px;">🌍 Other African Countries: Neo-Colonial Expansion</h4>
+                    <p><strong>Context:</strong> UAE's Africa strategy intensified post-2015, involving military bases, resource extraction, and proxy operations across the continent.</p>
+                    
+                    <div style="margin: 16px 0;">
+                        <h5 style="color: var(--error-color); margin-bottom: 8px;">Key Operations:</h5>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Somalia/Eritrea:</strong> Military bases fueling separatism and Red Sea tensions</li>
+                            <li><strong>Central African Republic:</strong> Wagner Group funding enabling gold mining atrocities</li>
+                            <li><strong>Migrant Abuses:</strong> Detention and torture of 800+ African workers in UAE</li>
+                            <li><strong>Resource Extraction:</strong> Port investments displacing locals, fueling conflicts</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: var(--surface-variant); padding: 12px; border-radius: 6px; margin: 12px 0;">
+                        <strong>Impact:</strong> Regional destabilization, human rights violations, economic exploitation, forced displacement
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 12px; border-radius: 6px; margin: 12px 0; color: #856404;">
+                        <strong>UAE Response:</strong> Emphasizes development partnerships with 24+ African nations, denies destabilization
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Disclaimers Section -->
+    <div class="disclaimers">
+        <h3 class="disclaimer-title">⚠️ Important Disclaimers</h3>
+        <div class="disclaimer-content">
+            <p><strong>Educational Purpose Only:</strong> This treemap is created for educational and analytical purposes to document alleged atrocities based on reports from human rights organizations, UN investigations, and credible journalism.</p>
+
+            <p><strong>Source Verification:</strong> All information is sourced from credible organizations including Amnesty International, Human Rights Watch, UN reports, and investigative journalism. Multiple sources are consulted for verification.</p>
+
+            <p><strong>Allegations vs. Convictions:</strong> Many events documented are based on credible allegations, investigations, and leaked reports. Legal proceedings are ongoing in some cases, and the UAE denies direct involvement in atrocities.</p>
+
+            <p><strong>Ongoing Situations:</strong> Several conflicts marked as ongoing are active situations. Information may evolve as new evidence emerges and situations develop.</p>
+
+            <p><strong>Multiple Perspectives:</strong> This compilation includes UAE official responses and denials alongside allegations. Users should consider all perspectives and consult multiple sources.</p>
+
+            <p><strong>Bias Considerations:</strong> Media viewpoints may contain bias. We include perspectives from UAE officials, Western outlets, Arab media, and African voices to provide balanced coverage.</p>
+
+            <p><strong>No Warranty:</strong> The creators make no warranties about the accuracy, completeness, or reliability of the information presented. Information is subject to ongoing research and revision.</p>
+
+            <p><strong>Accountability Purpose:</strong> This documentation aims to promote awareness of regional conflicts, support victims and survivors, and encourage international accountability and transparency.</p>
+
+            <p><strong>Consult Experts:</strong> For authoritative information, please consult human rights organizations, UN reports, academic researchers, and established international institutions.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

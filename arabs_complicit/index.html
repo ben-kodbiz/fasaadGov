@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arab Complicity Sunburst Visualization</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>Arab Complicity Analysis - Interactive Visualization</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
     <style>
         :root {
             /* Material Design 3 Colors */
@@ -17,61 +18,44 @@
             --background-color: #fafafa;
             --surface-color: #ffffff;
             --surface-variant: #f5f5f5;
-            --text-color: #1c1b1f;
-            --text-secondary: #49454f;
-            --border-color: #79747e;
+            --on-surface: #1c1b1f;
+            --on-surface-variant: #49454f;
+            --outline: #79747e;
             --shadow: rgba(0, 0, 0, 0.12);
             --shadow-dark: rgba(0, 0, 0, 0.24);
-
-            /* Material Design relationship colors - no black */
-            --direct-israel: #d32f2f;
-            /* Material Red 700 */
-            --indirect-israel: #ff9800;
-            /* Material Orange 500 */
-            --direct-us: #1976d2;
-            /* Material Blue 700 */
-            --indirect-us: #42a5f5;
-            /* Material Blue 400 */
-            --investment-high: #388e3c;
-            /* Material Green 700 */
-            --investment-medium: #66bb6a;
-            /* Material Green 400 */
-            --investment-low: #a5d6a7;
-            /* Material Green 200 */
-
-            /* Additional Material colors */
             --error-color: #b00020;
             --warning-color: #ff6f00;
             --success-color: #00c853;
             --info-color: #2196f3;
+
+            /* Arab Complicity relationship colors */
+            --direct-israel: #d32f2f;
+            --indirect-israel: #ff9800;
+            --direct-us: #1976d2;
+            --indirect-us: #42a5f5;
+            --investment-high: #388e3c;
+            --investment-medium: #66bb6a;
+            --investment-low: #a5d6a7;
         }
 
         [data-theme="dark"] {
-            /* Material Design 3 Dark Theme */
             --background-color: #121212;
             --surface-color: #1e1e1e;
             --surface-variant: #2d2d2d;
-            --text-color: #ffffff;
-            --text-secondary: #b3b3b3;
-            --border-color: #666666;
+            --on-surface: #ffffff;
+            --on-surface-variant: #b3b3b3;
+            --outline: #666666;
             --shadow: rgba(0, 0, 0, 0.3);
             --shadow-dark: rgba(0, 0, 0, 0.5);
 
-            /* Adjusted colors for dark theme - brighter for better contrast */
+            /* Adjusted colors for dark theme */
             --direct-israel: #ff5252;
-            /* Material Red 400 - brighter */
             --indirect-israel: #ffb74d;
-            /* Material Orange 300 */
             --direct-us: #42a5f5;
-            /* Material Blue 400 */
             --indirect-us: #90caf9;
-            /* Material Blue 200 */
             --investment-high: #66bb6a;
-            /* Material Green 400 */
             --investment-medium: #a5d6a7;
-            /* Material Green 200 */
             --investment-low: #c8e6c9;
-            /* Material Green 100 */
         }
 
         * {
@@ -83,164 +67,191 @@
             margin: 0;
             padding: 0;
             background-color: var(--background-color);
-            color: var(--text-color);
+            color: var(--on-surface);
             transition: all 0.3s ease;
+            line-height: 1.6;
         }
 
-        .header {
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        .app-bar {
             background: var(--surface-color);
-            padding: 20px;
+            padding: 16px 24px;
             box-shadow: 0 2px 4px var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-variant);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px var(--shadow-dark);
+        }
+
+        .btn-secondary {
+            background: var(--surface-variant);
+            color: var(--on-surface);
+            border: 1px solid var(--outline);
+        }
+
+        .btn-secondary:hover {
+            background: var(--outline);
+            color: var(--surface-color);
+        }
+
+        .btn-icon {
+            padding: 8px;
+            border-radius: 50%;
+            min-width: 40px;
+            height: 40px;
+            justify-content: center;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 16px 24px;
+            margin: 0;
+            color: #856404;
+            font-size: 0.9rem;
             text-align: center;
         }
 
-        .header h1 {
-            margin: 0;
-            color: var(--primary-color);
-            font-size: 2rem;
-            font-weight: 500;
+        [data-theme="dark"] .disclaimer {
+            background: #2d2a1f;
+            border-color: #4a4419;
+            color: #ffd93d;
         }
 
-        .header p {
-            margin: 10px 0 0 0;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
+        .controls-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
         }
 
         .controls {
-            background: var(--surface-color);
-            padding: 20px;
-            margin: 20px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px var(--shadow);
             display: flex;
             gap: 20px;
-            align-items: center;
             flex-wrap: wrap;
+            align-items: end;
         }
 
         .control-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            min-width: 200px;
         }
 
         .control-label {
             font-size: 0.875rem;
             font-weight: 500;
-            color: var(--text-secondary);
+            color: var(--on-surface);
         }
 
-        .select,
-        .btn {
-            padding: 10px 16px;
-            border: 1px solid var(--border-color);
+        .input, .select {
+            padding: 12px 16px;
+            border: 1px solid var(--outline);
             border-radius: 8px;
             background: var(--surface-color);
-            color: var(--text-color);
-            font-family: inherit;
+            color: var(--on-surface);
             font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            transition: border-color 0.2s ease;
         }
 
-        .btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+        .input:focus, .select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
         }
 
         .visualization-container {
             display: flex;
-            gap: 20px;
-            margin: 20px;
+            gap: 24px;
+            margin: 24px;
+            flex-wrap: wrap;
         }
 
-        .sunburst-container {
+        .chart-container {
             flex: 2;
             background: var(--surface-color);
+            padding: 24px;
             border-radius: 12px;
             box-shadow: 0 1px 3px var(--shadow);
-            padding: 20px;
-            min-height: 600px;
+            min-width: 400px;
         }
 
         .info-panel {
             flex: 1;
             background: var(--surface-color);
+            padding: 24px;
             border-radius: 12px;
             box-shadow: 0 1px 3px var(--shadow);
-            padding: 20px;
-            max-height: 600px;
-            overflow-y: auto;
+            min-width: 300px;
         }
 
-        .info-panel h3 {
-            margin-top: 0;
-            color: var(--primary-color);
-        }
-
-        .legend {
-            background: var(--surface-color);
-            margin: 20px;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px var(--shadow);
-        }
-
-        .legend h3 {
-            margin-top: 0;
-            color: var(--primary-color);
-        }
-
-        .legend-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .legend-item {
+        #sunburst {
+            width: 100%;
+            height: 600px;
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
-        }
-
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-        }
-
-        .tooltip {
-            position: absolute;
-            background: var(--surface-color);
-            color: var(--text-color);
-            padding: 12px;
-            border-radius: 8px;
-            box-shadow: 0 4px 16px var(--shadow-dark);
-            pointer-events: none;
-            font-size: 0.875rem;
-            max-width: 300px;
-            z-index: 1000;
-            border: 1px solid var(--border-color);
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .tooltip-title {
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-        }
-
-        .tooltip-content {
-            line-height: 1.4;
         }
 
         .sunburst-path {
@@ -249,17 +260,16 @@
         }
 
         .sunburst-path:hover {
-            stroke: var(--text-color);
+            stroke: var(--on-surface);
             stroke-width: 2px;
         }
 
         .sunburst-text {
             font-size: 12px;
             font-weight: 600;
-            text-anchor: middle;
+            fill: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
             pointer-events: none;
-            fill: #ffffff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
 
         [data-theme="dark"] .sunburst-text {
@@ -267,746 +277,394 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
         }
 
+        .legend-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background: var(--surface-variant);
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px var(--shadow);
+        }
+
+        .legend-label {
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--on-surface-variant);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--surface-variant);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--error-color);
+            text-align: center;
+            padding: 24px;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        /* Mobile responsive */
         @media (max-width: 768px) {
+            .app-bar {
+                padding: 12px 16px;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .app-title {
+                font-size: 1.25rem;
+            }
+
             .visualization-container {
                 flex-direction: column;
+                margin: 8px;
+            }
+
+            .controls-container,
+            .chart-container,
+            .info-panel,
+            .legend-container {
+                margin: 8px;
+                padding: 16px;
             }
 
             .controls {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 16px;
             }
 
-            .legend-grid {
+            .control-group {
+                min-width: auto;
+            }
+
+            #sunburst {
+                height: 400px;
+            }
+
+            .legend-items {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
-
 <body>
-    <div class="header">
-        <h1>🌅 Arab Complicity Analysis</h1>
-        <p>Interactive visualization of Arab countries' relationships with Israel and the United States</p>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-        <div
-            style="margin: 20px auto; max-width: 800px; padding: 20px; background: var(--surface-variant); border-radius: 12px; border-left: 4px solid var(--secondary-color); text-align: left;">
-            <h3 style="color: var(--secondary-color); margin-top: 0;">📜 A Message to the Silent Thrones</h3>
-            <p style="font-style: italic; margin-bottom: 15px;">"He who sees an evil must change it with his hand. If he
-                cannot, then with his tongue. If he cannot, then with his heart — and that is the weakest of faith." —
-                Prophet Muhammad ﷺ, Sahih Muslim</p>
-
-            <p>To the rulers, ministers, and dignitaries seated upon golden thrones across the Arab world — Your silence
-                is not neutrality. It is complicity. Your alliances are not pragmatism. They are betrayal. Betrayal of
-                the Ummah. Betrayal of the deen. Betrayal of every child buried under rubble, every mother who cannot
-                find her son, every prayer cut short by drones funded with your partnerships.</p>
-
-            <p style="font-style: italic; margin: 15px 0;">"Beware the supplication of the oppressed, for there is no
-                barrier between it and Allah." — Prophet Muhammad ﷺ, Sahih al-Bukhari</p>
-
-            <p>The blood spilled in Gaza, in Yemen, in Syria, and beyond — cries out not only against the enemies of
-                Islam, but against those who watched from palaces, offered statements while offering airspace, condemned
-                with lips while shaking hands in secret.</p>
-
-            <p style="font-style: italic; margin: 15px 0;">"If the people see an oppressor and do not seize his hand,
-                soon Allah will punish them all." — Sunan Abu Dawud</p>
-
-            <p>Where were your hands when the oppressed screamed? Where were your voices when Masjid Al-Aqsa was
-                desecrated? Where was your 'izzah — your dignity — when the Ummah needed leaders, not custodians of
-                colonial borders?</p>
-
-            <p>You have chosen silence in the age of moral collapse. You have chosen thrones over truth. Comfort over
-                conscience. But know this: Allah is not unaware of what the wrongdoers do. And neither are the people.
-            </p>
-
-            <p style="font-style: italic; margin: 15px 0;">"By Allah, if Fatimah the daughter of Muhammad were to steal,
-                I would cut off her hand." — Sahih al-Bukhari</p>
-
-            <p>Justice in Islam is not selective. It does not bend for diplomatic ties or economic gain. To stand idly
-                by while oppression is normalized is to hold the hand of the oppressor on the Day when "every soul will
-                be held to account for what it earned."</p>
-
-            <p>You fear the collapse of your regimes — but do you not fear standing before Malik al-Mulk with the cries
-                of millions echoing in your book of deeds?</p>
-
-            <p style="text-align: center; font-weight: bold; color: var(--secondary-color); margin: 20px 0;">🔻 History
-                will not remember your neutrality.<br>It will remember your cowardice.</p>
-
-            <p style="text-align: center; font-weight: bold;">Repent. Realign. Rise before it is too late.</p>
-        </div>
+    <!-- Theme Toggle -->
+    <div style="background: var(--surface-color); padding: 8px 24px; border-bottom: 1px solid var(--outline); display: flex; justify-content: flex-end;">
+        <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode" aria-label="Toggle between light and dark theme">
+            <span class="material-icons" aria-hidden="true">dark_mode</span>
+        </button>
     </div>
 
-    <div class="controls">
-        <div class="control-group">
-            <label class="control-label">View Mode</label>
-            <select id="viewMode" class="select">
-                <option value="relationships">Relationship Types</option>
-                <option value="investments">Investment Levels</option>
-                <option value="timeline">Timeline View</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Focus</label>
-            <select id="focusFilter" class="select">
-                <option value="all">All Countries</option>
-                <option value="direct">Direct Ties Only</option>
-                <option value="indirect">Indirect Ties Only</option>
-                <option value="abraham">Abraham Accords</option>
-            </select>
-        </div>
-        <button id="resetView" class="btn">Reset View</button>
-        <button id="themeToggle" class="btn" style="background: var(--secondary-color);">🌙 Dark Mode</button>
-        <button id="debugInvestments" class="btn" style="background: var(--warning-color);">🔍 Debug</button>
+    <header class="app-bar" role="banner">
+        <h1 class="app-title">
+            🌅 Arab Complicity Analysis
+        </h1>
+        <nav class="app-actions" role="navigation" aria-label="Main navigation">
+            <a href="../index.html" class="btn btn-secondary" aria-label="Back to main hub">
+                <span class="material-icons" aria-hidden="true">home</span>
+                Main Hub
+            </a>
+            <a href="../uae_atrocities/index.html" class="btn btn-secondary" aria-label="UAE Atrocities">
+                <span class="material-icons" aria-hidden="true">flag</span>
+                UAE Atrocities
+            </a>
+            <a href="../other_Geno/index.html" class="btn btn-secondary" aria-label="Other Genocides">
+                <span class="material-icons" aria-hidden="true">public</span>
+                Other Genocides
+            </a>
+            <a href="../companies_complicit/index.html" class="btn btn-secondary" aria-label="Corporate Complicity Network">
+                <span class="material-icons" aria-hidden="true">business</span>
+                Corporate Network
+            </a>
+            <a href="../british/index.html" class="btn btn-secondary" aria-label="British Atrocities">
+                <span class="material-icons" aria-hidden="true">history</span>
+                British Atrocities
+            </a>
+        </nav>
+    </header>
+
+    <div class="disclaimer">
+        <strong>⚠️ Educational Analysis:</strong> This visualization analyzes Arab countries' relationships with Israel and the United States based on documented agreements, cooperation, and public sentiment data. All information is sourced from credible diplomatic sources, surveys, and academic research.
     </div>
 
-    <div class="visualization-container">
-        <div class="sunburst-container">
-            <div id="sunburst"></div>
-        </div>
-        <div class="info-panel">
-            <h3>Country Information</h3>
-            <div id="countryInfo">
-                <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+    <main id="main-content" role="main">
+        <section class="controls-container" aria-label="Visualization controls">
+            <h2 style="margin-top: 0; color: var(--on-surface);">Analysis Controls</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label class="control-label">View Mode</label>
+                    <select id="viewMode" class="select">
+                        <option value="relationships">Relationships with Israel/US</option>
+                        <option value="investments">Investment Levels</option>
+                        <option value="combined">Combined Analysis</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Focus Filter</label>
+                    <select id="focusFilter" class="select">
+                        <option value="all">All Countries</option>
+                        <option value="direct-israel">Direct Israel Relations</option>
+                        <option value="indirect-israel">Indirect Israel Relations</option>
+                        <option value="us-allies">US Allies</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-secondary" id="resetView">
+                        <span class="material-icons" aria-hidden="true">refresh</span>
+                        Reset View
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <div class="visualization-container">
+            <section class="chart-container" aria-label="Interactive sunburst visualization">
+                <div id="sunburst" role="img" aria-label="Interactive sunburst showing Arab countries' relationships">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <div>Loading visualization data...</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-panel" aria-label="Country information">
+                <div id="countryInfo">
                     <h4 style="color: var(--primary-color); margin-bottom: 15px;">🎯 Getting Started</h4>
                     <p style="line-height: 1.6; margin-bottom: 15px;">
                         Click on any segment in the sunburst chart to view detailed information about a country's
                         relationships and investments.
                     </p>
-                    <div
-                        style="background: var(--surface-variant); padding: 15px; border-radius: 8px; margin-top: 15px;">
-                        <strong style="color: var(--text-color);">💡 Tips:</strong><br>
-                        <small style="line-height: 1.4;">
-                            • Hover over segments for quick info<br>
-                            • Use the controls above to change views<br>
-                            • Try different focus filters<br>
-                            • Toggle dark mode for better viewing
-                        </small>
+                    <p style="line-height: 1.6; margin-bottom: 15px;">
+                        Use the controls above to filter the visualization by relationship type or investment level.
+                    </p>
+                    <div style="padding: 12px; background: var(--surface-variant); border-radius: 8px; margin-top: 20px;">
+                        <h5 style="margin-top: 0; color: var(--primary-color);">Legend</h5>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 16px; height: 16px; background: var(--direct-israel); border-radius: 2px;"></div>
+                                Direct Israel Relations
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 16px; height: 16px; background: var(--indirect-israel); border-radius: 2px;"></div>
+                                Indirect Israel Relations
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 16px; height: 16px; background: var(--direct-us); border-radius: 2px;"></div>
+                                Direct US Relations
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 16px; height: 16px; background: var(--indirect-us); border-radius: 2px;"></div>
+                                Indirect US Relations
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="legend">
-        <h3>Legend</h3>
-        <div class="legend-grid">
-            <div class="legend-item">
-                <div class="legend-color"
-                    style="background-color: var(--direct-israel); box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3);"></div>
-                <span>🇮🇱 Direct ties with Israel</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color"
-                    style="background-color: var(--indirect-israel); box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);">
-                </div>
-                <span>🇮🇱 Indirect ties with Israel</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color"
-                    style="background-color: var(--direct-us); box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3);"></div>
-                <span>🇺🇸 Direct ties with US</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color"
-                    style="background-color: var(--indirect-us); box-shadow: 0 2px 4px rgba(66, 165, 245, 0.3);"></div>
-                <span>🇺🇸 Indirect ties with US</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color"
-                    style="background-color: var(--investment-high); box-shadow: 0 2px 4px rgba(56, 142, 60, 0.3);">
-                </div>
-                <span>💰 High investment (>$100B)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color"
-                    style="background-color: var(--investment-medium); box-shadow: 0 2px 4px rgba(102, 187, 106, 0.3);">
-                </div>
-                <span>💰 Medium investment ($1B-$100B)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color"
-                    style="background-color: var(--investment-low); box-shadow: 0 2px 4px rgba(165, 214, 167, 0.3);">
-                </div>
-                <span>💰 Low investment (<$1B)< /span>
-            </div>
+            </section>
         </div>
 
-        <div
-            style="margin-top: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px; text-align: center;">
-            <strong style="color: var(--primary-color);">📚 Evidence-Based Analysis</strong><br>
-            <small style="color: var(--text-secondary); line-height: 1.4;">
-                All information is backed by credible sources including government documents, academic studies, and
-                reputable news organizations.
-                Click on any country segment to view detailed sources and evidence links.
-            </small>
-        </div>
+        <section class="legend-container" aria-label="Country relationships legend">
+            <h3 style="margin-top: 0; color: var(--on-surface);">Arab Countries by Relationship Type</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--direct-israel);"></div>
+                    <div class="legend-label">Direct Israel Relations - Egypt, Jordan, UAE, Bahrain</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--indirect-israel);"></div>
+                    <div class="legend-label">Indirect Israel Relations - Saudi Arabia, Morocco, Sudan</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--direct-us);"></div>
+                    <div class="legend-label">Strong US Alliance - Egypt, Jordan, Saudi Arabia, UAE</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--indirect-us);"></div>
+                    <div class="legend-label">Limited US Relations - Algeria, Lebanon, Iraq</div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-        <div
-            style="margin-top: 20px; padding: 20px; background: var(--surface-variant); border-radius: 8px; border: 2px solid var(--warning-color);">
-            <h4 style="color: var(--warning-color); margin-top: 0; text-align: center;">⚠️ DISCLAIMER</h4>
-            <p style="text-align: center; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary);">
-                <strong>All information presented must be independently verified.</strong><br>
-                This site is not responsible for any incorrect information. Data is compiled from various sources and
-                should be cross-referenced with original documents.
-                Users are encouraged to conduct their own research and verification of all claims and sources presented.
-            </p>
-            <p style="text-align: center; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0;">
-                This visualization is for educational and analytical purposes only.
-            </p>
-        </div>
-    </div>
-
-    <div class="tooltip" id="tooltip"></div>
-
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-        // Global variables
-        let data = {};
-        let investmentData = {};
+        // Theme management
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('.material-icons');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            updateVisualization(); // Re-render with new colors
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+        }
+
+        // Visualization variables
+        let data = [];
         let currentView = 'relationships';
         let currentFocus = 'all';
+        let svg, width, height, radius;
 
-        // Dimensions
-        const width = 600;
-        const height = 600;
-        const radius = Math.min(width, height) / 2;
-
-        // Create SVG
-        const svg = d3.select("#sunburst")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-        // Tooltip
-        const tooltip = d3.select("#tooltip");
-
-        // URL validation function to check for broken links
-        function validateUrl(url) {
+        // Load and initialize
+        async function loadData() {
             try {
-                new URL(url);
-                return !url.includes('[](') && !url.includes('[]') && url.startsWith('http');
-            } catch {
-                return false;
+                const response = await fetch('arabs_complicit.json');
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                
+                data = await response.json();
+                initializeVisualization();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showError('Failed to load visualization data: ' + error.message);
             }
         }
 
-        // Function to clean malformed URLs
-        function cleanUrl(url) {
-            if (!url) return '';
-            // Remove malformed fragments like [](...)
-            return url.split('[](')[0].split('[]')[0].trim();
-        }
-
-        // Embedded data to avoid CORS issues - URLs cleaned and validated
-        const complicitData = {
-            "countries": [
-                {
-                    "name": "Egypt",
-                    "ties_with_israel": "Direct",
-                    "ties_with_us": "Direct",
-                    "details": {
-                        "agreements": [
-                            { "name": "Camp David Accords", "year": 1978, "description": "Framework for peace between Egypt and Israel, leading to the 1979 peace treaty." },
-                            { "name": "Egypt-Israel Peace Treaty", "year": 1979, "description": "Formalized diplomatic relations, with Israel withdrawing from Sinai." }
-                        ],
-                        "cooperation": {
-                            "israel": "Security coordination in Sinai, Gaza border control, and diplomatic relations with embassies in Cairo and Tel Aviv.",
-                            "us": "Receives ~$1.3 billion annually in US military aid; collaborates on counterterrorism and regional stability."
-                        },
-                        "public_sentiment": "Only 5% of Egyptians support normalization with Israel (Arab Barometer, 2022). Public protests against Israel's Gaza policies are common, but the government prioritizes strategic ties.",
-                        "sources": [
-                            { "title": "Egypt and Israel: Widening Gap Spells More Instability", "url": "https://www.rusi.org/explore-our-research/publications/commentary/egypt-and-israel-widening-gap-spells-more-instability" }
-                        ]
-                    }
-                },
-                {
-                    "name": "Jordan",
-                    "ties_with_israel": "Direct",
-                    "ties_with_us": "Direct",
-                    "details": {
-                        "agreements": [
-                            { "name": "Israel-Jordan Peace Treaty", "year": 1994, "description": "Established diplomatic relations, water-sharing agreements, and security cooperation." }
-                        ],
-                        "cooperation": {
-                            "israel": "Water sharing (Jordan River), counterterrorism, and airspace defense (e.g., intercepting Iranian drones in 2024).",
-                            "us": "Receives over $1 billion annually in US aid; hosts US military bases and conducts joint exercises."
-                        },
-                        "public_sentiment": "Normalization support is low at 5% (Arab Barometer, 2022). Pro-Palestinian protests are frequent, especially post-October 2023.",
-                        "sources": [
-                            { "title": "US-Jordan Relations, State Department", "url": "https://2021-2025.state.gov/countries-areas/jordan/" },
-                            { "title": "Israel–Jordan Peace Treaty", "url": "https://en.wikipedia.org/wiki/Israel%E2%80%93Jordan_peace_treaty" }
-                        ]
-                    }
-                },
-                {
-                    "name": "United Arab Emirates",
-                    "ties_with_israel": "Direct",
-                    "ties_with_us": "Direct",
-                    "details": {
-                        "agreements": [
-                            { "name": "Abraham Accords", "year": 2020, "description": "Normalized diplomatic and economic relations with Israel." },
-                            { "name": "Comprehensive Economic Partnership Agreement", "year": 2022, "description": "Boosted trade and investment between UAE and Israel." }
-                        ],
-                        "cooperation": {
-                            "israel": "Direct flights, trade (Israel's second-largest Middle East trading partner), and technology partnerships.",
-                            "us": "Hosts US military bases; US brokered Abraham Accords, promising F-35 jets."
-                        },
-                        "public_sentiment": "67% of Arabs view UAE's Gaza stance negatively (2023 survey). Domestic support for normalization is higher but still limited.",
-                        "sources": [
-                            { "title": "Abraham Accords, US State Department", "url": "https://www.state.gov/the-abraham-accords/" },
-                            { "title": "Crisis Group: UAE-Israel Relations", "url": "https://www.crisisgroup.org/middle-east-north-africa/gulf-and-arabian-peninsula/united-arab-emirates-israelpalestine/uae-israel" }
-                        ]
-                    }
-                },
-                {
-                    "name": "Bahrain",
-                    "ties_with_israel": "Direct",
-                    "ties_with_us": "Direct",
-                    "details": {
-                        "agreements": [
-                            { "name": "Abraham Accords", "year": 2020, "description": "Formalized diplomatic and economic ties with Israel." }
-                        ],
-                        "cooperation": {
-                            "israel": "Diplomatic relations, trade, and security coordination.",
-                            "us": "Hosts US Navy's Fifth Fleet; strong defense partnership."
-                        },
-                        "public_sentiment": "Significant domestic opposition, particularly from Shia communities, limits public support for normalization.",
-                        "sources": [
-                            { "title": "Abraham Accords, US State Department", "url": "https://www.state.gov/the-abraham-accords/" }
-                        ]
-                    }
-                },
-                {
-                    "name": "Morocco",
-                    "ties_with_israel": "Direct",
-                    "ties_with_us": "Direct",
-                    "details": {
-                        "agreements": [
-                            { "name": "Abraham Accords", "year": 2020, "description": "Restored diplomatic ties with Israel, including trade and tourism." }
-                        ],
-                        "cooperation": {
-                            "israel": "Trade, tourism, direct flights; Israel recognized Morocco's Western Sahara claim.",
-                            "us": "Receives US military and economic aid; US supported Western Sahara claim."
-                        },
-                        "public_sentiment": "Support for normalization fell from 31% in 2022 to 13% post-October 2023 (Arab Barometer).",
-                        "sources": [
-                            { "title": "Abraham Accords, US State Department", "url": "https://www.state.gov/the-abraham-accords/" }
-                        ]
-                    }
-                },
-                {
-                    "name": "Sudan",
-                    "ties_with_israel": "Direct",
-                    "ties_with_us": "Direct",
-                    "details": {
-                        "agreements": [
-                            { "name": "Abraham Accords", "year": 2020, "description": "Agreed to normalize relations with Israel, though implementation is stalled." }
-                        ],
-                        "cooperation": {
-                            "israel": "Limited due to internal conflict; initial steps toward diplomatic ties.",
-                            "us": "US removed Sudan from terrorism list and provided aid post-normalization agreement."
-                        },
-                        "public_sentiment": "Widespread opposition to normalization; ongoing conflict limits public discourse.",
-                        "sources": [
-                            { "title": "Abraham Accords, US State Department", "url": "https://www.state.gov/the-abraham-accords/" }
-                        ]
-                    }
-                },
-                {
-                    "name": "Saudi Arabia",
-                    "ties_with_israel": "Indirect",
-                    "ties_with_us": "Direct",
-                    "details": {
-                        "agreements": [],
-                        "cooperation": {
-                            "israel": "Tacit intelligence sharing, airspace access (e.g., 2024 Iranian drone defense); no formal ties.",
-                            "us": "Major US ally; hosts US military assets and purchases billions in US weapons."
-                        },
-                        "public_sentiment": "Strong public opposition to normalization; 96% prioritize Palestinian cause (2023 poll).",
-                        "sources": [
-                            { "title": "Saudi Arabia–United States Relations", "url": "https://en.wikipedia.org/wiki/Saudi_Arabia%E2%80%93United_States_relations" },
-                            { "title": "US-Saudi Defense Cooperation Analysis", "url": "https://www.stimson.org/2025/the-largest-defense-cooperation-agreement-in-u-s-history-may-not-add-up-to-expectations/" },
-                            { "title": "Congressional Research Service: Saudi Arabia Relations", "url": "https://www.congress.gov/crs-product/R48162#:~:text=Regarding%20Congress's%20powers%20and%20prerogatives,its%20duties%20and%20functions%20fully." }
-                        ]
-                    }
-                },
-                {
-                    "name": "Oman",
-                    "ties_with_israel": "Indirect",
-                    "ties_with_us": "Direct",
-                    "details": {
-                        "agreements": [],
-                        "cooperation": {
-                            "israel": "Backchannel communication; hosted Israeli officials (e.g., Netanyahu in 2018).",
-                            "us": "Hosts US military facilities; strong defense and trade ties."
-                        },
-                        "public_sentiment": "Limited support for normalization; Oman's neutral stance moderates public debate.",
-                        "sources": [
-                            { "title": "Netanyahu Oman Visit 2018", "url": "https://www.aljazeera.com/news/2018/10/26/israels-netanyahu-meets-sultan-qaboos-in-surprise-oman-trip" }
-                        ]
-                    }
-                },
-                {
-                    "name": "Qatar",
-                    "ties_with_israel": "Indirect",
-                    "ties_with_us": "Direct",
-                    "details": {
-                        "agreements": [],
-                        "cooperation": {
-                            "israel": "Backchannel coordination for Gaza aid; hosted Hamas office with Israel's approval.",
-                            "us": "Hosts Al Udeid Air Base; key US partner in defense and diplomacy."
-                        },
-                        "public_sentiment": "Strong public support for Palestine; normalization is unpopular.",
-                        "sources": []
-                    }
-                }
-            ]
-        };
-
-        const investData = {
-            "countries": [
-                {
-                    "name": "Saudi Arabia",
-                    "investments": {
-                        "united_states": { "total_estimate_1995_2025": "Over $800 billion (conservative estimate, including government and private investments)." },
-                        "israel": { "total_estimate_1995_2025": "Under $1 billion, mostly post-2020 and indirect." }
-                    },
-                    "key_investments": [
-                        { "year": 1988, "amount": "$2 billion", "description": "Saudi Arabia purchased a 50% stake in Texaco's US refining and marketing operations.", "source": "https://www.nytimes.com/1990/04/30/business/arab-investment-overseas-a-vast-empire.html" },
-                        { "year": 2016, "amount": "$3.5 billion", "description": "Saudi Arabia's PIF invested in Uber, marking a significant tech sector entry.", "source": "" },
-                        { "year": 2017, "amount": "$20 billion", "description": "PIF committed to Blackstone's US infrastructure fund.", "source": "https://www.blackstone.com/news/press/blackstone-and-saudi-arabias-public-investment-fund-announce-anchor-commitment-to-new-infrastructure-fund/" },
-                        { "year": 2019, "amount": "$45 billion", "description": "PIF invested in SoftBank Vision Fund.", "source": "" },
-                        { "year": 2025, "amount": "$600 billion", "description": "Historic investment commitment announced during Trump's visit, including $142 billion in defense cooperation, $20 billion in AI and energy projects, and $10 billion in technology partnerships with major US companies.", "source": "https://www.whitehouse.gov/fact-sheets/2025/05/fact-sheet-president-donald-j-trump-secures-historic-600-billion-investment-commitment-in-saudi-arabia/" }
-                    ],
-                    "sources": [
-                        { "title": "Saudi PIF Official Website", "url": "https://www.pif.gov.sa/en/pages/homepage.aspx" }
-                    ]
-                },
-                {
-                    "name": "United Arab Emirates",
-                    "investments": {
-                        "united_states": { "total_estimate_1995_2025": "Over $1.5 trillion, driven by sovereign wealth funds." },
-                        "israel": { "total_estimate_1995_2025": "Approximately $2 billion, mostly post-2020." }
-                    },
-                    "key_investments": [
-                        { "year": 2007, "amount": "$7.5 billion", "description": "Abu Dhabi Investment Authority (ADIA) acquired a 4.9% stake in Citigroup.", "source": "" },
-                        { "year": 2018, "amount": "$1.3 billion", "description": "Mubadala invested in SoftBank's Vision Fund for US tech startups.", "source": "https://www.mubadala.com/en/news/softbank-vision-fund-announces-first-major-close" },
-                        { "year": 2021, "amount": "$1 billion", "description": "UAE sovereign wealth fund acquired stake in Israel's Tamar gas field.", "source": "" }
-                    ],
-                    "sources": [
-                        { "title": "Mubadala Official Website", "url": "https://www.mubadala.com/en" }
-                    ]
-                },
-                {
-                    "name": "Qatar",
-                    "investments": {
-                        "united_states": { "total_estimate_1995_2025": "Over $1.3 trillion, including 2025 pledge." },
-                        "israel": { "total_estimate_1995_2025": "Negligible, likely under $100 million in indirect aid-related funding." }
-                    },
-                    "sources": [
-                        { "title": "Qatar Investment Authority", "url": "https://www.qia.qa/en/" }
-                    ]
-                },
-                {
-                    "name": "Kuwait",
-                    "investments": {
-                        "united_states": { "total_estimate_1995_2025": "Approximately $200–$300 billion, based on KIA's global portfolio estimates." },
-                        "israel": { "total_estimate_1995_2025": "None recorded." }
-                    },
-                    "sources": [
-                        { "title": "Kuwait Investment Authority", "url": "https://www.kia.gov.kw/en/" }
-                    ]
-                },
-                {
-                    "name": "Bahrain",
-                    "investments": {
-                        "united_states": { "total_estimate_1995_2025": "Approximately $5–$10 billion, limited by Bahrain's smaller economy." },
-                        "israel": { "total_estimate_1995_2025": "Under $100 million, post-2020." }
-                    },
-                    "sources": [
-                        { "title": "Mumtalakat Holdings", "url": "https://www.mumtalakat.bh/" }
-                    ]
-                },
-                {
-                    "name": "Egypt",
-                    "investments": {
-                        "united_states": { "total_estimate_1995_2025": "Under $1 billion, primarily private sector." },
-                        "israel": { "total_estimate_1995_2025": "Negligible." }
-                    },
-                    "sources": []
-                },
-                {
-                    "name": "Jordan",
-                    "investments": {
-                        "united_states": { "total_estimate_1995_2025": "Under $500 million, mostly private." },
-                        "israel": { "total_estimate_1995_2025": "Negligible." }
-                    },
-                    "sources": []
-                }
-            ]
-        };
-
-        // Initialize with embedded data
-        data = complicitData;
-        investmentData = investData;
-        initializeVisualization();
-
         function initializeVisualization() {
-            console.log('Initializing visualization with data:', data); // Debug log
+            const container = document.getElementById('sunburst');
+            container.innerHTML = '';
+
+            width = container.clientWidth;
+            height = container.clientHeight;
+            radius = Math.min(width, height) / 2 - 20;
+
+            svg = d3.select('#sunburst')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height)
+                .append('g')
+                .attr('transform', `translate(${width / 2}, ${height / 2})`);
+
             updateVisualization();
             setupEventListeners();
         }
 
         function setupEventListeners() {
-            d3.select("#viewMode").on("change", function () {
+            document.getElementById('viewMode').addEventListener('change', function() {
                 currentView = this.value;
                 updateVisualization();
             });
 
-            d3.select("#focusFilter").on("change", function () {
+            document.getElementById('focusFilter').addEventListener('change', function() {
                 currentFocus = this.value;
                 updateVisualization();
             });
 
-            d3.select("#resetView").on("click", function () {
+            document.getElementById('resetView').addEventListener('click', function() {
                 currentView = 'relationships';
                 currentFocus = 'all';
-                d3.select("#viewMode").property("value", "relationships");
-                d3.select("#focusFilter").property("value", "all");
+                document.getElementById('viewMode').value = 'relationships';
+                document.getElementById('focusFilter').value = 'all';
                 updateVisualization();
             });
-
-            d3.select("#themeToggle").on("click", function () {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', newTheme);
-
-                // Update button text
-                d3.select(this).text(newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
-
-                // Re-render visualization with new colors
-                updateVisualization();
-            });
-
-            d3.select("#debugInvestments").on("click", function () {
-                console.log('=== INVESTMENT DEBUG ===');
-                investmentData.countries.forEach(country => {
-                    const amount = country.investments.united_states.total_estimate_1995_2025;
-                    const parsed = parseInvestmentAmount(amount);
-                    console.log(`${country.name}: "${amount}" -> ${parsed}B`);
-                });
-                console.log('=== END DEBUG ===');
-            });
-        }
-
-        function processData() {
-            const countries = data.countries.filter(country => {
-                if (currentFocus === 'all') return true;
-                if (currentFocus === 'direct') return country.ties_with_israel === 'Direct';
-                if (currentFocus === 'indirect') return country.ties_with_israel === 'Indirect';
-                if (currentFocus === 'abraham') {
-                    return country.details.agreements.some(agreement =>
-                        agreement.name === 'Abraham Accords'
-                    );
-                }
-                return true;
-            });
-
-            // Create hierarchical structure
-            const root = {
-                name: "Arab Countries",
-                children: []
-            };
-
-            if (currentView === 'relationships') {
-                // Group by relationship types
-                const directIsrael = countries.filter(c => c.ties_with_israel === 'Direct');
-                const indirectIsrael = countries.filter(c => c.ties_with_israel === 'Indirect');
-
-                if (directIsrael.length > 0) {
-                    root.children.push({
-                        name: "Direct Israel Ties",
-                        children: directIsrael.map(country => ({
-                            name: country.name,
-                            data: country,
-                            value: 1
-                        })),
-                        type: 'direct-israel'
-                    });
-                }
-
-                if (indirectIsrael.length > 0) {
-                    root.children.push({
-                        name: "Indirect Israel Ties",
-                        children: indirectIsrael.map(country => ({
-                            name: country.name,
-                            data: country,
-                            value: 1
-                        })),
-                        type: 'indirect-israel'
-                    });
-                }
-            } else if (currentView === 'investments') {
-                // Group by investment levels
-                const investmentLevels = {
-                    high: [],
-                    medium: [],
-                    low: []
-                };
-
-                countries.forEach(country => {
-                    const investCountry = investmentData.countries.find(c => c.name === country.name);
-                    if (investCountry) {
-                        const usTotal = parseInvestmentAmount(investCountry.investments.united_states.total_estimate_1995_2025);
-                        console.log(`${country.name}: ${investCountry.investments.united_states.total_estimate_1995_2025} -> ${usTotal}B`);
-
-                        if (usTotal >= 100) {
-                            investmentLevels.high.push({ name: country.name, data: country, investment: usTotal, value: Math.max(1, usTotal / 100) });
-                        } else if (usTotal >= 1) {
-                            investmentLevels.medium.push({ name: country.name, data: country, investment: usTotal, value: Math.max(1, usTotal) });
-                        } else {
-                            investmentLevels.low.push({ name: country.name, data: country, investment: usTotal, value: 1 });
-                        }
-                    } else {
-                        console.log(`${country.name}: No investment data found`);
-                        investmentLevels.low.push({ name: country.name, data: country, investment: 0, value: 1 });
-                    }
-                });
-
-                if (investmentLevels.high.length > 0) {
-                    root.children.push({
-                        name: "High Investment (>$100B)",
-                        children: investmentLevels.high,
-                        type: 'investment-high'
-                    });
-                }
-                if (investmentLevels.medium.length > 0) {
-                    root.children.push({
-                        name: "Medium Investment ($1B-$100B)",
-                        children: investmentLevels.medium,
-                        type: 'investment-medium'
-                    });
-                }
-                if (investmentLevels.low.length > 0) {
-                    root.children.push({
-                        name: "Low Investment (<$1B)",
-                        children: investmentLevels.low,
-                        type: 'investment-low'
-                    });
-                }
-            }
-
-            return root;
-        }
-
-        function parseInvestmentAmount(amountStr) {
-            if (!amountStr) return 0;
-
-            console.log('Parsing investment amount:', amountStr); // Debug log
-
-            // Handle different formats: "$800 billion", "Over $1.5 trillion", "Under $1 billion", "$200–$300 billion", etc.
-            const cleanStr = amountStr.toLowerCase().replace(/[,$]/g, '');
-
-            // Handle ranges like "200–300 billion" or "5–10 billion" - take the average
-            const rangeMatch = cleanStr.match(/(\d+(?:\.\d+)?)[-–](\d+(?:\.\d+)?)\s*(trillion|billion|million)/i);
-            if (rangeMatch) {
-                const num1 = parseFloat(rangeMatch[1]);
-                const num2 = parseFloat(rangeMatch[2]);
-                const avg = (num1 + num2) / 2;
-                const unit = rangeMatch[3].toLowerCase();
-
-                console.log(`Range found: ${num1}-${num2} ${unit}, average: ${avg}`);
-
-                // Convert to billions
-                if (unit === 'trillion') return avg * 1000;
-                if (unit === 'billion') return avg;
-                if (unit === 'million') return avg / 1000;
-                return avg;
-            }
-
-            // Extract single number and unit
-            const match = cleanStr.match(/(\d+(?:\.\d+)?)\s*(trillion|billion|million)/i);
-            if (!match) {
-                // Handle special cases
-                if (cleanStr.includes('negligible') || cleanStr.includes('none')) return 0.01;
-                if (cleanStr.includes('under') && cleanStr.includes('billion')) return 0.5;
-                if (cleanStr.includes('under') && cleanStr.includes('million')) return 0.0005;
-                return 0.1; // Default small value
-            }
-
-            const num = parseFloat(match[1]);
-            const unit = match[2].toLowerCase();
-
-            console.log(`Single value found: ${num} ${unit}`);
-
-            // Convert to billions
-            if (unit === 'trillion') return num * 1000;
-            if (unit === 'billion') return num;
-            if (unit === 'million') return num / 1000;
-
-            return num; // Default to billions
-        }
-
-        function getColor(d) {
-            // Get computed CSS custom property values
-            const computedStyle = getComputedStyle(document.documentElement);
-
-            if (d.data.type) {
-                switch (d.data.type) {
-                    case 'direct-israel':
-                        return computedStyle.getPropertyValue('--direct-israel').trim();
-                    case 'indirect-israel':
-                        return computedStyle.getPropertyValue('--indirect-israel').trim();
-                    case 'investment-high':
-                        return computedStyle.getPropertyValue('--investment-high').trim();
-                    case 'investment-medium':
-                        return computedStyle.getPropertyValue('--investment-medium').trim();
-                    case 'investment-low':
-                        return computedStyle.getPropertyValue('--investment-low').trim();
-                    case 'direct-us':
-                        return computedStyle.getPropertyValue('--direct-us').trim();
-                    case 'indirect-us':
-                        return computedStyle.getPropertyValue('--indirect-us').trim();
-                }
-            }
-
-            if (d.parent && d.parent.data.type) {
-                const parentColor = getColor(d.parent);
-                try {
-                    return d3.color(parentColor).brighter(0.4).toString();
-                } catch (e) {
-                    return computedStyle.getPropertyValue('--primary-color').trim();
-                }
-            }
-
-            return computedStyle.getPropertyValue('--primary-color').trim();
         }
 
         function updateVisualization() {
-            const hierarchyData = processData();
+            if (!data.countries) return;
 
             // Clear previous visualization
-            svg.selectAll("*").remove();
+            svg.selectAll('*').remove();
 
-            if (!hierarchyData.children || hierarchyData.children.length === 0) {
-                svg.append("text")
-                    .attr("text-anchor", "middle")
-                    .attr("dy", "0.35em")
-                    .style("font-size", "16px")
-                    .style("fill", "var(--text-secondary)")
-                    .text("No data available for current filter");
-                return;
+            // Filter data based on current focus
+            let filteredData = data.countries;
+            if (currentFocus !== 'all') {
+                filteredData = data.countries.filter(country => {
+                    switch(currentFocus) {
+                        case 'direct-israel':
+                            return country.ties_with_israel === 'Direct';
+                        case 'indirect-israel':
+                            return country.ties_with_israel === 'Indirect';
+                        case 'us-allies':
+                            return country.ties_with_us === 'Direct';
+                        default:
+                            return true;
+                    }
+                });
             }
 
-            // Create hierarchy
-            const root = d3.hierarchy(hierarchyData)
-                .sum(d => d.value || 1)
-                .sort((a, b) => b.value - a.value);
+            // Create hierarchy data
+            const hierarchyData = {
+                name: 'Arab Countries',
+                children: filteredData.map(country => ({
+                    name: country.name,
+                    value: 1,
+                    data: country
+                }))
+            };
 
             // Create partition layout
             const partition = d3.partition()
                 .size([2 * Math.PI, radius]);
+
+            const root = d3.hierarchy(hierarchyData)
+                .sum(d => d.value);
 
             partition(root);
 
@@ -1017,325 +675,135 @@
                 .innerRadius(d => d.y0)
                 .outerRadius(d => d.y1);
 
-            // Draw arcs
-            const paths = svg.selectAll("path")
+            // Add paths
+            svg.selectAll('path')
                 .data(root.descendants().filter(d => d.depth > 0))
                 .enter()
-                .append("path")
-                .attr("class", "sunburst-path")
-                .attr("d", arc)
-                .style("fill", getColor)
-                .style("stroke", "var(--surface-color)")
-                .style("stroke-width", "2px")
-                .on("mouseover", handleMouseOver)
-                .on("mouseout", handleMouseOut)
-                .on("click", handleClick);
+                .append('path')
+                .attr('class', 'sunburst-path')
+                .attr('d', arc)
+                .style('fill', getColor)
+                .style('stroke', '#fff')
+                .style('stroke-width', 2)
+                .on('click', handleClick)
+                .on('mouseover', handleMouseOver)
+                .on('mouseout', handleMouseOut);
 
             // Add text labels
-            const texts = svg.selectAll("text")
-                .data(root.descendants().filter(d => d.depth > 0 && (d.x1 - d.x0) > 0.1))
+            svg.selectAll('text')
+                .data(root.descendants().filter(d => d.depth > 0))
                 .enter()
-                .append("text")
-                .attr("class", "sunburst-text")
-                .attr("transform", d => {
+                .append('text')
+                .attr('class', 'sunburst-text')
+                .attr('transform', d => {
                     const angle = (d.x0 + d.x1) / 2;
                     const radius = (d.y0 + d.y1) / 2;
-                    return `rotate(${(angle * 180 / Math.PI - 90)}) translate(${radius},0) rotate(${angle > Math.PI ? 180 : 0})`;
+                    return `rotate(${(angle * 180 / Math.PI) - 90}) translate(${radius},0) rotate(${angle > Math.PI ? 180 : 0})`;
                 })
-                .attr("dy", "0.35em")
-                .text(d => {
-                    const availableWidth = (d.x1 - d.x0) * (d.y0 + d.y1) / 2;
-                    return availableWidth > 50 ? d.data.name : "";
-                });
-
-            // Add center label
-            svg.append("text")
-                .attr("text-anchor", "middle")
-                .attr("dy", "0.35em")
-                .style("font-size", "16px")
-                .style("font-weight", "500")
-                .style("fill", "var(--primary-color)")
-                .text("Arab Countries");
+                .attr('dy', '0.35em')
+                .attr('text-anchor', d => (d.x0 + d.x1) / 2 > Math.PI ? 'end' : 'start')
+                .text(d => d.data.name)
+                .style('font-size', d => Math.min(12, (d.y1 - d.y0) / 3) + 'px');
         }
 
-        function handleMouseOver(event, d) {
-            tooltip.style("opacity", 1);
-
-            let content = `<div class="tooltip-title">${d.data.name}</div>`;
-
-            if (d.data.data) {
-                const country = d.data.data;
-                content += `<div class="tooltip-content">`;
-                content += `<strong>🇮🇱 Israel ties:</strong> <span style="color: ${country.ties_with_israel === 'Direct' ? 'var(--direct-israel)' : 'var(--indirect-israel)'};">${country.ties_with_israel}</span><br>`;
-                content += `<strong>🇺🇸 US ties:</strong> <span style="color: var(--direct-us);">${country.ties_with_us}</span><br>`;
-
-                if (country.details && country.details.agreements && country.details.agreements.length > 0) {
-                    content += `<strong>📋 Key agreements:</strong> ${country.details.agreements.map(a => a.name).join(", ")}<br>`;
+        function getColor(d) {
+            if (!d.data.data) return '#ccc';
+            
+            const country = d.data.data;
+            
+            if (currentView === 'relationships') {
+                if (country.ties_with_israel === 'Direct') {
+                    return 'var(--direct-israel)';
+                } else if (country.ties_with_israel === 'Indirect') {
+                    return 'var(--indirect-israel)';
+                } else if (country.ties_with_us === 'Direct') {
+                    return 'var(--direct-us)';
+                } else {
+                    return 'var(--indirect-us)';
                 }
-
-                const investCountry = investmentData.countries.find(c => c.name === country.name);
-                if (investCountry) {
-                    content += `<strong>💰 US investment:</strong> ${investCountry.investments.united_states.total_estimate_1995_2025}`;
+            } else if (currentView === 'investments') {
+                // This would use investment data if available
+                return 'var(--investment-medium)';
+            } else {
+                // Combined view
+                if (country.ties_with_israel === 'Direct' && country.ties_with_us === 'Direct') {
+                    return 'var(--direct-israel)';
+                } else if (country.ties_with_israel === 'Indirect' || country.ties_with_us === 'Direct') {
+                    return 'var(--indirect-israel)';
+                } else {
+                    return 'var(--indirect-us)';
                 }
-
-                content += `<br><br><em style="color: var(--primary-color);">Click for detailed information & sources</em>`;
-                content += `</div>`;
-            } else if (d.data.children) {
-                // Category tooltip
-                content += `<div class="tooltip-content">`;
-                content += `<strong>📂 Category:</strong> ${d.data.name}<br>`;
-                content += `<strong>🏛️ Countries:</strong> ${d.data.children.length}<br>`;
-                content += `<em style="color: var(--primary-color);">Click to view category details</em>`;
-                content += `</div>`;
             }
-
-            tooltip.html(content)
-                .style("left", (event.pageX + 10) + "px")
-                .style("top", (event.pageY - 10) + "px");
-        }
-
-        function handleMouseOut() {
-            tooltip.style("opacity", 0);
         }
 
         function handleClick(event, d) {
-            console.log('Clicked:', d); // Debug log
+            if (!d.data.data) return;
+            showCountryInfo(d.data.data);
+        }
 
-            // Handle clicks on individual countries
-            if (d.data.data) {
-                showCountryInfo(d.data.data);
-                return;
-            }
+        function handleMouseOver(event, d) {
+            d3.select(event.target)
+                .style('opacity', 0.8)
+                .style('stroke-width', 3);
+        }
 
-            // Handle clicks on category segments
-            if (d.data.name && d.children) {
-                // Show category information
-                showCategoryInfo(d.data);
-                return;
-            }
-
-            // Fallback - try to find country data
-            if (d.data.name && !d.children) {
-                // This might be a country without the nested data structure
-                const countryData = data.countries.find(c => c.name === d.data.name);
-                if (countryData) {
-                    showCountryInfo(countryData);
-                }
-            }
+        function handleMouseOut(event, d) {
+            d3.select(event.target)
+                .style('opacity', 1)
+                .style('stroke-width', 2);
         }
 
         function showCountryInfo(country) {
-            console.log('Showing country info for:', country.name); // Debug log
-
-            const investCountry = investmentData.countries.find(c => c.name === country.name);
-
-            let html = `
-                <h3 style="color: var(--primary-color); margin-bottom: 20px;">🏛️ ${country.name}</h3>
-                
-                <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                    <strong style="color: var(--text-color);">🤝 Relationship Status</strong><br>
-                    <div style="margin-top: 8px;">
-                        <span style="display: inline-block; margin-right: 15px;">
-                            🇮🇱 Israel: <span style="color: ${country.ties_with_israel === 'Direct' ? 'var(--direct-israel)' : 'var(--indirect-israel)'}; font-weight: 500;">${country.ties_with_israel}</span>
-                        </span>
-                        <span style="display: inline-block;">
-                            🇺🇸 United States: <span style="color: var(--direct-us); font-weight: 500;">${country.ties_with_us}</span>
-                        </span>
+            const infoPanel = document.getElementById('countryInfo');
+            
+            infoPanel.innerHTML = `
+                <h4 style="color: var(--primary-color); margin-bottom: 15px;">${country.name}</h4>
+                <div style="margin-bottom: 15px;">
+                    <strong>Israel Relations:</strong> ${country.ties_with_israel}<br>
+                    <strong>US Relations:</strong> ${country.ties_with_us}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <h5 style="color: var(--primary-color);">Key Agreements:</h5>
+                    ${country.details.agreements.map(agreement => 
+                        `<div style="margin-bottom: 8px;">
+                            <strong>${agreement.name} (${agreement.year}):</strong><br>
+                            <span style="font-size: 0.9rem;">${agreement.description}</span>
+                        </div>`
+                    ).join('')}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <h5 style="color: var(--primary-color);">Cooperation:</h5>
+                    <div style="font-size: 0.9rem; line-height: 1.5;">
+                        <strong>With Israel:</strong> ${country.details.cooperation.israel}<br><br>
+                        <strong>With US:</strong> ${country.details.cooperation.us}
                     </div>
                 </div>
-            `;
-
-            if (country.details && country.details.agreements && country.details.agreements.length > 0) {
-                html += `
-                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                        <strong style="color: var(--text-color);">📋 Key Agreements</strong><br>
-                        <div style="margin-top: 8px;">
-                            ${country.details.agreements.map(agreement =>
-                    `<div style="margin: 5px 0; padding: 5px 0; border-left: 3px solid var(--primary-color); padding-left: 10px;">
-                                    <strong>${agreement.name}</strong> (${agreement.year})<br>
-                                    <small style="color: var(--text-secondary);">${agreement.description || ''}</small>
-                                </div>`
-                ).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (investCountry) {
-                html += `
-                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                        <strong style="color: var(--text-color);">💰 Investment Data (1995-2025)</strong><br>
-                        <div style="margin-top: 8px;">
-                            <div style="margin: 8px 0;">
-                                <strong>🇺🇸 US Investment:</strong><br>
-                                <span style="color: var(--investment-high); font-weight: 500;">${investCountry.investments.united_states.total_estimate_1995_2025}</span>
-                            </div>
-                `;
-
-                if (investCountry.investments.israel &&
-                    investCountry.investments.israel.total_estimate_1995_2025 !== "None recorded." &&
-                    investCountry.investments.israel.total_estimate_1995_2025 !== "Negligible.") {
-                    html += `
-                            <div style="margin: 8px 0;">
-                                <strong>🇮🇱 Israel Investment:</strong><br>
-                                <span style="color: var(--investment-medium); font-weight: 500;">${investCountry.investments.israel.total_estimate_1995_2025}</span>
-                            </div>
-                    `;
-                }
-
-                html += `
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (country.details && country.details.cooperation) {
-                html += `
-                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                        <strong style="color: var(--text-color);">🔗 Cooperation Details</strong><br>
-                        <div style="margin-top: 8px;">
-                            ${country.details.cooperation.israel ? `
-                                <div style="margin: 8px 0;">
-                                    <strong>🇮🇱 With Israel:</strong><br>
-                                    <small style="color: var(--text-secondary); line-height: 1.4;">${country.details.cooperation.israel}</small>
-                                </div>
-                            ` : ''}
-                            ${country.details.cooperation.us ? `
-                                <div style="margin: 8px 0;">
-                                    <strong>🇺🇸 With US:</strong><br>
-                                    <small style="color: var(--text-secondary); line-height: 1.4;">${country.details.cooperation.us}</small>
-                                </div>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (country.details && country.details.public_sentiment) {
-                html += `
-                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                        <strong style="color: var(--text-color);">📊 Public Sentiment</strong><br>
-                        <div style="margin-top: 8px;">
-                            <small style="color: var(--text-secondary); line-height: 1.4;">${country.details.public_sentiment}</small>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Add sources section
-            if (country.details && country.details.sources && country.details.sources.length > 0) {
-                html += `
-                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                        <strong style="color: var(--text-color);">🔗 Sources & Evidence</strong><br>
-                        <div style="margin-top: 8px;">
-                            ${country.details.sources.map(source => {
-                    const cleanedUrl = cleanUrl(source.url);
-                    const isValid = validateUrl(cleanedUrl);
-                    return `<div style="margin: 8px 0;">
-                                    <a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
-                                       style="color: ${isValid ? 'var(--primary-color)' : 'var(--warning-color)'}; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">
-                                        🌐 ${source.title}
-                                        <span style="font-size: 12px;">↗</span>
-                                        ${!isValid ? '<span style="font-size: 10px; color: var(--warning-color);">⚠️</span>' : ''}
-                                    </a>
-                                </div>`;
-                }).join('')}
-                        </div>
-                        <div style="margin-top: 10px; font-size: 11px; color: var(--text-secondary);">
-                            ⚠️ = Link may need verification • All URLs cleaned of malformed fragments
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Add investment sources if available
-            const investCountryFull = investmentData.countries.find(c => c.name === country.name);
-            if (investCountryFull && investCountryFull.sources && investCountryFull.sources.length > 0) {
-                html += `
-                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                        <strong style="color: var(--text-color);">💰 Investment Sources</strong><br>
-                        <div style="margin-top: 8px;">
-                            ${investCountryFull.sources.map(source => {
-                    const cleanedUrl = cleanUrl(source.url);
-                    const isValid = validateUrl(cleanedUrl);
-                    return `<div style="margin: 8px 0;">
-                                    <a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
-                                       style="color: ${isValid ? 'var(--investment-high)' : 'var(--warning-color)'}; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 5px;">
-                                        📊 ${source.title}
-                                        <span style="font-size: 12px;">↗</span>
-                                        ${!isValid ? '<span style="font-size: 10px; color: var(--warning-color);">⚠️</span>' : ''}
-                                    </a>
-                                </div>`;
-                }).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Add key investment details with sources
-            if (investCountryFull && investCountryFull.key_investments && investCountryFull.key_investments.length > 0) {
-                html += `
-                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                        <strong style="color: var(--text-color);">💼 Key Investment Details</strong><br>
-                        <div style="margin-top: 8px;">
-                            ${investCountryFull.key_investments.map(investment =>
-                    `<div style="margin: 12px 0; padding: 10px; background: var(--surface-color); border-radius: 6px; border-left: 3px solid var(--investment-medium);">
-                                    <strong>${investment.year}: ${investment.amount}</strong><br>
-                                    <small style="color: var(--text-secondary); line-height: 1.4;">${investment.description}</small><br>
-                                    ${investment.source ? (() => {
-                        const cleanedUrl = cleanUrl(investment.source);
-                        const isValid = validateUrl(cleanedUrl);
-                        return `<a href="${cleanedUrl}" target="_blank" rel="noopener noreferrer" 
-                                           style="color: ${isValid ? 'var(--primary-color)' : 'var(--warning-color)'}; text-decoration: none; font-size: 12px; margin-top: 5px; display: inline-flex; align-items: center; gap: 3px;">
-                                            📄 Source ↗ ${!isValid ? '⚠️' : ''}
-                                        </a>`;
-                    })() : ''}
-                                </div>`
-                ).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-
-            d3.select("#countryInfo").html(html);
-        }
-
-        function showCategoryInfo(categoryData) {
-            console.log('Showing category info for:', categoryData.name); // Debug log
-
-            let html = `
-                <h3 style="color: var(--primary-color); margin-bottom: 20px;">📂 ${categoryData.name}</h3>
-                
-                <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                    <strong style="color: var(--text-color);">📈 Category Overview</strong><br>
-                    <div style="margin-top: 8px;">
-                        <p style="color: var(--text-secondary); line-height: 1.4;">
-                            This category contains ${categoryData.children ? categoryData.children.length : 0} countries.
-                            Click on individual country segments to view detailed information.
-                        </p>
-                    </div>
+                <div style="padding: 12px; background: var(--surface-variant); border-radius: 8px; font-size: 0.9rem;">
+                    <strong>Public Sentiment:</strong><br>
+                    ${country.details.public_sentiment}
                 </div>
             `;
-
-            if (categoryData.children && categoryData.children.length > 0) {
-                html += `
-                    <div style="margin-bottom: 20px; padding: 15px; background: var(--surface-variant); border-radius: 8px;">
-                        <strong style="color: var(--text-color);">🏛️ Countries in this category</strong><br>
-                        <div style="margin-top: 8px;">
-                            ${categoryData.children.map(child =>
-                    `<div style="margin: 5px 0; padding: 8px; background: var(--surface-color); border-radius: 4px; border-left: 3px solid var(--primary-color);">
-                                    <strong>${child.name}</strong>
-                                    ${child.data ? `<br><small style="color: var(--text-secondary);">Israel: ${child.data.ties_with_israel}, US: ${child.data.ties_with_us}</small>` : ''}
-                                </div>`
-                ).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-
-            d3.select("#countryInfo").html(html);
         }
+
+        function showError(message) {
+            document.getElementById('sunburst').innerHTML = `
+                <div class="error">
+                    <div class="error-icon">⚠️</div>
+                    <div>${message}</div>
+                </div>
+            `;
+        }
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            if (data.countries && data.countries.length > 0) {
+                initializeVisualization();
+            }
+        });
+
+        // Initialize
+        loadData();
     </script>
-</body>
 
+</body>
 </html>

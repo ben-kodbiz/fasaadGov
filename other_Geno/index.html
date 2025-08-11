@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Other Genocides Treemap - Interactive Historical Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Interactive treemap visualization of genocides and atrocities by various countries. Explore documented crimes against humanity from Russia, China, Israel, Myanmar, Sudan, and others.">
+    <meta name="keywords" content="genocide, atrocities, war crimes, crimes against humanity, Russia, China, Israel, Myanmar, Sudan, Iran, Cambodia, Rwanda, Saudi Arabia, North Korea">
+    <meta name="author" content="Other Genocides Documentation Project">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Other Genocides Treemap - Global Atrocities Visualization">
+    <meta property="og:description" content="Explore documented genocides and atrocities by various countries through an interactive treemap visualization.">
+    <meta property="og:type" content="website">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #d32f2f;
+            --primary-light: #ff6659;
+            --primary-dark: #9a0007;
+            --secondary-color: #2c3e50;
+            --background-color: #fafafa;
+            --surface-color: #ffffff;
+            --surface-variant: #f5f5f5;
+            --on-surface: #1c1b1f;
+            --on-surface-variant: #49454f;
+            --outline: #79747e;
+            --shadow: rgba(0, 0, 0, 0.12);
+            --shadow-dark: rgba(0, 0, 0, 0.24);
+            --error-color: #dc3545;
+            --warning-color: #ff9800;
+            --success-color: #4caf50;
+            
+            /* Country-specific colors */
+            --color-russia: #d32f2f;
+            --color-china: #ff5722;
+            --color-israel: #1976d2;
+            --color-myanmar: #795548;
+            --color-sudan: #4caf50;
+            --color-iran: #9c27b0;
+            --color-cambodia: #ff9800;
+            --color-rwanda: #607d8b;
+            --color-saudi: #8bc34a;
+            --color-north-korea: #e91e63;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --surface-variant: #2d2d2d;
+            --on-surface: #e6e1e5;
+            --on-surface-variant: #cac4d0;
+            --outline: #938f99;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-dark: rgba(0, 0, 0, 0.5);
+        }        * 
+{
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--on-surface);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 0 0 4px 4px;
+            z-index: 9999;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        .app-bar {
+            background: var(--surface-color);
+            box-shadow: 0 2px 4px var(--shadow);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px var(--shadow);
+        }    
+    .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 2px 8px var(--shadow-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--surface-variant);
+            color: var(--on-surface);
+            border: 1px solid var(--outline);
+        }
+
+        .btn-secondary:hover {
+            background: var(--outline);
+            color: var(--surface-color);
+        }
+
+        .btn-icon {
+            background: transparent;
+            color: var(--on-surface-variant);
+            border: 1px solid var(--outline);
+            padding: 8px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-icon:hover {
+            background: var(--surface-variant);
+            color: var(--on-surface);
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 24px;
+            color: #856404;
+        }
+
+        [data-theme="dark"] .disclaimer {
+            background: #2d2a1f;
+            border-color: #4a4419;
+            color: #e6d690;
+        }
+
+        .disclaimer strong {
+            color: #664d03;
+        }
+
+        [data-theme="dark"] .disclaimer strong {
+            color: #ffd93d;
+        } 
+       .controls-container {
+            background: var(--surface-color);
+            margin: 24px;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .control-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--on-surface-variant);
+        }
+
+        .select, .input {
+            padding: 12px 16px;
+            border: 1px solid var(--outline);
+            border-radius: 8px;
+            background: var(--surface-color);
+            color: var(--on-surface);
+            font-family: inherit;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .select:focus, .input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
+        }
+
+        .chart-container {
+            margin: 24px;
+            background: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+            overflow: hidden;
+        }
+
+        #treemap {
+            width: 100%;
+            height: 700px;
+            background: var(--surface-variant);
+            position: relative;
+        }  
+      .node {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 1px rgba(255, 255, 255, 0.4);
+            white-space: nowrap;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: white;
+        }
+
+        .node:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px var(--shadow-dark);
+            z-index: 10;
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .node-small {
+            font-size: 0.65rem;
+            font-weight: 500;
+        }
+
+        .node-large {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: var(--surface-color);
+            color: var(--on-surface);
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px var(--shadow-dark);
+            pointer-events: none;
+            font-size: 0.875rem;
+            max-width: 400px;
+            z-index: 1000;
+            border: 1px solid var(--outline);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .tooltip-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .tooltip-atrocities {
+            font-size: 0.875rem;
+            color: var(--error-color);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .tooltip-description {
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .tooltip-sources {
+            border-top: 1px solid var(--outline);
+            padding-top: 8px;
+            font-size: 0.75rem;
+            color: var(--on-surface-variant);
+        }
+
+        .tooltip-sources a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .tooltip-sources a:hover {
+            text-decoration: underline;
+        }        .s
+tats-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: var(--surface-variant);
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--on-surface-variant);
+            font-weight: 500;
+        }
+
+        .legend-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background: var(--surface-variant);
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px var(--shadow);
+        }
+
+        .legend-label {
+            font-size: 0.875rem;
+            font-weight: 400;
+        }      
+  .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--on-surface-variant);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--surface-variant);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--error-color);
+            text-align: center;
+            padding: 24px;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .summary-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .summary-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .summary-section {
+            padding: 16px;
+            background: var(--surface-variant);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .summary-section h4 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .summary-section p {
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .summary-section ul {
+            line-height: 1.6;
+            padding-left: 20px;
+        }
+
+        .summary-section li {
+            margin-bottom: 8px;
+        }
+
+        .atrocity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .atrocity-item {
+            padding: 12px;
+            background: var(--surface-color);
+            border-radius: 6px;
+            border-left: 3px solid var(--error-color);
+        }
+
+        .atrocity-item strong {
+            color: var(--error-color);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .atrocity-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .disclaimers {
+            margin: 24px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        [data-theme="dark"] .disclaimers {
+            background: #2d2a1f;
+            border-color: #4a4419;
+        }
+
+        .disclaimer-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #856404;
+        }
+
+        [data-theme="dark"] .disclaimer-title {
+            color: #ffd93d;
+        }
+
+        .disclaimer-content {
+            line-height: 1.6;
+            color: #856404;
+        }
+
+        [data-theme="dark"] .disclaimer-content {
+            color: #e6d690;
+        }
+
+        .disclaimer-content p {
+            margin-bottom: 12px;
+        }
+
+        .disclaimer-content strong {
+            font-weight: 600;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .app-bar {
+                padding: 12px 16px;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .app-title {
+                font-size: 1.25rem;
+            }
+
+            .controls-container,
+            .chart-container,
+            .stats-container,
+            .legend-container,
+            .summary-container,
+            .disclaimer,
+            .disclaimers {
+                margin: 8px;
+                padding: 16px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .control-group {
+                min-width: auto;
+            }
+
+            #treemap {
+                height: 500px;
+            }
+
+            .tooltip {
+                max-width: 90vw;
+                font-size: 0.8rem;
+                padding: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .node {
+                font-size: 0.65rem;
+                min-width: 40px !important;
+                min-height: 30px !important;
+            }
+
+            .legend-items {
+                grid-template-columns: 1fr;
+            }
+
+            .atrocity-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-title {
+                font-size: 1.1rem;
+            }
+
+            #treemap {
+                height: 400px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .node {
+                font-size: 0.6rem;
+                min-width: 35px !important;
+                min-height: 25px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Theme Toggle -->
+    <div style="background: var(--surface-color); padding: 8px 24px; border-bottom: 1px solid var(--outline); display: flex; justify-content: flex-end;">
+        <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode" aria-label="Toggle between light and dark theme">
+            <span class="material-icons" aria-hidden="true">dark_mode</span>
+        </button>
+    </div>
+
+    <header class="app-bar" role="banner">
+        <h1 class="app-title">
+            🌍 Other Genocides
+        </h1>
+        <nav class="app-actions" role="navigation" aria-label="Main navigation">
+            <a href="../index.html" class="btn btn-secondary" aria-label="Back to main hub">
+                <span class="material-icons" aria-hidden="true">home</span>
+                Main Hub
+            </a>
+            <a href="../arabs_complicit/index.html" class="btn btn-secondary" aria-label="Arab Complicity Analysis">
+                <span class="material-icons" aria-hidden="true">analytics</span>
+                Arab Complicity
+            </a>
+            <a href="../companies_complicit/index.html" class="btn btn-secondary" aria-label="Corporate Complicity Network">
+                <span class="material-icons" aria-hidden="true">business</span>
+                Corporate Network
+            </a>
+            <a href="../british/index.html" class="btn btn-secondary" aria-label="British Atrocities">
+                <span class="material-icons" aria-hidden="true">flag</span>
+                British Atrocities
+            </a>
+        </nav>
+    </header>
+
+    <div class="disclaimer">
+        <strong>⚠️ Educational Documentation:</strong> This treemap visualizes documented genocides and atrocities by various countries for educational awareness. All information is sourced from credible human rights organizations, UN reports, and academic research. The visualization aims to promote understanding of global atrocities and accountability.
+    </div>
+
+    <main id="main-content" role="main">
+        <section class="controls-container" aria-label="Treemap controls">
+            <h2 style="margin-top: 0; color: var(--on-surface);">Filter and Search</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label class="control-label" for="searchInput">Search Countries</label>
+                    <input type="text" id="searchInput" class="input" placeholder="Search by country or atrocity..." aria-describedby="search-help">
+                    <div id="search-help" style="font-size: 0.75rem; color: var(--on-surface-variant);">Search through countries and their documented atrocities</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Region</label>
+                    <select id="regionFilter" class="select">
+                        <option value="all">All Regions</option>
+                        <option value="asia">Asia</option>
+                        <option value="europe">Europe</option>
+                        <option value="middle-east">Middle East</option>
+                        <option value="africa">Africa</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Atrocity Type</label>
+                    <select id="typeFilter" class="select">
+                        <option value="all">All Types</option>
+                        <option value="genocide">Genocide</option>
+                        <option value="war-crimes">War Crimes</option>
+                        <option value="ethnic-cleansing">Ethnic Cleansing</option>
+                        <option value="crimes-against-humanity">Crimes Against Humanity</option>
+                        <option value="ongoing">Ongoing Atrocities</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Scale</label>
+                    <select id="scaleFilter" class="select">
+                        <option value="all">All Scales</option>
+                        <option value="massive">Massive (>1M deaths)</option>
+                        <option value="major">Major (100K-1M deaths)</option>
+                        <option value="significant">Significant (<100K deaths)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-container" aria-label="Genocide statistics">
+            <h3 style="margin-top: 0; color: var(--on-surface);">Global Atrocities Overview</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalCountries">-</div>
+                    <div class="stat-label">Countries Documented</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalAtrocities">-</div>
+                    <div class="stat-label">Total Atrocities</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="ongoingCrises">-</div>
+                    <div class="stat-label">Ongoing Crises</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="filteredCountries">-</div>
+                    <div class="stat-label">Visible Countries</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="legend-container" aria-label="Country legend">
+            <h3 style="margin-top: 0; color: var(--on-surface);">Countries by Region</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-russia);"></div>
+                    <div class="legend-label">Russia - Post-WWII invasions, Ukraine war, Chernobyl</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-china);"></div>
+                    <div class="legend-label">China - Great Leap Forward, Uyghur genocide, Tibet occupation</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-israel);"></div>
+                    <div class="legend-label">Israel - Gaza operations, Palestinian displacement, settlements</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-myanmar);"></div>
+                    <div class="legend-label">Myanmar - Rohingya genocide, military coups, ethnic conflicts</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-sudan);"></div>
+                    <div class="legend-label">Sudan - Darfur genocide, civil wars, ongoing conflicts</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-iran);"></div>
+                    <div class="legend-label">Iran - Iran-Iraq War, proxy conflicts, domestic suppression</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-cambodia);"></div>
+                    <div class="legend-label">Cambodia - Khmer Rouge genocide, Killing Fields</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-rwanda);"></div>
+                    <div class="legend-label">Rwanda - 1994 genocide, DRC massacres, regional instability</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-saudi);"></div>
+                    <div class="legend-label">Saudi Arabia - Yemen intervention, human rights abuses</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-north-korea);"></div>
+                    <div class="legend-label">North Korea - Korean War, prison camps, famines</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="chart-container" aria-label="Interactive treemap visualization">
+            <div id="treemap" role="img" aria-label="Interactive treemap showing global genocides and atrocities by country">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading treemap data...</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary-container" aria-label="Global Genocides Summary">
+            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">Global Genocides and Atrocities Overview</h3>
+            
+            <div class="summary-content">
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Scale of Global Atrocities</h4>
+                    <p>This treemap documents genocides and atrocities committed by <strong>10 countries</strong> across multiple continents, representing some of the most severe crimes against humanity in modern history. The visualization shows:</p>
+                    <ul>
+                        <li><strong>Massive Death Tolls:</strong> Combined casualties exceeding 100 million people</li>
+                        <li><strong>Ongoing Crises:</strong> Several countries continue committing atrocities today</li>
+                        <li><strong>Systematic Patterns:</strong> Recurring use of genocide, ethnic cleansing, and mass violence</li>
+                        <li><strong>Global Impact:</strong> Regional destabilization and refugee crises affecting millions</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Major Genocides by Region</h4>
+                    <div class="atrocity-grid">
+                        <div class="atrocity-item">
+                            <strong>Asia-Pacific</strong>
+                            <p>China (Great Leap Forward: 15-55M deaths, Uyghur genocide), Cambodia (Khmer Rouge: 1.5-3M), Myanmar (Rohingya genocide), North Korea (prison camps, famines)</p>
+                        </div>
+                        <div class="atrocity-item">
+                            <strong>Europe & Former USSR</strong>
+                            <p>Russia (Ukraine war: 50K+ deaths, Chechnya, Soviet invasions), ongoing territorial aggression and war crimes</p>
+                        </div>
+                        <div class="atrocity-item">
+                            <strong>Middle East</strong>
+                            <p>Israel (Gaza operations: 54K-335K deaths), Iran (proxy wars, domestic suppression), Saudi Arabia (Yemen intervention: 250K+ deaths)</p>
+                        </div>
+                        <div class="atrocity-item">
+                            <strong>Africa</strong>
+                            <p>Sudan (Darfur genocide: 98K-500K deaths), Rwanda (1994 genocide: 800K-1M deaths, DRC massacres)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Ongoing Atrocities (2023-Present)</h4>
+                    <p>Several countries continue committing atrocities with impunity:</p>
+                    <ul>
+                        <li><strong>Russia:</strong> Ukraine invasion with mass killings, child deportations, and forced "Russification"</li>
+                        <li><strong>Israel:</strong> Gaza operations labeled genocide by UN experts due to civilian targeting</li>
+                        <li><strong>China:</strong> Continued persecution of Uyghurs with mass detention and cultural erasure</li>
+                        <li><strong>Myanmar:</strong> Post-coup civil war exacerbating persecution of minorities</li>
+                        <li><strong>Sudan:</strong> Civil war since 2023 with mass rapes and ethnic cleansing</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--error-color); margin-bottom: 12px;">Patterns of Impunity</h4>
+                    <p>Despite extensive documentation, most perpetrators avoid accountability through:</p>
+                    <ul>
+                        <li><strong>UN Security Council Vetoes:</strong> Permanent members blocking investigations and sanctions</li>
+                        <li><strong>State Sovereignty Claims:</strong> Rejecting international jurisdiction and oversight</li>
+                        <li><strong>Geopolitical Protection:</strong> Allies providing diplomatic and military cover</li>
+                        <li><strong>Information Warfare:</strong> Denying, minimizing, or justifying atrocities</li>
+                    </ul>
+                </div>
+
+                <div class="summary-section">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Documentation Sources</h4>
+                    <p>This visualization is compiled from credible sources including:</p>
+                    <ul>
+                        <li><strong>Human Rights Organizations:</strong> Human Rights Watch, Amnesty International</li>
+                        <li><strong>United Nations:</strong> UN reports, fact-finding missions, and expert panels</li>
+                        <li><strong>International Courts:</strong> ICC indictments and international tribunal findings</li>
+                        <li><strong>Academic Research:</strong> Peer-reviewed studies and historical documentation</li>
+                        <li><strong>Investigative Journalism:</strong> Credible media investigations and witness testimonies</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Disclaimers Section -->
+    <div class="disclaimers">
+        <h3 class="disclaimer-title">⚠️ Important Disclaimers</h3>
+        <div class="disclaimer-content">
+            <p><strong>Educational Purpose Only:</strong> This treemap is created for educational and historical awareness purposes. It documents genocides and atrocities based on credible sources from human rights organizations, UN reports, and academic research.</p>
+
+            <p><strong>Source Verification:</strong> All information is sourced from credible organizations including Human Rights Watch, Amnesty International, UN reports, and academic institutions. Sources are provided for independent verification.</p>
+
+            <p><strong>Casualty Estimates:</strong> Death toll figures are estimates from various sources and may vary due to limited documentation, different methodologies, and ongoing research. Actual numbers may be higher or lower than reported.</p>
+
+            <p><strong>Ongoing Situations:</strong> Several events marked as ongoing are active situations. Information about current events may evolve as new evidence emerges and situations develop.</p>
+
+            <p><strong>Verify Information:</strong> Users should independently verify all information and consult multiple sources, academic research, and official reports before drawing conclusions. This visualization should not be used as the sole source for academic research or policy decisions.</p>
+
+            <p><strong>No Warranty:</strong> The creators make no warranties about the accuracy, completeness, or reliability of the information presented. Historical and current information is subject to ongoing research and revision.</p>
+
+            <p><strong>Accountability Purpose:</strong> This documentation aims to promote awareness of global atrocities, support victims and survivors, and encourage international accountability. It is not intended to promote hatred or discrimination against any group.</p>
+
+            <p><strong>Consult Experts:</strong> For authoritative information, please consult human rights organizations, academic historians, UN reports, and established international institutions.</p>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        // Theme management
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('.material-icons');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+        }
+
+        // Treemap visualization
+        let rawData = [];
+        let filteredData = [];
+        let tooltip;
+
+        // Load and initialize
+        async function loadData() {
+            try {
+                const response = await fetch('othercountriesgeno.json');
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                
+                const data = await response.json();
+                rawData = data.map(country => ({
+                    ...country,
+                    region: getRegion(country.country),
+                    impactScore: calculateImpactScore(country),
+                    atrocityTypes: categorizeAtrocities(country.atrocities)
+                }));
+
+                filteredData = [...rawData];
+                initializeVisualization();
+                updateStats();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showError('Failed to load treemap data: ' + error.message);
+            }
+        }
+
+        function getRegion(country) {
+            const regions = {
+                'Russia': 'europe',
+                'China': 'asia',
+                'Israel': 'middle-east',
+                'Myanmar': 'asia',
+                'Sudan': 'africa',
+                'Iran': 'middle-east',
+                'Cambodia': 'asia',
+                'Rwanda': 'africa',
+                'Saudi Arabia': 'middle-east',
+                'North Korea': 'asia'
+            };
+            return regions[country] || 'other';
+        }
+
+        function calculateImpactScore(country) {
+            let score = 1000; // Base score
+            
+            const atrocities = country.atrocities.join(' ').toLowerCase();
+            
+            // Scale multipliers based on death tolls mentioned (with logarithmic scaling to prevent dominance)
+            if (atrocities.includes('million')) {
+                const millions = atrocities.match(/(\d+(?:\.\d+)?)\s*(?:-\s*(\d+(?:\.\d+)?))?\s*million/g);
+                if (millions) {
+                    millions.forEach(match => {
+                        const numbers = match.match(/(\d+(?:\.\d+)?)/g);
+                        const avgMillions = numbers.length > 1 ? 
+                            (parseFloat(numbers[0]) + parseFloat(numbers[1])) / 2 : 
+                            parseFloat(numbers[0]);
+                        // Use logarithmic scaling to prevent extreme dominance
+                        score += Math.log10(avgMillions + 1) * 50000;
+                    });
+                }
+            }
+            
+            // Ongoing conflicts get higher priority
+            if (atrocities.includes('ongoing') || atrocities.includes('2023') || atrocities.includes('2024')) {
+                score *= 2.5;
+            }
+            
+            // Genocide gets highest priority
+            if (atrocities.includes('genocide')) {
+                score *= 3;
+            }
+            
+            // Specific high-impact events (reduced to prevent China dominance)
+            if (country.country === 'China' && atrocities.includes('great leap forward')) score += 200000;
+            if (country.country === 'Cambodia' && atrocities.includes('khmer rouge')) score += 150000;
+            if (country.country === 'Rwanda' && atrocities.includes('genocide')) score += 120000;
+            if (country.country === 'Myanmar' && atrocities.includes('rohingya')) score += 100000;
+            if (country.country === 'Sudan' && atrocities.includes('darfur')) score += 80000;
+            if (country.country === 'Russia' && atrocities.includes('ukraine')) score += 150000;
+            if (country.country === 'Israel' && atrocities.includes('gaza')) score += 100000;
+            
+            // Additional scoring for number of atrocities to give weight to systematic patterns
+            score += country.atrocities.length * 15000;
+            
+            // Cap the maximum score to prevent extreme dominance
+            const maxScore = 500000;
+            score = Math.min(score, maxScore);
+            
+            return Math.max(score, 5000); // Minimum size for visibility
+        }
+
+        function categorizeAtrocities(atrocities) {
+            const types = new Set();
+            const text = atrocities.join(' ').toLowerCase();
+            
+            if (text.includes('genocide')) types.add('genocide');
+            if (text.includes('war crimes') || text.includes('massacre') || text.includes('killing')) types.add('war-crimes');
+            if (text.includes('ethnic cleansing') || text.includes('displacement')) types.add('ethnic-cleansing');
+            if (text.includes('crimes against humanity') || text.includes('persecution')) types.add('crimes-against-humanity');
+            if (text.includes('ongoing') || text.includes('2023') || text.includes('2024')) types.add('ongoing');
+            
+            return Array.from(types);
+        }
+
+        function getCountryColor(country) {
+            const colors = {
+                'Russia': 'var(--color-russia)',
+                'China': 'var(--color-china)',
+                'Israel': 'var(--color-israel)',
+                'Myanmar': 'var(--color-myanmar)',
+                'Sudan': 'var(--color-sudan)',
+                'Iran': 'var(--color-iran)',
+                'Cambodia': 'var(--color-cambodia)',
+                'Rwanda': 'var(--color-rwanda)',
+                'Saudi Arabia': 'var(--color-saudi)',
+                'North Korea': 'var(--color-north-korea)'
+            };
+            return colors[country] || 'var(--primary-color)';
+        }
+
+        function initializeVisualization() {
+            const container = document.getElementById('treemap');
+            container.innerHTML = '';
+
+            if (filteredData.length === 0) {
+                container.innerHTML = '<div class="error"><div class="error-icon">📊</div><div>No countries match the current filters</div></div>';
+                return;
+            }
+
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // Create tooltip
+            if (tooltip) tooltip.remove();
+            tooltip = d3.select('body').append('div')
+                .attr('class', 'tooltip')
+                .style('opacity', 0);
+
+            // Prepare data for treemap
+            const treemapData = {
+                name: 'Global Genocides and Atrocities',
+                children: filteredData.map(country => ({
+                    ...country,
+                    value: country.impactScore
+                }))
+            };
+
+            // Create treemap layout
+            const treemap = d3.treemap()
+                .size([width, height])
+                .padding(2)
+                .round(true);
+
+            // Create hierarchy
+            const root = d3.hierarchy(treemapData)
+                .sum(d => d.value)
+                .sort((a, b) => b.value - a.value);
+
+            treemap(root);
+
+            // Create nodes
+            const nodes = container;
+            
+            root.leaves().forEach(d => {
+                const node = document.createElement('div');
+                node.className = 'node';
+                
+                // Set size and position
+                node.style.left = d.x0 + 'px';
+                node.style.top = d.y0 + 'px';
+                node.style.width = (d.x1 - d.x0) + 'px';
+                node.style.height = (d.y1 - d.y0) + 'px';
+                
+                // Set color based on country
+                const color = getCountryColor(d.data.country);
+                node.style.backgroundColor = color;
+                
+                // Set text content
+                const area = (d.x1 - d.x0) * (d.y1 - d.y0);
+                let displayText = d.data.country;
+                
+                // Adjust text based on size
+                if (area < 5000) {
+                    node.classList.add('node-small');
+                } else if (area > 20000) {
+                    node.classList.add('node-large');
+                    displayText += `\n${d.data.atrocities.length} atrocities`;
+                }
+                
+                node.textContent = displayText;
+                
+                // Add event listeners
+                node.addEventListener('mouseenter', (event) => handleMouseOver(event, d.data));
+                node.addEventListener('mouseleave', handleMouseOut);
+                node.addEventListener('click', (event) => handleClick(event, d.data));
+                
+                nodes.appendChild(node);
+            });
+        }
+
+        function handleMouseOver(event, d) {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 1);
+
+            const atrocitiesSummary = d.atrocities.slice(0, 2).join('; ') + (d.atrocities.length > 2 ? '...' : '');
+            const resourceCount = d.resources ? d.resources.length : 0;
+
+            tooltip.html(`
+                <div class="tooltip-title">${d.country}</div>
+                <div class="tooltip-atrocities">📍 ${d.atrocities.length} documented atrocities</div>
+                <div class="tooltip-description">${atrocitiesSummary}</div>
+                <div class="tooltip-sources"><strong>Sources:</strong> ${resourceCount} credible references</div>
+                <div style="margin-top: 8px; color: var(--primary-color); font-weight: 500;">
+                    <strong>🖱️ Click for detailed information</strong>
+                </div>
+            `)
+            .style('left', (event.pageX + 10) + 'px')
+            .style('top', (event.pageY - 10) + 'px');
+        }
+
+        function handleMouseOut() {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 0);
+        }
+
+        function handleClick(event, d) {
+            console.log('Clicked country:', d);
+            showCountryDetails(d);
+        }
+
+        function updateStats() {
+            document.getElementById('totalCountries').textContent = rawData.length;
+            document.getElementById('filteredCountries').textContent = filteredData.length;
+            
+            const totalAtrocities = rawData.reduce((sum, country) => sum + country.atrocities.length, 0);
+            document.getElementById('totalAtrocities').textContent = totalAtrocities;
+            
+            const ongoing = rawData.filter(country => 
+                country.atrocities.some(atrocity => 
+                    atrocity.toLowerCase().includes('ongoing') || 
+                    atrocity.toLowerCase().includes('2023') || 
+                    atrocity.toLowerCase().includes('2024')
+                )
+            ).length;
+            document.getElementById('ongoingCrises').textContent = ongoing;
+        }
+
+        function filterData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const regionFilter = document.getElementById('regionFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const scaleFilter = document.getElementById('scaleFilter').value;
+
+            filteredData = rawData.filter(country => {
+                // Search filter
+                const matchesSearch = !searchTerm || 
+                    country.country.toLowerCase().includes(searchTerm) ||
+                    country.atrocities.some(atrocity => atrocity.toLowerCase().includes(searchTerm));
+
+                // Region filter
+                const matchesRegion = regionFilter === 'all' || country.region === regionFilter;
+
+                // Type filter
+                let matchesType = true;
+                if (typeFilter !== 'all') {
+                    matchesType = country.atrocityTypes.includes(typeFilter);
+                }
+
+                // Scale filter
+                let matchesScale = true;
+                if (scaleFilter !== 'all') {
+                    const score = country.impactScore;
+                    if (scaleFilter === 'massive') matchesScale = score >= 10000000;
+                    else if (scaleFilter === 'major') matchesScale = score >= 100000 && score < 10000000;
+                    else if (scaleFilter === 'significant') matchesScale = score < 100000;
+                }
+
+                return matchesSearch && matchesRegion && matchesType && matchesScale;
+            });
+
+            initializeVisualization();
+            updateStats();
+        }
+
+        function showError(message) {
+            document.getElementById('treemap').innerHTML = `
+                <div class="error">
+                    <div class="error-icon">⚠️</div>
+                    <div>${message}</div>
+                </div>
+            `;
+        }
+
+        // Enhanced country details modal
+        function showCountryDetails(countryData) {
+            // Remove existing modal if present
+            d3.select("#countryModal").remove();
+
+            const modal = d3.select("body")
+                .append("div")
+                .attr("id", "countryModal")
+                .style("position", "fixed")
+                .style("top", "0")
+                .style("left", "0")
+                .style("width", "100%")
+                .style("height", "100%")
+                .style("background", "rgba(0, 0, 0, 0.5)")
+                .style("display", "flex")
+                .style("align-items", "center")
+                .style("justify-content", "center")
+                .style("z-index", "2000")
+                .style("opacity", "0")
+                .on("click", function (event) {
+                    if (event.target === this) closeCountryModal();
+                });
+
+            const modalContent = modal.append("div")
+                .style("background", "var(--surface-color)")
+                .style("color", "var(--on-surface)")
+                .style("border-radius", "12px")
+                .style("padding", "24px")
+                .style("max-width", "800px")
+                .style("max-height", "80vh")
+                .style("overflow-y", "auto")
+                .style("margin", "20px")
+                .style("box-shadow", "0 8px 32px var(--shadow-dark)")
+                .style("transform", "scale(0.9)")
+                .on("click", function (event) {
+                    event.stopPropagation();
+                });
+
+            // Modal header
+            const header = modalContent.append("div")
+                .style("display", "flex")
+                .style("justify-content", "space-between")
+                .style("align-items", "flex-start")
+                .style("margin-bottom", "16px");
+
+            header.append("h2")
+                .style("margin", "0")
+                .style("color", "var(--primary-color)")
+                .style("font-size", "1.5rem")
+                .style("line-height", "1.3")
+                .text(`${countryData.country} - Documented Atrocities`);
+
+            header.append("button")
+                .style("background", "none")
+                .style("border", "none")
+                .style("font-size", "1.5rem")
+                .style("cursor", "pointer")
+                .style("color", "var(--on-surface-variant)")
+                .style("padding", "4px")
+                .text("×")
+                .on("click", closeCountryModal);
+
+            // Country metadata
+            const metadata = modalContent.append("div")
+                .style("margin-bottom", "16px")
+                .style("padding", "16px")
+                .style("background", "var(--surface-variant)")
+                .style("border-radius", "8px")
+                .style("border-left", `4px solid ${getCountryColor(countryData.country)}`);
+
+            const metaItems = [];
+            metaItems.push(`🌍 Region: ${countryData.region.charAt(0).toUpperCase() + countryData.region.slice(1).replace('-', ' ')}`);
+            metaItems.push(`📊 Documented Atrocities: ${countryData.atrocities.length}`);
+            metaItems.push(`📚 Source References: ${countryData.resources ? countryData.resources.length : 0}`);
+            metaItems.push(`🏷️ Types: ${countryData.atrocityTypes.map(type => type.replace('-', ' ')).join(', ')}`);
+
+            metaItems.forEach(item => {
+                metadata.append("div")
+                    .style("margin-bottom", "6px")
+                    .style("font-size", "0.95rem")
+                    .style("font-weight", "500")
+                    .text(item);
+            });
+
+            // Atrocities list
+            modalContent.append("h3")
+                .style("margin", "20px 0 12px 0")
+                .style("font-size", "1.2rem")
+                .style("color", "var(--primary-color)")
+                .text("Documented Atrocities");
+
+            const atrocitiesList = modalContent.append("div")
+                .style("margin-bottom", "20px");
+
+            countryData.atrocities.forEach((atrocity, index) => {
+                const atrocityItem = atrocitiesList.append("div")
+                    .style("margin-bottom", "12px")
+                    .style("padding", "12px")
+                    .style("background", "var(--surface-variant)")
+                    .style("border-radius", "6px")
+                    .style("border-left", "3px solid var(--error-color)");
+
+                atrocityItem.append("div")
+                    .style("font-weight", "500")
+                    .style("color", "var(--error-color)")
+                    .style("margin-bottom", "6px")
+                    .text(`${index + 1}. ${getAtrocityTitle(atrocity)}`);
+
+                atrocityItem.append("div")
+                    .style("font-size", "0.9rem")
+                    .style("line-height", "1.4")
+                    .text(atrocity);
+            });
+
+            // Sources section
+            if (countryData.resources && countryData.resources.length > 0) {
+                modalContent.append("h3")
+                    .style("margin", "20px 0 12px 0")
+                    .style("font-size", "1.2rem")
+                    .style("color", "var(--primary-color)")
+                    .text("Sources & References");
+
+                const sourcesList = modalContent.append("div")
+                    .style("margin-bottom", "16px");
+
+                countryData.resources.forEach((resource, index) => {
+                    const sourceItem = sourcesList.append("div")
+                        .style("margin-bottom", "8px")
+                        .style("padding", "8px")
+                        .style("background", "var(--surface-variant)")
+                        .style("border-radius", "4px")
+                        .style("display", "flex")
+                        .style("align-items", "center")
+                        .style("gap", "8px");
+
+                    sourceItem.append("span")
+                        .style("font-weight", "500")
+                        .style("color", "var(--primary-color)")
+                        .text(`[${index + 1}]`);
+
+                    sourceItem.append("a")
+                        .attr("href", resource.url)
+                        .attr("target", "_blank")
+                        .attr("rel", "noopener noreferrer")
+                        .style("color", "var(--primary-color)")
+                        .style("text-decoration", "none")
+                        .style("flex", "1")
+                        .text(resource.title)
+                        .on("mouseover", function () {
+                            d3.select(this).style("text-decoration", "underline");
+                        })
+                        .on("mouseout", function () {
+                            d3.select(this).style("text-decoration", "none");
+                        });
+
+                    sourceItem.append("span")
+                        .style("font-size", "1.2rem")
+                        .text("🔗");
+                });
+            }
+
+            // Educational disclaimer
+            const disclaimer = modalContent.append("div")
+                .style("margin-top", "20px")
+                .style("padding", "12px")
+                .style("background", "#fff3cd")
+                .style("border", "1px solid #ffeaa7")
+                .style("border-radius", "6px")
+                .style("font-size", "0.9rem")
+                .style("color", "#856404");
+
+            disclaimer.append("strong")
+                .style("color", "#664d03")
+                .text("Educational Purpose: ");
+
+            disclaimer.append("span")
+                .text("This information is compiled from credible human rights organizations, UN reports, and academic research. All sources are provided for independent verification. The goal is to promote awareness of global atrocities and accountability.");
+
+            // Animate modal in
+            modal.transition()
+                .duration(300)
+                .ease(d3.easeCubicOut)
+                .style("opacity", "1");
+
+            modalContent.transition()
+                .duration(300)
+                .ease(d3.easeCubicOut)
+                .style("transform", "scale(1)");
+        }
+
+        function closeCountryModal() {
+            const modal = d3.select("#countryModal");
+            if (!modal.empty()) {
+                modal.transition()
+                    .duration(200)
+                    .style("opacity", "0")
+                    .on("end", function () {
+                        modal.remove();
+                    });
+            }
+        }
+
+        function getAtrocityTitle(atrocity) {
+            // Extract a short title from the atrocity description
+            const sentences = atrocity.split('.');
+            const firstSentence = sentences[0];
+            
+            // Look for key terms to create a title
+            if (firstSentence.includes('genocide')) return 'Genocide';
+            if (firstSentence.includes('war') && firstSentence.includes('killing')) return 'War Crimes';
+            if (firstSentence.includes('massacre')) return 'Massacre';
+            if (firstSentence.includes('invasion')) return 'Military Invasion';
+            if (firstSentence.includes('displacement')) return 'Forced Displacement';
+            if (firstSentence.includes('persecution')) return 'Persecution';
+            if (firstSentence.includes('famine')) return 'Man-made Famine';
+            if (firstSentence.includes('ethnic cleansing')) return 'Ethnic Cleansing';
+            
+            // Extract year range if present
+            const yearMatch = firstSentence.match(/\((\d{4}(?:–\d{4})?)\)/);
+            if (yearMatch) return `Atrocity (${yearMatch[1]})`;
+            
+            return 'Documented Atrocity';
+        }
+
+        // Enhanced keyboard navigation and accessibility
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closeCountryModal();
+            }
+
+            // Quick search focus with Ctrl+F or Cmd+F
+            if ((event.ctrlKey || event.metaKey) && event.key === "f") {
+                event.preventDefault();
+                document.getElementById("searchInput").focus();
+            }
+        });
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterData);
+        document.getElementById('regionFilter').addEventListener('change', filterData);
+        document.getElementById('typeFilter').addEventListener('change', filterData);
+        document.getElementById('scaleFilter').addEventListener('change', filterData);
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            if (filteredData.length > 0) {
+                initializeVisualization();
+            }
+        });
+
+        // Initialize
+        loadData();
+    </script>
+
+</body>
+</html>
