@@ -4,8 +4,10 @@ This directory contains an interactive timeline visualization of documented Brit
 
 ## Files
 
-- `index.html` - Interactive D3.js timeline visualization
-- `british.json` - Data file containing documented British atrocities
+- `index.html` - Interactive D3.js treemap visualization of modern British atrocities (1962-present)
+- `british_india_treemap.html` - Interactive D3.js treemap visualization of British colonial genocide in India (1769-1947)
+- `british.json` - Data file containing documented modern British atrocities
+- `british_india.json` - Data file containing documented British colonial atrocities in India
 - `README.md` - This documentation file
 
 ## Data Structure
@@ -30,11 +32,19 @@ The `british.json` file contains an array of events with the following structure
 
 ## Features
 
-### Interactive Timeline
-- **Chronological Layout**: Events are displayed on a timeline from 1962 to present
+### Two Visualization Types
+
+#### 1. Modern Atrocities Treemap (`index.html`)
+- **Proportional Layout**: Events sized by impact and ongoing relevance (1962-present)
 - **Event Categories**: Color-coded by type (Colonial Crimes, Military Operations, Covert Operations, Cover-ups, Current Complicity)
-- **Hover Details**: Detailed information appears on hover with sources
-- **Responsive Design**: Works on desktop and mobile devices
+- **Impact Visualization**: Rectangle size represents scale, duration, and current relevance of atrocities
+- **Interactive Filtering**: Filter by time period, event type, and impact scale
+
+#### 2. British India Genocide Treemap (`british_india_treemap.html`)
+- **Proportional Layout**: Events sized by death toll (1769-1947)
+- **Event Categories**: Color-coded by type (Famines, Massacres, Colonial Policies, Revolt Suppression, Partition, Forced Labor)
+- **Death Toll Visualization**: Visual representation of the scale of colonial genocide
+- **Interactive Filtering**: Filter by time period, event type, and death toll scale
 
 ### Filtering and Search
 - **Text Search**: Search through event names and descriptions
@@ -50,11 +60,20 @@ The `british.json` file contains an array of events with the following structure
 
 ## Event Categories
 
+### Modern Atrocities (1962-present)
 1. **Colonial Crimes** - Atrocities during decolonization (Chagos Islands, Aden)
 2. **Military Operations** - Direct military actions and war crimes
 3. **Covert Operations** - Secret operations and undeclared wars
 4. **Cover-ups** - Systematic concealment of crimes (Operation Legacy)
 5. **Current Complicity** - Ongoing involvement in atrocities (Gaza, Yemen)
+
+### British India Genocide (1769-1947)
+1. **Famines** - Colonial policies causing mass starvation (Bengal Famine, Great Famine)
+2. **Massacres** - Direct military violence against civilians (Jallianwala Bagh)
+3. **Colonial Policies** - Systematic exploitation causing excess deaths (50-165 million)
+4. **Revolt Suppression** - Brutal crushing of independence movements (1857 Revolt)
+5. **Partition** - Deaths from hasty division of India (1-2 million)
+6. **Forced Labor** - Indentured labor system deaths (200,000-500,000)
 
 ## Data Sources
 
@@ -67,10 +86,19 @@ All events are sourced from:
 
 ## Usage
 
+### Modern Atrocities Treemap
 1. Open `index.html` in a web browser
-2. Use the search and filter controls to explore specific events
-3. Hover over events for detailed information
-4. Click on source links to verify information
+2. Explore events sized by impact - larger rectangles represent more significant or ongoing atrocities
+3. Use filters to focus on specific time periods, event types, or impact scales
+4. Hover over rectangles for detailed information and click for comprehensive details
+5. The visualization emphasizes ongoing atrocities and systematic crimes
+
+### British India Genocide Treemap
+1. Navigate to the "British India Genocide" tab or open `british_india_treemap.html`
+2. Explore events sized by death toll - larger rectangles represent higher casualties
+3. Use filters to focus on specific time periods, event types, or death toll scales
+4. Hover over rectangles for detailed information including death toll estimates
+5. The visualization shows the massive scale of British colonial genocide in India
 
 ## Educational Purpose
 

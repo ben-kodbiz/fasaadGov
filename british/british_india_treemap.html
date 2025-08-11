@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>British Atrocities Timeline - Interactive Historical Visualization</title>
-
+    <title>British India Genocide Treemap - Interactive Historical Visualization</title>
+    
     <!-- SEO Meta Tags -->
-    <meta name="description"
-        content="Interactive timeline visualization of documented British atrocities and war crimes throughout history. Explore colonial crimes, military operations, and cover-ups from 1962 to present.">
-    <meta name="keywords"
-        content="British atrocities, UK war crimes, colonial crimes, Operation Legacy, Chagos Islands, Northern Ireland, Iraq War, Afghanistan War, historical timeline">
-    <meta name="author" content="British Atrocities Documentation Project">
-
+    <meta name="description" content="Interactive treemap visualization of British colonial genocide in India. Explore famines, massacres, and colonial policies that killed over 100 million Indians from 1769-1947.">
+    <meta name="keywords" content="British India genocide, colonial famines, Bengal famine, British atrocities India, colonial deaths, Indian famines, British colonial policy, historical visualization">
+    <meta name="author" content="British India Genocide Documentation Project">
+    
     <!-- Open Graph -->
-    <meta property="og:title" content="British Atrocities Timeline - Interactive Historical Visualization">
-    <meta property="og:description"
-        content="Explore documented British atrocities and war crimes through an interactive timeline from colonial era to present day.">
+    <meta property="og:title" content="British India Genocide Treemap - Colonial Atrocities Visualization">
+    <meta property="og:description" content="Explore the scale of British colonial genocide in India through an interactive treemap. Over 100 million deaths from famines, massacres, and colonial policies.">
     <meta property="og:type" content="website">
-
+    
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    
     <style>
         :root {
             --primary-color: #8b0000;
@@ -40,6 +36,14 @@
             --error-color: #dc3545;
             --warning-color: #ff9800;
             --success-color: #4caf50;
+            
+            /* Treemap colors for different event types */
+            --color-famine: #8b0000;
+            --color-massacre: #dc143c;
+            --color-policy: #b22222;
+            --color-revolt: #cd5c5c;
+            --color-partition: #a0522d;
+            --color-labor: #800000;
         }
 
         [data-theme="dark"] {
@@ -51,6 +55,13 @@
             --outline: #938f99;
             --shadow: rgba(0, 0, 0, 0.3);
             --shadow-dark: rgba(0, 0, 0, 0.5);
+            
+            --color-famine: #ff6b6b;
+            --color-massacre: #ff4757;
+            --color-policy: #ff3838;
+            --color-revolt: #ff7675;
+            --color-partition: #d63031;
+            --color-labor: #e84393;
         }
 
         * {
@@ -265,8 +276,7 @@
             color: var(--on-surface-variant);
         }
 
-        .select,
-        .input {
+        .select, .input {
             padding: 12px 16px;
             border: 1px solid var(--outline);
             border-radius: 8px;
@@ -277,8 +287,7 @@
             transition: border-color 0.2s ease;
         }
 
-        .select:focus,
-        .input:focus {
+        .select:focus, .input:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.2);
@@ -368,6 +377,13 @@
             font-weight: 500;
         }
 
+        .tooltip-deaths {
+            font-size: 0.875rem;
+            color: var(--error-color);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
         .tooltip-description {
             line-height: 1.4;
             margin-bottom: 12px;
@@ -423,49 +439,50 @@
             font-weight: 500;
         }
 
-        .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 400px;
-            color: var(--on-surface-variant);
-        }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--surface-variant);
-            border-top: 3px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 16px;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .error {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 400px;
-            color: var(--error-color);
-            text-align: center;
+        .legend-container {
+            margin: 24px;
+            background: var(--surface-color);
             padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
         }
 
-        .error-icon {
-            font-size: 3rem;
+        .legend-title {
+            font-size: 1.125rem;
+            font-weight: 500;
             margin-bottom: 16px;
+            color: var(--on-surface);
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background: var(--surface-variant);
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px var(--shadow);
+        }
+
+        .legend-label {
+            font-size: 0.875rem;
+            font-weight: 400;
         }
 
         .summary-container {
@@ -577,43 +594,44 @@
             font-weight: 600;
         }
 
-        .legend-container {
-            margin: 24px;
-            background: var(--surface-color);
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px var(--shadow);
-        }
-
-        .legend-items {
+        .loading {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-        }
-
-        .legend-item {
-            display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 8px;
-            border-radius: 8px;
-            transition: background-color 0.2s ease;
+            justify-content: center;
+            height: 400px;
+            color: var(--on-surface-variant);
         }
 
-        .legend-item:hover {
-            background: var(--surface-variant);
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--surface-variant);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
         }
 
-        .legend-color {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            box-shadow: 0 1px 2px var(--shadow);
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .legend-label {
-            font-size: 0.875rem;
-            font-weight: 400;
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--error-color);
+            text-align: center;
+            padding: 24px;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
         }
 
         /* Mobile responsive */
@@ -679,8 +697,14 @@
                 gap: 12px;
             }
 
-            .event-label {
-                font-size: 10px;
+            .node {
+                font-size: 0.65rem;
+                min-width: 40px !important;
+                min-height: 30px !important;
+            }
+
+            .legend-items {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -693,12 +717,6 @@
                 height: 400px;
             }
 
-            .node {
-                font-size: 0.65rem;
-                min-width: 40px !important;
-                min-height: 30px !important;
-            }
-
             .stats-grid {
                 grid-template-columns: 1fr;
             }
@@ -707,18 +725,21 @@
                 padding: 8px 12px;
                 font-size: 0.8rem;
             }
+
+            .node {
+                font-size: 0.6rem;
+                min-width: 35px !important;
+                min-height: 25px !important;
+            }
         }
     </style>
 </head>
-
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Theme Toggle -->
-    <div
-        style="background: var(--surface-color); padding: 8px 24px; border-bottom: 1px solid var(--outline); display: flex; justify-content: flex-end;">
-        <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode"
-            aria-label="Toggle between light and dark theme">
+    <div style="background: var(--surface-color); padding: 8px 24px; border-bottom: 1px solid var(--outline); display: flex; justify-content: flex-end;">
+        <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode" aria-label="Toggle between light and dark theme">
             <span class="material-icons" aria-hidden="true">dark_mode</span>
         </button>
     </div>
@@ -736,8 +757,7 @@
                 <span class="material-icons" aria-hidden="true">analytics</span>
                 Arab Complicity
             </a>
-            <a href="../companies_complicit/index.html" class="btn btn-secondary"
-                aria-label="Corporate Complicity Network">
+            <a href="../companies_complicit/index.html" class="btn btn-secondary" aria-label="Corporate Complicity Network">
                 <span class="material-icons" aria-hidden="true">business</span>
                 Corporate Network
             </a>
@@ -752,77 +772,78 @@
     <div style="background: var(--surface-color); border-bottom: 1px solid var(--outline);">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
             <nav class="tab-navigation" role="tablist" aria-label="British Atrocities sections">
-                <button class="tab-button active" role="tab" aria-selected="true" aria-controls="treemap-panel"
-                    id="treemap-tab">
+                <a href="index.html" class="tab-button" role="tab" aria-selected="false">
                     <span class="material-icons" aria-hidden="true">account_tree</span>
                     Modern Atrocities Treemap
-                </button>
-                <a href="british_india_treemap.html" class="tab-button" role="tab" aria-selected="false">
+                </a>
+                <button class="tab-button active" role="tab" aria-selected="true" aria-controls="treemap-panel" id="treemap-tab">
                     <span class="material-icons" aria-hidden="true">account_tree</span>
                     British India Genocide
-                </a>
+                </button>
             </nav>
         </div>
     </div>
 
     <div class="disclaimer">
-        <strong>⚠️ Educational Purpose Only:</strong> This timeline presents documented British atrocities and war
-        crimes for educational awareness. All information is sourced from historical records, government documents, and
-        credible news sources. This visualization aims to promote historical understanding and accountability.
+        <strong>⚠️ Historical Documentation:</strong> This treemap visualizes documented British colonial genocide in India from 1769-1947. The data represents academic estimates of deaths caused by British colonial policies, famines, massacres, and systematic exploitation. All figures are sourced from historical research and should be understood in their educational context to promote awareness of colonial atrocities.
     </div>
 
     <main id="main-content" role="main">
-        <section class="controls-container" aria-label="Timeline controls">
+        <section class="controls-container" aria-label="Treemap controls">
             <h2 style="margin-top: 0; color: var(--on-surface);">Filter and Search</h2>
             <div class="controls">
                 <div class="control-group">
                     <label class="control-label" for="searchInput">Search Events</label>
-                    <input type="text" id="searchInput" class="input" placeholder="Search by name or description..."
-                        aria-describedby="search-help">
-                    <div id="search-help" style="font-size: 0.75rem; color: var(--on-surface-variant);">Search through
-                        British atrocities by name, description, or location</div>
+                    <input type="text" id="searchInput" class="input" placeholder="Search by name or description..." aria-describedby="search-help">
+                    <div id="search-help" style="font-size: 0.75rem; color: var(--on-surface-variant);">Search through British India atrocities by name, description, or death toll</div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Time Period</label>
                     <select id="periodFilter" class="select">
                         <option value="all">All Periods</option>
-                        <option value="1960s">1960s</option>
-                        <option value="1970s">1970s</option>
-                        <option value="1980s">1980s</option>
-                        <option value="1990s">1990s</option>
-                        <option value="2000s">2000s</option>
-                        <option value="2010s">2010s</option>
-                        <option value="2020s">2020s</option>
+                        <option value="18th">18th Century (1769-1799)</option>
+                        <option value="19th">19th Century (1800-1899)</option>
+                        <option value="20th">20th Century (1900-1947)</option>
                     </select>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Event Type</label>
                     <select id="typeFilter" class="select">
                         <option value="all">All Types</option>
-                        <option value="colonial">Colonial Crimes</option>
-                        <option value="military">Military Operations</option>
-                        <option value="covert">Covert Operations</option>
-                        <option value="coverup">Cover-ups</option>
-                        <option value="current">Current Complicity</option>
+                        <option value="famine">Famines</option>
+                        <option value="massacre">Massacres</option>
+                        <option value="policy">Colonial Policies</option>
+                        <option value="revolt">Revolt Suppression</option>
+                        <option value="partition">Partition</option>
+                        <option value="labor">Forced Labor</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Death Toll Scale</label>
+                    <select id="scaleFilter" class="select">
+                        <option value="all">All Scales</option>
+                        <option value="massive">Massive (>10M)</option>
+                        <option value="major">Major (1M-10M)</option>
+                        <option value="significant">Significant (<1M)</option>
                     </select>
                 </div>
             </div>
         </section>
 
-        <section class="stats-container" aria-label="Timeline statistics">
-            <h3 style="margin-top: 0; color: var(--on-surface);">Overview</h3>
+        <section class="stats-container" aria-label="Genocide statistics">
+            <h3 style="margin-top: 0; color: var(--on-surface);">British India Genocide Overview</h3>
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number" id="totalEvents">-</div>
                     <div class="stat-label">Total Events</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="timeSpan">-</div>
-                    <div class="stat-label">Years Covered</div>
+                    <div class="stat-number" id="totalDeaths">-</div>
+                    <div class="stat-label">Estimated Deaths</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="ongoingEvents">-</div>
-                    <div class="stat-label">Ongoing Issues</div>
+                    <div class="stat-number" id="timeSpan">-</div>
+                    <div class="stat-label">Years of Colonial Rule</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="filteredEvents">-</div>
@@ -831,35 +852,8 @@
             </div>
         </section>
 
-        <section class="legend-container" aria-label="Event type legend">
-            <h3 style="margin-top: 0; color: var(--on-surface);">Event Categories</h3>
-            <div class="legend-items">
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #ff0000;"></div>
-                    <div class="legend-label">Current Complicity - Ongoing involvement in atrocities (Gaza, Yemen)</div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #ff8c00;"></div>
-                    <div class="legend-label">Cover-ups - Systematic concealment of crimes (Operation Legacy)</div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #8b4513;"></div>
-                    <div class="legend-label">Colonial Crimes - Atrocities during decolonization (Chagos Islands)</div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #dc143c;"></div>
-                    <div class="legend-label">Military Operations - Direct military violence (Iraq, Afghanistan)</div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #4b0082;"></div>
-                    <div class="legend-label">Covert Operations - Secret wars and undeclared operations</div>
-                </div>
-            </div>
-        </section>
-
         <section class="chart-container" aria-label="Interactive treemap visualization">
-            <div id="treemap" role="img"
-                aria-label="Interactive treemap showing British atrocities and war crimes from 1962 to present">
+            <div id="treemap" role="img" aria-label="Interactive treemap showing British colonial genocide in India with death toll proportions">
                 <div class="loading">
                     <div class="loading-spinner"></div>
                     <div>Loading treemap data...</div>
@@ -867,75 +861,104 @@
             </div>
         </section>
 
-        <section class="summary-container" aria-label="Modern British Atrocities Summary">
-            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">Modern British Atrocities Treemap (1962-Present)</h3>
+        <section class="legend-container" aria-label="Event type legend">
+            <h3 class="legend-title">Event Categories</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-famine);"></div>
+                    <div class="legend-label">Famines - Colonial policies causing mass starvation</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-massacre);"></div>
+                    <div class="legend-label">Massacres - Direct military violence against civilians</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-policy);"></div>
+                    <div class="legend-label">Colonial Policies - Systematic exploitation and excess deaths</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-revolt);"></div>
+                    <div class="legend-label">Revolt Suppression - Brutal crushing of independence movements</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-partition);"></div>
+                    <div class="legend-label">Partition - Deaths from hasty division of India</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--color-labor);"></div>
+                    <div class="legend-label">Forced Labor - Indentured labor system deaths</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary-container" aria-label="British India Genocide Summary">
+            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">British Colonial Genocide in India (1769-1947)</h3>
             
             <div class="summary-content">
                 <div class="summary-section">
-                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Pattern of Atrocities</h4>
-                    <p>Since 1962, Britain has been involved in numerous atrocities and war crimes across the globe. This treemap visualizes <strong>18 major incidents</strong> spanning over 60 years, with rectangle sizes representing the scale and ongoing impact of each atrocity. The visualization reveals a consistent pattern of:</p>
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Scale of Atrocity</h4>
+                    <p>British colonial rule in India resulted in one of the largest genocides in human history. Conservative academic estimates suggest that British policies led to the deaths of <strong>100-165 million Indians</strong> over 178 years of colonial rule. This massive death toll was caused by:</p>
                     <ul>
-                        <li><strong>Colonial Crimes:</strong> Forced displacement and ethnic cleansing (Chagos Islands)</li>
-                        <li><strong>Military Operations:</strong> War crimes in Iraq, Afghanistan, and Northern Ireland</li>
-                        <li><strong>Covert Operations:</strong> Secret wars and support for brutal regimes</li>
-                        <li><strong>Systematic Cover-ups:</strong> Operation Legacy and destruction of evidence</li>
-                        <li><strong>Current Complicity:</strong> Ongoing support for atrocities in Gaza, Yemen, and Sudan</li>
+                        <li><strong>Systematic Famines:</strong> At least 12 major famines killed 50+ million people, often exacerbated by British export policies and inadequate relief</li>
+                        <li><strong>Economic Exploitation:</strong> Deindustrialization, resource extraction, and crushing taxation created chronic malnutrition and vulnerability</li>
+                        <li><strong>Direct Violence:</strong> Massacres, revolt suppression, and military campaigns killed hundreds of thousands</li>
+                        <li><strong>Forced Labor:</strong> The indentured labor system resulted in 200,000-500,000 deaths during transport and on plantations</li>
                     </ul>
                 </div>
 
                 <div class="summary-section">
-                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Key Modern Atrocities</h4>
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Key Atrocities</h4>
                     <div class="atrocity-grid">
                         <div class="atrocity-item">
-                            <strong>Chagos Islands Displacement (1965-1973)</strong>
-                            <p>Forced removal of 2,000 Chagossians to make way for US military base, ongoing legal battles for right of return.</p>
+                            <strong>Bengal Famine (1943)</strong>
+                            <p>3 million deaths caused by British wartime policies and continued food exports despite local shortages.</p>
                         </div>
                         <div class="atrocity-item">
-                            <strong>Operation Legacy (1950s-1970s)</strong>
-                            <p>Systematic destruction of documents detailing colonial crimes across 37 countries to hide British atrocities.</p>
+                            <strong>Great Famine (1876-1878)</strong>
+                            <p>5.5-10.3 million deaths worsened by British export policies and inadequate relief efforts.</p>
                         </div>
                         <div class="atrocity-item">
-                            <strong>Bloody Sunday Massacre (1972)</strong>
-                            <p>British paratroopers killed 14 unarmed civilians during civil rights march in Northern Ireland.</p>
+                            <strong>Jallianwala Bagh Massacre (1919)</strong>
+                            <p>379-1,500 unarmed civilians killed when British troops fired on a peaceful gathering in an enclosed space.</p>
                         </div>
                         <div class="atrocity-item">
-                            <strong>Gaza Complicity (2023-present)</strong>
-                            <p>UK arms exports and support enabling Israeli war crimes and potential genocide in Gaza.</p>
+                            <strong>Partition of India (1947)</strong>
+                            <p>1-2 million deaths from communal violence following the hasty British division of India.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="summary-section">
-                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Ongoing Atrocities</h4>
-                    <p>Britain continues to be complicit in atrocities worldwide through:</p>
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Historical Impact</h4>
+                    <p>The British colonial genocide in India represents:</p>
                     <ul>
-                        <li><strong>Arms Sales:</strong> Weapons exports to regimes committing war crimes (Saudi Arabia, Israel)</li>
-                        <li><strong>Military Support:</strong> Training and intelligence for forces targeting civilians</li>
-                        <li><strong>Diplomatic Protection:</strong> Using UN Security Council position to shield allies from accountability</li>
-                        <li><strong>Financial Complicity:</strong> London as hub for money laundering from conflict zones</li>
+                        <li><strong>Economic Devastation:</strong> India's share of global GDP fell from 25% to 2% under British rule</li>
+                        <li><strong>Cultural Destruction:</strong> Systematic dismantling of Indian education, industry, and governance systems</li>
+                        <li><strong>Lasting Trauma:</strong> Partition violence and colonial policies created lasting communal tensions</li>
+                        <li><strong>Wealth Transfer:</strong> An estimated $45 trillion was drained from India to Britain over colonial period</li>
                     </ul>
                 </div>
 
                 <div class="summary-section">
-                    <h4 style="color: var(--error-color); margin-bottom: 12px;">Lack of Accountability</h4>
-                    <p>Despite extensive evidence of war crimes, Britain has consistently avoided accountability through:</p>
+                    <h4 style="color: var(--error-color); margin-bottom: 12px;">Modern Relevance</h4>
+                    <p>Understanding British colonial genocide in India is crucial because:</p>
                     <ul>
-                        <li><strong>Legal Immunity:</strong> Overseas Operations Act limiting prosecutions of military personnel</li>
-                        <li><strong>Cover-ups:</strong> Closure of investigations like IHAT without prosecutions</li>
-                        <li><strong>Document Destruction:</strong> Systematic destruction of evidence (Operation Legacy)</li>
-                        <li><strong>Political Protection:</strong> Government refusal to cooperate with international investigations</li>
+                        <li><strong>Historical Justice:</strong> Britain has never acknowledged or apologized for colonial genocide</li>
+                        <li><strong>Reparations Debate:</strong> Growing calls for Britain to pay reparations for colonial exploitation</li>
+                        <li><strong>Educational Awareness:</strong> British schools largely ignore colonial atrocities in their curriculum</li>
+                        <li><strong>Contemporary Parallels:</strong> Understanding how colonial powers justified and covered up genocide</li>
                     </ul>
                 </div>
 
                 <div class="summary-section">
-                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Sources & Documentation</h4>
-                    <p>This timeline is compiled from credible sources including:</p>
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">Academic Sources</h4>
+                    <p>This data is compiled from leading academic research including:</p>
                     <ul>
-                        <li><strong>Government Documents:</strong> Declassified files and parliamentary records</li>
-                        <li><strong>Investigative Journalism:</strong> BBC, Guardian, and international media investigations</li>
-                        <li><strong>Academic Research:</strong> Historical analysis and human rights documentation</li>
-                        <li><strong>Legal Proceedings:</strong> Court cases, inquiries, and international investigations</li>
-                        <li><strong>Whistleblower Revelations:</strong> Military personnel and intelligence sources</li>
+                        <li><strong>Jason Hickel:</strong> Research on colonial mortality and economic drain</li>
+                        <li><strong>Utsa Patnaik:</strong> Economic analysis of colonial exploitation</li>
+                        <li><strong>Mike Davis:</strong> "Late Victorian Holocausts" on colonial famines</li>
+                        <li><strong>Shashi Tharoor:</strong> "Inglorious Empire" on colonial impact</li>
+                        <li><strong>Government Records:</strong> British colonial archives and parliamentary papers</li>
                     </ul>
                 </div>
             </div>
@@ -946,21 +969,23 @@
     <div class="disclaimers">
         <h3 class="disclaimer-title">⚠️ Important Disclaimers</h3>
         <div class="disclaimer-content">
-            <p><strong>Educational Purpose Only:</strong> This timeline is created for educational and historical awareness purposes. It documents British atrocities and war crimes based on credible sources including government documents, academic research, and investigative journalism.</p>
+            <p><strong>Educational Purpose Only:</strong> This treemap visualizes documented British colonial genocide in India for educational and historical awareness purposes. It is based on academic research, historical records, and credible sources.</p>
 
-            <p><strong>Historical Documentation:</strong> All events are documented from credible sources including declassified government files, parliamentary records, academic research, court proceedings, and investigative journalism. Sources are provided for independent verification.</p>
+            <p><strong>Death Toll Estimates:</strong> All death toll figures are estimates from academic sources and historical research. Actual numbers may vary due to limited historical documentation, different methodologies, and ongoing scholarly debate. Conservative estimates suggest 100-165 million excess deaths during British colonial rule.</p>
 
-            <p><strong>Ongoing Events:</strong> Several events marked as "present" are ongoing situations. Information about current events may evolve as new evidence emerges and situations develop.</p>
+            <p><strong>Academic Sources:</strong> Data is compiled from leading academic research including work by Jason Hickel, Utsa Patnaik, Mike Davis, Shashi Tharoor, and other historians specializing in colonial studies. All sources are provided for independent verification.</p>
 
-            <p><strong>Verify Information:</strong> Users should independently verify all information and consult multiple academic sources, government records, and peer-reviewed research before drawing conclusions. This visualization should not be used as the sole source for academic research or policy decisions.</p>
+            <p><strong>Historical Context:</strong> These events occurred during British colonial rule in India (1769-1947). The visualization aims to show the scale and systematic nature of colonial exploitation and its human cost.</p>
 
-            <p><strong>Legal Context:</strong> Many events documented here have been subject to official inquiries, court cases, or international investigations. Some remain under investigation or legal proceedings.</p>
+            <p><strong>Verify Information:</strong> Users should independently verify all information and consult multiple academic sources, historical records, and peer-reviewed research before drawing conclusions. This visualization should not be used as the sole source for academic research.</p>
 
-            <p><strong>No Warranty:</strong> The creators make no warranties about the accuracy, completeness, or reliability of the information presented. Historical information is subject to ongoing research and revision as new evidence emerges.</p>
+            <p><strong>Ongoing Research:</strong> Historical casualty figures are subject to ongoing research and revision as new evidence emerges and methodologies improve. Recent scholarship has increasingly recognized the massive scale of colonial mortality.</p>
 
-            <p><strong>Accountability Purpose:</strong> This documentation aims to promote historical awareness, accountability, and understanding of British involvement in international atrocities. It is not intended to promote hatred or discrimination against any group.</p>
+            <p><strong>No Warranty:</strong> The creators make no warranties about the accuracy, completeness, or reliability of the information presented. This tool is designed for educational awareness, not as an authoritative historical source.</p>
 
-            <p><strong>Consult Experts:</strong> For authoritative information, please consult academic historians, government archives, peer-reviewed publications, and established human rights organizations.</p>
+            <p><strong>Genocide Recognition:</strong> While the term "genocide" was not legally defined until 1948, many scholars argue that British colonial policies in India meet the definition of genocide through deliberate acts causing mass death and destruction of a population.</p>
+
+            <p><strong>Consult Experts:</strong> For authoritative information, please consult academic historians specializing in colonial studies, peer-reviewed publications, and established research institutions.</p>
         </div>
     </div>
 
@@ -985,86 +1010,96 @@
             themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
         }
 
-        // Timeline visualization
+        // Treemap visualization
         let rawData = [];
         let filteredData = [];
-        let svg, tooltip;
+        let tooltip;
 
         // Load and initialize
         async function loadData() {
             try {
-                const response = await fetch('british.json');
+                const response = await fetch('british_india.json');
                 if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-
+                
                 const data = await response.json();
                 rawData = data.events.map(event => ({
                     ...event,
                     startYear: parseYear(event.years.split('-')[0]),
                     endYear: parseYear(event.years.split('-')[1] || event.years.split('-')[0]),
-                    type: categorizeEvent(event)
+                    type: categorizeEvent(event),
+                    deathTollNumber: parseDeathToll(event.death_toll),
+                    century: getCentury(parseYear(event.years.split('-')[0]))
                 }));
 
                 filteredData = [...rawData];
                 initializeVisualization();
                 updateStats();
-
+                
             } catch (error) {
                 console.error('Error loading data:', error);
-                showError('Failed to load timeline data: ' + error.message);
+                showError('Failed to load treemap data: ' + error.message);
             }
         }
 
         function parseYear(yearStr) {
             if (!yearStr) return new Date().getFullYear();
-            if (yearStr.includes('present')) return new Date().getFullYear();
             return parseInt(yearStr.trim()) || new Date().getFullYear();
+        }
+
+        function parseDeathToll(deathTollStr) {
+            if (!deathTollStr || deathTollStr.includes('Unknown')) return 0;
+            
+            // Extract numbers and convert to actual values
+            const str = deathTollStr.toLowerCase();
+            let multiplier = 1;
+            
+            if (str.includes('million')) multiplier = 1000000;
+            else if (str.includes('thousand')) multiplier = 1000;
+            
+            // Extract the first number (or range average)
+            const numbers = str.match(/(\d+(?:\.\d+)?)/g);
+            if (!numbers) return 0;
+            
+            if (numbers.length > 1) {
+                // Take average of range
+                const min = parseFloat(numbers[0]);
+                const max = parseFloat(numbers[1]);
+                return ((min + max) / 2) * multiplier;
+            } else {
+                return parseFloat(numbers[0]) * multiplier;
+            }
+        }
+
+        function getCentury(year) {
+            if (year < 1800) return '18th';
+            if (year < 1900) return '19th';
+            return '20th';
         }
 
         function categorizeEvent(event) {
             const name = event.name.toLowerCase();
             const desc = event.description.toLowerCase();
-
-            if (name.includes('covert') || desc.includes('covert') || desc.includes('secret')) return 'covert';
-            if (name.includes('cover') || desc.includes('cover-up') || name.includes('legacy')) return 'coverup';
-            if (event.years.includes('present') || event.startYear >= 2020) return 'current';
-            if (desc.includes('colonial') || name.includes('chagos') || name.includes('aden')) return 'colonial';
-            return 'military';
+            
+            if (name.includes('famine')) return 'famine';
+            if (name.includes('massacre') || name.includes('jallianwala')) return 'massacre';
+            if (name.includes('partition')) return 'partition';
+            if (name.includes('labor') || name.includes('indentured')) return 'labor';
+            if (name.includes('revolt') || name.includes('suppression')) return 'revolt';
+            if (name.includes('excess deaths') || name.includes('policies') || name.includes('criminal tribes')) return 'policy';
+            
+            return 'famine'; // Default for most events
         }
 
-        function calculateImpactScore(event) {
-            let score = 100; // Base score
-            
-            // Increase score based on event type severity
-            const typeMultipliers = {
-                'current': 10,     // Ongoing atrocities get highest priority
-                'coverup': 8,      // Cover-ups are systematic
-                'colonial': 7,     // Colonial crimes were massive
-                'military': 6,     // Direct military violence
-                'covert': 5        // Secret operations
+        function getEventColor(type) {
+            const colors = {
+                famine: 'var(--color-famine)',
+                massacre: 'var(--color-massacre)',
+                policy: 'var(--color-policy)',
+                revolt: 'var(--color-revolt)',
+                partition: 'var(--color-partition)',
+                labor: 'var(--color-labor)'
             };
-            
-            score *= (typeMultipliers[event.type] || 5);
-            
-            // Increase score for ongoing events
-            if (event.years.includes('present')) {
-                score *= 3;
-            }
-            
-            // Increase score for systematic/large-scale events
-            const name = event.name.toLowerCase();
-            if (name.includes('operation legacy')) score *= 5; // Massive cover-up
-            if (name.includes('chagos')) score *= 4; // Ethnic cleansing
-            if (name.includes('gaza') || name.includes('yemen')) score *= 4; // Current complicity
-            if (name.includes('excess deaths') || name.includes('colonial policies')) score *= 6; // Systematic
-            if (name.includes('biafra')) score *= 3; // Millions died
-            if (name.includes('bloody sunday')) score *= 2; // Iconic massacre
-            
-            // Duration factor
-            const duration = event.endYear - event.startYear;
-            if (duration > 10) score *= 2;
-            if (duration > 20) score *= 1.5;
-            
-            return Math.max(score, 1000); // Minimum size for visibility
+            return colors[type] || colors.famine;
         }
 
         function initializeVisualization() {
@@ -1085,12 +1120,12 @@
                 .attr('class', 'tooltip')
                 .style('opacity', 0);
 
-            // Prepare data for treemap with impact scores
+            // Prepare data for treemap
             const treemapData = {
-                name: 'British Modern Atrocities',
+                name: 'British India Genocide',
                 children: filteredData.map(event => ({
                     ...event,
-                    value: calculateImpactScore(event)
+                    value: Math.max(event.deathTollNumber, 10000) // Minimum size for visibility
                 }))
             };
 
@@ -1134,9 +1169,7 @@
                     displayText = d.data.name.split(' ').slice(0, 2).join(' ');
                 } else if (area > 20000) {
                     node.classList.add('node-large');
-                    if (d.data.years.includes('present')) {
-                        displayText += '\n(Ongoing)';
-                    }
+                    displayText += `\n${formatDeathToll(d.data.deathTollNumber)}`;
                 }
                 
                 node.textContent = displayText;
@@ -1150,15 +1183,13 @@
             });
         }
 
-        function getEventColor(type) {
-            const colors = {
-                colonial: '#8b4513',
-                military: '#dc143c', 
-                covert: '#4b0082',
-                coverup: '#ff8c00',
-                current: '#ff0000'
-            };
-            return colors[type] || colors.military;
+        function formatDeathToll(number) {
+            if (number >= 1000000) {
+                return (number / 1000000).toFixed(1) + 'M';
+            } else if (number >= 1000) {
+                return (number / 1000).toFixed(0) + 'K';
+            }
+            return number.toString();
         }
 
         function handleMouseOver(event, d) {
@@ -1166,21 +1197,22 @@
                 .duration(200)
                 .style('opacity', 1);
 
-            const sources = d.sources.map(source =>
+            const sources = d.sources.map(source => 
                 `<a href="${source}" target="_blank" rel="noopener">${new URL(source).hostname}</a>`
             ).join(', ');
 
             tooltip.html(`
                 <div class="tooltip-title">${d.name}</div>
                 <div class="tooltip-years">${d.years}</div>
+                <div class="tooltip-deaths">💀 Death Toll: ${d.death_toll}</div>
                 <div class="tooltip-description">${d.description.length > 150 ? d.description.substring(0, 150) + '...' : d.description}</div>
                 <div class="tooltip-sources"><strong>Sources:</strong> ${sources}</div>
                 <div style="margin-top: 8px; color: var(--primary-color); font-weight: 500;">
                     <strong>🖱️ Click for detailed information</strong>
                 </div>
             `)
-                .style('left', (event.pageX + 10) + 'px')
-                .style('top', (event.pageY - 10) + 'px');
+            .style('left', (event.pageX + 10) + 'px')
+            .style('top', (event.pageY - 10) + 'px');
         }
 
         function handleMouseOut() {
@@ -1197,37 +1229,44 @@
         function updateStats() {
             document.getElementById('totalEvents').textContent = rawData.length;
             document.getElementById('filteredEvents').textContent = filteredData.length;
-
+            
             const minYear = Math.min(...rawData.map(d => d.startYear));
             const maxYear = Math.max(...rawData.map(d => d.endYear));
             document.getElementById('timeSpan').textContent = maxYear - minYear;
-
-            const ongoing = rawData.filter(d => d.years.includes('present')).length;
-            document.getElementById('ongoingEvents').textContent = ongoing;
+            
+            const totalDeaths = rawData.reduce((sum, event) => sum + event.deathTollNumber, 0);
+            document.getElementById('totalDeaths').textContent = formatDeathToll(totalDeaths);
         }
 
         function filterData() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const periodFilter = document.getElementById('periodFilter').value;
             const typeFilter = document.getElementById('typeFilter').value;
+            const scaleFilter = document.getElementById('scaleFilter').value;
 
             filteredData = rawData.filter(event => {
                 // Search filter
-                const matchesSearch = !searchTerm ||
+                const matchesSearch = !searchTerm || 
                     event.name.toLowerCase().includes(searchTerm) ||
-                    event.description.toLowerCase().includes(searchTerm);
+                    event.description.toLowerCase().includes(searchTerm) ||
+                    event.death_toll.toLowerCase().includes(searchTerm);
 
                 // Period filter
-                let matchesPeriod = true;
-                if (periodFilter !== 'all') {
-                    const decade = parseInt(periodFilter.substring(0, 4));
-                    matchesPeriod = event.startYear >= decade && event.startYear < decade + 10;
-                }
+                const matchesPeriod = periodFilter === 'all' || event.century === periodFilter;
 
                 // Type filter
                 const matchesType = typeFilter === 'all' || event.type === typeFilter;
 
-                return matchesSearch && matchesPeriod && matchesType;
+                // Scale filter
+                let matchesScale = true;
+                if (scaleFilter !== 'all') {
+                    const deaths = event.deathTollNumber;
+                    if (scaleFilter === 'massive') matchesScale = deaths >= 10000000;
+                    else if (scaleFilter === 'major') matchesScale = deaths >= 1000000 && deaths < 10000000;
+                    else if (scaleFilter === 'significant') matchesScale = deaths > 0 && deaths < 1000000;
+                }
+
+                return matchesSearch && matchesPeriod && matchesType && matchesScale;
             });
 
             initializeVisualization();
@@ -1235,7 +1274,7 @@
         }
 
         function showError(message) {
-            document.getElementById('timeline').innerHTML = `
+            document.getElementById('treemap').innerHTML = `
                 <div class="error">
                     <div class="error-icon">⚠️</div>
                     <div>${message}</div>
@@ -1247,6 +1286,7 @@
         document.getElementById('searchInput').addEventListener('input', filterData);
         document.getElementById('periodFilter').addEventListener('change', filterData);
         document.getElementById('typeFilter').addEventListener('change', filterData);
+        document.getElementById('scaleFilter').addEventListener('change', filterData);
 
         // Resize handler
         window.addEventListener('resize', () => {
@@ -1327,11 +1367,9 @@
 
             const metaItems = [];
             metaItems.push(`📅 Period: ${eventData.years}`);
+            metaItems.push(`💀 Death Toll: ${eventData.death_toll}`);
             metaItems.push(`🏷️ Type: ${formatEventType(eventData.type)}`);
-            metaItems.push(`🌍 Region: ${getEventRegion(eventData)}`);
-            if (eventData.years.includes('present')) {
-                metaItems.push(`⚠️ Status: Ongoing`);
-            }
+            metaItems.push(`🌍 Region: British India`);
 
             metaItems.forEach(item => {
                 metadata.append("div")
@@ -1347,7 +1385,7 @@
                     .style("margin", "20px 0 12px 0")
                     .style("font-size", "1.2rem")
                     .style("color", "var(--primary-color)")
-                    .text("Details");
+                    .text("Historical Context");
 
                 modalContent.append("div")
                     .style("line-height", "1.6")
@@ -1356,15 +1394,23 @@
                     .text(eventData.description);
             }
 
-            // Current relevance for ongoing events
-            if (eventData.years.includes('present')) {
+            // Impact assessment for major events
+            if (eventData.deathTollNumber >= 1000000) {
                 modalContent.append("h3")
                     .style("margin", "20px 0 12px 0")
                     .style("font-size", "1.2rem")
                     .style("color", "var(--error-color)")
-                    .text("Current Relevance");
+                    .text("Scale of Atrocity");
 
-                let relevanceText = getCurrentRelevance(eventData);
+                let impactText = "";
+                if (eventData.deathTollNumber >= 10000000) {
+                    impactText = "This represents one of the largest genocidal events in human history, with death tolls comparable to the Holocaust. The scale of suffering inflicted by British colonial policies was systematic and devastating.";
+                } else if (eventData.deathTollNumber >= 5000000) {
+                    impactText = "This massive loss of life represents a genocidal-scale atrocity. The British colonial administration's policies directly contributed to mass death through deliberate neglect and exploitation.";
+                } else {
+                    impactText = "This represents a major humanitarian catastrophe caused by British colonial policies. The death toll reflects the systematic nature of colonial exploitation and neglect.";
+                }
+
                 modalContent.append("div")
                     .style("line-height", "1.6")
                     .style("margin-bottom", "20px")
@@ -1373,17 +1419,17 @@
                     .style("background", "rgba(220, 53, 69, 0.1)")
                     .style("border-radius", "6px")
                     .style("border-left", "4px solid var(--error-color)")
-                    .text(relevanceText);
+                    .text(impactText);
             }
 
-            // Historical context
+            // Historical significance
             modalContent.append("h3")
                 .style("margin", "20px 0 12px 0")
                 .style("font-size", "1.2rem")
                 .style("color", "var(--primary-color)")
-                .text("Historical Context");
+                .text("Historical Significance");
 
-            let contextText = getHistoricalContext(eventData);
+            let significanceText = getHistoricalSignificance(eventData);
             modalContent.append("div")
                 .style("line-height", "1.6")
                 .style("margin-bottom", "20px")
@@ -1391,7 +1437,7 @@
                 .style("padding", "12px")
                 .style("background", "var(--surface-variant)")
                 .style("border-radius", "6px")
-                .text(contextText);
+                .text(significanceText);
 
             // Sources section
             if (eventData.sources && eventData.sources.length > 0) {
@@ -1456,7 +1502,7 @@
                 .text("Educational Purpose: ");
 
             disclaimer.append("span")
-                .text("This information is presented for historical education and awareness. All information is sourced from credible historical records, government documents, and investigative journalism. The goal is to promote understanding of British atrocities and accountability.");
+                .text("This information is presented for historical education and awareness. All death toll estimates are from academic sources and historical research. The goal is to promote understanding of colonial atrocities and their lasting impact.");
 
             // Animate modal in
             modal.transition()
@@ -1484,66 +1530,33 @@
 
         function formatEventType(type) {
             const typeNames = {
-                colonial: 'Colonial Crime',
-                military: 'Military Operation',
-                covert: 'Covert Operation',
-                coverup: 'Cover-up',
-                current: 'Current Complicity'
+                famine: 'Colonial Famine',
+                massacre: 'Massacre',
+                policy: 'Colonial Policy',
+                revolt: 'Revolt Suppression',
+                partition: 'Partition Violence',
+                labor: 'Forced Labor System'
             };
             return typeNames[type] || type.charAt(0).toUpperCase() + type.slice(1);
         }
 
-        function getEventRegion(eventData) {
-            const name = eventData.name.toLowerCase();
-            if (name.includes('chagos')) return 'Indian Ocean (Chagos Islands)';
-            if (name.includes('aden') || name.includes('yemen')) return 'Middle East (Yemen)';
-            if (name.includes('northern ireland') || name.includes('bloody sunday')) return 'Northern Ireland';
-            if (name.includes('biafra') || name.includes('nigeria')) return 'West Africa (Nigeria)';
-            if (name.includes('vietnam')) return 'Southeast Asia (Vietnam)';
-            if (name.includes('iraq')) return 'Middle East (Iraq)';
-            if (name.includes('afghanistan')) return 'Central Asia (Afghanistan)';
-            if (name.includes('libya')) return 'North Africa (Libya)';
-            if (name.includes('syria')) return 'Middle East (Syria)';
-            if (name.includes('somalia')) return 'East Africa (Somalia)';
-            if (name.includes('pakistan')) return 'South Asia (Pakistan)';
-            if (name.includes('gaza') || name.includes('israel')) return 'Middle East (Palestine/Israel)';
-            if (name.includes('sudan')) return 'Northeast Africa (Sudan)';
-            return 'Various Regions';
-        }
-
-        function getCurrentRelevance(eventData) {
+        function getHistoricalSignificance(eventData) {
             const name = eventData.name.toLowerCase();
             
-            if (name.includes('gaza') || name.includes('israel')) {
-                return "The UK continues to provide military support, arms exports, and political backing to Israel despite widespread evidence of war crimes in Gaza. This includes continued arms sales, intelligence sharing, and diplomatic protection, making the UK complicit in ongoing atrocities against Palestinian civilians.";
-            } else if (name.includes('yemen')) {
-                return "The UK continues to support the Saudi-led coalition in Yemen through arms sales, military training, and intelligence support. Despite a humanitarian crisis that has killed hundreds of thousands, British weapons and support continue to enable the conflict.";
-            } else if (name.includes('syria')) {
-                return "British covert operations in Syria continue as part of ongoing efforts to influence the conflict. This includes support for various rebel groups and continued military presence in the region.";
-            } else if (name.includes('somalia')) {
-                return "British special forces continue operations in Somalia as part of counter-terrorism efforts, often with limited oversight or public accountability for civilian casualties.";
+            if (name.includes('excess deaths') || name.includes('colonial policies')) {
+                return "This represents the systematic nature of British colonial exploitation in India. Modern research suggests that British economic policies, including deindustrialization, resource extraction, and taxation, created conditions of chronic malnutrition and vulnerability that led to massive excess mortality over decades.";
+            } else if (name.includes('bengal famine') && eventData.years === '1943') {
+                return "The 1943 Bengal Famine is considered a man-made disaster caused by British wartime policies. Despite no major crop failure, Churchill's government continued food exports from Bengal while denying relief, leading to 3 million deaths. This event exemplifies how colonial priorities superseded Indian lives.";
+            } else if (name.includes('jallianwala')) {
+                return "The Jallianwala Bagh Massacre marked a turning point in Indian independence movement. General Dyer's order to fire on unarmed civilians, including women and children, in an enclosed space with no escape routes, demonstrated the brutal nature of colonial rule and galvanized resistance.";
+            } else if (name.includes('partition')) {
+                return "The hasty partition of India in 1947 was poorly planned by the British, leading to massive communal violence and displacement. The arbitrary drawing of borders and inadequate preparation for population transfers resulted in one of the largest refugee crises in history.";
+            } else if (name.includes('famine')) {
+                return "Colonial famines in India were often exacerbated by British policies that prioritized cash crops for export, imposed heavy taxation, and failed to provide adequate relief. These famines were not just natural disasters but reflected the extractive nature of colonial rule.";
+            } else if (name.includes('revolt') || name.includes('suppression')) {
+                return "The brutal suppression of Indian resistance movements demonstrated the violent foundation of British colonial rule. Mass executions, village burnings, and collective punishment were used to maintain control and deter future uprisings.";
             } else {
-                return "This represents ongoing British involvement in international conflicts and interventions that continue to impact civilian populations worldwide.";
-            }
-        }
-
-        function getHistoricalContext(eventData) {
-            const name = eventData.name.toLowerCase();
-            
-            if (name.includes('chagos')) {
-                return "The forced displacement of the Chagossians represents a clear case of ethnic cleansing carried out to facilitate US military interests. Despite international court rulings declaring the occupation illegal, the UK continues to deny the Chagossians their right to return to their homeland.";
-            } else if (name.includes('operation legacy')) {
-                return "Operation Legacy was a systematic effort to destroy or hide evidence of British colonial crimes across 37 countries. This massive cover-up operation demonstrates the extent of British atrocities and the deliberate effort to hide them from history and accountability.";
-            } else if (name.includes('bloody sunday')) {
-                return "Bloody Sunday marked a turning point in the Northern Ireland conflict. The Saville Inquiry eventually found the killings unjustified, but it took decades for this acknowledgment, demonstrating the British state's initial attempts to cover up the massacre.";
-            } else if (name.includes('aden')) {
-                return "The Aden Emergency involved systematic torture and abuse by British forces. Secret files revealed decades later showed deliberate cover-ups of atrocities, part of the broader pattern of British colonial violence and subsequent denial.";
-            } else if (name.includes('biafra')) {
-                return "Britain's support for Nigeria during the Biafran War was driven primarily by oil interests. Despite knowledge of the humanitarian crisis, the Wilson government continued arms supplies, contributing to a famine that killed millions.";
-            } else if (name.includes('iraq')) {
-                return "British involvement in Iraq led to numerous war crimes allegations. The Iraq Historic Allegations Team (IHAT) was closed without prosecutions, leading to accusations of cover-ups and lack of accountability for military crimes.";
-            } else {
-                return "This event represents part of the broader pattern of British military interventions and atrocities that have characterized British foreign policy from the colonial era to the present day.";
+                return "This event represents part of the broader pattern of British colonial exploitation and violence in India. The systematic nature of these atrocities reflects how colonial rule was maintained through economic exploitation, political oppression, and when necessary, direct violence.";
             }
         }
 
@@ -1553,13 +1566,12 @@
                 const domainNames = {
                     'en.wikipedia.org': 'Wikipedia',
                     'www.aljazeera.com': 'Al Jazeera',
-                    'theconversation.com': 'The Conversation',
-                    'warontherocks.com': 'War on the Rocks',
-                    'hansard.parliament.uk': 'UK Parliament',
-                    'newsroom.carleton.ca': 'Carleton University',
-                    'www.theguardian.com': 'The Guardian',
-                    'www.hrw.org': 'Human Rights Watch',
-                    'www.map.org.uk': 'Medical Aid for Palestinians'
+                    'geopoliticaleconomy.com': 'Geopolitical Economy',
+                    'www.bbc.com': 'BBC News',
+                    'pmc.ncbi.nlm.nih.gov': 'PubMed Central',
+                    'stophindudvesha.org': 'Stop Hindu Dvesha',
+                    'www.jasonhickel.org': 'Jason Hickel Blog',
+                    'www.quora.com': 'Quora Discussion'
                 };
                 return domainNames[domain] || domain;
             } catch (e) {
@@ -1584,5 +1596,4 @@
         loadData();
     </script>
 </body>
-
 </html>

@@ -1,0 +1,199 @@
+{
+    "events": [
+    {
+    "name": "Bengal Famine",
+    "years": "1769-1770",
+    "description": "The first major famine under British East India Company rule, exacerbated by high taxation, hoarding, and export policies during a drought, leading to mass starvation and disease.",
+    "death_toll": "7-10 million",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Timeline_of_major_famines_in_India_during_British_rule",
+    "https://www.aljazeera.com/opinions/2022/12/2/how-british-colonial-policy-killed-100-million-indians"
+    ]
+    },
+    {
+    "name": "Madras Famine",
+    "years": "1782-1783",
+    "description": "Famine in the Madras Presidency caused by drought and British policies favoring cash crops and exports, resulting in widespread starvation.",
+    "death_toll": "Unknown, but significant",
+    "sources": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9735018/"
+    ]
+    },
+    {
+    "name": "Chalisa Famine",
+    "years": "1783-1784",
+    "description": "Severe famine in northern India due to drought, affecting Delhi and surrounding areas, worsened by colonial exploitation.",
+    "death_toll": "11 million",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Timeline_of_major_famines_in_India_during_British_rule",
+    "https://en.wikipedia.org/wiki/Famine_in_India"
+    ]
+    },
+    {
+    "name": "Doji Bara (Skull) Famine",
+    "years": "1791-1792",
+    "description": "Famine in Hyderabad and southern Maratha regions, named for unburied skulls, caused by drought and war, with British indirect involvement through alliances.",
+    "death_toll": "11 million",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Timeline_of_major_famines_in_India_during_British_rule",
+    "https://en.wikipedia.org/wiki/Famine_in_India"
+    ]
+    },
+    {
+    "name": "Agra Famine",
+    "years": "1837-1838",
+    "description": "Famine in northwestern provinces due to drought, with inadequate relief from British authorities.",
+    "death_toll": "800,000",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Timeline_of_major_famines_in_India_during_British_rule"
+    ]
+    },
+    {
+    "name": "Upper Doab Famine",
+    "years": "1860-1861",
+    "description": "Famine in the Upper Doab region of North-Western Provinces, exacerbated by British land revenue demands.",
+    "death_toll": "2 million",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Famine_in_India"
+    ]
+    },
+    {
+    "name": "Orissa Famine",
+    "years": "1866",
+    "description": "Famine in Orissa due to drought and failed monsoons, with British laissez-faire policies delaying relief, leading to high mortality.",
+    "death_toll": "1 million",
+    "sources": [
+    "https://www.bbc.com/news/world-asia-india-36339524",
+    "https://en.wikipedia.org/wiki/Famine_in_India"
+    ]
+    },
+    {
+    "name": "Rajputana Famine",
+    "years": "1869",
+    "description": "Famine in Rajputana and Ajmer-Merwara, caused by drought and inadequate infrastructure.",
+    "death_toll": "1.5 million",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Famine_in_India"
+    ]
+    },
+    {
+    "name": "Bihar Famine",
+    "years": "1873-1874",
+    "description": "Famine in Bihar mitigated somewhat by British relief efforts, but still caused distress due to crop failure.",
+    "death_toll": "Minimal direct deaths due to relief",
+    "sources": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9735018/"
+    ]
+    },
+    {
+    "name": "Great Famine (Southern India Famine)",
+    "years": "1876-1878",
+    "description": "Widespread famine across southern India, worsened by British export policies and inadequate relief, leading to mass migration and deaths.",
+    "death_toll": "5.5-10.3 million",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Timeline_of_major_famines_in_India_during_British_rule",
+    "https://en.wikipedia.org/wiki/Famine_in_India",
+    "https://stophindudvesha.org/britains-biological-warfare-how-colonial-famines-made-india-the-worlds-diabetes-capital/"
+    ]
+    },
+    {
+    "name": "Indian Famine",
+    "years": "1896-1897",
+    "description": "Famine affecting large parts of India due to drought, with British relief criticized as insufficient.",
+    "death_toll": "5 million",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Famine_in_India",
+    "https://en.wikipedia.org/wiki/Timeline_of_major_famines_in_India_during_British_rule"
+    ]
+    },
+    {
+    "name": "Indian Famine",
+    "years": "1899-1900",
+    "description": "Another severe famine shortly after the previous, affecting Bombay Presidency and other areas, with high mortality.",
+    "death_toll": "1-4.5 million",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Famine_in_India",
+    "https://en.wikipedia.org/wiki/Timeline_of_major_famines_in_India_during_British_rule"
+    ]
+    },
+    {
+    "name": "Bombay Presidency Famine",
+    "years": "1905-1906",
+    "description": "Famine in Bombay Presidency due to crop failure.",
+    "death_toll": "Unknown",
+    "sources": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9735018/"
+    ]
+    },
+    {
+    "name": "Excess Deaths from Colonial Policies",
+    "years": "1880-1920",
+    "description": "Broad period of elevated mortality due to British economic policies, deindustrialization, and resource drain, leading to chronic malnutrition and vulnerability to crises.",
+    "death_toll": "50-165 million",
+    "sources": [
+    "https://geopoliticaleconomy.com/2022/12/12/britain-100-million-india-deaths-colonialism/",
+    "https://www.aljazeera.com/opinions/2022/12/2/how-british-colonial-policy-killed-100-million-indians",
+    "https://www.jasonhickel.org/blog/2023/1/7/on-the-mortality-crises-in-india-under-british-rule-a-response-to-tirthankar-roy"
+    ]
+    },
+    {
+    "name": "Suppression of the Indian Revolt",
+    "years": "1857-1858",
+    "description": "Brutal suppression of the Indian Rebellion of 1857, involving mass executions, village burnings, and reprisals against civilians.",
+    "death_toll": "Hundreds of thousands",
+    "sources": [
+    "https://www.quora.com/What-are-the-most-terrible-atrocities-committed-by-the-British-rulers-in-India"
+    ]
+    },
+    {
+    "name": "Jallianwala Bagh Massacre",
+    "years": "1919",
+    "description": "British troops under General Dyer fired on unarmed protesters in Amritsar, killing hundreds and injuring thousands.",
+    "death_toll": "379-1,500",
+    "sources": [
+    "https://stophindudvesha.org/british-rajs-heinous-crimes-in-india-case-for-reparation/",
+    "https://www.quora.com/What-are-the-most-terrible-atrocities-committed-by-the-British-rulers-in-India"
+    ]
+    },
+    {
+    "name": "Bengal Famine",
+    "years": "1943",
+    "description": "Man-made famine during WWII, caused by British wartime policies, food exports, and hoarding, leading to mass starvation despite no major crop failure.",
+    "death_toll": "3 million",
+    "sources": [
+    "https://geopoliticaleconomy.com/2022/12/12/britain-100-million-india-deaths-colonialism/",
+    "https://stophindudvesha.org/british-rajs-heinous-crimes-in-india-case-for-reparation/",
+    "https://en.wikipedia.org/wiki/Famine_in_India",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9735018/",
+    "https://www.bbc.com/news/world-asia-india-36339524"
+    ]
+    },
+    {
+    "name": "Indentured Labor System",
+    "years": "1834-1917",
+    "description": "System of coerced labor exporting millions of Indians to British colonies, with high mortality during transport and on plantations, often compared to slavery.",
+    "death_toll": "200,000-500,000 direct deaths",
+    "sources": [
+    "https://en.wikipedia.org/wiki/Famine_in_India"
+    ]
+    },
+    {
+    "name": "Partition of India",
+    "years": "1947",
+    "description": "Hasty British division of India leading to communal violence, mass migrations, and killings.",
+    "death_toll": "1-2 million",
+    "sources": [
+    "https://www.reddit.com/r/HistoryMemes/comments/q8wo9j/ah_yes_the_good_ol_britain/"
+    ]
+    },
+    {
+    "name": "Criminal Tribes Act",
+    "years": "1871-1947",
+    "description": "Law declaring certain tribes 'criminal by birth,' leading to persecution, forced labor, and internment.",
+    "death_toll": "Unknown, but significant suffering",
+    "sources": [
+    "https://stophindudvesha.org/british-rajs-heinous-crimes-in-india-case-for-reparation/"
+    ]
+    }
+    ]
+    }
