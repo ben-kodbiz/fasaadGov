@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Complicity Flow - Enhanced v02</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="src/styles/responsive.css">
+    <link rel="stylesheet" href="src/styles/accessibility.css">
+    <link rel="stylesheet" href="src/styles/search-filter.css">
+    <link rel="stylesheet" href="src/styles/language-switcher.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #1565c0;
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .export-section {
+            display: inline-block;
+            margin-left: 20px;
+        }
+        .export-panel {
+            display: inline-flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .export-btn {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+        .visualization {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .error {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #c62828;
+        }
+        .success {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #2e7d32;
+        }
+        .info-panel {
+            background: #f5f5f5;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .info-panel h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976d2;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .btn {
+                display: block;
+                margin: 5px 0;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        /* Accessibility improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Focus styles for keyboard navigation */
+        .btn:focus,
+        svg .node:focus {
+            outline: 2px solid #1976d2;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div>
+                <h1 data-i18n="app.title">💰 Corporate Complicity Flow</h1>
+                <p data-i18n="app.subtitle">Money trail from funding sources to operations</p>
+            </div>
+            <div id="language-switcher-container"></div>
+        </div>
+        <div class="sr-only" id="visualization-description" data-i18n="accessibility.visualization_description">
+            Interactive flow diagram showing financial connections between funding sources, 
+            corporate intermediaries, and military operations. Use tab to navigate between 
+            nodes and enter to view details.
+        </div>
+    </div>
+    
+    <div class="controls">
+        <a href="index.html" class="btn" data-i18n="navigation.back_to_network">← Back to Network</a>
+        <a href="../index.html" class="btn" data-i18n="navigation.back_to_hub">← Back to Hub</a>
+        <button id="reload-btn" class="btn" data-i18n="navigation.reload_data">🔄 Reload Data</button>
+        <div id="export-container" class="export-section">
+            <!-- Export buttons will be inserted here -->
+        </div>
+    </div>
+    
+    <div id="status-message"></div>
+    
+    <!-- Search and Filter Panel -->
+    <div id="search-filter-container" style="display: none;">
+        <!-- Search and filter UI will be inserted here -->
+    </div>
+    
+    <div class="visualization">
+        <div class="loading" id="loading" data-i18n="status.loading">
+            Loading visualization...
+        </div>
+        <div id="chart" style="display: none;"></div>
+    </div>
+    
+    <div class="info-panel">
+        <h3 data-i18n="info_panel.title">Visualization Information</h3>
+        <div class="stats" id="stats">
+            <div class="stat">
+                <div class="stat-value" id="sources-count">-</div>
+                <div class="stat-label" data-i18n="statistics.sources">Sources</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="companies-count">-</div>
+                <div class="stat-label" data-i18n="statistics.companies">Companies</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="targets-count">-</div>
+                <div class="stat-label" data-i18n="statistics.targets">Targets</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="flows-count">-</div>
+                <div class="stat-label" data-i18n="statistics.flows">Flows</div>
+            </div>
+        </div>
+        <div id="data-info">
+            <p><strong data-i18n="info_panel.data_format">Data Format:</strong> <span id="data-format">Unknown</span></p>
+            <p><strong data-i18n="info_panel.last_updated">Last Updated:</strong> <span id="last-updated">Unknown</span></p>
+            <p><strong data-i18n="info_panel.version">Version:</strong> <span data-i18n="info_panel.enhanced_architecture">v02 Enhanced with modular architecture</span></p>
+        </div>
+    </div>
+
+    <!-- Load modules -->
+    <script type="module">
+        import { SankeyRenderer } from './src/core/sankeyRenderer.js';
+        import { DataLoader } from './src/core/dataLoader.js';
+        import { DataValidator } from './src/utils/validator.js';
+        import { ExportSystem } from './src/ui/exportButtons.js';
+        import { SearchFilter } from './src/ui/searchFilter.js';
+        import { AccessibilityManager } from './src/utils/accessibility.js';
+        import { LanguageSwitcher } from './src/ui/languageSwitcher.js';
+
+        // Application state
+        let renderer = null;
+        let dataLoader = null;
+        let currentData = null;
+        let exportSystem = null;
+        let searchFilter = null;
+        let accessibilityManager = null;
+        let languageSwitcher = null;
+
+        // DOM elements
+        const loadingEl = document.getElementById('loading');
+        const chartEl = document.getElementById('chart');
+        const statusEl = document.getElementById('status-message');
+        const reloadBtn = document.getElementById('reload-btn');
+        const searchFilterContainer = document.getElementById('search-filter-container');
+
+        // Default data (same as original for backward compatibility)
+        /**
+         * Initialize internationalization
+         */
+        async function initializeI18n() {
+            try {
+                languageSwitcher = new LanguageSwitcher({
+                    defaultLanguage: 'en',
+                    supportedLanguages: ['en', 'ms'],
+                    storageKey: 'fasaad_language',
+                    autoDetect: true
+                });
+
+                await languageSwitcher.initialize();
+                
+                // Initialize UI
+                languageSwitcher.initializeUI('#language-switcher-container');
+                
+                // Add language change listener
+                languageSwitcher.onLanguageChange((newLang, prevLang) => {
+                    console.log(`Language changed from ${prevLang} to ${newLang}`);
+                    languageSwitcher.updateDOM();
+                    
+                    // Update reload button text
+                    const reloadBtn = document.getElementById('reload-btn');
+                    if (reloadBtn && !reloadBtn.disabled) {
+                        reloadBtn.textContent = languageSwitcher.t('navigation.reload_data');
+                    }
+                    
+                    // Show success message
+                    const message = languageSwitcher.t('language.language_changed', { 
+                        language: languageSwitcher.getLanguageName(newLang) 
+                    });
+                    showStatus(message, 'success');
+                });
+
+                // Initial DOM update
+                languageSwitcher.updateDOM();
+                
+                // Make available globally
+                window.languageSwitcher = languageSwitcher;
+                
+                console.log('Internationalization initialized successfully');
+                
+            } catch (error) {
+                console.error('Failed to initialize i18n:', error);
+                // Continue without i18n if it fails
+            }
+        }
+
+        /**
+         * Get translated text (with fallback)
+         */
+        function t(key, params = {}) {
+            return languageSwitcher ? languageSwitcher.t(key, params) : key;
+        }
+
+        const defaultData = {
+            sources: [
+                {id: 'us-aid', name: 'US Military Aid', value: 38, color: '#2e7d32'},
+                {id: 'profits', name: 'Corporate Profits', value: 25, color: '#d32f2f'},
+                {id: 'investment', name: 'Private Investment', value: 15, color: '#1565c0'}
+            ],
+            companies: [
+                {id: 'military', name: 'Military & Defense', value: 35, color: '#d32f2f'},
+                {id: 'surveillance', name: 'Surveillance & Tech', value: 18, color: '#7b1fa2'},
+                {id: 'construction', name: 'Construction', value: 12, color: '#f57c00'},
+                {id: 'finance', name: 'Finance', value: 8, color: '#1565c0'}
+            ],
+            targets: [
+                {id: 'operations', name: 'Military Operations', value: 40, color: '#d32f2f'},
+                {id: 'surveillance-sys', name: 'Surveillance Systems', value: 18, color: '#7b1fa2'},
+                {id: 'destruction', name: 'Infrastructure Destruction', value: 10, color: '#f57c00'},
+                {id: 'settlements', name: 'Settlement Expansion', value: 5, color: '#1565c0'}
+            ],
+            flows: [
+                {from: 'us-aid', to: 'military', value: 20},
+                {from: 'us-aid', to: 'surveillance', value: 10},
+                {from: 'us-aid', to: 'construction', value: 8},
+                {from: 'profits', to: 'military', value: 15},
+                {from: 'profits', to: 'surveillance', value: 8},
+                {from: 'investment', to: 'finance', value: 8},
+                {from: 'investment', to: 'construction', value: 4},
+                {from: 'military', to: 'operations', value: 35},
+                {from: 'surveillance', to: 'surveillance-sys', value: 15},
+                {from: 'surveillance', to: 'operations', value: 3},
+                {from: 'construction', to: 'destruction', value: 8},
+                {from: 'construction', to: 'settlements', value: 4},
+                {from: 'finance', to: 'settlements', value: 1},
+                {from: 'finance', to: 'operations', value: 2}
+            ]
+        };
+
+        /**
+         * Show status message
+         */
+        function showStatus(message, type = 'info') {
+            statusEl.innerHTML = `<div class="${type}">${message}</div>`;
+            setTimeout(() => {
+                statusEl.innerHTML = '';
+            }, 5000);
+        }
+
+        /**
+         * Update statistics display
+         */
+        function updateStats(data) {
+            document.getElementById('sources-count').textContent = data.sources?.length || 0;
+            document.getElementById('companies-count').textContent = data.companies?.length || 0;
+            document.getElementById('targets-count').textContent = data.targets?.length || 0;
+            document.getElementById('flows-count').textContent = data.flows?.length || 0;
+        }
+
+        /**
+         * Update data information
+         */
+        function updateDataInfo(loadResult) {
+            const formatEl = document.getElementById('data-format');
+            const updatedEl = document.getElementById('last-updated');
+
+            if (loadResult.format) {
+                formatEl.textContent = loadResult.enhanced ? 
+                    t('info_panel.legacy_enhanced', { version: loadResult.format.version }) : 
+                    `v${loadResult.format.version}`;
+            }
+
+            if (loadResult.data?.meta?.updated_at) {
+                const date = new Date(loadResult.data.meta.updated_at);
+                updatedEl.textContent = languageSwitcher ? 
+                    languageSwitcher.formatDate(date) : 
+                    date.toLocaleDateString();
+            } else {
+                const date = new Date();
+                updatedEl.textContent = languageSwitcher ? 
+                    languageSwitcher.formatDate(date) : 
+                    date.toLocaleDateString();
+            }
+        }
+
+        /**
+         * Initialize the visualization
+         */
+        async function initialize() {
+            try {
+                // Initialize language switcher first
+                await initializeI18n();
+                
+                showStatus(languageSwitcher ? languageSwitcher.t('status.loading') : 'Initializing visualization...', 'info');
+
+                // Create data loader
+                dataLoader = new DataLoader();
+
+                // Load default data
+                const loadResult = await dataLoader.loadData(defaultData);
+                
+                if (!loadResult.success) {
+                    throw new Error(loadResult.error);
+                }
+
+                currentData = loadResult.data;
+
+                // Create renderer
+                renderer = new SankeyRenderer('#chart', {
+                    width: 800,
+                    height: 500
+                });
+
+                // Set up event handlers
+                renderer.on('nodeClick', handleNodeClick);
+                renderer.on('nodeHover', handleNodeHover);
+                renderer.on('flowClick', handleFlowClick);
+
+                // Render visualization
+                renderer.render(currentData);
+
+                // Update UI
+                updateStats(currentData);
+                updateDataInfo(loadResult);
+
+                // Initialize export system
+                exportSystem = new ExportSystem(renderer, {
+                    defaultFilename: 'corporate-complicity-flow',
+                    t: t // Pass translation function
+                });
+                exportSystem.initialize('#export-container');
+
+                // Initialize search and filter system
+                searchFilter = new SearchFilter(renderer, {
+                    enableRealTimeSearch: true,
+                    searchDelay: 300,
+                    t: t // Pass translation function
+                });
+                searchFilter.initialize('#search-filter-container');
+                
+                // Set up search and filter callbacks
+                searchFilter.onSearchChange = handleSearchChange;
+                searchFilter.onFilterChange = handleFilterChange;
+                searchFilter.onResultsUpdate = handleResultsUpdate;
+
+                // Initialize accessibility manager
+                accessibilityManager = new AccessibilityManager(renderer, {
+                    enableKeyboardNavigation: true,
+                    enableScreenReader: true,
+                    announceChanges: true
+                });
+
+                // Show chart and search panel, hide loading
+                loadingEl.style.display = 'none';
+                chartEl.style.display = 'block';
+                searchFilterContainer.style.display = 'block';
+
+                showStatus(t('status.loaded_success') + ' ' + t('status.search_filter_ready'), 'success');
+
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                showStatus(t('status.initialization_failed', { error: error.message }), 'error');
+                loadingEl.innerHTML = `<div class="error">${t('status.initialization_failed', { error: error.message })}</div>`;
+            }
+        }
+
+        /**
+         * Handle node click events
+         */
+        function handleNodeClick(event, node) {
+            console.log('Node clicked:', node);
+            
+            // Future: Open metadata panel
+            showStatus(`Clicked on ${node.name} (${node.value}B)`, 'info');
+        }
+
+        /**
+         * Handle node hover events
+         */
+        function handleNodeHover(event, node) {
+            // Additional hover logic can be added here
+            console.log('Node hovered:', node.name);
+        }
+
+        /**
+         * Handle flow click events
+         */
+        function handleFlowClick(event, flowData) {
+            console.log('Flow clicked:', flowData);
+            
+            const { flow, fromNode, toNode } = flowData;
+            showStatus(`Flow: ${fromNode.name} → ${toNode.name} (${flow.value}B)`, 'info');
+        }
+
+        /**
+         * Handle search change events
+         */
+        function handleSearchChange(searchTerm, results) {
+            console.log('Search changed:', searchTerm, results);
+            
+            if (searchTerm && results.length > 0) {
+                showStatus(t('search.results_found', { 
+                    count: results.length, 
+                    plural: results.length !== 1 ? 's' : '', 
+                    term: searchTerm 
+                }), 'info');
+            } else if (searchTerm && results.length === 0) {
+                showStatus(t('search.no_results', { term: searchTerm }), 'info');
+            }
+        }
+
+        /**
+         * Handle filter change events
+         */
+        function handleFilterChange(activeFilters) {
+            console.log('Filters changed:', activeFilters);
+            
+            const filterCount = activeFilters.types.size + activeFilters.confidence.size + activeFilters.custom.size;
+            if (filterCount > 0) {
+                showStatus(t('filters.filters_applied', { 
+                    count: filterCount, 
+                    plural: filterCount !== 1 ? 's' : '' 
+                }), 'info');
+            }
+        }
+
+        /**
+         * Handle results update events
+         */
+        function handleResultsUpdate(filteredData, activeFilters) {
+            console.log('Results updated:', filteredData, activeFilters);
+            
+            // Update statistics with filtered data
+            updateStats(filteredData);
+            
+            // Update accessibility manager with new data
+            if (accessibilityManager) {
+                accessibilityManager.update();
+            }
+        }
+
+        /**
+         * Reload data and re-render
+         */
+        async function reloadData() {
+            try {
+                reloadBtn.disabled = true;
+                reloadBtn.textContent = t('status.loading');
+                
+                showStatus(t('status.loading'), 'info');
+
+                // Reload with current data
+                const loadResult = await dataLoader.reload();
+                
+                if (!loadResult.success) {
+                    throw new Error(loadResult.error);
+                }
+
+                currentData = loadResult.data;
+                
+                // Re-render
+                renderer.render(currentData);
+                updateStats(currentData);
+                updateDataInfo(loadResult);
+
+                // Update search filter with new data
+                if (searchFilter) {
+                    searchFilter.updateData(currentData);
+                }
+
+                // Update accessibility manager
+                if (accessibilityManager) {
+                    accessibilityManager.update();
+                }
+
+                showStatus(t('status.data_reloaded'), 'success');
+
+            } catch (error) {
+                console.error('Reload failed:', error);
+                showStatus(t('status.initialization_failed', { error: error.message }), 'error');
+            } finally {
+                reloadBtn.disabled = false;
+                reloadBtn.textContent = t('navigation.reload_data');
+            }
+        }
+
+        /**
+         * Handle window resize
+         */
+        function handleResize() {
+            if (renderer && currentData) {
+                const container = document.getElementById('chart');
+                const rect = container.getBoundingClientRect();
+                
+                // Maintain aspect ratio while fitting container
+                const maxWidth = Math.min(rect.width - 40, 800);
+                const maxHeight = Math.min(window.innerHeight * 0.6, 500);
+                
+                renderer.resize(maxWidth, maxHeight);
+            }
+        }
+
+        // Event listeners
+        reloadBtn.addEventListener('click', reloadData);
+        window.addEventListener('resize', handleResize);
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                // Future: Close any open panels
+                showStatus('', 'info'); // Clear status
+            }
+        });
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initialize);
+        } else {
+            initialize();
+        }
+
+        // Expose for debugging
+        window.fasaadApp = {
+            renderer,
+            dataLoader,
+            currentData,
+            exportSystem,
+            searchFilter,
+            accessibilityManager,
+            languageSwitcher,
+            reloadData,
+            handleResize,
+            t
+        };
+
+    </script>
+</body>
+</html>

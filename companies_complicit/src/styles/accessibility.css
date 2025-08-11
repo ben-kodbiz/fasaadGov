@@ -1,0 +1,598 @@
+/**
+ * Accessibility Styles for FasaadGov v02
+ * Comprehensive accessibility enhancements and WCAG compliance
+ */
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Screen reader only content that becomes visible on focus */
+.sr-only-focusable:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: inherit !important;
+  margin: inherit !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* Focus indicators */
+.focus-visible,
+*:focus-visible {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Remove default focus outline for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Enhanced focus for interactive elements */
+.btn:focus-visible,
+button:focus-visible {
+  outline: 3px solid #1976d2;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(25, 118, 210, 0.3);
+}
+
+/* SVG focus indicators */
+svg:focus-visible {
+  outline: 3px solid #1976d2;
+  outline-offset: 2px;
+}
+
+.node:focus-visible {
+  outline: 2px solid #1976d2;
+  outline-offset: 1px;
+}
+
+/* Focus indicator for visualization elements */
+.focus-indicator {
+  stroke: #1976d2 !important;
+  stroke-width: 3px !important;
+  stroke-dasharray: 5, 5 !important;
+  fill: none !important;
+  pointer-events: none !important;
+  animation: focus-pulse 2s infinite;
+}
+
+@keyframes focus-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .focus-indicator {
+    stroke: #ff0000 !important;
+    stroke-width: 4px !important;
+  }
+  
+  .btn:focus-visible,
+  button:focus-visible {
+    outline: 4px solid #000;
+    background: #ffff00;
+    color: #000;
+  }
+  
+  .flow-rect {
+    stroke: #000 !important;
+    stroke-width: 2px !important;
+  }
+  
+  .flow-line {
+    stroke: #000 !important;
+    stroke-width: 3px !important;
+  }
+  
+  /* Ensure text has sufficient contrast */
+  .flow-rect text {
+    fill: #000 !important;
+    stroke: #fff !important;
+    stroke-width: 0.5px !important;
+    paint-order: stroke fill;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .focus-indicator {
+    animation: none !important;
+  }
+  
+  .flow-rect,
+  .flow-line,
+  .btn,
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  /* Provide alternative indication for reduced motion */
+  .focus-indicator {
+    stroke-dasharray: none !important;
+    stroke-width: 4px !important;
+  }
+}
+
+/* Keyboard navigation styles */
+.keyboard-navigation-active {
+  /* Enhanced visibility during keyboard navigation */
+}
+
+.keyboard-navigation-active .node[tabindex="0"] {
+  outline: 3px solid #1976d2;
+  outline-offset: 2px;
+}
+
+.keyboard-navigation-active .flow-line[tabindex="0"] {
+  stroke-width: 5px !important;
+  filter: drop-shadow(0 0 3px rgba(25, 118, 210, 0.8));
+}
+
+/* Skip links for keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #1976d2;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 1000;
+  font-weight: bold;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Accessible tooltips */
+.tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 250px;
+  z-index: 1000;
+  pointer-events: none;
+  
+  /* Ensure tooltip is readable */
+  font-weight: normal;
+  text-align: left;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Accessible form elements */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+.form-input:invalid {
+  border-color: #d32f2f;
+}
+
+.form-input:invalid:focus {
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+}
+
+/* Error and success states */
+.error-message {
+  color: #d32f2f;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.error-message::before {
+  content: '⚠️';
+  margin-right: 0.5rem;
+}
+
+.success-message {
+  color: #2e7d32;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.success-message::before {
+  content: '✅';
+  margin-right: 0.5rem;
+}
+
+/* Accessible buttons */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px; /* WCAG touch target size */
+  min-width: 44px;
+  padding: 0.75rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:not(:disabled):active {
+  transform: translateY(0);
+}
+
+/* Loading state for buttons */
+.btn.loading {
+  color: transparent;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Accessible status messages */
+.status-message {
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  border-left: 4px solid;
+  display: flex;
+  align-items: flex-start;
+}
+
+.status-message.error {
+  background: #ffebee;
+  border-color: #f44336;
+  color: #c62828;
+}
+
+.status-message.success {
+  background: #e8f5e8;
+  border-color: #4caf50;
+  color: #2e7d32;
+}
+
+.status-message.info {
+  background: #e3f2fd;
+  border-color: #2196f3;
+  color: #1565c0;
+}
+
+.status-message.warning {
+  background: #fff3e0;
+  border-color: #ff9800;
+  color: #ef6c00;
+}
+
+.status-icon {
+  margin-right: 0.75rem;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Accessible tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.data-table th {
+  background: #f5f5f5;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.data-table tr:hover {
+  background: #f9f9f9;
+}
+
+.data-table tr:focus-within {
+  outline: 2px solid #1976d2;
+  outline-offset: -2px;
+}
+
+/* Accessible navigation */
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: #333;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  background: #f5f5f5;
+  color: #1976d2;
+}
+
+.nav-link.active {
+  background: #1976d2;
+  color: white;
+}
+
+/* Accessible modals and dialogs */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal:focus {
+  outline: none;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  background: #f5f5f5;
+}
+
+/* Print accessibility */
+@media print {
+  .skip-link,
+  .btn,
+  .modal-overlay {
+    display: none !important;
+  }
+  
+  .sr-only {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    border: 0 !important;
+    font-size: 0.8rem;
+    color: #666;
+  }
+  
+  .sr-only::before {
+    content: '[Screen reader: ';
+  }
+  
+  .sr-only::after {
+    content: ']';
+  }
+}
+
+/* Dark mode accessibility */
+@media (prefers-color-scheme: dark) {
+  .form-input {
+    background: #333;
+    border-color: #555;
+    color: #e0e0e0;
+  }
+  
+  .form-input:focus {
+    border-color: #64b5f6;
+    box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.1);
+  }
+  
+  .form-label {
+    color: #e0e0e0;
+  }
+  
+  .data-table th {
+    background: #333;
+    color: #e0e0e0;
+  }
+  
+  .data-table td {
+    border-color: #555;
+    color: #e0e0e0;
+  }
+  
+  .data-table tr:hover {
+    background: #444;
+  }
+  
+  .nav-link {
+    color: #e0e0e0;
+  }
+  
+  .nav-link:hover,
+  .nav-link:focus {
+    background: #444;
+    color: #64b5f6;
+  }
+  
+  .modal {
+    background: #2d2d2d;
+    color: #e0e0e0;
+  }
+  
+  .modal-header {
+    border-color: #555;
+  }
+  
+  .modal-close:hover,
+  .modal-close:focus {
+    background: #444;
+  }
+}
+
+/* Windows High Contrast Mode */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid ButtonText;
+  }
+  
+  .form-input {
+    border: 2px solid ButtonText;
+  }
+  
+  .modal {
+    border: 2px solid ButtonText;
+  }
+  
+  .focus-indicator {
+    stroke: Highlight !important;
+  }
+}
+
+/* Forced colors mode (Windows High Contrast) */
+@media (forced-colors: active) {
+  .btn {
+    forced-color-adjust: none;
+    border: 2px solid ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+  
+  .btn:focus {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+  
+  .focus-indicator {
+    stroke: Highlight !important;
+    stroke-width: 3px !important;
+  }
+}

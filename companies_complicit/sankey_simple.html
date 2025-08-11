@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Complicity Flow - Simple Preview</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #1565c0;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Search and Filter Styles */
+        .search-filter-panel {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-section {
+            margin-bottom: 20px;
+        }
+
+        .search-input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 40px 12px 16px;
+            border: 2px solid #ced4da;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        .clear-search-btn {
+            position: absolute;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .clear-search-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .search-results-info {
+            font-size: 14px;
+            color: #6c757d;
+            font-style: italic;
+            min-height: 20px;
+        }
+
+        .filter-section {
+            border-top: 1px solid #dee2e6;
+            padding-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 2px solid #ced4da;
+            border-radius: 6px;
+            background: white;
+            font-size: 14px;
+            min-height: 120px;
+        }
+
+        .filter-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #1976d2;
+            border-radius: 6px;
+            background: #1976d2;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 120px;
+        }
+
+        .filter-btn:hover {
+            background: #1565c0;
+        }
+
+        .filter-btn.secondary {
+            background: transparent;
+            color: #1976d2;
+        }
+
+        .filter-btn.secondary:hover {
+            background: #f8f9fa;
+        }
+
+        .visualization {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .flow-rect {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .flow-rect:hover {
+            opacity: 0.8;
+        }
+
+        .flow-line {
+            cursor: pointer;
+            transition: stroke-width 0.2s;
+        }
+
+        .flow-line:hover {
+            stroke-width: 4;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 1000;
+        }
+
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+        }
+
+        .error {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+        }
+
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1565c0;
+        }
+
+        .info-panel {
+            background: #f5f5f5;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976d2;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        /* Export buttons */
+        .export-panel {
+            display: inline-flex;
+            gap: 10px;
+            margin-left: 20px;
+        }
+
+        .export-btn {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .filter-section {
+                grid-template-columns: 1fr;
+            }
+
+            .export-panel {
+                display: block;
+                margin: 10px 0;
+            }
+
+            .export-btn {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>💰 Corporate Complicity Flow - Enhanced v02</h1>
+        <p>Money trail from funding sources to operations</p>
+    </div>
+
+    <div class="controls">
+        <a href="index.html" class="btn">← Back to Network</a>
+        <a href="../index.html" class="btn">← Back to Hub</a>
+        <button id="reload-btn" class="btn">🔄 Reload Data</button>
+        <div class="export-panel">
+            <button id="export-svg" class="btn export-btn">📄 Export SVG</button>
+            <button id="export-png" class="btn export-btn">🖼️ Export PNG</button>
+            <button id="export-json" class="btn export-btn">📊 Export JSON</button>
+        </div>
+    </div>
+
+    <div id="status-message"></div>
+
+    <!-- Search and Filter Panel -->
+    <div class="search-filter-panel">
+        <div class="search-section">
+            <div class="search-input-group">
+                <input type="text" id="search-input" class="search-input" placeholder="Search nodes and flows...">
+                <button id="clear-search" class="clear-search-btn">✕</button>
+            </div>
+            <div class="search-results-info" id="search-results-info">
+                Type to search across all visualization elements
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-group">
+                <label class="filter-label">Filter by Type:</label>
+                <select id="type-filter" class="filter-select" multiple>
+                    <option value="military">Military & Defense</option>
+                    <option value="surveillance">Surveillance & Tech</option>
+                    <option value="construction">Construction</option>
+                    <option value="finance">Finance</option>
+                    <option value="government">Government</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Filter by Confidence:</label>
+                <select id="confidence-filter" class="filter-select" multiple>
+                    <option value="high">High Confidence</option>
+                    <option value="medium">Medium Confidence</option>
+                    <option value="low">Low Confidence</option>
+                </select>
+            </div>
+
+            <div class="filter-actions">
+                <button id="apply-filters" class="btn filter-btn">Apply Filters</button>
+                <button id="clear-filters" class="btn filter-btn secondary">Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="visualization">
+        <div id="chart"></div>
+    </div>
+
+    <div class="info-panel">
+        <h3>Visualization Information</h3>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="sources-count">3</div>
+                <div class="stat-label">Sources</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="companies-count">4</div>
+                <div class="stat-label">Companies</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="targets-count">4</div>
+                <div class="stat-label">Targets</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="flows-count">14</div>
+                <div class="stat-label">Flows</div>
+            </div>
+        </div>
+        <div>
+            <p><strong>Data Format:</strong> Enhanced v02 with search and filtering</p>
+            <p><strong>Features:</strong> Real-time search, multi-criteria filtering, export capabilities</p>
+            <p><strong>Version:</strong> v02 Enhanced with modular architecture</p>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Enhanced data with types and confidence for filtering
+        const data = {
+            sources: [
+                { id: 'us-aid', name: 'US Military Aid', value: 38, color: '#2e7d32', type: 'government', confidence: 'high' },
+                { id: 'profits', name: 'Corporate Profits', value: 25, color: '#d32f2f', type: 'corporate', confidence: 'high' },
+                { id: 'investment', name: 'Private Investment', value: 15, color: '#1565c0', type: 'finance', confidence: 'medium' }
+            ],
+            companies: [
+                { id: 'military', name: 'Military & Defense', value: 35, color: '#d32f2f', type: 'military', confidence: 'high' },
+                { id: 'surveillance', name: 'Surveillance & Tech', value: 18, color: '#7b1fa2', type: 'surveillance', confidence: 'high' },
+                { id: 'construction', name: 'Construction', value: 12, color: '#f57c00', type: 'construction', confidence: 'medium' },
+                { id: 'finance', name: 'Finance', value: 8, color: '#1565c0', type: 'finance', confidence: 'medium' }
+            ],
+            targets: [
+                { id: 'operations', name: 'Military Operations', value: 40, color: '#d32f2f', type: 'military', confidence: 'high' },
+                { id: 'surveillance-sys', name: 'Surveillance Systems', value: 18, color: '#7b1fa2', type: 'surveillance', confidence: 'high' },
+                { id: 'destruction', name: 'Infrastructure Destruction', value: 10, color: '#f57c00', type: 'construction', confidence: 'medium' },
+                { id: 'settlements', name: 'Settlement Expansion', value: 5, color: '#1565c0', type: 'construction', confidence: 'low' }
+            ],
+            flows: [
+                { from: 'us-aid', to: 'military', value: 20, type: 'funding', confidence: 'high' },
+                { from: 'us-aid', to: 'surveillance', value: 10, type: 'funding', confidence: 'high' },
+                { from: 'us-aid', to: 'construction', value: 8, type: 'funding', confidence: 'medium' },
+                { from: 'profits', to: 'military', value: 15, type: 'investment', confidence: 'high' },
+                { from: 'profits', to: 'surveillance', value: 8, type: 'investment', confidence: 'medium' },
+                { from: 'investment', to: 'finance', value: 8, type: 'investment', confidence: 'medium' },
+                { from: 'investment', to: 'construction', value: 4, type: 'investment', confidence: 'low' },
+                { from: 'military', to: 'operations', value: 35, type: 'supply', confidence: 'high' },
+                { from: 'surveillance', to: 'surveillance-sys', value: 15, type: 'supply', confidence: 'high' },
+                { from: 'surveillance', to: 'operations', value: 3, type: 'supply', confidence: 'medium' },
+                { from: 'construction', to: 'destruction', value: 8, type: 'supply', confidence: 'medium' },
+                { from: 'construction', to: 'settlements', value: 4, type: 'supply', confidence: 'low' },
+                { from: 'finance', to: 'settlements', value: 1, type: 'funding', confidence: 'low' },
+                { from: 'finance', to: 'operations', value: 2, type: 'funding', confidence: 'medium' }
+            ]
+        };
+
+        // Application state
+        let currentSearchTerm = '';
+        let activeFilters = { types: new Set(), confidence: new Set() };
+        let searchResults = [];
+
+        // Setup
+        const width = 800;
+        const height = 500;
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .style("max-width", "100%")
+            .style("height", "auto");
+
+        const tooltip = d3.select("#tooltip");
+
+        // Positions
+        const sourceX = 50;
+        const companyX = 300;
+        const targetX = 550;
+
+        // Status message function
+        function showStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status-message');
+            statusEl.innerHTML = `<div class="status ${type}">${message}</div>`;
+            setTimeout(() => {
+                if (type !== 'success') statusEl.innerHTML = '';
+            }, 5000);
+        }
+
+        // Search functionality
+        function performSearch(searchTerm) {
+            currentSearchTerm = searchTerm.toLowerCase();
+            searchResults = [];
+
+            if (!searchTerm) {
+                clearSearchHighlights();
+                updateSearchInfo();
+                return;
+            }
+
+            // Find matches
+            const allNodes = [...data.sources, ...data.companies, ...data.targets];
+            allNodes.forEach(node => {
+                const searchableText = `${node.name} ${node.type || ''} ${node.confidence || ''}`.toLowerCase();
+                if (searchableText.includes(currentSearchTerm)) {
+                    searchResults.push({ type: 'node', element: node });
+                }
+            });
+
+            // Apply highlights
+            applySearchHighlights();
+            updateSearchInfo();
+        }
+
+        function applySearchHighlights() {
+            // Reset all to dimmed
+            svg.selectAll('.flow-rect, .flow-line').style('opacity', 0.3);
+
+            // Highlight matches
+            searchResults.forEach(result => {
+                if (result.type === 'node') {
+                    svg.select(`[data-id="${result.element.id}"]`).style('opacity', 1);
+                }
+            });
+        }
+
+        function clearSearchHighlights() {
+            svg.selectAll('.flow-rect, .flow-line').style('opacity', 1);
+        }
+
+        function updateSearchInfo() {
+            const info = document.getElementById('search-results-info');
+            if (currentSearchTerm) {
+                info.textContent = `Found ${searchResults.length} result${searchResults.length !== 1 ? 's' : ''} for "${currentSearchTerm}"`;
+            } else {
+                info.textContent = 'Type to search across all visualization elements';
+            }
+        }
+
+        // Filter functionality
+        function applyFilters() {
+            const typeFilter = document.getElementById('type-filter');
+            const confidenceFilter = document.getElementById('confidence-filter');
+
+            activeFilters.types.clear();
+            activeFilters.confidence.clear();
+
+            Array.from(typeFilter.selectedOptions).forEach(option => {
+                activeFilters.types.add(option.value);
+            });
+
+            Array.from(confidenceFilter.selectedOptions).forEach(option => {
+                activeFilters.confidence.add(option.value);
+            });
+
+            if (activeFilters.types.size === 0 && activeFilters.confidence.size === 0) {
+                clearFilters();
+                return;
+            }
+
+            // Apply visual filters
+            svg.selectAll('.flow-rect').each(function (d, i, nodes) {
+                const element = d3.select(this);
+                const nodeId = element.attr('data-id');
+                const node = [...data.sources, ...data.companies, ...data.targets].find(n => n.id === nodeId);
+
+                if (node) {
+                    let visible = true;
+
+                    if (activeFilters.types.size > 0 && !activeFilters.types.has(node.type)) {
+                        visible = false;
+                    }
+
+                    if (activeFilters.confidence.size > 0 && !activeFilters.confidence.has(node.confidence)) {
+                        visible = false;
+                    }
+
+                    element.style('opacity', visible ? 1 : 0.2);
+                }
+            });
+
+            const filterCount = activeFilters.types.size + activeFilters.confidence.size;
+            showStatus(`Applied ${filterCount} filter${filterCount !== 1 ? 's' : ''}`, 'success');
+        }
+
+        function clearFilters() {
+            document.getElementById('type-filter').selectedIndex = -1;
+            document.getElementById('confidence-filter').selectedIndex = -1;
+            activeFilters.types.clear();
+            activeFilters.confidence.clear();
+
+            svg.selectAll('.flow-rect, .flow-line').style('opacity', 1);
+            showStatus('All filters cleared', 'info');
+        }
+
+        // Export functionality
+        function exportSVG() {
+            const svgElement = svg.node();
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'corporate-complicity-flow.svg';
+            link.click();
+            URL.revokeObjectURL(url);
+            showStatus('SVG exported successfully!', 'success');
+        }
+
+        function exportJSON() {
+            const jsonData = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'corporate-complicity-data.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            showStatus('JSON exported successfully!', 'success');
+        }
+
+        function exportPNG() {
+            const svgElement = svg.node();
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const img = new Image();
+
+            canvas.width = width * 2;
+            canvas.height = height * 2;
+            ctx.scale(2, 2);
+
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0);
+                canvas.toBlob(function (blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'corporate-complicity-flow.png';
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    showStatus('PNG exported successfully!', 'success');
+                });
+            };
+
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            img.src = URL.createObjectURL(svgBlob);
+        }
+
+        function drawFlow() {
+            // Draw sources
+            data.sources.forEach((d, i) => {
+                const y = 50 + i * 120;
+                const h = Math.max(30, d.value * 2);
+
+                const nodeGroup = svg.append("g")
+                    .attr("class", "node")
+                    .attr("data-id", d.id)
+                    .attr("data-type", "sources");
+
+                nodeGroup.append("rect")
+                    .attr("class", "flow-rect")
+                    .attr("data-id", d.id)
+                    .attr("x", sourceX)
+                    .attr("y", y)
+                    .attr("width", 150)
+                    .attr("height", h)
+                    .attr("fill", d.color)
+                    .attr("rx", 5)
+                    .on("mouseover", (event) => showTooltip(event, d))
+                    .on("mouseout", hideTooltip);
+
+                nodeGroup.append("text")
+                    .attr("x", sourceX + 75)
+                    .attr("y", y + h / 2)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-weight", "bold")
+                    .text(d.name);
+
+                nodeGroup.append("text")
+                    .attr("x", sourceX + 75)
+                    .attr("y", y + h / 2 + 15)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-size", "12px")
+                    .text(`${d.value}B`);
+            });
+
+            // Draw companies
+            data.companies.forEach((d, i) => {
+                const y = 50 + i * 100;
+                const h = Math.max(30, d.value * 2);
+
+                const nodeGroup = svg.append("g")
+                    .attr("class", "node")
+                    .attr("data-id", d.id)
+                    .attr("data-type", "companies");
+
+                nodeGroup.append("rect")
+                    .attr("class", "flow-rect")
+                    .attr("data-id", d.id)
+                    .attr("x", companyX)
+                    .attr("y", y)
+                    .attr("width", 150)
+                    .attr("height", h)
+                    .attr("fill", d.color)
+                    .attr("rx", 5)
+                    .on("mouseover", (event) => showTooltip(event, d))
+                    .on("mouseout", hideTooltip);
+
+                nodeGroup.append("text")
+                    .attr("x", companyX + 75)
+                    .attr("y", y + h / 2)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-weight", "bold")
+                    .text(d.name);
+
+                nodeGroup.append("text")
+                    .attr("x", companyX + 75)
+                    .attr("y", y + h / 2 + 15)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-size", "12px")
+                    .text(`${d.value}B`);
+            });
+
+            // Draw targets
+            data.targets.forEach((d, i) => {
+                const y = 50 + i * 100;
+                const h = Math.max(30, d.value * 2);
+
+                const nodeGroup = svg.append("g")
+                    .attr("class", "node")
+                    .attr("data-id", d.id)
+                    .attr("data-type", "targets");
+
+                nodeGroup.append("rect")
+                    .attr("class", "flow-rect")
+                    .attr("data-id", d.id)
+                    .attr("x", targetX)
+                    .attr("y", y)
+                    .attr("width", 150)
+                    .attr("height", h)
+                    .attr("fill", d.color)
+                    .attr("rx", 5)
+                    .on("mouseover", (event) => showTooltip(event, d))
+                    .on("mouseout", hideTooltip);
+
+                nodeGroup.append("text")
+                    .attr("x", targetX + 75)
+                    .attr("y", y + h / 2)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-weight", "bold")
+                    .text(d.name);
+
+                nodeGroup.append("text")
+                    .attr("x", targetX + 75)
+                    .attr("y", y + h / 2 + 15)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-size", "12px")
+                    .text(`${d.value}B`);
+            });
+
+            // Draw flow lines
+            data.flows.forEach(flow => {
+                const fromNode = [...data.sources, ...data.companies].find(n => n.id === flow.from);
+                const toNode = [...data.companies, ...data.targets].find(n => n.id === flow.to);
+
+                if (fromNode && toNode) {
+                    let fromX, fromY, toX, toY;
+
+                    // Calculate positions
+                    const sourceIndex = data.sources.findIndex(s => s.id === flow.from);
+                    const companyFromIndex = data.companies.findIndex(s => s.id === flow.from);
+                    const companyToIndex = data.companies.findIndex(s => s.id === flow.to);
+                    const targetIndex = data.targets.findIndex(s => s.id === flow.to);
+
+                    if (sourceIndex >= 0) {
+                        fromX = sourceX + 150;
+                        fromY = 50 + sourceIndex * 120 + (fromNode.value * 2) / 2;
+                    } else {
+                        fromX = companyX + 150;
+                        fromY = 50 + companyFromIndex * 100 + (fromNode.value * 2) / 2;
+                    }
+
+                    if (companyToIndex >= 0) {
+                        toX = companyX;
+                        toY = 50 + companyToIndex * 100 + (toNode.value * 2) / 2;
+                    } else {
+                        toX = targetX;
+                        toY = 50 + targetIndex * 100 + (toNode.value * 2) / 2;
+                    }
+
+                    svg.append("line")
+                        .attr("class", "flow-line")
+                        .attr("x1", fromX)
+                        .attr("y1", fromY)
+                        .attr("x2", toX)
+                        .attr("y2", toY)
+                        .attr("stroke", fromNode.color)
+                        .attr("stroke-width", Math.max(2, flow.value / 3))
+                        .attr("opacity", 0.7)
+                        .on("mouseover", (event) => showFlowTooltip(event, flow, fromNode, toNode))
+                        .on("mouseout", hideTooltip);
+                }
+            });
+        }
+
+        function showTooltip(event, data) {
+            let content = `<strong>${data.name}</strong><br>Value: ${data.value}B`;
+            if (data.type) content += `<br>Type: ${data.type}`;
+            if (data.confidence) content += `<br>Confidence: ${data.confidence}`;
+
+            tooltip.style("opacity", 1)
+                .html(content)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+        }
+
+        function showFlowTooltip(event, flow, fromNode, toNode) {
+            let content = `<strong>Flow: ${flow.value}B</strong><br>From: ${fromNode.name}<br>To: ${toNode.name}`;
+            if (flow.type) content += `<br>Type: ${flow.type}`;
+            if (flow.confidence) content += `<br>Confidence: ${flow.confidence}`;
+
+            tooltip.style("opacity", 1)
+                .html(content)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+        }
+
+        function hideTooltip() {
+            tooltip.style("opacity", 0);
+        }
+
+        // Event listeners
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.trim();
+            const clearBtn = document.getElementById('clear-search');
+            clearBtn.style.display = searchTerm ? 'block' : 'none';
+
+            setTimeout(() => performSearch(searchTerm), 300);
+        });
+
+        document.getElementById('clear-search').addEventListener('click', () => {
+            document.getElementById('search-input').value = '';
+            document.getElementById('clear-search').style.display = 'none';
+            performSearch('');
+        });
+
+        document.getElementById('apply-filters').addEventListener('click', applyFilters);
+        document.getElementById('clear-filters').addEventListener('click', clearFilters);
+        document.getElementById('export-svg').addEventListener('click', exportSVG);
+        document.getElementById('export-png').addEventListener('click', exportPNG);
+        document.getElementById('export-json').addEventListener('click', exportJSON);
+
+        document.getElementById('reload-btn').addEventListener('click', () => {
+            location.reload();
+        });
+
+        // Initialize
+        drawFlow();
+        showStatus('✅ Enhanced visualization loaded! Try searching for "military" or use the filters.', 'success');
+    </script>
+</body>
+
+</html>

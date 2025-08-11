@@ -1,0 +1,238 @@
+/**
+ * Language Switcher Styles for FasaadGov v02
+ * Provides styling for internationalization language switching UI
+ */
+
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-family, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+  font-size: 0.9rem;
+}
+
+.language-switcher__label {
+  color: var(--text-color, #333);
+  font-weight: 500;
+  white-space: nowrap;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.language-switcher__select {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 4px;
+  background-color: var(--bg-color, #fff);
+  color: var(--text-color, #333);
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.language-switcher__select:hover {
+  border-color: var(--primary-color, #007bff);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.language-switcher__select:focus {
+  outline: none;
+  border-color: var(--primary-color, #007bff);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+.language-switcher__select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--disabled-bg, #f5f5f5);
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .language-switcher__label {
+    color: var(--text-color-dark, #e0e0e0);
+  }
+
+  .language-switcher__select {
+    background-color: var(--bg-color-dark, #2d2d2d);
+    color: var(--text-color-dark, #e0e0e0);
+    border-color: var(--border-color-dark, #555);
+  }
+
+  .language-switcher__select:hover {
+    border-color: var(--primary-color-dark, #4dabf7);
+    box-shadow: 0 0 0 2px rgba(77, 171, 247, 0.1);
+  }
+
+  .language-switcher__select:focus {
+    border-color: var(--primary-color-dark, #4dabf7);
+    box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.2);
+  }
+
+  .language-switcher__select:disabled {
+    background-color: var(--disabled-bg-dark, #1a1a1a);
+  }
+}
+
+/* Compact variant */
+.language-switcher--compact {
+  font-size: 0.8rem;
+}
+
+.language-switcher--compact .language-switcher__select {
+  padding: 0.25rem 0.5rem;
+  min-width: 100px;
+  font-size: 0.8rem;
+}
+
+/* Inline variant */
+.language-switcher--inline {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Header integration */
+.header .language-switcher {
+  margin-left: auto;
+}
+
+.header .language-switcher__label {
+  color: var(--header-text-color, #fff);
+}
+
+.header .language-switcher__select {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--header-text-color, #fff);
+}
+
+.header .language-switcher__select:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.header .language-switcher__select:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.header .language-switcher__select option {
+  background-color: var(--bg-color, #fff);
+  color: var(--text-color, #333);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .language-switcher {
+    font-size: 0.8rem;
+  }
+
+  .language-switcher__select {
+    min-width: 100px;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .language-switcher__label {
+    display: none; /* Hide label on mobile to save space */
+  }
+}
+
+@media (max-width: 480px) {
+  .language-switcher__select {
+    min-width: 80px;
+    font-size: 0.8rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .language-switcher__select {
+    border-width: 2px;
+    border-color: currentColor;
+  }
+
+  .language-switcher__select:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .language-switcher__select {
+    transition: none;
+  }
+}
+
+/* Loading state */
+.language-switcher--loading .language-switcher__select {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.language-switcher--loading .language-switcher__select::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: 0.5rem;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error state */
+.language-switcher--error .language-switcher__select {
+  border-color: var(--error-color, #dc3545);
+  background-color: var(--error-bg, #fff5f5);
+}
+
+.language-switcher--error .language-switcher__label::after {
+  content: ' ⚠️';
+  color: var(--error-color, #dc3545);
+}
+
+/* Success state */
+.language-switcher--success .language-switcher__select {
+  border-color: var(--success-color, #28a745);
+  background-color: var(--success-bg, #f8fff9);
+}
+
+.language-switcher--success .language-switcher__label::after {
+  content: ' ✓';
+  color: var(--success-color, #28a745);
+}
+
+/* Accessibility improvements */
+.language-switcher__select:focus-visible {
+  outline: 2px solid var(--focus-color, #007bff);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .language-switcher {
+    display: none;
+  }
+}
+
+/* RTL support */
+[dir="rtl"] .language-switcher {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .header .language-switcher {
+  margin-left: 0;
+  margin-right: auto;
+}

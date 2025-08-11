@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internationalization Test - FasaadGov v02</title>
+    <link rel="stylesheet" href="src/styles/language-switcher.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .test-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .demo-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .demo-card {
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+
+        .demo-card h4 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #f8f9fa;
+            border-color: #007bff;
+        }
+
+        .btn:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .filter-group select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .status-message {
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .metadata-panel {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 1rem;
+            max-height: 70vh;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .metadata-panel.visible {
+            display: block;
+        }
+
+        .debug-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .demo-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .metadata-panel {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                width: 100%;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1 data-i18n="app.title">Corporate Complicity Flow</h1>
+                <p data-i18n="app.subtitle">Money trail from funding sources to operations</p>
+            </div>
+            <div id="language-switcher-container"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Search & Filter Interface</h3>
+            <input type="text" class="search-box" data-i18n-placeholder="search.placeholder" placeholder="Search nodes and flows...">
+            
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label data-i18n="filters.filter_by_type">Filter by Type:</label>
+                    <select>
+                        <option value="">All Types</option>
+                        <option value="military" data-i18n="types.military">Military & Defense</option>
+                        <option value="surveillance" data-i18n="types.surveillance">Surveillance & Tech</option>
+                        <option value="construction" data-i18n="types.construction">Construction</option>
+                        <option value="finance" data-i18n="types.finance">Finance</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label data-i18n="filters.filter_by_confidence">Filter by Confidence:</label>
+                    <select>
+                        <option value="">All Levels</option>
+                        <option value="high" data-i18n="confidence.high">High Confidence</option>
+                        <option value="medium" data-i18n="confidence.medium">Medium Confidence</option>
+                        <option value="low" data-i18n="confidence.low">Low Confidence</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn" data-i18n="filters.apply_filters">Apply Filters</button>
+                <button class="btn" data-i18n="filters.clear_all">Clear All</button>
+                <button class="btn" data-i18n="navigation.reload_data">🔄 Reload Data</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Statistics Dashboard</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label" data-i18n="statistics.companies">Companies</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">89</div>
+                    <div class="stat-label" data-i18n="statistics.sources">Sources</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">234</div>
+                    <div class="stat-label" data-i18n="statistics.flows">Flows</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">45</div>
+                    <div class="stat-label" data-i18n="statistics.targets">Targets</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Export Functions</h3>
+            <div class="button-group">
+                <button class="btn" data-i18n="export.export_svg">📄 Export SVG</button>
+                <button class="btn" data-i18n="export.export_png">🖼️ Export PNG</button>
+                <button class="btn" data-i18n="export.export_json">📊 Download JSON</button>
+                <button class="btn" data-i18n="export.export_csv">📋 Export CSV</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Status Messages</h3>
+            <div class="status-message status-success" data-i18n="status.loaded_success">
+                Visualization loaded successfully!
+            </div>
+            <div class="status-message status-info" data-i18n="status.search_filter_ready">
+                Use search and filters to explore the data.
+            </div>
+            <div class="status-message status-warning" data-i18n="search.no_results" data-i18n-param-term="test query">
+                No results found for "test query"
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Metadata Panel Demo</h3>
+            <button class="btn" onclick="toggleMetadataPanel()">
+                <span data-i18n="metadata.element_info">Element Information</span>
+            </button>
+            
+            <div id="metadata-panel" class="metadata-panel">
+                <h4 data-i18n="metadata.basic_info">Basic Information</h4>
+                <p><strong data-i18n="metadata_fields.name">Name:</strong> Example Company Ltd.</p>
+                <p><strong data-i18n="metadata_fields.type">Type:</strong> <span data-i18n="types.finance">Finance</span></p>
+                <p><strong data-i18n="metadata_fields.headquarters">Headquarters:</strong> Kuala Lumpur, Malaysia</p>
+                
+                <h4 data-i18n="metadata.confidence_verification">Confidence & Verification</h4>
+                <p><strong data-i18n="metadata_fields.confidence_level">Confidence Level:</strong> <span data-i18n="confidence.high">High Confidence</span></p>
+                <p><strong data-i18n="metadata_fields.evidence">Evidence:</strong> Multiple verified sources</p>
+                
+                <button class="btn" data-i18n="metadata.close_panel">Close panel</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Language Switching Test</h3>
+            <div class="demo-content">
+                <div class="demo-card">
+                    <h4>Current Language Info</h4>
+                    <div id="language-info" class="debug-info">
+                        Loading language information...
+                    </div>
+                </div>
+                
+                <div class="demo-card">
+                    <h4>Translation Test</h4>
+                    <div id="translation-test" class="debug-info">
+                        Testing translations...
+                    </div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn" onclick="testTranslations()">Test All Translations</button>
+                <button class="btn" onclick="showLanguageStats()">Show Language Stats</button>
+                <button class="btn" onclick="preloadLanguages()">Preload All Languages</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Accessibility Features</h3>
+            <div class="demo-content">
+                <div class="demo-card">
+                    <h4 data-i18n="accessibility.keyboard_help">Keyboard Navigation Help</h4>
+                    <p data-i18n="accessibility.visualization_description">
+                        Interactive corporate complicity flow diagram showing money trail from funding sources through companies to operations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { LanguageSwitcher } from './src/ui/languageSwitcher.js';
+
+        let languageSwitcher;
+
+        async function initializeI18n() {
+            try {
+                languageSwitcher = new LanguageSwitcher({
+                    defaultLanguage: 'en',
+                    supportedLanguages: ['en', 'ms'],
+                    storageKey: 'fasaad_language',
+                    autoDetect: true
+                });
+
+                await languageSwitcher.initialize();
+                
+                // Initialize UI
+                languageSwitcher.initializeUI('#language-switcher-container');
+                
+                // Add language change listener
+                languageSwitcher.onLanguageChange((newLang, prevLang) => {
+                    console.log(`Language changed from ${prevLang} to ${newLang}`);
+                    languageSwitcher.updateDOM();
+                    updateLanguageInfo();
+                    
+                    // Show success message
+                    const message = languageSwitcher.t('language.language_changed', { 
+                        language: languageSwitcher.getLanguageName(newLang) 
+                    });
+                    showNotification(message, 'success');
+                });
+
+                // Initial DOM update
+                languageSwitcher.updateDOM();
+                updateLanguageInfo();
+                
+                // Make available globally for testing
+                window.languageSwitcher = languageSwitcher;
+                
+                console.log('Internationalization initialized successfully');
+                
+            } catch (error) {
+                console.error('Failed to initialize i18n:', error);
+                showNotification('Failed to initialize internationalization', 'error');
+            }
+        }
+
+        function updateLanguageInfo() {
+            if (!languageSwitcher) return;
+            
+            const info = document.getElementById('language-info');
+            if (info) {
+                const stats = languageSwitcher.getStats();
+                info.innerHTML = `
+                    <strong>Current Language:</strong> ${stats.currentLanguage}<br>
+                    <strong>Loaded Languages:</strong> ${stats.loadedLanguages.join(', ')}<br>
+                    <strong>Supported Languages:</strong> ${stats.supportedLanguages.join(', ')}<br>
+                    <strong>Cache Size:</strong> ${stats.cacheSize}<br>
+                    <strong>Translation Counts:</strong><br>
+                    ${Object.entries(stats.translationCounts).map(([lang, count]) => 
+                        `&nbsp;&nbsp;${lang}: ${count} keys`
+                    ).join('<br>')}
+                `;
+            }
+        }
+
+        window.testTranslations = function() {
+            if (!languageSwitcher) return;
+            
+            const testKeys = [
+                'app.title',
+                'search.placeholder',
+                'filters.apply_filters',
+                'export.export_svg',
+                'metadata.element_info',
+                'common.loading'
+            ];
+            
+            const testDiv = document.getElementById('translation-test');
+            const currentLang = languageSwitcher.getCurrentLanguage();
+            
+            let html = `<strong>Testing translations for: ${currentLang}</strong><br><br>`;
+            
+            testKeys.forEach(key => {
+                const translation = languageSwitcher.t(key);
+                html += `<strong>${key}:</strong> ${translation}<br>`;
+            });
+            
+            // Test with parameters
+            html += '<br><strong>Parameter interpolation test:</strong><br>';
+            html += `search.results_found: ${languageSwitcher.t('search.results_found', { count: 5, term: 'test', plural: 's' })}<br>`;
+            html += `statistics.showing_elements: ${languageSwitcher.t('statistics.showing_elements', { visible: 10, total: 50 })}<br>`;
+            
+            testDiv.innerHTML = html;
+        };
+
+        window.showLanguageStats = function() {
+            if (!languageSwitcher) return;
+            
+            const stats = languageSwitcher.getStats();
+            alert(JSON.stringify(stats, null, 2));
+        };
+
+        window.preloadLanguages = async function() {
+            if (!languageSwitcher) return;
+            
+            try {
+                showNotification('Preloading languages...', 'info');
+                await languageSwitcher.preloadLanguages();
+                showNotification('All languages preloaded successfully!', 'success');
+                updateLanguageInfo();
+            } catch (error) {
+                console.error('Failed to preload languages:', error);
+                showNotification('Failed to preload languages', 'error');
+            }
+        };
+
+        window.toggleMetadataPanel = function() {
+            const panel = document.getElementById('metadata-panel');
+            panel.classList.toggle('visible');
+        };
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `status-message status-${type}`;
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '1000';
+            notification.style.maxWidth = '300px';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeI18n);
+    </script>
+</body>
+</html>

@@ -1,0 +1,614 @@
+/**
+ * Responsive Design System for FasaadGov v02
+ * Mobile-first responsive styles for the visualization
+ */
+
+/* Base responsive utilities */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Responsive breakpoints */
+:root {
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 992px;
+  --breakpoint-lg: 1200px;
+  --breakpoint-xl: 1400px;
+}
+
+/* Mobile-first base styles */
+body {
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+/* Controls responsive layout */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.btn {
+  width: 100%;
+  max-width: 200px;
+  padding: 12px 16px;
+  font-size: 14px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.export-section {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.export-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.export-btn {
+  font-size: 11px;
+  padding: 8px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Visualization responsive container */
+.visualization {
+  margin: 0 -15px;
+  border-radius: 0;
+  padding: 15px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* SVG responsive behavior */
+.visualization svg {
+  width: 100%;
+  height: auto;
+  min-width: 600px; /* Minimum width to maintain readability */
+  max-width: 100%;
+}
+
+/* Status messages */
+.status {
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Info panel responsive */
+.info-panel {
+  margin-top: 20px;
+  padding: 15px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.stat {
+  text-align: center;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1976d2;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+/* Loading and error states */
+.loading {
+  text-align: center;
+  padding: 30px;
+  font-size: 16px;
+}
+
+.error, .success, .info {
+  padding: 12px;
+  border-radius: 5px;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 44px; /* iOS recommended touch target */
+    padding: 12px 20px;
+  }
+  
+  .export-btn {
+    min-height: 40px;
+    padding: 10px 12px;
+  }
+  
+  /* Increase SVG node sizes for touch */
+  .flow-rect {
+    stroke-width: 2px;
+  }
+  
+  .flow-line {
+    stroke-width: 3px;
+  }
+}
+
+/* Small screens (phones) */
+@media (max-width: 479px) {
+  body {
+    padding: 5px;
+    font-size: 13px;
+  }
+  
+  .header h1 {
+    font-size: 1.3rem;
+  }
+  
+  .header p {
+    font-size: 0.8rem;
+  }
+  
+  .btn {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+  
+  .export-panel {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  
+  .export-btn {
+    font-size: 10px;
+    padding: 8px;
+  }
+  
+  .visualization {
+    margin: 0 -5px;
+    padding: 10px;
+  }
+  
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .stat-value {
+    font-size: 1.3rem;
+  }
+  
+  .info-panel {
+    padding: 12px;
+  }
+  
+  /* Horizontal scroll hint for visualization */
+  .visualization::after {
+    content: "← Scroll horizontally to see full diagram →";
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
+  }
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 480px) and (max-width: 767px) {
+  body {
+    padding: 15px;
+    font-size: 15px;
+  }
+  
+  .header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .btn {
+    width: auto;
+    min-width: 140px;
+  }
+  
+  .export-section {
+    width: auto;
+    margin-top: 0;
+    margin-left: 15px;
+  }
+  
+  .export-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .stats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  
+  .visualization {
+    margin: 0;
+    border-radius: 10px;
+  }
+}
+
+/* Large screens (desktop) */
+@media (min-width: 768px) {
+  body {
+    padding: 20px;
+    font-size: 16px;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .header p {
+    font-size: 1rem;
+  }
+  
+  .controls {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .export-section {
+    margin-left: 20px;
+    margin-top: 0;
+  }
+  
+  .export-panel {
+    display: inline-flex;
+    gap: 10px;
+  }
+  
+  .export-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+  
+  .stats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  
+  .stat-value {
+    font-size: 2rem;
+  }
+  
+  .visualization {
+    padding: 20px;
+  }
+  
+  .visualization svg {
+    min-width: 800px;
+  }
+  
+  /* Remove scroll hint on larger screens */
+  .visualization::after {
+    display: none;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 30px;
+  }
+  
+  .header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .visualization {
+    padding: 30px;
+  }
+  
+  .visualization svg {
+    min-width: 900px;
+  }
+  
+  .info-panel {
+    padding: 20px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .flow-rect,
+  .flow-line {
+    shape-rendering: geometricPrecision;
+  }
+  
+  text {
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+  
+  .controls,
+  .export-section,
+  .btn {
+    display: none;
+  }
+  
+  .visualization {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    page-break-inside: avoid;
+  }
+  
+  .header {
+    margin-bottom: 20pt;
+  }
+  
+  .info-panel {
+    page-break-inside: avoid;
+    margin-top: 20pt;
+  }
+  
+  /* Ensure good contrast for print */
+  .flow-rect {
+    stroke: #000 !important;
+    stroke-width: 1px !important;
+  }
+  
+  .flow-line {
+    stroke: #000 !important;
+    stroke-width: 2px !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .flow-rect,
+  .flow-line,
+  .btn,
+  .stat {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* High contrast preferences */
+@media (prefers-contrast: high) {
+  .flow-rect {
+    stroke: #000 !important;
+    stroke-width: 2px !important;
+  }
+  
+  .flow-line {
+    stroke: #000 !important;
+    stroke-width: 3px !important;
+  }
+  
+  .btn {
+    border: 2px solid #000 !important;
+  }
+  
+  .focus-indicator {
+    stroke: #ff0000 !important;
+    stroke-width: 3px !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a1a;
+    color: #e0e0e0;
+  }
+  
+  .visualization {
+    background: #2d2d2d;
+    border: 1px solid #444;
+  }
+  
+  .info-panel {
+    background: #2d2d2d;
+    border: 1px solid #444;
+  }
+  
+  .stat {
+    background: #333;
+    color: #e0e0e0;
+  }
+  
+  .stat-value {
+    color: #64b5f6;
+  }
+  
+  .btn {
+    background: #1976d2;
+    border: 1px solid #1565c0;
+  }
+  
+  .btn:hover {
+    background: #1565c0;
+  }
+  
+  .error {
+    background: #3d1a1a;
+    border-color: #f44336;
+    color: #ffcdd2;
+  }
+  
+  .success {
+    background: #1b3d1b;
+    border-color: #4caf50;
+    color: #c8e6c9;
+  }
+  
+  .info {
+    background: #1a2d3d;
+    border-color: #2196f3;
+    color: #bbdefb;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  .header {
+    margin-bottom: 10px;
+  }
+  
+  .header h1 {
+    font-size: 1.3rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .header p {
+    font-size: 0.8rem;
+  }
+  
+  .controls {
+    margin-bottom: 10px;
+  }
+  
+  .info-panel {
+    margin-top: 10px;
+  }
+}
+
+/* Utility classes for responsive behavior */
+.hide-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hide-mobile {
+    display: block;
+  }
+  
+  .hide-desktop {
+    display: none;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Responsive text sizes */
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+
+/* Responsive spacing */
+.m-0 { margin: 0; }
+.m-1 { margin: 0.25rem; }
+.m-2 { margin: 0.5rem; }
+.m-3 { margin: 0.75rem; }
+.m-4 { margin: 1rem; }
+
+.p-0 { padding: 0; }
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+
+/* Responsive grid utilities */
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+
+/* Responsive flex utilities */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.items-center { align-items: center; }
+
+@media (min-width: 768px) {
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .md\:flex-row { flex-direction: row; }
+  .md\:text-left { text-align: left; }
+}

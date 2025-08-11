@@ -1,0 +1,155 @@
+{
+  "app": {
+    "title": "Aliran Keterlibatan Korporat",
+    "subtitle": "Jejak wang dari sumber pembiayaan ke operasi",
+    "version": "v02 Dipertingkat dengan seni bina modular"
+  },
+  "navigation": {
+    "backToNetwork": "← Kembali ke Rangkaian",
+    "backToHub": "← Kembali ke Hub",
+    "reloadData": "🔄 Muat Semula Data"
+  },
+  "search": {
+    "placeholder": "Cari nod dan aliran...",
+    "ariaLabel": "Cari elemen visualisasi",
+    "clearButton": "Kosongkan carian",
+    "resultsInfo": "Ditemui {count} hasil{plural} untuk \"{term}\"",
+    "noResults": "Tiada hasil ditemui untuk \"{term}\"",
+    "typeToSearch": "Taip untuk mencari di semua elemen visualisasi"
+  },
+  "filters": {
+    "title": "Penapis",
+    "byType": "Tapis mengikut Jenis:",
+    "byConfidence": "Tapis mengikut Keyakinan:",
+    "typeAriaLabel": "Tapis mengikut jenis nod",
+    "confidenceAriaLabel": "Tapis mengikut tahap keyakinan",
+    "applyFilters": "Gunakan Penapis",
+    "clearAll": "Kosongkan Semua",
+    "activeFilters": "Penapis aktif:",
+    "filtersApplied": "Digunakan {count} penapis{plural}",
+    "filtersCleared": "Semua penapis dikosongkan"
+  },
+  "types": {
+    "military": "Ketenteraan & Pertahanan",
+    "surveillance": "Pengawasan & Teknologi",
+    "construction": "Pembinaan",
+    "finance": "Kewangan",
+    "government": "Kerajaan",
+    "other": "Lain-lain"
+  },
+  "confidence": {
+    "high": "Keyakinan Tinggi",
+    "medium": "Keyakinan Sederhana",
+    "low": "Keyakinan Rendah",
+    "highDescription": "Disahkan dari pelbagai sumber yang boleh dipercayai",
+    "mediumDescription": "Disahkan dari satu sumber yang boleh dipercayai",
+    "lowDescription": "Maklumat tidak disahkan atau dipertikaikan"
+  },
+  "export": {
+    "svg": "📄 Eksport SVG",
+    "png": "🖼️ Eksport PNG",
+    "json": "📊 Muat Turun JSON",
+    "csv": "📋 Eksport CSV",
+    "svgTitle": "Eksport sebagai imej vektor SVG",
+    "pngTitle": "Eksport sebagai imej raster PNG",
+    "jsonTitle": "Muat turun data sebagai JSON",
+    "csvTitle": "Muat turun data sebagai CSV",
+    "success": "{format} berjaya dieksport!",
+    "error": "Eksport gagal: {error}"
+  },
+  "metadata": {
+    "title": "Maklumat Elemen",
+    "pinPanel": "Pin panel",
+    "unpinPanel": "Nyahpin panel",
+    "closePanel": "Tutup panel",
+    "loading": "Memuatkan maklumat...",
+    "error": "Tidak dapat memuatkan maklumat untuk elemen ini.",
+    "sections": {
+      "basicInfo": "Maklumat Asas",
+      "sourcesEvidence": "Sumber & Bukti",
+      "confidenceVerification": "Keyakinan & Pengesahan",
+      "additionalDetails": "Butiran Tambahan",
+      "newsReports": "Berita & Laporan Berkaitan"
+    },
+    "fields": {
+      "name": "Nama:",
+      "type": "Jenis:",
+      "value": "Nilai:",
+      "headquarters": "Ibu Pejabat:",
+      "revenue": "Hasil:",
+      "lastUpdated": "Kemaskini Terakhir:",
+      "flowType": "Jenis Aliran:",
+      "from": "Dari:",
+      "to": "Ke:",
+      "verificationDate": "Tarikh Pengesahan:",
+      "primarySource": "Sumber Utama:",
+      "evidence": "Bukti:",
+      "confidenceLevel": "Tahap Keyakinan:",
+      "confidenceMeaning": "Maksud Keyakinan:",
+      "verification": "Pengesahan:",
+      "involvement": "Penglibatan:",
+      "notes": "Nota:",
+      "impactAssessment": "Penilaian Impak:"
+    },
+    "noInfo": {
+      "sources": "Tiada maklumat sumber tersedia",
+      "confidence": "Tiada maklumat keyakinan tersedia",
+      "additional": "Tiada maklumat tambahan tersedia"
+    },
+    "evidenceMore": "+{count} lagi"
+  },
+  "stats": {
+    "sources": "Sumber",
+    "companies": "Syarikat",
+    "targets": "Sasaran",
+    "flows": "Aliran",
+    "visibleNodes": "Nod Kelihatan",
+    "visibleFlows": "Aliran Kelihatan",
+    "searchResults": "Hasil Carian",
+    "activeFilters": "Penapis Aktif"
+  },
+  "status": {
+    "loading": "Memuatkan visualisasi...",
+    "success": "Visualisasi berjaya dimuatkan!",
+    "error": "Gagal memuatkan visualisasi: {error}",
+    "reloading": "Memuatkan semula data...",
+    "reloadSuccess": "Data berjaya dimuatkan semula!",
+    "searchChanged": "Ditemui {count} hasil{plural} untuk \"{term}\"",
+    "noSearchResults": "Tiada hasil ditemui untuk \"{term}\"",
+    "filtersActive": "{count} penapis{plural} aktif",
+    "metadataShown": "Menunjukkan metadata untuk {name}",
+    "flowMetadataShown": "Menunjukkan metadata aliran: {from} → {to}"
+  },
+  "accessibility": {
+    "visualizationDescription": "Diagram aliran keterlibatan korporat interaktif yang menunjukkan jejak wang dari sumber pembiayaan melalui syarikat ke operasi. Gunakan kekunci anak panah untuk navigasi antara nod, Enter untuk memilih, Escape untuk keluar dari mod navigasi.",
+    "keyboardHelp": "Bantuan Navigasi Papan Kekunci:\n- Kekunci anak panah: Navigasi antara elemen\n- Enter atau Space: Aktifkan elemen\n- Home: Pergi ke elemen pertama\n- End: Pergi ke elemen terakhir\n- Escape: Keluar dari mod navigasi\n- Ctrl+H: Tunjukkan bantuan ini",
+    "focusedOn": "Fokus pada {description}",
+    "navigatedTo": "Navigasi ke {description}",
+    "activated": "Diaktifkan {description}",
+    "exitedNavigation": "Keluar dari mod navigasi",
+    "screenReaderOnly": "Kandungan pembaca skrin sahaja"
+  },
+  "dataInfo": {
+    "format": "Format Data:",
+    "lastUpdated": "Kemaskini Terakhir:",
+    "version": "Versi:",
+    "legacyEnhanced": "Warisan v{version} (Dipertingkat)",
+    "enhanced": "v{version}",
+    "unknown": "Tidak Diketahui"
+  },
+  "common": {
+    "loading": "Memuatkan...",
+    "error": "Ralat",
+    "success": "Berjaya",
+    "info": "Maklumat",
+    "warning": "Amaran",
+    "close": "Tutup",
+    "cancel": "Batal",
+    "ok": "OK",
+    "yes": "Ya",
+    "no": "Tidak",
+    "unknown": "Tidak Diketahui",
+    "billion": "{value}B",
+    "usd": "USD"
+  }
+}

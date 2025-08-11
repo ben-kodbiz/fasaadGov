@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Search and Filter Functionality</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="src/styles/responsive.css">
+    <link rel="stylesheet" href="src/styles/accessibility.css">
+    <link rel="stylesheet" href="src/styles/search-filter.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f5f5f5;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        .success { 
+            background: #e8f5e8; 
+            border: 1px solid #4caf50; 
+            color: #2e7d32; 
+        }
+        .error { 
+            background: #ffebee; 
+            border: 1px solid #f44336; 
+            color: #c62828; 
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1565c0;
+        }
+        #chart { 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            padding: 20px; 
+            margin: 20px 0;
+            background: white;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #1565c0;
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .test-info {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .test-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976d2;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Search and Filter Test</h1>
+        
+        <div class="test-info">
+            <h3>Test Instructions</h3>
+            <ol>
+                <li>Click "Render Visualization" to create the flow diagram with enhanced test data</li>
+                <li>Use the search box to find specific nodes (try "military", "tech", "operations")</li>
+                <li>Use the filter dropdowns to filter by type and confidence level</li>
+                <li>Try keyboard navigation (Tab to focus, Arrow keys to navigate, Enter to select)</li>
+                <li>Test accessibility features with screen reader if available</li>
+                <li>Observe how search and filters interact with each other</li>
+            </ol>
+        </div>
+        
+        <div id="status"></div>
+        
+        <div class="controls">
+            <button id="render-btn" class="btn">🎨 Render Visualization</button>
+            <button id="reset-btn" class="btn" disabled>🔄 Reset All</button>
+            <button id="demo-search-btn" class="btn" disabled>🔍 Demo Search</button>
+        </div>
+        
+        <div id="search-filter-container" style="display: none;">
+            <!-- Search and filter UI will be inserted here -->
+        </div>
+        
+        <div id="chart"></div>
+        
+        <div class="stats-panel" id="stats-panel" style="display: none;">
+            <div class="stat-item">
+                <div class="stat-value" id="visible-nodes">-</div>
+                <div class="stat-label">Visible Nodes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="visible-flows">-</div>
+                <div class="stat-label">Visible Flows</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="search-results">-</div>
+                <div class="stat-label">Search Results</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="active-filters">-</div>
+                <div class="stat-label">Active Filters</div>
+            </div>
+        </div>
+        
+        <div class="test-info">
+            <h3>Test Scenarios</h3>
+            <ul>
+                <li><strong>Search Test:</strong> Search for "military" - should highlight military-related nodes</li>
+                <li><strong>Filter Test:</strong> Filter by "Military & Defense" type - should show only military nodes</li>
+                <li><strong>Combined Test:</strong> Search for "tech" and filter by "High Confidence"</li>
+                <li><strong>Clear Test:</strong> Use clear buttons to reset search and filters</li>
+                <li><strong>Accessibility Test:</strong> Use Tab and arrow keys for keyboard navigation</li>
+                <li><strong>Responsive Test:</strong> Resize window to test mobile layout</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="module">
+        import { SankeyRenderer } from './src/core/sankeyRenderer.js';
+        import { SearchFilter } from './src/ui/searchFilter.js';
+        import { AccessibilityManager } from './src/utils/accessibility.js';
+
+        // Application state
+        let renderer = null;
+        let searchFilter = null;
+        let accessibilityManager = null;
+
+        // DOM elements
+        const statusEl = document.getElementById('status');
+        const renderBtn = document.getElementById('render-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const demoSearchBtn = document.getElementById('demo-search-btn');
+        const searchFilterContainer = document.getElementById('search-filter-container');
+        const statsPanel = document.getElementById('stats-panel');
+
+        // Enhanced test data with more variety for testing
+        const testData = {
+            sources: [
+                {id: 'us-military-aid', name: 'US Military Aid', value: 150, color: '#e53e3e', type: 'government', confidence: 'high'},
+                {id: 'corporate-profits', name: 'Corporate Profits', value: 120, color: '#38a169', type: 'corporate', confidence: 'high'},
+                {id: 'private-investment', name: 'Private Investment', value: 80, color: '#3182ce', type: 'finance', confidence: 'medium'},
+                {id: 'foreign-aid', name: 'Foreign Military Aid', value: 60, color: '#805ad5', type: 'government', confidence: 'medium'}
+            ],
+            companies: [
+                {id: 'defense-corp', name: 'Defense Corporation', value: 180, color: '#e53e3e', type: 'military', confidence: 'high'},
+                {id: 'tech-surveillance', name: 'Tech Surveillance Inc', value: 140, color: '#7b1fa2', type: 'surveillance', confidence: 'high'},
+                {id: 'construction-giant', name: 'Construction Giant Ltd', value: 100, color: '#d69e2e', type: 'construction', confidence: 'medium'},
+                {id: 'finance-group', name: 'Finance Group', value: 80, color: '#3182ce', type: 'finance', confidence: 'medium'},
+                {id: 'cyber-systems', name: 'Cyber Systems Corp', value: 60, color: '#805ad5', type: 'surveillance', confidence: 'low'},
+                {id: 'logistics-co', name: 'Logistics Company', value: 40, color: '#38a169', type: 'other', confidence: 'low'}
+            ],
+            targets: [
+                {id: 'military-ops', name: 'Military Operations', value: 200, color: '#e53e3e', type: 'military', confidence: 'high'},
+                {id: 'surveillance-systems', name: 'Surveillance Systems', value: 120, color: '#7b1fa2', type: 'surveillance', confidence: 'high'},
+                {id: 'infrastructure-destruction', name: 'Infrastructure Destruction', value: 80, color: '#d69e2e', type: 'infrastructure', confidence: 'medium'},
+                {id: 'settlement-expansion', name: 'Settlement Expansion', value: 60, color: '#3182ce', type: 'settlements', confidence: 'medium'},
+                {id: 'cyber-warfare', name: 'Cyber Warfare', value: 40, color: '#805ad5', type: 'military', confidence: 'low'}
+            ],
+            flows: [
+                {from: 'us-military-aid', to: 'defense-corp', value: 80, type: 'funding', confidence: 'high'},
+                {from: 'us-military-aid', to: 'tech-surveillance', value: 50, type: 'funding', confidence: 'high'},
+                {from: 'corporate-profits', to: 'defense-corp', value: 70, type: 'investment', confidence: 'high'},
+                {from: 'corporate-profits', to: 'construction-giant', value: 30, type: 'investment', confidence: 'medium'},
+                {from: 'private-investment', to: 'finance-group', value: 40, type: 'investment', confidence: 'medium'},
+                {from: 'private-investment', to: 'cyber-systems', value: 25, type: 'investment', confidence: 'low'},
+                {from: 'foreign-aid', to: 'logistics-co', value: 35, type: 'funding', confidence: 'medium'},
+                
+                {from: 'defense-corp', to: 'military-ops', value: 120, type: 'supply', confidence: 'high'},
+                {from: 'defense-corp', to: 'cyber-warfare', value: 30, type: 'supply', confidence: 'medium'},
+                {from: 'tech-surveillance', to: 'surveillance-systems', value: 80, type: 'supply', confidence: 'high'},
+                {from: 'tech-surveillance', to: 'military-ops', value: 40, type: 'supply', confidence: 'high'},
+                {from: 'construction-giant', to: 'infrastructure-destruction', value: 50, type: 'supply', confidence: 'medium'},
+                {from: 'construction-giant', to: 'settlement-expansion', value: 30, type: 'supply', confidence: 'medium'},
+                {from: 'finance-group', to: 'settlement-expansion', value: 20, type: 'funding', confidence: 'medium'},
+                {from: 'cyber-systems', to: 'cyber-warfare', value: 15, type: 'supply', confidence: 'low'},
+                {from: 'logistics-co', to: 'military-ops', value: 25, type: 'support', confidence: 'medium'}
+            ]
+        };
+
+        /**
+         * Show status message
+         */
+        function showStatus(message, type = 'info') {
+            statusEl.innerHTML = `<div class="status ${type}">${message}</div>`;
+            setTimeout(() => {
+                if (type !== 'success') {
+                    statusEl.innerHTML = '';
+                }
+            }, 5000);
+        }
+
+        /**
+         * Update statistics display
+         */
+        function updateStats(data, searchResults = [], activeFilters = {}) {
+            const visibleNodes = (data?.sources?.length || 0) + (data?.companies?.length || 0) + (data?.targets?.length || 0);
+            const visibleFlows = data?.flows?.length || 0;
+            const searchCount = searchResults.length;
+            const filterCount = (activeFilters.types?.size || 0) + (activeFilters.confidence?.size || 0) + (activeFilters.custom?.size || 0);
+
+            document.getElementById('visible-nodes').textContent = visibleNodes;
+            document.getElementById('visible-flows').textContent = visibleFlows;
+            document.getElementById('search-results').textContent = searchCount;
+            document.getElementById('active-filters').textContent = filterCount;
+        }
+
+        /**
+         * Render the test visualization
+         */
+        function renderVisualization() {
+            try {
+                showStatus('Rendering enhanced test visualization...', 'info');
+                
+                // Create renderer
+                renderer = new SankeyRenderer('#chart', {
+                    width: 900,
+                    height: 600
+                });
+
+                // Render visualization
+                renderer.render(testData);
+
+                // Create search filter system
+                searchFilter = new SearchFilter(renderer, {
+                    enableRealTimeSearch: true,
+                    searchDelay: 200,
+                    caseSensitive: false
+                });
+                searchFilter.initialize('#search-filter-container');
+                
+                // Set up callbacks
+                searchFilter.onSearchChange = (searchTerm, results) => {
+                    console.log('Search changed:', searchTerm, results);
+                    updateStats(searchFilter.getFilteredData(), results, searchFilter.activeFilters);
+                    
+                    if (searchTerm && results.length > 0) {
+                        showStatus(`Found ${results.length} result${results.length !== 1 ? 's' : ''} for "${searchTerm}"`, 'success');
+                    } else if (searchTerm && results.length === 0) {
+                        showStatus(`No results found for "${searchTerm}"`, 'info');
+                    }
+                };
+
+                searchFilter.onFilterChange = (activeFilters) => {
+                    console.log('Filters changed:', activeFilters);
+                    updateStats(searchFilter.getFilteredData(), searchFilter.getSearchResults(), activeFilters);
+                };
+
+                searchFilter.onResultsUpdate = (filteredData, activeFilters) => {
+                    console.log('Results updated:', filteredData, activeFilters);
+                    updateStats(filteredData, searchFilter.getSearchResults(), activeFilters);
+                };
+
+                // Create accessibility manager
+                accessibilityManager = new AccessibilityManager(renderer, {
+                    enableKeyboardNavigation: true,
+                    enableScreenReader: true,
+                    announceChanges: true
+                });
+
+                // Show UI elements
+                searchFilterContainer.style.display = 'block';
+                statsPanel.style.display = 'grid';
+                
+                // Enable buttons
+                resetBtn.disabled = false;
+                demoSearchBtn.disabled = false;
+                renderBtn.textContent = '🔄 Re-render';
+
+                // Initial stats
+                updateStats(testData, [], {});
+
+                showStatus('✅ Visualization rendered! Search and filter functionality is now active.', 'success');
+
+            } catch (error) {
+                console.error('Render failed:', error);
+                showStatus(`❌ Render failed: ${error.message}`, 'error');
+            }
+        }
+
+        /**
+         * Reset all search and filters
+         */
+        function resetAll() {
+            if (searchFilter) {
+                searchFilter.clearSearch();
+                searchFilter.clearAllFilters();
+                updateStats(testData, [], {});
+                showStatus('🔄 All search and filters cleared', 'info');
+            }
+        }
+
+        /**
+         * Demo search functionality
+         */
+        function demoSearch() {
+            if (!searchFilter) return;
+
+            const demoTerms = ['military', 'tech', 'surveillance', 'construction', 'finance'];
+            const randomTerm = demoTerms[Math.floor(Math.random() * demoTerms.length)];
+            
+            // Set search input value
+            const searchInput = document.querySelector('#search-input');
+            if (searchInput) {
+                searchInput.value = randomTerm;
+                searchFilter.performSearch(randomTerm);
+                showStatus(`🔍 Demo search: "${randomTerm}"`, 'info');
+            }
+        }
+
+        /**
+         * Initialize the test page
+         */
+        function initialize() {
+            try {
+                showStatus('Search and filter test page initialized. Click "Render Visualization" to begin.', 'info');
+                
+                // Attach event listeners
+                renderBtn.addEventListener('click', renderVisualization);
+                resetBtn.addEventListener('click', resetAll);
+                demoSearchBtn.addEventListener('click', demoSearch);
+
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                showStatus(`❌ Initialization failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initialize);
+        } else {
+            initialize();
+        }
+
+        // Expose for debugging
+        window.searchFilterTest = {
+            renderer,
+            searchFilter,
+            accessibilityManager,
+            testData,
+            renderVisualization,
+            resetAll,
+            demoSearch
+        };
+
+    </script>
+</body>
+</html>

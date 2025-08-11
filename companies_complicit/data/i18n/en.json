@@ -1,0 +1,155 @@
+{
+  "app": {
+    "title": "Corporate Complicity Flow",
+    "subtitle": "Money trail from funding sources to operations",
+    "version": "v02 Enhanced with modular architecture"
+  },
+  "navigation": {
+    "backToNetwork": "← Back to Network",
+    "backToHub": "← Back to Hub",
+    "reloadData": "🔄 Reload Data"
+  },
+  "search": {
+    "placeholder": "Search nodes and flows...",
+    "ariaLabel": "Search visualization elements",
+    "clearButton": "Clear search",
+    "resultsInfo": "Found {count} result{plural} for \"{term}\"",
+    "noResults": "No results found for \"{term}\"",
+    "typeToSearch": "Type to search across all visualization elements"
+  },
+  "filters": {
+    "title": "Filters",
+    "byType": "Filter by Type:",
+    "byConfidence": "Filter by Confidence:",
+    "typeAriaLabel": "Filter by node type",
+    "confidenceAriaLabel": "Filter by confidence level",
+    "applyFilters": "Apply Filters",
+    "clearAll": "Clear All",
+    "activeFilters": "Active filters:",
+    "filtersApplied": "Applied {count} filter{plural}",
+    "filtersCleared": "All filters cleared"
+  },
+  "types": {
+    "military": "Military & Defense",
+    "surveillance": "Surveillance & Tech",
+    "construction": "Construction",
+    "finance": "Finance",
+    "government": "Government",
+    "other": "Other"
+  },
+  "confidence": {
+    "high": "High Confidence",
+    "medium": "Medium Confidence",
+    "low": "Low Confidence",
+    "highDescription": "Verified from multiple reliable sources",
+    "mediumDescription": "Confirmed from single reliable source",
+    "lowDescription": "Unverified or disputed information"
+  },
+  "export": {
+    "svg": "📄 Export SVG",
+    "png": "🖼️ Export PNG",
+    "json": "📊 Download JSON",
+    "csv": "📋 Export CSV",
+    "svgTitle": "Export as SVG vector image",
+    "pngTitle": "Export as PNG raster image",
+    "jsonTitle": "Download data as JSON",
+    "csvTitle": "Download data as CSV",
+    "success": "{format} exported successfully!",
+    "error": "Export failed: {error}"
+  },
+  "metadata": {
+    "title": "Element Information",
+    "pinPanel": "Pin panel",
+    "unpinPanel": "Unpin panel",
+    "closePanel": "Close panel",
+    "loading": "Loading information...",
+    "error": "Unable to load information for this element.",
+    "sections": {
+      "basicInfo": "Basic Information",
+      "sourcesEvidence": "Sources & Evidence",
+      "confidenceVerification": "Confidence & Verification",
+      "additionalDetails": "Additional Details",
+      "newsReports": "Related News & Reports"
+    },
+    "fields": {
+      "name": "Name:",
+      "type": "Type:",
+      "value": "Value:",
+      "headquarters": "Headquarters:",
+      "revenue": "Revenue:",
+      "lastUpdated": "Last Updated:",
+      "flowType": "Flow Type:",
+      "from": "From:",
+      "to": "To:",
+      "verificationDate": "Verification Date:",
+      "primarySource": "Primary Source:",
+      "evidence": "Evidence:",
+      "confidenceLevel": "Confidence Level:",
+      "confidenceMeaning": "Confidence Meaning:",
+      "verification": "Verification:",
+      "involvement": "Involvement:",
+      "notes": "Notes:",
+      "impactAssessment": "Impact Assessment:"
+    },
+    "noInfo": {
+      "sources": "No source information available",
+      "confidence": "No confidence information available",
+      "additional": "No additional information available"
+    },
+    "evidenceMore": "+{count} more"
+  },
+  "stats": {
+    "sources": "Sources",
+    "companies": "Companies", 
+    "targets": "Targets",
+    "flows": "Flows",
+    "visibleNodes": "Visible Nodes",
+    "visibleFlows": "Visible Flows",
+    "searchResults": "Search Results",
+    "activeFilters": "Active Filters"
+  },
+  "status": {
+    "loading": "Loading visualization...",
+    "success": "Visualization loaded successfully!",
+    "error": "Failed to load visualization: {error}",
+    "reloading": "Reloading data...",
+    "reloadSuccess": "Data reloaded successfully!",
+    "searchChanged": "Found {count} result{plural} for \"{term}\"",
+    "noSearchResults": "No results found for \"{term}\"",
+    "filtersActive": "{count} filter{plural} active",
+    "metadataShown": "Showing metadata for {name}",
+    "flowMetadataShown": "Showing flow metadata: {from} → {to}"
+  },
+  "accessibility": {
+    "visualizationDescription": "Interactive corporate complicity flow diagram showing money trail from funding sources through companies to operations. Use arrow keys to navigate between nodes, Enter to select, Escape to exit navigation mode.",
+    "keyboardHelp": "Keyboard Navigation Help:\n- Arrow keys: Navigate between elements\n- Enter or Space: Activate element\n- Home: Go to first element\n- End: Go to last element\n- Escape: Exit navigation mode\n- Ctrl+H: Show this help",
+    "focusedOn": "Focused on {description}",
+    "navigatedTo": "Navigated to {description}",
+    "activated": "Activated {description}",
+    "exitedNavigation": "Exited navigation mode",
+    "screenReaderOnly": "Screen reader only content"
+  },
+  "dataInfo": {
+    "format": "Data Format:",
+    "lastUpdated": "Last Updated:",
+    "version": "Version:",
+    "legacyEnhanced": "Legacy v{version} (Enhanced)",
+    "enhanced": "v{version}",
+    "unknown": "Unknown"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "info": "Information",
+    "warning": "Warning",
+    "close": "Close",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "unknown": "Unknown",
+    "billion": "{value}B",
+    "usd": "USD"
+  }
+}

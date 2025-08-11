@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Export Functionality</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f5f5f5;
+        }
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        .success { 
+            background: #e8f5e8; 
+            border: 1px solid #4caf50; 
+            color: #2e7d32; 
+        }
+        .error { 
+            background: #ffebee; 
+            border: 1px solid #f44336; 
+            color: #c62828; 
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1565c0;
+        }
+        #chart { 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            padding: 20px; 
+            margin: 20px 0;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #1565c0;
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .export-panel {
+            display: inline-flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .export-btn {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+        .test-info {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .test-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .support-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .support-item {
+            padding: 8px;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .supported {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        .not-supported {
+            background: #ffebee;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Export System Test</h1>
+        
+        <div class="test-info">
+            <h3>Export Support Status</h3>
+            <div id="support-status" class="support-status">
+                <!-- Support status will be populated here -->
+            </div>
+        </div>
+        
+        <div id="status"></div>
+        
+        <div class="controls">
+            <button id="render-btn" class="btn">🎨 Render Visualization</button>
+            <div id="export-container">
+                <!-- Export buttons will be inserted here -->
+            </div>
+        </div>
+        
+        <div id="chart"></div>
+        
+        <div class="test-info">
+            <h3>Test Instructions</h3>
+            <ol>
+                <li>Click "Render Visualization" to create the flow diagram</li>
+                <li>Try each export button to test different formats</li>
+                <li>Check browser downloads folder for exported files</li>
+                <li>Verify file contents and formats are correct</li>
+            </ol>
+        </div>
+    </div>
+
+    <script type="module">
+        import { SankeyRenderer } from './src/core/sankeyRenderer.js';
+        import { ExportSystem } from './src/ui/exportButtons.js';
+
+        // Application state
+        let renderer = null;
+        let exportSystem = null;
+
+        // DOM elements
+        const statusEl = document.getElementById('status');
+        const renderBtn = document.getElementById('render-btn');
+        const supportStatusEl = document.getElementById('support-status');
+
+        // Test data
+        const testData = {
+            sources: [
+                {id: 'test-source-1', name: 'Test Source A', value: 120, color: '#e53e3e'},
+                {id: 'test-source-2', name: 'Test Source B', value: 80, color: '#38a169'}
+            ],
+            companies: [
+                {id: 'test-company-1', name: 'Test Company Alpha', value: 100, color: '#3182ce'},
+                {id: 'test-company-2', name: 'Test Company Beta', value: 60, color: '#805ad5'},
+                {id: 'test-company-3', name: 'Test Company Gamma', value: 40, color: '#d69e2e'}
+            ],
+            targets: [
+                {id: 'test-target-1', name: 'Test Target X', value: 90, color: '#e53e3e'},
+                {id: 'test-target-2', name: 'Test Target Y', value: 70, color: '#38a169'},
+                {id: 'test-target-3', name: 'Test Target Z', value: 40, color: '#3182ce'}
+            ],
+            flows: [
+                {from: 'test-source-1', to: 'test-company-1', value: 70},
+                {from: 'test-source-1', to: 'test-company-2', value: 30},
+                {from: 'test-source-2', to: 'test-company-2', value: 20},
+                {from: 'test-source-2', to: 'test-company-3', value: 40},
+                {from: 'test-company-1', to: 'test-target-1', value: 60},
+                {from: 'test-company-1', to: 'test-target-2', value: 30},
+                {from: 'test-company-2', to: 'test-target-2', value: 25},
+                {from: 'test-company-2', to: 'test-target-3', value: 15},
+                {from: 'test-company-3', to: 'test-target-3', value: 25}
+            ]
+        };
+
+        /**
+         * Show status message
+         */
+        function showStatus(message, type = 'info') {
+            statusEl.innerHTML = `<div class="status ${type}">${message}</div>`;
+            setTimeout(() => {
+                if (type !== 'success') {
+                    statusEl.innerHTML = '';
+                }
+            }, 5000);
+        }
+
+        /**
+         * Check and display export support status
+         */
+        function checkExportSupport() {
+            const support = ExportSystem.checkSupport();
+            
+            const supportItems = Object.entries(support).map(([format, supported]) => {
+                const statusClass = supported ? 'supported' : 'not-supported';
+                const icon = supported ? '✅' : '❌';
+                return `<div class="support-item ${statusClass}">${icon} ${format.toUpperCase()}</div>`;
+            }).join('');
+            
+            supportStatusEl.innerHTML = supportItems;
+        }
+
+        /**
+         * Render the test visualization
+         */
+        function renderVisualization() {
+            try {
+                showStatus('Rendering test visualization...', 'info');
+                
+                // Create renderer
+                renderer = new SankeyRenderer('#chart', {
+                    width: 700,
+                    height: 400
+                });
+
+                // Render visualization
+                renderer.render(testData);
+
+                // Create export system
+                exportSystem = new ExportSystem(renderer, {
+                    defaultFilename: 'test-export'
+                });
+                exportSystem.initialize('#export-container');
+
+                showStatus('✅ Visualization rendered! Export buttons are now active.', 'success');
+                renderBtn.textContent = '🔄 Re-render';
+
+            } catch (error) {
+                console.error('Render failed:', error);
+                showStatus(`❌ Render failed: ${error.message}`, 'error');
+            }
+        }
+
+        /**
+         * Initialize the test page
+         */
+        function initialize() {
+            try {
+                showStatus('Export test page initialized. Click "Render Visualization" to begin.', 'info');
+                
+                // Check export support
+                checkExportSupport();
+                
+                // Attach event listeners
+                renderBtn.addEventListener('click', renderVisualization);
+
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                showStatus(`❌ Initialization failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initialize);
+        } else {
+            initialize();
+        }
+
+        // Expose for debugging
+        window.exportTest = {
+            renderer,
+            exportSystem,
+            testData,
+            renderVisualization
+        };
+
+    </script>
+</body>
+</html>

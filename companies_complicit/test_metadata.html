@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Metadata Panel Functionality</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="src/styles/responsive.css">
+    <link rel="stylesheet" href="src/styles/accessibility.css">
+    <link rel="stylesheet" href="src/styles/search-filter.css">
+    <link rel="stylesheet" href="src/styles/metadata-panel.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f5f5f5;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        .success { 
+            background: #e8f5e8; 
+            border: 1px solid #4caf50; 
+            color: #2e7d32; 
+        }
+        .error { 
+            background: #ffebee; 
+            border: 1px solid #f44336; 
+            color: #c62828; 
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1565c0;
+        }
+        #chart { 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            padding: 20px; 
+            margin: 20px 0;
+            background: white;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #1565c0;
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .test-info {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .test-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .flow-rect {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .flow-rect:hover {
+            opacity: 0.8;
+        }
+        .flow-line {
+            cursor: pointer;
+            transition: stroke-width 0.2s;
+        }
+        .flow-line:hover {
+            stroke-width: 4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Metadata Panel Test</h1>
+        
+        <div class="test-info">
+            <h3>Test Instructions</h3>
+            <ol>
+                <li>Click "Render Visualization" to create the flow diagram with enhanced metadata</li>
+                <li>Click on any node (rectangle) to see detailed metadata panel</li>
+                <li>Click on any flow line to see flow information</li>
+                <li>Use the pin button (📌) to keep the panel open</li>
+                <li>Test different panel positions using the position buttons</li>
+                <li>Notice the rich provenance information, confidence levels, and source links</li>
+            </ol>
+        </div>
+        
+        <div id="status"></div>
+        
+        <div class="controls">
+            <button id="render-btn" class="btn">🎨 Render Visualization</button>
+            <button id="position-right" class="btn" disabled>📍 Right Panel</button>
+            <button id="position-left" class="btn" disabled>📍 Left Panel</button>
+            <button id="position-bottom" class="btn" disabled>📍 Bottom Panel</button>
+            <button id="demo-click" class="btn" disabled>🎯 Demo Click</button>
+        </div>
+        
+        <div id="chart"></div>
+        
+        <div class="test-info">
+            <h3>Enhanced Metadata Features</h3>
+            <ul>
+                <li><strong>Rich Data:</strong> Each node has detailed information including headquarters, revenue, involvement</li>
+                <li><strong>Provenance:</strong> Source attribution with confidence levels and verification dates</li>
+                <li><strong>Evidence Links:</strong> Clickable links to supporting documentation</li>
+                <li><strong>News Articles:</strong> Related news reports with confidence scores</li>
+                <li><strong>Interactive Panel:</strong> Pin/unpin, auto-hide, multiple positions</li>
+                <li><strong>Responsive Design:</strong> Works on mobile and desktop</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="module">
+        import { MetadataPanel } from './src/ui/metadataPanel.js';
+
+        // Application state
+        let renderer = null;
+        let metadataPanel = null;
+
+        // DOM elements
+        const statusEl = document.getElementById('status');
+        const renderBtn = document.getElementById('render-btn');
+        const positionRightBtn = document.getElementById('position-right');
+        const positionLeftBtn = document.getElementById('position-left');
+        const positionBottomBtn = document.getElementById('position-bottom');
+        const demoClickBtn = document.getElementById('demo-click');
+
+        // Enhanced test data with rich metadata
+        const testData = {
+            sources: [
+                {
+                    id: 'us-military-aid', 
+                    name: 'US Military Aid', 
+                    value: 150, 
+                    color: '#e53e3e', 
+                    type: 'government', 
+                    confidence: 'high',
+                    source: 'US Department of Defense Budget 2024',
+                    headquarters: 'Washington, DC',
+                    updated_at: '2024-01-15T10:30:00Z',
+                    evidence: [
+                        'https://www.defense.gov/budget-2024',
+                        'https://congress.gov/military-aid-allocation'
+                    ],
+                    notes: 'Annual military aid allocation as approved by Congress'
+                },
+                {
+                    id: 'corporate-profits', 
+                    name: 'Corporate Profits', 
+                    value: 120, 
+                    color: '#38a169', 
+                    type: 'corporate', 
+                    confidence: 'high',
+                    source: 'Fortune 500 Defense Contractor Reports',
+                    updated_at: '2024-02-01T14:20:00Z',
+                    evidence: [
+                        'https://fortune.com/defense-profits-2024'
+                    ]
+                }
+            ],
+            companies: [
+                {
+                    id: 'defense-corp', 
+                    name: 'Defense Corporation', 
+                    value: 180, 
+                    color: '#e53e3e', 
+                    type: 'military', 
+                    confidence: 'high',
+                    headquarters: 'Arlington, VA',
+                    revenue: '$45.2 billion (2023)',
+                    involvement: 'Primary contractor for advanced weapons systems and military technology',
+                    source: 'SEC Filing 10-K 2023',
+                    updated_at: '2024-01-20T09:15:00Z',
+                    evidence: [
+                        'https://sec.gov/defense-corp-10k-2023',
+                        'https://defensecorp.com/annual-report'
+                    ],
+                    news_articles: [
+                        {
+                            title: 'Defense Corp Wins $2.3B Military Contract',
+                            date: '2024-01-15',
+                            source: 'Defense News',
+                            url: 'https://defensenews.com/contract-award',
+                            summary: 'Major defense contractor awarded multi-billion dollar contract for next-generation weapons systems.',
+                            category: 'news',
+                            confidence: 0.95
+                        },
+                        {
+                            title: 'Investigation: Defense Contractor Profit Margins',
+                            date: '2024-02-01',
+                            source: 'Washington Post',
+                            url: 'https://washingtonpost.com/defense-profits',
+                            summary: 'Analysis of defense contractor profit margins during recent military operations.',
+                            category: 'investigation',
+                            confidence: 0.88
+                        }
+                    ]
+                },
+                {
+                    id: 'tech-surveillance', 
+                    name: 'Tech Surveillance Inc', 
+                    value: 140, 
+                    color: '#7b1fa2', 
+                    type: 'surveillance', 
+                    confidence: 'medium',
+                    headquarters: 'Silicon Valley, CA',
+                    revenue: '$28.7 billion (2023)',
+                    involvement: 'Provides advanced surveillance technology and data analytics for military operations',
+                    source: 'Company Annual Report 2023',
+                    updated_at: '2024-01-25T16:45:00Z',
+                    evidence: [
+                        'https://techsurveillance.com/annual-report-2023'
+                    ],
+                    news_articles: [
+                        {
+                            title: 'Tech Giant Expands Military Surveillance Contracts',
+                            date: '2024-01-10',
+                            source: 'TechCrunch',
+                            url: 'https://techcrunch.com/surveillance-contracts',
+                            summary: 'Technology company significantly increases its military and government surveillance contracts.',
+                            category: 'news',
+                            confidence: 0.92
+                        }
+                    ]
+                }
+            ],
+            targets: [
+                {
+                    id: 'military-ops', 
+                    name: 'Military Operations', 
+                    value: 200, 
+                    color: '#e53e3e', 
+                    type: 'military', 
+                    confidence: 'high',
+                    source: 'Department of Defense Operations Report',
+                    impact_assessment: 'Direct military engagement with significant operational impact',
+                    updated_at: '2024-02-05T11:30:00Z',
+                    evidence: [
+                        'https://defense.gov/operations-report-2024'
+                    ]
+                },
+                {
+                    id: 'surveillance-systems', 
+                    name: 'Surveillance Systems', 
+                    value: 120, 
+                    color: '#7b1fa2', 
+                    type: 'surveillance', 
+                    confidence: 'high',
+                    source: 'Intelligence Community Assessment',
+                    impact_assessment: 'Comprehensive surveillance infrastructure deployment',
+                    updated_at: '2024-01-30T13:20:00Z'
+                }
+            ],
+            flows: [
+                {
+                    from: 'us-military-aid', 
+                    to: 'defense-corp', 
+                    value: 80, 
+                    type: 'funding', 
+                    confidence: 'high',
+                    verification_date: '2024-01-15',
+                    evidence: [
+                        'https://usaspending.gov/contract-award-defense-corp'
+                    ],
+                    notes: 'Direct government contract award for weapons systems'
+                },
+                {
+                    from: 'defense-corp', 
+                    to: 'military-ops', 
+                    value: 120, 
+                    type: 'supply', 
+                    confidence: 'high',
+                    verification_date: '2024-01-20',
+                    evidence: [
+                        'https://defense.gov/equipment-delivery-report'
+                    ]
+                }
+            ]
+        };
+
+        /**
+         * Show status message
+         */
+        function showStatus(message, type = 'info') {
+            statusEl.innerHTML = `<div class="status ${type}">${message}</div>`;
+            setTimeout(() => {
+                if (type !== 'success') {
+                    statusEl.innerHTML = '';
+                }
+            }, 5000);
+        }
+
+        /**
+         * Simple D3 renderer for testing
+         */
+        class SimpleRenderer {
+            constructor(container) {
+                this.container = container;
+                this.svg = null;
+                this.data = null;
+            }
+
+            render(data) {
+                this.data = data;
+                this.clear();
+                this.createSvg();
+                this.renderNodes();
+                this.renderFlows();
+            }
+
+            clear() {
+                if (this.svg) {
+                    this.svg.remove();
+                }
+            }
+
+            createSvg() {
+                const width = 900;
+                const height = 400;
+                
+                this.svg = d3.select(this.container)
+                    .append('svg')
+                    .attr('width', width)
+                    .attr('height', height)
+                    .attr('viewBox', `0 0 ${width} ${height}`)
+                    .style('max-width', '100%')
+                    .style('height', 'auto');
+            }
+
+            renderNodes() {
+                const positions = { sources: 50, companies: 350, targets: 650 };
+                const spacing = { sources: 150, companies: 120, targets: 150 };
+
+                ['sources', 'companies', 'targets'].forEach(nodeType => {
+                    this.data[nodeType].forEach((node, i) => {
+                        const x = positions[nodeType];
+                        const y = 50 + i * spacing[nodeType];
+                        const height = Math.max(40, node.value / 3);
+
+                        const nodeGroup = this.svg.append('g')
+                            .attr('class', 'node')
+                            .attr('data-id', node.id)
+                            .attr('data-type', nodeType);
+
+                        nodeGroup.append('rect')
+                            .attr('class', 'flow-rect')
+                            .attr('x', x)
+                            .attr('y', y)
+                            .attr('width', 200)
+                            .attr('height', height)
+                            .attr('fill', node.color)
+                            .attr('rx', 8)
+                            .style('cursor', 'pointer')
+                            .on('click', (event) => {
+                                event.stopPropagation();
+                                this.handleNodeClick(node, nodeType);
+                            });
+
+                        nodeGroup.append('text')
+                            .attr('x', x + 100)
+                            .attr('y', y + height/2)
+                            .attr('text-anchor', 'middle')
+                            .attr('dy', '0.35em')
+                            .attr('fill', 'white')
+                            .style('font-weight', 'bold')
+                            .style('font-size', '14px')
+                            .text(node.name);
+
+                        nodeGroup.append('text')
+                            .attr('x', x + 100)
+                            .attr('y', y + height/2 + 18)
+                            .attr('text-anchor', 'middle')
+                            .attr('dy', '0.35em')
+                            .attr('fill', 'white')
+                            .style('font-size', '12px')
+                            .text(`${node.value}B`);
+                    });
+                });
+            }
+
+            renderFlows() {
+                this.data.flows.forEach(flow => {
+                    const fromNode = this.findNode(flow.from);
+                    const toNode = this.findNode(flow.to);
+
+                    if (fromNode && toNode) {
+                        const fromPos = this.getNodePosition(flow.from);
+                        const toPos = this.getNodePosition(flow.to);
+
+                        this.svg.append('line')
+                            .attr('class', 'flow-line')
+                            .attr('x1', fromPos.x + 200)
+                            .attr('y1', fromPos.y + fromPos.height/2)
+                            .attr('x2', toPos.x)
+                            .attr('y2', toPos.y + toPos.height/2)
+                            .attr('stroke', fromNode.color)
+                            .attr('stroke-width', Math.max(3, flow.value / 20))
+                            .attr('opacity', 0.7)
+                            .style('cursor', 'pointer')
+                            .on('click', (event) => {
+                                event.stopPropagation();
+                                this.handleFlowClick({ flow, fromNode, toNode });
+                            });
+                    }
+                });
+            }
+
+            findNode(nodeId) {
+                const allNodes = [...this.data.sources, ...this.data.companies, ...this.data.targets];
+                return allNodes.find(node => node.id === nodeId);
+            }
+
+            getNodePosition(nodeId) {
+                const positions = { sources: 50, companies: 350, targets: 650 };
+                const spacing = { sources: 150, companies: 120, targets: 150 };
+
+                let nodeType, index;
+                if (this.data.sources.find((n, i) => n.id === nodeId && (index = i, nodeType = 'sources'))) {}
+                else if (this.data.companies.find((n, i) => n.id === nodeId && (index = i, nodeType = 'companies'))) {}
+                else if (this.data.targets.find((n, i) => n.id === nodeId && (index = i, nodeType = 'targets'))) {}
+
+                const node = this.findNode(nodeId);
+                return {
+                    x: positions[nodeType],
+                    y: 50 + index * spacing[nodeType],
+                    height: Math.max(40, node.value / 3)
+                };
+            }
+
+            handleNodeClick(node, nodeType) {
+                if (metadataPanel) {
+                    metadataPanel.showNodeInfo(node, nodeType);
+                    showStatus(`Showing metadata for ${node.name}`, 'info');
+                }
+            }
+
+            handleFlowClick(flowData) {
+                if (metadataPanel) {
+                    metadataPanel.showFlowInfo(flowData);
+                    showStatus(`Showing flow metadata: ${flowData.fromNode.name} → ${flowData.toNode.name}`, 'info');
+                }
+            }
+        }
+
+        /**
+         * Render the test visualization
+         */
+        function renderVisualization() {
+            try {
+                showStatus('Rendering visualization with enhanced metadata...', 'info');
+                
+                // Create renderer
+                renderer = new SimpleRenderer('#chart');
+                renderer.render(testData);
+
+                // Create metadata panel
+                metadataPanel = new MetadataPanel(document.body, {
+                    position: 'right',
+                    showOnClick: true,
+                    autoHide: true,
+                    hideDelay: 10000 // 10 seconds
+                });
+
+                // Enable buttons
+                positionRightBtn.disabled = false;
+                positionLeftBtn.disabled = false;
+                positionBottomBtn.disabled = false;
+                demoClickBtn.disabled = false;
+                renderBtn.textContent = '🔄 Re-render';
+
+                showStatus('✅ Visualization rendered! Click on any node or flow to see metadata.', 'success');
+
+            } catch (error) {
+                console.error('Render failed:', error);
+                showStatus(`❌ Render failed: ${error.message}`, 'error');
+            }
+        }
+
+        /**
+         * Demo click functionality
+         */
+        function demoClick() {
+            if (!renderer || !metadataPanel) return;
+
+            // Show metadata for the first company with rich data
+            const demoNode = testData.companies[0];
+            metadataPanel.showNodeInfo(demoNode, 'companies');
+            showStatus(`🎯 Demo: Showing metadata for ${demoNode.name}`, 'info');
+        }
+
+        /**
+         * Change panel position
+         */
+        function changePosition(position) {
+            if (metadataPanel) {
+                metadataPanel.updatePosition(position);
+                showStatus(`Panel position changed to ${position}`, 'info');
+            }
+        }
+
+        /**
+         * Initialize the test page
+         */
+        function initialize() {
+            try {
+                showStatus('Metadata panel test page initialized. Click "Render Visualization" to begin.', 'info');
+                
+                // Attach event listeners
+                renderBtn.addEventListener('click', renderVisualization);
+                positionRightBtn.addEventListener('click', () => changePosition('right'));
+                positionLeftBtn.addEventListener('click', () => changePosition('left'));
+                positionBottomBtn.addEventListener('click', () => changePosition('bottom'));
+                demoClickBtn.addEventListener('click', demoClick);
+
+                // Close panel when clicking outside
+                document.addEventListener('click', (event) => {
+                    if (metadataPanel && metadataPanel.isOpen() && 
+                        !event.target.closest('.metadata-panel') && 
+                        !event.target.closest('.flow-rect') && 
+                        !event.target.closest('.flow-line')) {
+                        metadataPanel.hide();
+                    }
+                });
+
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                showStatus(`❌ Initialization failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initialize);
+        } else {
+            initialize();
+        }
+
+        // Expose for debugging
+        window.metadataTest = {
+            renderer,
+            metadataPanel,
+            testData,
+            renderVisualization,
+            demoClick
+        };
+
+    </script>
+</body>
+</html>

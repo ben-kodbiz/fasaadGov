@@ -1,0 +1,158 @@
+{
+    "events": [
+        {
+            "name": "Forced Displacement of Chagossians",
+            "years": "1965-1973",
+            "description": "The UK government forcibly removed the entire population of the Chagos Islands to make way for a US military base on Diego Garcia, displacing around 2,000 people and leading to ongoing legal battles and allegations of crimes against humanity.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes"
+            ]
+        },
+        {
+            "name": "Aden Emergency and Torture Cover-Up",
+            "years": "1963-1967",
+            "description": "British forces engaged in a counter-insurgency campaign in Aden (Yemen), involving torture and abuse of detainees. Secret files revealed in 2017 showed cover-ups of atrocities against insurgents.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes",
+                "https://theconversation.com/operation-legacy-how-britain-covered-up-its-colonial-crimes-225330"
+            ]
+        },
+        {
+            "name": "Covert War in North Yemen",
+            "years": "1962-1970",
+            "description": "Britain ran a covert operation supporting royalists against republicans, colluding with Israel and Saudi Arabia, involving mercenaries and SAS units, resulting in around 200,000 deaths.",
+            "sources": [
+                "https://warontherocks.com/2015/07/warchives-cs-list-how-the-british-debated-covert-action-in-the-early-cold-war/"
+            ]
+        },
+        {
+            "name": "Support for Nigeria in Biafran War",
+            "years": "1967-1970",
+            "description": "Harold Wilson's Labour government secretly armed and backed Nigeria's military campaign against Biafra, driven by oil interests, contributing to a humanitarian crisis with up to 3 million deaths from famine and conflict.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes"
+            ]
+        },
+        {
+            "name": "Secret Role in Vietnam War",
+            "years": "1965-1975",
+            "description": "Britain provided covert support to the US, including intelligence and backing war aims, despite knowledge of atrocities against civilians, while publicly advocating peace.",
+            "sources": [
+                "https://warontherocks.com/2015/07/warchives-cs-list-how-the-british-debated-covert-action-in-the-early-cold-war/"
+            ]
+        },
+        {
+            "name": "Bloody Sunday Massacre",
+            "years": "1972",
+            "description": "British paratroopers shot and killed 14 unarmed civilians during a civil rights march in Derry, Northern Ireland, leading to inquiries that found the killings unjustified and attempts at cover-up.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes"
+            ]
+        },
+        {
+            "name": "Collusion in Northern Ireland Troubles",
+            "years": "1969-1998",
+            "description": "British security forces colluded with loyalist paramilitaries, funding and directing terror squads that executed Irish Catholic civilians, including operations like the Glenanne gang atrocities.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes"
+            ]
+        },
+        {
+            "name": "Chemical Weapons Tests on Soldiers",
+            "years": "1980s-1990s",
+            "description": "The British government conducted secret chemical weapons experiments, including mustard gas and nerve agents, on unwilling soldiers, including British Indian Army personnel in Rawalpindi, causing severe injuries and deaths; revealed in 2007.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes"
+            ]
+        },
+        {
+            "name": "Operation Legacy",
+            "years": "1950s-1970s",
+            "description": "A systematic cover-up of colonial crimes across 37 countries, involving the destruction or hiding of documents detailing atrocities, including in Kenya and Malaya, to obscure Britain's imperial record.",
+            "sources": [
+                "https://theconversation.com/operation-legacy-how-britain-covered-up-its-colonial-crimes-225330",
+                "https://newsroom.carleton.ca/story/operation-legacy-colonial-crimes/"
+            ]
+        },
+        {
+            "name": "Iraq War Crimes",
+            "years": "2003-2011",
+            "description": "British forces implicated in war crimes, including torture and unlawful killings of civilians; investigations like IHAT closed without prosecutions amid allegations of cover-ups.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes",
+                "https://hansard.parliament.uk/lords/2021-01-20/debates/3CCFD6D5-5182-484F-8F0C-28DB13339980/OverseasOperations%28ServicePersonnelAndVeterans%29Bill"
+            ]
+        },
+        {
+            "name": "Afghanistan War Crimes",
+            "years": "2001-2021",
+            "description": "UK Special Forces, including SAS, accused of executing unarmed detainees and civilians; 2025 revelations from former members detailed a code of silence broken over repeated atrocities.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes"
+            ]
+        },
+        {
+            "name": "Covert Operations in Libya",
+            "years": "2011-2016",
+            "description": "British special forces and MI6 supported rebels against Gaddafi, including training, intelligence, and airstrike coordination, contributing to the country's destabilization.",
+            "sources": [
+                "https://warontherocks.com/2015/07/warchives-cs-list-how-the-british-debated-covert-action-in-the-early-cold-war/"
+            ]
+        },
+        {
+            "name": "Covert Operations in Syria",
+            "years": "2011-present",
+            "description": "MI6 and special forces assisted Syrian rebels from 2011, providing training, weapons via a 'rat line' from Libya, and intelligence to topple Assad, in coordination with the US.",
+            "sources": [
+                "https://warontherocks.com/2015/07/warchives-cs-list-how-the-british-debated-covert-action-in-the-early-cold-war/"
+            ]
+        },
+        {
+            "name": "Covert War in Yemen",
+            "years": "2015-present",
+            "description": "Britain provided covert support to Saudi-led coalition, including SAS training, arms sales, and intelligence, amid allegations of war crimes and a humanitarian crisis killing thousands.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes"
+            ]
+        },
+        {
+            "name": "Covert Operations in Somalia",
+            "years": "2010s-present",
+            "description": "SAS units operated with Kenyan forces targeting al-Shabaab, providing training and calling in airstrikes, as part of undeclared wars.",
+            "sources": [
+                "https://warontherocks.com/2015/07/warchives-cs-list-how-the-british-debated-covert-action-in-the-early-cold-war/"
+            ]
+        },
+        {
+            "name": "Involvement in US Drone Operations in Pakistan",
+            "years": "2000s-2010s",
+            "description": "RAF pilots based in the US assisted in drone strikes in Pakistan, potentially implicated in civilian killings and violations of international law.",
+            "sources": [
+                "https://en.wikipedia.org/wiki/British_war_crimes"
+            ]
+        },
+        {
+            "name": "Complicity in Israeli Atrocities in Gaza",
+            "years": "2023-present",
+            "description": "The UK government has been accused of aiding and abetting Israeli war crimes and atrocities in Gaza through continued arms exports, military cooperation, intelligence sharing, and political support, despite widespread evidence of civilian targeting, starvation tactics, and potential genocide.",
+            "sources": [
+                "https://www.aljazeera.com/news/2024/5/23/criminal-complaint-alleges-uk-politicians-complicity-in-israeli-war-crimes",
+                "https://www.map.org.uk/campaigns/stop-uks-complicity-to-end-israels-atrocities-a",
+                "https://hansard.parliament.uk/commons/2025-04-02/debates/349E0461-B542-4FA6-951C-2C4D7D1D2400/GazaIsraeliMilitaryOperations",
+                "https://en.wikipedia.org/wiki/War_crimes_in_the_Gaza_war"
+            ]
+        },
+        {
+            "name": "Involvement in Sudanese Conflicts and Atrocities",
+            "years": "1983-present",
+            "description": "Britain has been implicated in exacerbating Sudan's civil wars through arms sales, political support for regimes, and failure to prevent atrocities, including in Darfur where ethnic cleansing and crimes against humanity occurred, as well as in the ongoing 2023 civil war involving war crimes by supported factions.",
+            "sources": [
+                "https://www.theguardian.com/global-development/2017/apr/16/south-sudan-could-britain-create-peace-striking-how-close-they-feel",
+                "https://www.hrw.org/report/2024/05/09/massalit-will-not-come-home/ethnic-cleansing-and-crimes-against-humanity-el",
+                "https://hansard.parliament.uk/commons/2023-06-22/debates/79B0372F-7AE3-4276-AF5D-F58CB400F18D/SudanAtrocities",
+                "https://en.wikipedia.org/wiki/War_in_Darfur",
+                "https://en.wikipedia.org/wiki/Sudanese_civil_war_(2023%E2%80%93present)"
+            ]
+        }
+    ]
+}

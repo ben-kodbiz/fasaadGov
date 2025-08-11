@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>British Atrocities Timeline - Interactive Historical Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Interactive timeline visualization of documented British atrocities and war crimes throughout history. Explore colonial crimes, military operations, and cover-ups from 1962 to present.">
+    <meta name="keywords" content="British atrocities, UK war crimes, colonial crimes, Operation Legacy, Chagos Islands, Northern Ireland, Iraq War, Afghanistan War, historical timeline">
+    <meta name="author" content="British Atrocities Documentation Project">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="British Atrocities Timeline - Interactive Historical Visualization">
+    <meta property="og:description" content="Explore documented British atrocities and war crimes through an interactive timeline from colonial era to present day.">
+    <meta property="og:type" content="website">
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #8b0000;
+            --primary-light: #cd5c5c;
+            --primary-dark: #5d0000;
+            --secondary-color: #2c3e50;
+            --background-color: #fafafa;
+            --surface-color: #ffffff;
+            --surface-variant: #f5f5f5;
+            --on-surface: #1c1b1f;
+            --on-surface-variant: #49454f;
+            --outline: #79747e;
+            --shadow: rgba(0, 0, 0, 0.12);
+            --shadow-dark: rgba(0, 0, 0, 0.24);
+            --error-color: #dc3545;
+            --warning-color: #ff9800;
+            --success-color: #4caf50;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --surface-variant: #2d2d2d;
+            --on-surface: #e6e1e5;
+            --on-surface-variant: #cac4d0;
+            --outline: #938f99;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-dark: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--on-surface);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 0 0 4px 4px;
+            z-index: 9999;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        .app-bar {
+            background: var(--surface-color);
+            box-shadow: 0 2px 4px var(--shadow);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 2px 8px var(--shadow-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--surface-variant);
+            color: var(--on-surface);
+            border: 1px solid var(--outline);
+        }
+
+        .btn-secondary:hover {
+            background: var(--outline);
+            color: var(--surface-color);
+        }
+
+        .btn-icon {
+            background: transparent;
+            color: var(--on-surface-variant);
+            border: 1px solid var(--outline);
+            padding: 8px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-icon:hover {
+            background: var(--surface-variant);
+            color: var(--on-surface);
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 24px;
+            color: #856404;
+        }
+
+        [data-theme="dark"] .disclaimer {
+            background: #2d2a1f;
+            border-color: #4a4419;
+            color: #e6d690;
+        }
+
+        .disclaimer strong {
+            color: #664d03;
+        }
+
+        [data-theme="dark"] .disclaimer strong {
+            color: #ffd93d;
+        }
+
+        .controls-container {
+            background: var(--surface-color);
+            margin: 24px;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .control-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--on-surface-variant);
+        }
+
+        .select, .input {
+            padding: 12px 16px;
+            border: 1px solid var(--outline);
+            border-radius: 8px;
+            background: var(--surface-color);
+            color: var(--on-surface);
+            font-family: inherit;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .select:focus, .input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.2);
+        }
+
+        .chart-container {
+            margin: 24px;
+            background: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+            overflow: hidden;
+        }
+
+        #timeline {
+            width: 100%;
+            height: 800px;
+            background: var(--surface-variant);
+            position: relative;
+        }
+
+        .timeline-axis {
+            stroke: var(--outline);
+            stroke-width: 2;
+        }
+
+        .timeline-tick {
+            stroke: var(--on-surface-variant);
+            stroke-width: 1;
+        }
+
+        .timeline-label {
+            fill: var(--on-surface);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .event-circle {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .event-circle:hover {
+            stroke-width: 3;
+            r: 8;
+        }
+
+        .event-line {
+            stroke: var(--outline);
+            stroke-width: 1;
+            stroke-dasharray: 2,2;
+        }
+
+        .event-label {
+            fill: var(--on-surface);
+            font-size: 11px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .event-label:hover {
+            font-weight: 500;
+            fill: var(--primary-color);
+        }
+
+        .tooltip {
+            position: absolute;
+            background: var(--surface-color);
+            color: var(--on-surface);
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px var(--shadow-dark);
+            pointer-events: none;
+            font-size: 0.875rem;
+            max-width: 400px;
+            z-index: 1000;
+            border: 1px solid var(--outline);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .tooltip-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .tooltip-years {
+            font-size: 0.75rem;
+            color: var(--on-surface-variant);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .tooltip-description {
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .tooltip-sources {
+            border-top: 1px solid var(--outline);
+            padding-top: 8px;
+            font-size: 0.75rem;
+            color: var(--on-surface-variant);
+        }
+
+        .tooltip-sources a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .tooltip-sources a:hover {
+            text-decoration: underline;
+        }
+
+        .stats-container {
+            margin: 24px;
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: var(--surface-variant);
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--on-surface-variant);
+            font-weight: 500;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--on-surface-variant);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--surface-variant);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--error-color);
+            text-align: center;
+            padding: 24px;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .app-bar {
+                padding: 12px 16px;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .app-title {
+                font-size: 1.25rem;
+            }
+
+            .controls-container,
+            .chart-container,
+            .stats-container,
+            .disclaimer {
+                margin: 8px;
+                padding: 16px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .control-group {
+                min-width: auto;
+            }
+
+            #timeline {
+                height: 600px;
+            }
+
+            .tooltip {
+                max-width: 90vw;
+                font-size: 0.8rem;
+                padding: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .event-label {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-title {
+                font-size: 1.1rem;
+            }
+
+            #timeline {
+                height: 500px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Theme Toggle -->
+    <div style="background: var(--surface-color); padding: 8px 24px; border-bottom: 1px solid var(--outline); display: flex; justify-content: flex-end;">
+        <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode" aria-label="Toggle between light and dark theme">
+            <span class="material-icons" aria-hidden="true">dark_mode</span>
+        </button>
+    </div>
+
+    <header class="app-bar" role="banner">
+        <h1 class="app-title">
+            🇬🇧 British Atrocities Timeline
+        </h1>
+        <nav class="app-actions" role="navigation" aria-label="Main navigation">
+            <a href="../index.html" class="btn btn-secondary" aria-label="Back to main hub">
+                <span class="material-icons" aria-hidden="true">home</span>
+                Main Hub
+            </a>
+            <a href="../arabs_complicit/index.html" class="btn btn-secondary" aria-label="Arab Complicity Analysis">
+                <span class="material-icons" aria-hidden="true">analytics</span>
+                Arab Complicity
+            </a>
+            <a href="../companies_complicit/index.html" class="btn btn-secondary" aria-label="Corporate Complicity Network">
+                <span class="material-icons" aria-hidden="true">business</span>
+                Corporate Network
+            </a>
+            <a href="../israel/simple_treemap.html" class="btn btn-secondary" aria-label="Israel Atrocities Timeline">
+                <span class="material-icons" aria-hidden="true">timeline</span>
+                Israel Timeline
+            </a>
+        </nav>
+    </header>
+
+    <div class="disclaimer">
+        <strong>⚠️ Educational Purpose Only:</strong> This timeline presents documented British atrocities and war crimes for educational awareness. All information is sourced from historical records, government documents, and credible news sources. This visualization aims to promote historical understanding and accountability.
+    </div>
+
+    <main id="main-content" role="main">
+        <section class="controls-container" aria-label="Timeline controls">
+            <h2 style="margin-top: 0; color: var(--on-surface);">Filter and Search</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label class="control-label" for="searchInput">Search Events</label>
+                    <input type="text" id="searchInput" class="input" placeholder="Search by name or description..." aria-describedby="search-help">
+                    <div id="search-help" style="font-size: 0.75rem; color: var(--on-surface-variant);">Search through British atrocities by name, description, or location</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Time Period</label>
+                    <select id="periodFilter" class="select">
+                        <option value="all">All Periods</option>
+                        <option value="1960s">1960s</option>
+                        <option value="1970s">1970s</option>
+                        <option value="1980s">1980s</option>
+                        <option value="1990s">1990s</option>
+                        <option value="2000s">2000s</option>
+                        <option value="2010s">2010s</option>
+                        <option value="2020s">2020s</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Event Type</label>
+                    <select id="typeFilter" class="select">
+                        <option value="all">All Types</option>
+                        <option value="colonial">Colonial Crimes</option>
+                        <option value="military">Military Operations</option>
+                        <option value="covert">Covert Operations</option>
+                        <option value="coverup">Cover-ups</option>
+                        <option value="current">Current Complicity</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-container" aria-label="Timeline statistics">
+            <h3 style="margin-top: 0; color: var(--on-surface);">Overview</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalEvents">-</div>
+                    <div class="stat-label">Total Events</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="timeSpan">-</div>
+                    <div class="stat-label">Years Covered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="ongoingEvents">-</div>
+                    <div class="stat-label">Ongoing Issues</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="filteredEvents">-</div>
+                    <div class="stat-label">Visible Events</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="chart-container" aria-label="Interactive timeline visualization">
+            <div id="timeline" role="img" aria-label="Interactive timeline showing British atrocities and war crimes from 1962 to present">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading timeline data...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Theme management
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('.material-icons');
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+        }
+
+        // Timeline visualization
+        let rawData = [];
+        let filteredData = [];
+        let svg, tooltip;
+
+        // Load and initialize
+        async function loadData() {
+            try {
+                const response = await fetch('british.json');
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                
+                const data = await response.json();
+                rawData = data.events.map(event => ({
+                    ...event,
+                    startYear: parseYear(event.years.split('-')[0]),
+                    endYear: parseYear(event.years.split('-')[1] || event.years.split('-')[0]),
+                    type: categorizeEvent(event)
+                }));
+
+                filteredData = [...rawData];
+                initializeVisualization();
+                updateStats();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showError('Failed to load timeline data: ' + error.message);
+            }
+        }
+
+        function parseYear(yearStr) {
+            if (!yearStr) return new Date().getFullYear();
+            if (yearStr.includes('present')) return new Date().getFullYear();
+            return parseInt(yearStr.trim()) || new Date().getFullYear();
+        }
+
+        function categorizeEvent(event) {
+            const name = event.name.toLowerCase();
+            const desc = event.description.toLowerCase();
+            
+            if (name.includes('covert') || desc.includes('covert') || desc.includes('secret')) return 'covert';
+            if (name.includes('cover') || desc.includes('cover-up') || name.includes('legacy')) return 'coverup';
+            if (event.years.includes('present') || event.startYear >= 2020) return 'current';
+            if (desc.includes('colonial') || name.includes('chagos') || name.includes('aden')) return 'colonial';
+            return 'military';
+        }
+
+        function initializeVisualization() {
+            const container = document.getElementById('timeline');
+            container.innerHTML = '';
+
+            const margin = { top: 60, right: 60, bottom: 60, left: 60 };
+            const width = container.clientWidth - margin.left - margin.right;
+            const height = container.clientHeight - margin.top - margin.bottom;
+
+            svg = d3.select('#timeline')
+                .append('svg')
+                .attr('width', container.clientWidth)
+                .attr('height', container.clientHeight);
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            // Create tooltip
+            tooltip = d3.select('body').append('div')
+                .attr('class', 'tooltip')
+                .style('opacity', 0);
+
+            // Set up scales
+            const minYear = d3.min(filteredData, d => d.startYear);
+            const maxYear = d3.max(filteredData, d => d.endYear);
+            
+            const xScale = d3.scaleLinear()
+                .domain([minYear - 2, maxYear + 2])
+                .range([0, width]);
+
+            const yScale = d3.scaleBand()
+                .domain(filteredData.map((d, i) => i))
+                .range([0, height])
+                .padding(0.1);
+
+            // Color scale for event types
+            const colorScale = d3.scaleOrdinal()
+                .domain(['colonial', 'military', 'covert', 'coverup', 'current'])
+                .range(['#8b4513', '#dc143c', '#4b0082', '#ff8c00', '#ff0000']);
+
+            // Draw timeline axis
+            g.append('line')
+                .attr('class', 'timeline-axis')
+                .attr('x1', 0)
+                .attr('y1', height + 20)
+                .attr('x2', width)
+                .attr('y2', height + 20);
+
+            // Add year ticks
+            const yearTicks = d3.range(Math.ceil(minYear / 10) * 10, maxYear + 1, 10);
+            
+            g.selectAll('.timeline-tick')
+                .data(yearTicks)
+                .enter()
+                .append('line')
+                .attr('class', 'timeline-tick')
+                .attr('x1', d => xScale(d))
+                .attr('y1', height + 15)
+                .attr('x2', d => xScale(d))
+                .attr('y2', height + 25);
+
+            g.selectAll('.timeline-label')
+                .data(yearTicks)
+                .enter()
+                .append('text')
+                .attr('class', 'timeline-label')
+                .attr('x', d => xScale(d))
+                .attr('y', height + 40)
+                .attr('text-anchor', 'middle')
+                .text(d => d);
+
+            // Draw events
+            const events = g.selectAll('.event-group')
+                .data(filteredData)
+                .enter()
+                .append('g')
+                .attr('class', 'event-group');
+
+            // Event duration bars (for multi-year events)
+            events.filter(d => d.endYear > d.startYear)
+                .append('rect')
+                .attr('x', d => xScale(d.startYear))
+                .attr('y', (d, i) => yScale(i) + yScale.bandwidth() / 2 - 2)
+                .attr('width', d => xScale(d.endYear) - xScale(d.startYear))
+                .attr('height', 4)
+                .attr('fill', d => colorScale(d.type))
+                .attr('opacity', 0.3);
+
+            // Event circles
+            events.append('circle')
+                .attr('class', 'event-circle')
+                .attr('cx', d => xScale(d.startYear))
+                .attr('cy', (d, i) => yScale(i) + yScale.bandwidth() / 2)
+                .attr('r', 6)
+                .attr('fill', d => colorScale(d.type))
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2)
+                .on('mouseover', handleMouseOver)
+                .on('mouseout', handleMouseOut)
+                .on('click', handleClick);
+
+            // Event labels
+            events.append('text')
+                .attr('class', 'event-label')
+                .attr('x', d => xScale(d.startYear) + 12)
+                .attr('y', (d, i) => yScale(i) + yScale.bandwidth() / 2 + 4)
+                .text(d => d.name)
+                .on('mouseover', handleMouseOver)
+                .on('mouseout', handleMouseOut)
+                .on('click', handleClick);
+
+            // Add legend
+            const legend = svg.append('g')
+                .attr('transform', `translate(${margin.left}, 20)`);
+
+            const legendData = [
+                { type: 'colonial', label: 'Colonial Crimes' },
+                { type: 'military', label: 'Military Operations' },
+                { type: 'covert', label: 'Covert Operations' },
+                { type: 'coverup', label: 'Cover-ups' },
+                { type: 'current', label: 'Current Complicity' }
+            ];
+
+            const legendItems = legend.selectAll('.legend-item')
+                .data(legendData)
+                .enter()
+                .append('g')
+                .attr('class', 'legend-item')
+                .attr('transform', (d, i) => `translate(${i * 140}, 0)`);
+
+            legendItems.append('circle')
+                .attr('r', 6)
+                .attr('fill', d => colorScale(d.type))
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2);
+
+            legendItems.append('text')
+                .attr('x', 12)
+                .attr('y', 4)
+                .attr('class', 'timeline-label')
+                .style('font-size', '11px')
+                .text(d => d.label);
+        }
+
+        function handleMouseOver(event, d) {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 1);
+
+            const sources = d.sources.map(source => 
+                `<a href="${source}" target="_blank" rel="noopener">${new URL(source).hostname}</a>`
+            ).join(', ');
+
+            tooltip.html(`
+                <div class="tooltip-title">${d.name}</div>
+                <div class="tooltip-years">${d.years}</div>
+                <div class="tooltip-description">${d.description}</div>
+                <div class="tooltip-sources"><strong>Sources:</strong> ${sources}</div>
+            `)
+            .style('left', (event.pageX + 10) + 'px')
+            .style('top', (event.pageY - 10) + 'px');
+        }
+
+        function handleMouseOut() {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 0);
+        }
+
+        function handleClick(event, d) {
+            // Could implement detailed view or external links
+            console.log('Clicked event:', d);
+        }
+
+        function updateStats() {
+            document.getElementById('totalEvents').textContent = rawData.length;
+            document.getElementById('filteredEvents').textContent = filteredData.length;
+            
+            const minYear = Math.min(...rawData.map(d => d.startYear));
+            const maxYear = Math.max(...rawData.map(d => d.endYear));
+            document.getElementById('timeSpan').textContent = maxYear - minYear;
+            
+            const ongoing = rawData.filter(d => d.years.includes('present')).length;
+            document.getElementById('ongoingEvents').textContent = ongoing;
+        }
+
+        function filterData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const periodFilter = document.getElementById('periodFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+
+            filteredData = rawData.filter(event => {
+                // Search filter
+                const matchesSearch = !searchTerm || 
+                    event.name.toLowerCase().includes(searchTerm) ||
+                    event.description.toLowerCase().includes(searchTerm);
+
+                // Period filter
+                let matchesPeriod = true;
+                if (periodFilter !== 'all') {
+                    const decade = parseInt(periodFilter.substring(0, 4));
+                    matchesPeriod = event.startYear >= decade && event.startYear < decade + 10;
+                }
+
+                // Type filter
+                const matchesType = typeFilter === 'all' || event.type === typeFilter;
+
+                return matchesSearch && matchesPeriod && matchesType;
+            });
+
+            initializeVisualization();
+            updateStats();
+        }
+
+        function showError(message) {
+            document.getElementById('timeline').innerHTML = `
+                <div class="error">
+                    <div class="error-icon">⚠️</div>
+                    <div>${message}</div>
+                </div>
+            `;
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterData);
+        document.getElementById('periodFilter').addEventListener('change', filterData);
+        document.getElementById('typeFilter').addEventListener('change', filterData);
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            if (filteredData.length > 0) {
+                initializeVisualization();
+            }
+        });
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+</html>

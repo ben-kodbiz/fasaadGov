@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Complicity Flow</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .visualization {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .flow-rect {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .flow-rect:hover {
+            opacity: 0.8;
+        }
+        .flow-line {
+            cursor: pointer;
+            transition: stroke-width 0.2s;
+        }
+        .flow-line:hover {
+            stroke-width: 4;
+        }
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>💰 Corporate Complicity Flow</h1>
+        <p>Money trail from funding sources to operations</p>
+    </div>
+    
+    <div class="controls">
+        <a href="index.html" class="btn">← Back to Network</a>
+        <a href="../index.html" class="btn">← Back to Hub</a>
+    </div>
+    
+    <div class="visualization">
+        <div id="chart"></div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Simple flow data
+        const data = {
+            sources: [
+                {id: 'us-aid', name: 'US Military Aid', value: 38, color: '#2e7d32'},
+                {id: 'profits', name: 'Corporate Profits', value: 25, color: '#d32f2f'},
+                {id: 'investment', name: 'Private Investment', value: 15, color: '#1565c0'}
+            ],
+            companies: [
+                {id: 'military', name: 'Military & Defense', value: 35, color: '#d32f2f'},
+                {id: 'surveillance', name: 'Surveillance & Tech', value: 18, color: '#7b1fa2'},
+                {id: 'construction', name: 'Construction', value: 12, color: '#f57c00'},
+                {id: 'finance', name: 'Finance', value: 8, color: '#1565c0'}
+            ],
+            targets: [
+                {id: 'operations', name: 'Military Operations', value: 40, color: '#d32f2f'},
+                {id: 'surveillance-sys', name: 'Surveillance Systems', value: 18, color: '#7b1fa2'},
+                {id: 'destruction', name: 'Infrastructure Destruction', value: 10, color: '#f57c00'},
+                {id: 'settlements', name: 'Settlement Expansion', value: 5, color: '#1565c0'}
+            ],
+            flows: [
+                {from: 'us-aid', to: 'military', value: 20},
+                {from: 'us-aid', to: 'surveillance', value: 10},
+                {from: 'us-aid', to: 'construction', value: 8},
+                {from: 'profits', to: 'military', value: 15},
+                {from: 'profits', to: 'surveillance', value: 8},
+                {from: 'investment', to: 'finance', value: 8},
+                {from: 'investment', to: 'construction', value: 4},
+                {from: 'military', to: 'operations', value: 35},
+                {from: 'surveillance', to: 'surveillance-sys', value: 15},
+                {from: 'surveillance', to: 'operations', value: 3},
+                {from: 'construction', to: 'destruction', value: 8},
+                {from: 'construction', to: 'settlements', value: 4},
+                {from: 'finance', to: 'settlements', value: 1},
+                {from: 'finance', to: 'operations', value: 2}
+            ]
+        };
+
+        // Setup
+        const width = 800;
+        const height = 500;
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const tooltip = d3.select("#tooltip");
+
+        // Positions
+        const sourceX = 50;
+        const companyX = 300;
+        const targetX = 550;
+
+        function drawFlow() {
+            // Draw sources
+            data.sources.forEach((d, i) => {
+                const y = 50 + i * 120;
+                const h = Math.max(30, d.value * 2);
+                
+                svg.append("rect")
+                    .attr("class", "flow-rect")
+                    .attr("x", sourceX)
+                    .attr("y", y)
+                    .attr("width", 150)
+                    .attr("height", h)
+                    .attr("fill", d.color)
+                    .attr("rx", 5)
+                    .on("mouseover", (event) => showTooltip(event, d))
+                    .on("mouseout", hideTooltip);
+                
+                svg.append("text")
+                    .attr("x", sourceX + 75)
+                    .attr("y", y + h/2)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-weight", "bold")
+                    .text(d.name);
+                
+                svg.append("text")
+                    .attr("x", sourceX + 75)
+                    .attr("y", y + h/2 + 15)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-size", "12px")
+                    .text(`$${d.value}B`);
+            });
+
+            // Draw companies
+            data.companies.forEach((d, i) => {
+                const y = 50 + i * 100;
+                const h = Math.max(30, d.value * 2);
+                
+                svg.append("rect")
+                    .attr("class", "flow-rect")
+                    .attr("x", companyX)
+                    .attr("y", y)
+                    .attr("width", 150)
+                    .attr("height", h)
+                    .attr("fill", d.color)
+                    .attr("rx", 5)
+                    .on("mouseover", (event) => showTooltip(event, d))
+                    .on("mouseout", hideTooltip);
+                
+                svg.append("text")
+                    .attr("x", companyX + 75)
+                    .attr("y", y + h/2)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-weight", "bold")
+                    .text(d.name);
+                
+                svg.append("text")
+                    .attr("x", companyX + 75)
+                    .attr("y", y + h/2 + 15)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-size", "12px")
+                    .text(`$${d.value}B`);
+            });
+
+            // Draw targets
+            data.targets.forEach((d, i) => {
+                const y = 50 + i * 100;
+                const h = Math.max(30, d.value * 2);
+                
+                svg.append("rect")
+                    .attr("class", "flow-rect")
+                    .attr("x", targetX)
+                    .attr("y", y)
+                    .attr("width", 150)
+                    .attr("height", h)
+                    .attr("fill", d.color)
+                    .attr("rx", 5)
+                    .on("mouseover", (event) => showTooltip(event, d))
+                    .on("mouseout", hideTooltip);
+                
+                svg.append("text")
+                    .attr("x", targetX + 75)
+                    .attr("y", y + h/2)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-weight", "bold")
+                    .text(d.name);
+                
+                svg.append("text")
+                    .attr("x", targetX + 75)
+                    .attr("y", y + h/2 + 15)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("fill", "white")
+                    .style("font-size", "12px")
+                    .text(`$${d.value}B`);
+            });
+
+            // Draw flow lines
+            data.flows.forEach(flow => {
+                const fromNode = [...data.sources, ...data.companies].find(n => n.id === flow.from);
+                const toNode = [...data.companies, ...data.targets].find(n => n.id === flow.to);
+                
+                if (fromNode && toNode) {
+                    let fromX, fromY, toX, toY;
+                    
+                    // Calculate positions
+                    const sourceIndex = data.sources.findIndex(s => s.id === flow.from);
+                    const companyFromIndex = data.companies.findIndex(s => s.id === flow.from);
+                    const companyToIndex = data.companies.findIndex(s => s.id === flow.to);
+                    const targetIndex = data.targets.findIndex(s => s.id === flow.to);
+                    
+                    if (sourceIndex >= 0) {
+                        fromX = sourceX + 150;
+                        fromY = 50 + sourceIndex * 120 + (fromNode.value * 2) / 2;
+                    } else {
+                        fromX = companyX + 150;
+                        fromY = 50 + companyFromIndex * 100 + (fromNode.value * 2) / 2;
+                    }
+                    
+                    if (companyToIndex >= 0) {
+                        toX = companyX;
+                        toY = 50 + companyToIndex * 100 + (toNode.value * 2) / 2;
+                    } else {
+                        toX = targetX;
+                        toY = 50 + targetIndex * 100 + (toNode.value * 2) / 2;
+                    }
+                    
+                    svg.append("line")
+                        .attr("class", "flow-line")
+                        .attr("x1", fromX)
+                        .attr("y1", fromY)
+                        .attr("x2", toX)
+                        .attr("y2", toY)
+                        .attr("stroke", fromNode.color)
+                        .attr("stroke-width", Math.max(2, flow.value / 3))
+                        .attr("opacity", 0.7)
+                        .on("mouseover", (event) => showFlowTooltip(event, flow, fromNode, toNode))
+                        .on("mouseout", hideTooltip);
+                }
+            });
+        }
+
+        function showTooltip(event, data) {
+            tooltip.style("opacity", 1)
+                .html(`<strong>${data.name}</strong><br>Value: $${data.value}B`)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+        }
+
+        function showFlowTooltip(event, flow, fromNode, toNode) {
+            tooltip.style("opacity", 1)
+                .html(`<strong>Flow: $${flow.value}B</strong><br>From: ${fromNode.name}<br>To: ${toNode.name}`)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+        }
+
+        function hideTooltip() {
+            tooltip.style("opacity", 0);
+        }
+
+        // Initialize
+        drawFlow();
+    </script>
+</body>
+</html>

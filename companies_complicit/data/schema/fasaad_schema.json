@@ -1,0 +1,386 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://fasaadgov.org/schemas/sankey-data.json",
+  "title": "FasaadGov Sankey Data Schema",
+  "description": "Schema for corporate complicity flow visualization data",
+  "type": "object",
+  "required": ["sources", "companies", "targets", "flows"],
+  "properties": {
+    "sources": {
+      "type": "array",
+      "description": "Funding sources in the flow",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "value", "color"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the source",
+            "pattern": "^[a-z0-9-_]+$"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the source",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "value": {
+            "type": "number",
+            "description": "Monetary value in billions",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex color code for visualization",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "type": {
+            "type": "string",
+            "description": "Category of funding source",
+            "enum": ["government", "military-aid", "corporate", "investment", "other"]
+          },
+          "source": {
+            "type": "string",
+            "description": "Attribution or source of information",
+            "maxLength": 500
+          },
+          "confidence": {
+            "type": "string",
+            "description": "Confidence level in the data",
+            "enum": ["high", "medium", "low"]
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+          },
+          "evidence": {
+            "type": "array",
+            "description": "Supporting evidence URLs",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes or context",
+            "maxLength": 1000
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "companies": {
+      "type": "array",
+      "description": "Corporate intermediaries in the flow",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "value", "color"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the company",
+            "pattern": "^[a-z0-9-_]+$"
+          },
+          "name": {
+            "type": "string",
+            "description": "Company name",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "value": {
+            "type": "number",
+            "description": "Flow value through company in billions",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex color code for visualization",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "type": {
+            "type": "string",
+            "description": "Industry category",
+            "enum": ["military", "surveillance", "construction", "finance", "technology", "other"]
+          },
+          "headquarters": {
+            "type": "string",
+            "description": "Company headquarters location",
+            "maxLength": 100
+          },
+          "revenue": {
+            "type": "string",
+            "description": "Annual revenue information",
+            "maxLength": 100
+          },
+          "involvement": {
+            "type": "string",
+            "description": "Description of involvement in operations",
+            "maxLength": 500
+          },
+          "source": {
+            "type": "string",
+            "description": "Attribution or source of information",
+            "maxLength": 500
+          },
+          "confidence": {
+            "type": "string",
+            "description": "Confidence level in the data",
+            "enum": ["high", "medium", "low"]
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+          },
+          "news_articles": {
+            "type": "array",
+            "description": "Related news articles and reports",
+            "items": {
+              "type": "object",
+              "required": ["title", "date", "source"],
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "source": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "summary": {
+                  "type": "string",
+                  "maxLength": 1000
+                },
+                "category": {
+                  "type": "string",
+                  "enum": ["investigation", "report", "news", "analysis", "legal"]
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "description": "Supporting evidence URLs",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "targets": {
+      "type": "array",
+      "description": "End targets of the flow",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "value", "color"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the target",
+            "pattern": "^[a-z0-9-_]+$"
+          },
+          "name": {
+            "type": "string",
+            "description": "Target name",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "value": {
+            "type": "number",
+            "description": "Total value flowing to target in billions",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex color code for visualization",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "type": {
+            "type": "string",
+            "description": "Category of target operation",
+            "enum": ["military", "surveillance", "infrastructure", "settlements", "other"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the target operation",
+            "maxLength": 500
+          },
+          "evidence": {
+            "type": "array",
+            "description": "Supporting evidence URLs",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "impact_assessment": {
+            "type": "string",
+            "description": "Assessment of operational impact",
+            "maxLength": 1000
+          },
+          "confidence": {
+            "type": "string",
+            "description": "Confidence level in the data",
+            "enum": ["high", "medium", "low"]
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "flows": {
+      "type": "array",
+      "description": "Connections between sources, companies, and targets",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "value"],
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Source node ID",
+            "pattern": "^[a-z0-9-_]+$"
+          },
+          "to": {
+            "type": "string",
+            "description": "Target node ID", 
+            "pattern": "^[a-z0-9-_]+$"
+          },
+          "value": {
+            "type": "number",
+            "description": "Flow value in billions",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of flow relationship",
+            "enum": ["funding", "contract", "partnership", "subsidiary", "other"]
+          },
+          "evidence": {
+            "type": "array",
+            "description": "Supporting evidence URLs",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "confidence": {
+            "type": "string",
+            "description": "Confidence level in the flow data",
+            "enum": ["high", "medium", "low"]
+          },
+          "verification_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date when flow was last verified"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the flow",
+            "maxLength": 500
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "meta": {
+      "type": "object",
+      "description": "Metadata about the dataset",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Schema version",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Dataset last update timestamp"
+        },
+        "source_notice": {
+          "type": "string",
+          "description": "General attribution notice",
+          "maxLength": 1000
+        },
+        "disclaimer": {
+          "type": "string",
+          "description": "Legal disclaimer text",
+          "maxLength": 2000
+        },
+        "methodology": {
+          "type": "string",
+          "description": "Data collection and verification methodology",
+          "maxLength": 2000
+        },
+        "contact": {
+          "type": "object",
+          "description": "Contact information for data inquiries",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "website": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "license": {
+          "type": "string",
+          "description": "Data usage license",
+          "maxLength": 100
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "confidence_level": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "Data confidence levels: high (verified from multiple sources), medium (single reliable source), low (unverified or disputed)"
+    },
+    "hex_color": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "description": "6-digit hexadecimal color code"
+    },
+    "node_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-_]+$",
+      "description": "Lowercase alphanumeric identifier with hyphens and underscores"
+    }
+  }
+}

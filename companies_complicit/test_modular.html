@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Modular Renderer</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #e8f5e8; border: 1px solid #4caf50; color: #2e7d32; }
+        .error { background: #ffebee; border: 1px solid #f44336; color: #c62828; }
+        #chart { border: 1px solid #ddd; border-radius: 5px; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Modular Renderer Test</h1>
+        <div id="status"></div>
+        <div id="chart"></div>
+    </div>
+
+    <script type="module">
+        const statusEl = document.getElementById('status');
+        
+        function showStatus(message, type = 'success') {
+            statusEl.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        try {
+            // Test data
+            const testData = {
+                sources: [
+                    {id: 'test-source', name: 'Test Source', value: 100, color: '#ff0000'}
+                ],
+                companies: [
+                    {id: 'test-company', name: 'Test Company', value: 80, color: '#00ff00'}
+                ],
+                targets: [
+                    {id: 'test-target', name: 'Test Target', value: 60, color: '#0000ff'}
+                ],
+                flows: [
+                    {from: 'test-source', to: 'test-company', value: 50},
+                    {from: 'test-company', to: 'test-target', value: 40}
+                ]
+            };
+
+            // Import and test the modular renderer
+            const { SankeyRenderer } = await import('./src/core/sankeyRenderer.js');
+            
+            showStatus('✅ Successfully imported SankeyRenderer module');
+            
+            // Create renderer
+            const renderer = new SankeyRenderer('#chart', { width: 600, height: 400 });
+            
+            showStatus('✅ Successfully created renderer instance');
+            
+            // Render visualization
+            renderer.render(testData);
+            
+            showStatus('✅ Successfully rendered visualization! Modular system is working.');
+            
+            // Test event handling
+            renderer.on('nodeClick', (event, node) => {
+                showStatus(`🎯 Node clicked: ${node.name} (${node.value}B)`);
+            });
+            
+        } catch (error) {
+            console.error('Test failed:', error);
+            showStatus(`❌ Test failed: ${error.message}`, 'error');
+        }
+    </script>
+</body>
+</html>
