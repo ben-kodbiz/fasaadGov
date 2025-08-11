@@ -239,6 +239,143 @@
             box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
         }
 
+        .view-toggle {
+            display: flex;
+            gap: 8px;
+            border-radius: 8px;
+            background: var(--surface-variant);
+            padding: 4px;
+        }
+
+        .view-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .view-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .view-btn:not(.active) {
+            background: transparent;
+            color: var(--on-surface-variant);
+        }
+
+        .view-btn:not(.active):hover {
+            background: var(--outline);
+            color: var(--on-surface);
+        }
+
+        .list-container {
+            width: 100%;
+            min-height: 400px;
+        }
+
+        .list-item {
+            background: var(--surface-color);
+            border: 1px solid var(--outline);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .list-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-dark);
+            border-color: var(--primary-color);
+        }
+
+        .list-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .list-item-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .list-item-stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .list-item-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--on-surface-variant);
+        }
+
+        .list-item-stat .material-icons {
+            font-size: 16px;
+        }
+
+        .list-item-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--on-surface);
+            margin-bottom: 16px;
+        }
+
+        .list-item-atrocities {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .list-item-atrocity {
+            background: var(--surface-variant);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--error-color);
+            font-size: 0.9rem;
+        }
+
+        .list-item-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        .list-item-btn {
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .list-item-btn:hover {
+            background: var(--primary-variant);
+            transform: translateY(-1px);
+        }
+
         .chart-container {
             margin: 24px;
             background: var(--surface-color);
@@ -576,6 +713,19 @@ tats-container {
                 font-size: 1.25rem;
             }
 
+            .app-actions {
+                flex-direction: column;
+                width: 100%;
+                gap: 8px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
             .controls-container,
             .chart-container,
             .stats-container,
@@ -597,14 +747,27 @@ tats-container {
                 min-width: auto;
             }
 
+            .view-toggle {
+                width: 100%;
+            }
+
+            .view-btn {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
             #treemap {
-                height: 500px;
+                height: 400px;
             }
 
             .tooltip {
                 max-width: 90vw;
                 font-size: 0.8rem;
                 padding: 12px;
+                left: 5% !important;
+                right: 5% !important;
+                width: 90% !important;
+                transform: none !important;
             }
 
             .stats-grid {
@@ -614,17 +777,63 @@ tats-container {
 
             .node {
                 font-size: 0.65rem;
-                min-width: 40px !important;
-                min-height: 30px !important;
+                min-width: 50px !important;
+                min-height: 40px !important;
             }
 
             .legend-items {
                 grid-template-columns: 1fr;
             }
 
+            .legend-item {
+                padding: 16px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                text-align: left;
+            }
+
+            .legend-color {
+                width: 100%;
+                height: 8px;
+                border-radius: 4px;
+            }
+
             .atrocity-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
+            }
+
+            .list-item {
+                padding: 16px;
+                margin-bottom: 12px;
+            }
+
+            .list-item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .list-item-title {
+                font-size: 1.1rem;
+            }
+
+            .list-item-stats {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .list-item-atrocities {
+                gap: 6px;
+            }
+
+            .summary-section {
+                padding: 12px;
+            }
+
+            .summary-section h4 {
+                font-size: 1rem;
             }
         }
 
@@ -633,23 +842,59 @@ tats-container {
                 font-size: 1.1rem;
             }
 
+            .app-actions .btn {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+
             #treemap {
-                height: 400px;
+                height: 350px;
             }
 
             .stats-grid {
                 grid-template-columns: 1fr;
+                gap: 8px;
             }
 
-            .btn {
-                padding: 8px 12px;
-                font-size: 0.8rem;
+            .stat-item {
+                padding: 12px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
             }
 
             .node {
                 font-size: 0.6rem;
-                min-width: 35px !important;
-                min-height: 25px !important;
+                min-width: 45px !important;
+                min-height: 35px !important;
+            }
+
+            .list-item {
+                padding: 12px;
+            }
+
+            .list-item-title {
+                font-size: 1rem;
+            }
+
+            .controls-container,
+            .chart-container,
+            .stats-container,
+            .legend-container,
+            .summary-container,
+            .disclaimers {
+                margin: 4px;
+                padding: 12px;
+            }
+
+            .summary-section {
+                padding: 8px;
+            }
+
+            .disclaimer {
+                padding: 12px 8px;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -731,6 +976,19 @@ tats-container {
                         <option value="significant">Significant (<100K deaths)</option>
                     </select>
                 </div>
+                <div class="control-group">
+                    <label class="control-label">View Mode</label>
+                    <div class="view-toggle">
+                        <button class="btn btn-secondary view-btn active" id="treemapView" data-view="treemap">
+                            <span class="material-icons" aria-hidden="true">dashboard</span>
+                            Treemap
+                        </button>
+                        <button class="btn btn-secondary view-btn" id="listView" data-view="list">
+                            <span class="material-icons" aria-hidden="true">list</span>
+                            List
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -802,11 +1060,17 @@ tats-container {
             </div>
         </section>
 
-        <section class="chart-container" aria-label="Interactive treemap visualization">
+        <section class="chart-container" aria-label="Interactive visualization">
             <div id="treemap" role="img" aria-label="Interactive treemap showing global genocides and atrocities by country">
                 <div class="loading">
                     <div class="loading-spinner"></div>
                     <div>Loading treemap data...</div>
+                </div>
+            </div>
+            <div id="listContainer" class="list-container" style="display: none;" aria-label="List view of global genocides and atrocities by country">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading list data...</div>
                 </div>
             </div>
         </section>
@@ -1215,7 +1479,11 @@ tats-container {
                 return matchesSearch && matchesRegion && matchesType && matchesScale;
             });
 
-            initializeVisualization();
+            if (currentViewMode === 'treemap') {
+                initializeVisualization();
+            } else {
+                initializeListView();
+            }
             updateStats();
         }
 
@@ -1465,7 +1733,96 @@ tats-container {
             }
         });
 
+        // View management
+        let currentViewMode = 'treemap';
+
+        function switchView(viewMode) {
+            currentViewMode = viewMode;
+            
+            // Update button states
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-view="${viewMode}"]`).classList.add('active');
+            
+            // Show/hide containers
+            const treemapContainer = document.getElementById('treemap');
+            const listContainer = document.getElementById('listContainer');
+            
+            if (viewMode === 'treemap') {
+                treemapContainer.style.display = 'block';
+                listContainer.style.display = 'none';
+                initializeVisualization();
+            } else {
+                treemapContainer.style.display = 'none';
+                listContainer.style.display = 'block';
+                initializeListView();
+            }
+        }
+
+        function initializeListView() {
+            const container = document.getElementById('listContainer');
+            container.innerHTML = '';
+
+            if (filteredData.length === 0) {
+                container.innerHTML = '<div class="error"><div class="error-icon">📊</div><div>No countries match the current filters</div></div>';
+                return;
+            }
+
+            // Sort by impact score
+            const sortedData = [...filteredData].sort((a, b) => b.impactScore - a.impactScore);
+
+            sortedData.forEach(country => {
+                const listItem = document.createElement('div');
+                listItem.className = 'list-item';
+                listItem.onclick = () => showCountryDetails(country);
+
+                const countryColor = getCountryColor(country.country);
+                
+                listItem.innerHTML = `
+                    <div class="list-item-header">
+                        <h3 class="list-item-title">
+                            <div style="width: 12px; height: 12px; background: ${countryColor}; border-radius: 50%; margin-right: 8px;"></div>
+                            ${country.country}
+                        </h3>
+                    </div>
+                    <div class="list-item-stats">
+                        <div class="list-item-stat">
+                            <span class="material-icons">warning</span>
+                            ${country.atrocities.length} Atrocities
+                        </div>
+                        <div class="list-item-stat">
+                            <span class="material-icons">public</span>
+                            ${country.region.charAt(0).toUpperCase() + country.region.slice(1)}
+                        </div>
+                        <div class="list-item-stat">
+                            <span class="material-icons">category</span>
+                            ${country.atrocityTypes.length} Types
+                        </div>
+                    </div>
+                    <div class="list-item-atrocities">
+                        ${country.atrocities.slice(0, 3).map(atrocity => `
+                            <div class="list-item-atrocity">
+                                ${atrocity.substring(0, 200)}${atrocity.length > 200 ? '...' : ''}
+                            </div>
+                        `).join('')}
+                        ${country.atrocities.length > 3 ? `<div class="list-item-atrocity" style="text-align: center; color: var(--primary-color); font-weight: 500;">+${country.atrocities.length - 3} more atrocities</div>` : ''}
+                    </div>
+                    <div class="list-item-actions">
+                        <button class="list-item-btn">
+                            <span class="material-icons">info</span>
+                            View Details
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(listItem);
+            });
+        }
+
         // Event listeners
+        document.getElementById('treemapView').addEventListener('click', () => switchView('treemap'));
+        document.getElementById('listView').addEventListener('click', () => switchView('list'));
         document.getElementById('searchInput').addEventListener('input', filterData);
         document.getElementById('regionFilter').addEventListener('change', filterData);
         document.getElementById('typeFilter').addEventListener('change', filterData);

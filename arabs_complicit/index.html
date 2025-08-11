@@ -277,6 +277,178 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
         }
 
+        .view-toggle {
+            display: flex;
+            gap: 8px;
+            border-radius: 8px;
+            background: var(--surface-variant);
+            padding: 4px;
+        }
+
+        .view-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .view-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .view-btn:not(.active) {
+            background: transparent;
+            color: var(--on-surface-variant);
+        }
+
+        .view-btn:not(.active):hover {
+            background: var(--outline);
+            color: var(--on-surface);
+        }
+
+        .list-container {
+            width: 100%;
+            min-height: 400px;
+        }
+
+        .list-item {
+            background: var(--surface-color);
+            border: 1px solid var(--outline);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px var(--shadow);
+        }
+
+        .list-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-dark);
+            border-color: var(--primary-color);
+        }
+
+        .list-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .list-item-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .list-item-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .list-item-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .badge-israel-direct {
+            background: var(--direct-israel);
+        }
+
+        .badge-israel-indirect {
+            background: var(--indirect-israel);
+        }
+
+        .badge-us-direct {
+            background: var(--direct-us);
+        }
+
+        .badge-us-indirect {
+            background: var(--indirect-us);
+        }
+
+        .list-item-stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .list-item-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--on-surface-variant);
+        }
+
+        .list-item-stat .material-icons {
+            font-size: 16px;
+        }
+
+        .list-item-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--on-surface);
+            margin-bottom: 16px;
+        }
+
+        .list-item-agreements {
+            margin-bottom: 16px;
+        }
+
+        .list-item-agreement {
+            background: var(--surface-variant);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--primary-color);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .list-item-agreement-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .list-item-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        .list-item-btn {
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .list-item-btn:hover {
+            background: var(--primary-variant);
+            transform: translateY(-1px);
+        }
+
         .legend-container {
             margin: 24px;
             background: var(--surface-color);
@@ -370,6 +542,19 @@
                 font-size: 1.25rem;
             }
 
+            .app-actions {
+                flex-direction: column;
+                width: 100%;
+                gap: 8px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
             .visualization-container {
                 flex-direction: column;
                 margin: 8px;
@@ -393,12 +578,100 @@
                 min-width: auto;
             }
 
+            .view-toggle {
+                width: 100%;
+            }
+
+            .view-btn {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
             #sunburst {
                 height: 400px;
             }
 
             .legend-items {
                 grid-template-columns: 1fr;
+            }
+
+            .legend-item {
+                padding: 16px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                text-align: left;
+            }
+
+            .legend-color {
+                width: 100%;
+                height: 8px;
+                border-radius: 4px;
+            }
+
+            .list-item {
+                padding: 16px;
+                margin-bottom: 12px;
+            }
+
+            .list-item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .list-item-title {
+                font-size: 1.1rem;
+            }
+
+            .list-item-badges {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .list-item-stats {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .list-item-agreements {
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-title {
+                font-size: 1.1rem;
+            }
+
+            .app-actions .btn {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+
+            #sunburst {
+                height: 350px;
+            }
+
+            .list-item {
+                padding: 12px;
+            }
+
+            .list-item-title {
+                font-size: 1rem;
+            }
+
+            .list-item-badge {
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+
+            .controls-container,
+            .chart-container,
+            .info-panel,
+            .legend-container {
+                margin: 4px;
+                padding: 12px;
             }
         }
     </style>
@@ -472,15 +745,34 @@
                         Reset View
                     </button>
                 </div>
+                <div class="control-group">
+                    <label class="control-label">View Mode</label>
+                    <div class="view-toggle">
+                        <button class="btn btn-secondary view-btn active" id="sunburstView" data-view="sunburst">
+                            <span class="material-icons" aria-hidden="true">donut_large</span>
+                            Sunburst
+                        </button>
+                        <button class="btn btn-secondary view-btn" id="listView" data-view="list">
+                            <span class="material-icons" aria-hidden="true">list</span>
+                            List
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
         <div class="visualization-container">
-            <section class="chart-container" aria-label="Interactive sunburst visualization">
+            <section class="chart-container" aria-label="Interactive visualization">
                 <div id="sunburst" role="img" aria-label="Interactive sunburst showing Arab countries' relationships">
                     <div class="loading">
                         <div class="loading-spinner"></div>
                         <div>Loading visualization data...</div>
+                    </div>
+                </div>
+                <div id="listContainer" class="list-container" style="display: none;" aria-label="List view of Arab countries' relationships">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <div>Loading list data...</div>
                     </div>
                 </div>
             </section>
@@ -606,15 +898,137 @@
             setupEventListeners();
         }
 
+        // View management
+        let currentViewMode = 'sunburst';
+
+        function switchView(viewMode) {
+            currentViewMode = viewMode;
+            
+            // Update button states
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-view="${viewMode}"]`).classList.add('active');
+            
+            // Show/hide containers
+            const sunburstContainer = document.getElementById('sunburst');
+            const listContainer = document.getElementById('listContainer');
+            
+            if (viewMode === 'sunburst') {
+                sunburstContainer.style.display = 'flex';
+                listContainer.style.display = 'none';
+                updateVisualization();
+            } else {
+                sunburstContainer.style.display = 'none';
+                listContainer.style.display = 'block';
+                initializeListView();
+            }
+        }
+
+        function initializeListView() {
+            const container = document.getElementById('listContainer');
+            container.innerHTML = '';
+
+            if (!data.countries || data.countries.length === 0) {
+                container.innerHTML = '<div class="error"><div class="error-icon">📊</div><div>No countries data available</div></div>';
+                return;
+            }
+
+            // Filter data based on current focus
+            let filteredData = data.countries;
+            if (currentFocus !== 'all') {
+                filteredData = data.countries.filter(country => {
+                    switch(currentFocus) {
+                        case 'direct-israel':
+                            return country.ties_with_israel === 'Direct';
+                        case 'indirect-israel':
+                            return country.ties_with_israel === 'Indirect';
+                        case 'us-allies':
+                            return country.ties_with_us === 'Direct';
+                        default:
+                            return true;
+                    }
+                });
+            }
+
+            filteredData.forEach(country => {
+                const listItem = document.createElement('div');
+                listItem.className = 'list-item';
+                listItem.onclick = () => showCountryInfo(country);
+
+                const israelBadge = country.ties_with_israel === 'Direct' ? 
+                    '<span class="list-item-badge badge-israel-direct">Direct Israel Relations</span>' :
+                    '<span class="list-item-badge badge-israel-indirect">Indirect Israel Relations</span>';
+
+                const usBadge = country.ties_with_us === 'Direct' ? 
+                    '<span class="list-item-badge badge-us-direct">Direct US Relations</span>' :
+                    '<span class="list-item-badge badge-us-indirect">Limited US Relations</span>';
+                
+                listItem.innerHTML = `
+                    <div class="list-item-header">
+                        <h3 class="list-item-title">
+                            ${country.name}
+                        </h3>
+                        <div class="list-item-badges">
+                            ${israelBadge}
+                            ${usBadge}
+                        </div>
+                    </div>
+                    <div class="list-item-stats">
+                        <div class="list-item-stat">
+                            <span class="material-icons">handshake</span>
+                            ${country.details.agreements.length} Agreements
+                        </div>
+                        <div class="list-item-stat">
+                            <span class="material-icons">public</span>
+                            Regional Relations
+                        </div>
+                    </div>
+                    <div class="list-item-description">
+                        ${country.details.public_sentiment.substring(0, 200)}${country.details.public_sentiment.length > 200 ? '...' : ''}
+                    </div>
+                    <div class="list-item-agreements">
+                        <strong style="color: var(--primary-color); margin-bottom: 8px; display: block;">Key Agreements:</strong>
+                        ${country.details.agreements.slice(0, 2).map(agreement => `
+                            <div class="list-item-agreement">
+                                <div class="list-item-agreement-title">${agreement.name} (${agreement.year})</div>
+                                <div>${agreement.description}</div>
+                            </div>
+                        `).join('')}
+                        ${country.details.agreements.length > 2 ? `<div style="text-align: center; color: var(--primary-color); font-weight: 500; margin-top: 8px;">+${country.details.agreements.length - 2} more agreements</div>` : ''}
+                    </div>
+                    <div class="list-item-actions">
+                        <button class="list-item-btn">
+                            <span class="material-icons">info</span>
+                            View Details
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(listItem);
+            });
+        }
+
         function setupEventListeners() {
+            document.getElementById('sunburstView').addEventListener('click', () => switchView('sunburst'));
+            document.getElementById('listView').addEventListener('click', () => switchView('list'));
+
             document.getElementById('viewMode').addEventListener('change', function() {
                 currentView = this.value;
-                updateVisualization();
+                if (currentViewMode === 'sunburst') {
+                    updateVisualization();
+                } else {
+                    initializeListView();
+                }
             });
 
             document.getElementById('focusFilter').addEventListener('change', function() {
                 currentFocus = this.value;
-                updateVisualization();
+                if (currentViewMode === 'sunburst') {
+                    updateVisualization();
+                } else {
+                    initializeListView();
+                }
             });
 
             document.getElementById('resetView').addEventListener('click', function() {
@@ -622,7 +1036,11 @@
                 currentFocus = 'all';
                 document.getElementById('viewMode').value = 'relationships';
                 document.getElementById('focusFilter').value = 'all';
-                updateVisualization();
+                if (currentViewMode === 'sunburst') {
+                    updateVisualization();
+                } else {
+                    initializeListView();
+                }
             });
         }
 
