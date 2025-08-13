@@ -369,6 +369,78 @@
       line-height: 1.6;
     }
 
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-variant) 100%);
+      color: white;
+      padding: 80px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.1);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 32px;
+      opacity: 0.95;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-cta {
+      margin-top: 32px;
+    }
+
+    .btn-hero {
+      background: white;
+      color: var(--primary-color);
+      padding: 16px 32px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-hero:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      background: #f8f9fa;
+    }
+
     .app-bar {
       background: var(--surface-color);
       box-shadow: 0 2px 4px var(--shadow);
@@ -659,6 +731,25 @@
 
     /* Mobile-first responsive design */
     @media (max-width: 768px) {
+      .hero-section {
+        padding: 60px 16px;
+      }
+
+      .hero-title {
+        font-size: 2.25rem;
+        margin-bottom: 20px;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 28px;
+      }
+
+      .btn-hero {
+        padding: 14px 28px;
+        font-size: 1rem;
+      }
+
       .app-bar {
         padding: 12px 16px;
         flex-direction: column;
@@ -726,6 +817,28 @@
 
     /* Extra small screens (phones in portrait) */
     @media (max-width: 480px) {
+      .hero-section {
+        padding: 40px 12px;
+      }
+
+      .hero-title {
+        font-size: 1.8rem;
+        line-height: 1.3;
+        margin-bottom: 16px;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 24px;
+      }
+
+      .btn-hero {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        width: 100%;
+        max-width: 280px;
+      }
+
       .app-title {
         font-size: 1.1rem;
       }
@@ -799,20 +912,36 @@
     </nav>
   </header>
 
-  <!-- Top Disclaimers and Mobile Notice -->
-  <div class="top-disclaimers">
-    <div class="disclaimer-banner">
-      <div class="disclaimer-content">
-        <div class="disclaimer-icon">⚠️</div>
-        <div class="disclaimer-text">
-          <strong>Educational Purpose Only:</strong> This visualization presents historical casualty estimates for
-          educational awareness.
-          All figures are estimates from various sources and should be independently verified.
-          <strong>For mobile users:</strong> Please select "List View" in the controls below for better experience.
-        </div>
-        <button class="disclaimer-close" id="dismissDisclaimer" aria-label="Dismiss disclaimer">×</button>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">From Boardrooms to Battlefields: See Who Profits from Oppression</h1>
+      <p class="hero-subtitle">Our evidence-driven archive reveals how global elites fuel injustice — and who pays the
+        price.</p>
+      <div class="hero-cta">
+        <button class="btn btn-hero"
+          onclick="document.getElementById('main-content').scrollIntoView({behavior: 'smooth'})">
+          <span class="material-icons" aria-hidden="true">explore</span>
+          Explore the Evidence
+        </button>
       </div>
     </div>
+  </section>
+
+  <!-- Top Disclaimers and Mobile Notice -->
+  <div class="top-disclaimers"></div>
+  <div class="disclaimer-banner">
+    <div class="disclaimer-content">
+      <div class="disclaimer-icon">⚠️</div>
+      <div class="disclaimer-text">
+        <strong>Educational Purpose Only:</strong> This visualization presents historical casualty estimates for
+        educational awareness.
+        All figures are estimates from various sources and should be independently verified.
+        <strong>For mobile users:</strong> Please select "List View" in the controls below for better experience.
+      </div>
+      <button class="disclaimer-close" id="dismissDisclaimer" aria-label="Dismiss disclaimer">×</button>
+    </div>
+  </div>
   </div>
 
   <main id="main-content" role="main">
