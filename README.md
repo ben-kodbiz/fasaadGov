@@ -15,7 +15,7 @@ Accountability Hub
 ├── Main Hub (index.html)
 │   ├── US Atrocities Treemap
 │   ├── Arab Complicity Analysis  
-│   ├── Corporate Network
+│   ├── Corporate Complicity
 │   └── Israel Timeline
 │
 ├── US Atrocities Section
@@ -30,7 +30,7 @@ Accountability Hub
 │   ├── Relationship Data (arabs_complicit.json)
 │   └── Financial Flow Analysis
 │
-├── Corporate Network Section (companies_complicit/)
+├── Corporate Complicity Section (companies_complicit/)
 │   ├── Network Graph (index.html)
 │   ├── Treemap View (treemap.html)
 │   ├── Company Data (companies_enhanced.json)
@@ -68,7 +68,7 @@ Accountability Hub
 Main Hub
     ├── US Atrocities → Treemap Visualization
     ├── Arab Complicity → Sunburst Analysis
-    ├── Corporate Network → Network Graph ↔ Treemap View
+    ├── Corporate Complicity → Network Graph ↔ Treemap View
     └── Israel Timeline → Incident Treemap ↔ Casualties Timeline
 ```
 
@@ -265,7 +265,7 @@ All visualizations follow strict data collection and verification protocols:
 │   ├── arabs_complicit.json           # Relationship data
 │   └── arabs_investment.json          # Investment flow data
 │
-├── companies_complicit/                # Corporate Network Analysis
+├── companies_complicit/                # Corporate Complicity Analysis
 │   ├── index.html                      # Network graph visualization
 │   ├── treemap.html                    # Treemap view
 │   ├── companies_enhanced.json        # Company data with news

@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>British India Genocide Treemap - Interactive Historical Visualization</title>
-    
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Interactive treemap visualization of British colonial genocide in India. Explore famines, massacres, and colonial policies that killed over 100 million Indians from 1769-1947.">
-    <meta name="keywords" content="British India genocide, colonial famines, Bengal famine, British atrocities India, colonial deaths, Indian famines, British colonial policy, historical visualization">
+    <meta name="description"
+        content="Interactive treemap visualization of British colonial genocide in India. Explore famines, massacres, and colonial policies that killed over 100 million Indians from 1769-1947.">
+    <meta name="keywords"
+        content="British India genocide, colonial famines, Bengal famine, British atrocities India, colonial deaths, Indian famines, British colonial policy, historical visualization">
     <meta name="author" content="British India Genocide Documentation Project">
-    
+
     <!-- Open Graph -->
     <meta property="og:title" content="British India Genocide Treemap - Colonial Atrocities Visualization">
-    <meta property="og:description" content="Explore the scale of British colonial genocide in India through an interactive treemap. Over 100 million deaths from famines, massacres, and colonial policies.">
+    <meta property="og:description"
+        content="Explore the scale of British colonial genocide in India through an interactive treemap. Over 100 million deaths from famines, massacres, and colonial policies.">
     <meta property="og:type" content="website">
-    
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
+
     <style>
         :root {
             --primary-color: #8b0000;
@@ -36,7 +40,7 @@
             --error-color: #dc3545;
             --warning-color: #ff9800;
             --success-color: #4caf50;
-            
+
             /* Treemap colors for different event types */
             --color-famine: #8b0000;
             --color-massacre: #dc143c;
@@ -55,7 +59,7 @@
             --outline: #938f99;
             --shadow: rgba(0, 0, 0, 0.3);
             --shadow-dark: rgba(0, 0, 0, 0.5);
-            
+
             --color-famine: #ff6b6b;
             --color-massacre: #ff4757;
             --color-policy: #ff3838;
@@ -276,7 +280,8 @@
             color: var(--on-surface-variant);
         }
 
-        .select, .input {
+        .select,
+        .input {
             padding: 12px 16px;
             border: 1px solid var(--outline);
             border-radius: 8px;
@@ -287,7 +292,8 @@
             transition: border-color 0.2s ease;
         }
 
-        .select:focus, .input:focus {
+        .select:focus,
+        .input:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.2);
@@ -614,8 +620,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .error {
@@ -734,12 +745,15 @@
         }
     </style>
 </head>
+
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Theme Toggle -->
-    <div style="background: var(--surface-color); padding: 8px 24px; border-bottom: 1px solid var(--outline); display: flex; justify-content: flex-end;">
-        <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode" aria-label="Toggle between light and dark theme">
+    <div
+        style="background: var(--surface-color); padding: 8px 24px; border-bottom: 1px solid var(--outline); display: flex; justify-content: flex-end;">
+        <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode"
+            aria-label="Toggle between light and dark theme">
             <span class="material-icons" aria-hidden="true">dark_mode</span>
         </button>
     </div>
@@ -757,9 +771,10 @@
                 <span class="material-icons" aria-hidden="true">analytics</span>
                 Arab Complicity
             </a>
-            <a href="../companies_complicit/index.html" class="btn btn-secondary" aria-label="Corporate Complicity Network">
+            <a href="../companies_complicit/index.html" class="btn btn-secondary"
+                aria-label="Corporate Complicity Network">
                 <span class="material-icons" aria-hidden="true">business</span>
-                Corporate Network
+                Corporate Complicity
             </a>
             <a href="../israel/simple_treemap.html" class="btn btn-secondary" aria-label="Israel Atrocities Timeline">
                 <span class="material-icons" aria-hidden="true">timeline</span>
@@ -776,7 +791,8 @@
                     <span class="material-icons" aria-hidden="true">account_tree</span>
                     Modern Atrocities Treemap
                 </a>
-                <button class="tab-button active" role="tab" aria-selected="true" aria-controls="treemap-panel" id="treemap-tab">
+                <button class="tab-button active" role="tab" aria-selected="true" aria-controls="treemap-panel"
+                    id="treemap-tab">
                     <span class="material-icons" aria-hidden="true">account_tree</span>
                     British India Genocide
                 </button>
@@ -785,7 +801,10 @@
     </div>
 
     <div class="disclaimer">
-        <strong>⚠️ Historical Documentation:</strong> This treemap visualizes documented British colonial genocide in India from 1769-1947. The data represents academic estimates of deaths caused by British colonial policies, famines, massacres, and systematic exploitation. All figures are sourced from historical research and should be understood in their educational context to promote awareness of colonial atrocities.
+        <strong>⚠️ Historical Documentation:</strong> This treemap visualizes documented British colonial genocide in
+        India from 1769-1947. The data represents academic estimates of deaths caused by British colonial policies,
+        famines, massacres, and systematic exploitation. All figures are sourced from historical research and should be
+        understood in their educational context to promote awareness of colonial atrocities.
     </div>
 
     <main id="main-content" role="main">
@@ -794,8 +813,10 @@
             <div class="controls">
                 <div class="control-group">
                     <label class="control-label" for="searchInput">Search Events</label>
-                    <input type="text" id="searchInput" class="input" placeholder="Search by name or description..." aria-describedby="search-help">
-                    <div id="search-help" style="font-size: 0.75rem; color: var(--on-surface-variant);">Search through British India atrocities by name, description, or death toll</div>
+                    <input type="text" id="searchInput" class="input" placeholder="Search by name or description..."
+                        aria-describedby="search-help">
+                    <div id="search-help" style="font-size: 0.75rem; color: var(--on-surface-variant);">Search through
+                        British India atrocities by name, description, or death toll</div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Time Period</label>
@@ -824,7 +845,7 @@
                         <option value="all">All Scales</option>
                         <option value="massive">Massive (>10M)</option>
                         <option value="major">Major (1M-10M)</option>
-                        <option value="significant">Significant (<1M)</option>
+                        <option value="significant">Significant (<1M)< /option>
                     </select>
                 </div>
             </div>
@@ -853,7 +874,8 @@
         </section>
 
         <section class="chart-container" aria-label="Interactive treemap visualization">
-            <div id="treemap" role="img" aria-label="Interactive treemap showing British colonial genocide in India with death toll proportions">
+            <div id="treemap" role="img"
+                aria-label="Interactive treemap showing British colonial genocide in India with death toll proportions">
                 <div class="loading">
                     <div class="loading-spinner"></div>
                     <div>Loading treemap data...</div>
@@ -892,17 +914,26 @@
         </section>
 
         <section class="summary-container" aria-label="British India Genocide Summary">
-            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">British Colonial Genocide in India (1769-1947)</h3>
-            
+            <h3 style="margin-top: 0; color: var(--on-surface); font-size: 1.5rem;">British Colonial Genocide in India
+                (1769-1947)</h3>
+
             <div class="summary-content">
                 <div class="summary-section">
                     <h4 style="color: var(--primary-color); margin-bottom: 12px;">Scale of Atrocity</h4>
-                    <p>British colonial rule in India resulted in one of the largest genocides in human history. Conservative academic estimates suggest that British policies led to the deaths of <strong>100-165 million Indians</strong> over 178 years of colonial rule. This massive death toll was caused by:</p>
+                    <p>British colonial rule in India resulted in one of the largest genocides in human history.
+                        Conservative academic estimates suggest that British policies led to the deaths of
+                        <strong>100-165 million Indians</strong> over 178 years of colonial rule. This massive death
+                        toll was caused by:
+                    </p>
                     <ul>
-                        <li><strong>Systematic Famines:</strong> At least 12 major famines killed 50+ million people, often exacerbated by British export policies and inadequate relief</li>
-                        <li><strong>Economic Exploitation:</strong> Deindustrialization, resource extraction, and crushing taxation created chronic malnutrition and vulnerability</li>
-                        <li><strong>Direct Violence:</strong> Massacres, revolt suppression, and military campaigns killed hundreds of thousands</li>
-                        <li><strong>Forced Labor:</strong> The indentured labor system resulted in 200,000-500,000 deaths during transport and on plantations</li>
+                        <li><strong>Systematic Famines:</strong> At least 12 major famines killed 50+ million people,
+                            often exacerbated by British export policies and inadequate relief</li>
+                        <li><strong>Economic Exploitation:</strong> Deindustrialization, resource extraction, and
+                            crushing taxation created chronic malnutrition and vulnerability</li>
+                        <li><strong>Direct Violence:</strong> Massacres, revolt suppression, and military campaigns
+                            killed hundreds of thousands</li>
+                        <li><strong>Forced Labor:</strong> The indentured labor system resulted in 200,000-500,000
+                            deaths during transport and on plantations</li>
                     </ul>
                 </div>
 
@@ -911,19 +942,23 @@
                     <div class="atrocity-grid">
                         <div class="atrocity-item">
                             <strong>Bengal Famine (1943)</strong>
-                            <p>3 million deaths caused by British wartime policies and continued food exports despite local shortages.</p>
+                            <p>3 million deaths caused by British wartime policies and continued food exports despite
+                                local shortages.</p>
                         </div>
                         <div class="atrocity-item">
                             <strong>Great Famine (1876-1878)</strong>
-                            <p>5.5-10.3 million deaths worsened by British export policies and inadequate relief efforts.</p>
+                            <p>5.5-10.3 million deaths worsened by British export policies and inadequate relief
+                                efforts.</p>
                         </div>
                         <div class="atrocity-item">
                             <strong>Jallianwala Bagh Massacre (1919)</strong>
-                            <p>379-1,500 unarmed civilians killed when British troops fired on a peaceful gathering in an enclosed space.</p>
+                            <p>379-1,500 unarmed civilians killed when British troops fired on a peaceful gathering in
+                                an enclosed space.</p>
                         </div>
                         <div class="atrocity-item">
                             <strong>Partition of India (1947)</strong>
-                            <p>1-2 million deaths from communal violence following the hasty British division of India.</p>
+                            <p>1-2 million deaths from communal violence following the hasty British division of India.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -932,10 +967,14 @@
                     <h4 style="color: var(--primary-color); margin-bottom: 12px;">Historical Impact</h4>
                     <p>The British colonial genocide in India represents:</p>
                     <ul>
-                        <li><strong>Economic Devastation:</strong> India's share of global GDP fell from 25% to 2% under British rule</li>
-                        <li><strong>Cultural Destruction:</strong> Systematic dismantling of Indian education, industry, and governance systems</li>
-                        <li><strong>Lasting Trauma:</strong> Partition violence and colonial policies created lasting communal tensions</li>
-                        <li><strong>Wealth Transfer:</strong> An estimated $45 trillion was drained from India to Britain over colonial period</li>
+                        <li><strong>Economic Devastation:</strong> India's share of global GDP fell from 25% to 2% under
+                            British rule</li>
+                        <li><strong>Cultural Destruction:</strong> Systematic dismantling of Indian education, industry,
+                            and governance systems</li>
+                        <li><strong>Lasting Trauma:</strong> Partition violence and colonial policies created lasting
+                            communal tensions</li>
+                        <li><strong>Wealth Transfer:</strong> An estimated $45 trillion was drained from India to
+                            Britain over colonial period</li>
                     </ul>
                 </div>
 
@@ -943,10 +982,14 @@
                     <h4 style="color: var(--error-color); margin-bottom: 12px;">Modern Relevance</h4>
                     <p>Understanding British colonial genocide in India is crucial because:</p>
                     <ul>
-                        <li><strong>Historical Justice:</strong> Britain has never acknowledged or apologized for colonial genocide</li>
-                        <li><strong>Reparations Debate:</strong> Growing calls for Britain to pay reparations for colonial exploitation</li>
-                        <li><strong>Educational Awareness:</strong> British schools largely ignore colonial atrocities in their curriculum</li>
-                        <li><strong>Contemporary Parallels:</strong> Understanding how colonial powers justified and covered up genocide</li>
+                        <li><strong>Historical Justice:</strong> Britain has never acknowledged or apologized for
+                            colonial genocide</li>
+                        <li><strong>Reparations Debate:</strong> Growing calls for Britain to pay reparations for
+                            colonial exploitation</li>
+                        <li><strong>Educational Awareness:</strong> British schools largely ignore colonial atrocities
+                            in their curriculum</li>
+                        <li><strong>Contemporary Parallels:</strong> Understanding how colonial powers justified and
+                            covered up genocide</li>
                     </ul>
                 </div>
 
@@ -969,23 +1012,41 @@
     <div class="disclaimers">
         <h3 class="disclaimer-title">⚠️ Important Disclaimers</h3>
         <div class="disclaimer-content">
-            <p><strong>Educational Purpose Only:</strong> This treemap visualizes documented British colonial genocide in India for educational and historical awareness purposes. It is based on academic research, historical records, and credible sources.</p>
+            <p><strong>Educational Purpose Only:</strong> This treemap visualizes documented British colonial genocide
+                in India for educational and historical awareness purposes. It is based on academic research, historical
+                records, and credible sources.</p>
 
-            <p><strong>Death Toll Estimates:</strong> All death toll figures are estimates from academic sources and historical research. Actual numbers may vary due to limited historical documentation, different methodologies, and ongoing scholarly debate. Conservative estimates suggest 100-165 million excess deaths during British colonial rule.</p>
+            <p><strong>Death Toll Estimates:</strong> All death toll figures are estimates from academic sources and
+                historical research. Actual numbers may vary due to limited historical documentation, different
+                methodologies, and ongoing scholarly debate. Conservative estimates suggest 100-165 million excess
+                deaths during British colonial rule.</p>
 
-            <p><strong>Academic Sources:</strong> Data is compiled from leading academic research including work by Jason Hickel, Utsa Patnaik, Mike Davis, Shashi Tharoor, and other historians specializing in colonial studies. All sources are provided for independent verification.</p>
+            <p><strong>Academic Sources:</strong> Data is compiled from leading academic research including work by
+                Jason Hickel, Utsa Patnaik, Mike Davis, Shashi Tharoor, and other historians specializing in colonial
+                studies. All sources are provided for independent verification.</p>
 
-            <p><strong>Historical Context:</strong> These events occurred during British colonial rule in India (1769-1947). The visualization aims to show the scale and systematic nature of colonial exploitation and its human cost.</p>
+            <p><strong>Historical Context:</strong> These events occurred during British colonial rule in India
+                (1769-1947). The visualization aims to show the scale and systematic nature of colonial exploitation and
+                its human cost.</p>
 
-            <p><strong>Verify Information:</strong> Users should independently verify all information and consult multiple academic sources, historical records, and peer-reviewed research before drawing conclusions. This visualization should not be used as the sole source for academic research.</p>
+            <p><strong>Verify Information:</strong> Users should independently verify all information and consult
+                multiple academic sources, historical records, and peer-reviewed research before drawing conclusions.
+                This visualization should not be used as the sole source for academic research.</p>
 
-            <p><strong>Ongoing Research:</strong> Historical casualty figures are subject to ongoing research and revision as new evidence emerges and methodologies improve. Recent scholarship has increasingly recognized the massive scale of colonial mortality.</p>
+            <p><strong>Ongoing Research:</strong> Historical casualty figures are subject to ongoing research and
+                revision as new evidence emerges and methodologies improve. Recent scholarship has increasingly
+                recognized the massive scale of colonial mortality.</p>
 
-            <p><strong>No Warranty:</strong> The creators make no warranties about the accuracy, completeness, or reliability of the information presented. This tool is designed for educational awareness, not as an authoritative historical source.</p>
+            <p><strong>No Warranty:</strong> The creators make no warranties about the accuracy, completeness, or
+                reliability of the information presented. This tool is designed for educational awareness, not as an
+                authoritative historical source.</p>
 
-            <p><strong>Genocide Recognition:</strong> While the term "genocide" was not legally defined until 1948, many scholars argue that British colonial policies in India meet the definition of genocide through deliberate acts causing mass death and destruction of a population.</p>
+            <p><strong>Genocide Recognition:</strong> While the term "genocide" was not legally defined until 1948, many
+                scholars argue that British colonial policies in India meet the definition of genocide through
+                deliberate acts causing mass death and destruction of a population.</p>
 
-            <p><strong>Consult Experts:</strong> For authoritative information, please consult academic historians specializing in colonial studies, peer-reviewed publications, and established research institutions.</p>
+            <p><strong>Consult Experts:</strong> For authoritative information, please consult academic historians
+                specializing in colonial studies, peer-reviewed publications, and established research institutions.</p>
         </div>
     </div>
 
@@ -1020,7 +1081,7 @@
             try {
                 const response = await fetch('british_india.json');
                 if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                
+
                 const data = await response.json();
                 rawData = data.events.map(event => ({
                     ...event,
@@ -1034,7 +1095,7 @@
                 filteredData = [...rawData];
                 initializeVisualization();
                 updateStats();
-                
+
             } catch (error) {
                 console.error('Error loading data:', error);
                 showError('Failed to load treemap data: ' + error.message);
@@ -1048,18 +1109,18 @@
 
         function parseDeathToll(deathTollStr) {
             if (!deathTollStr || deathTollStr.includes('Unknown')) return 0;
-            
+
             // Extract numbers and convert to actual values
             const str = deathTollStr.toLowerCase();
             let multiplier = 1;
-            
+
             if (str.includes('million')) multiplier = 1000000;
             else if (str.includes('thousand')) multiplier = 1000;
-            
+
             // Extract the first number (or range average)
             const numbers = str.match(/(\d+(?:\.\d+)?)/g);
             if (!numbers) return 0;
-            
+
             if (numbers.length > 1) {
                 // Take average of range
                 const min = parseFloat(numbers[0]);
@@ -1079,14 +1140,14 @@
         function categorizeEvent(event) {
             const name = event.name.toLowerCase();
             const desc = event.description.toLowerCase();
-            
+
             if (name.includes('famine')) return 'famine';
             if (name.includes('massacre') || name.includes('jallianwala')) return 'massacre';
             if (name.includes('partition')) return 'partition';
             if (name.includes('labor') || name.includes('indentured')) return 'labor';
             if (name.includes('revolt') || name.includes('suppression')) return 'revolt';
             if (name.includes('excess deaths') || name.includes('policies') || name.includes('criminal tribes')) return 'policy';
-            
+
             return 'famine'; // Default for most events
         }
 
@@ -1144,25 +1205,25 @@
 
             // Create nodes
             const nodes = container;
-            
+
             root.leaves().forEach(d => {
                 const node = document.createElement('div');
                 node.className = 'node';
-                
+
                 // Set size and position
                 node.style.left = d.x0 + 'px';
                 node.style.top = d.y0 + 'px';
                 node.style.width = (d.x1 - d.x0) + 'px';
                 node.style.height = (d.y1 - d.y0) + 'px';
-                
+
                 // Set color based on event type
                 const color = getEventColor(d.data.type);
                 node.style.backgroundColor = color;
-                
+
                 // Set text content
                 const area = (d.x1 - d.x0) * (d.y1 - d.y0);
                 let displayText = d.data.name;
-                
+
                 // Adjust text based on size
                 if (area < 5000) {
                     node.classList.add('node-small');
@@ -1171,14 +1232,14 @@
                     node.classList.add('node-large');
                     displayText += `\n${formatDeathToll(d.data.deathTollNumber)}`;
                 }
-                
+
                 node.textContent = displayText;
-                
+
                 // Add event listeners
                 node.addEventListener('mouseenter', (event) => handleMouseOver(event, d.data));
                 node.addEventListener('mouseleave', handleMouseOut);
                 node.addEventListener('click', (event) => handleClick(event, d.data));
-                
+
                 nodes.appendChild(node);
             });
         }
@@ -1197,7 +1258,7 @@
                 .duration(200)
                 .style('opacity', 1);
 
-            const sources = d.sources.map(source => 
+            const sources = d.sources.map(source =>
                 `<a href="${source}" target="_blank" rel="noopener">${new URL(source).hostname}</a>`
             ).join(', ');
 
@@ -1211,8 +1272,8 @@
                     <strong>🖱️ Click for detailed information</strong>
                 </div>
             `)
-            .style('left', (event.pageX + 10) + 'px')
-            .style('top', (event.pageY - 10) + 'px');
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 10) + 'px');
         }
 
         function handleMouseOut() {
@@ -1229,11 +1290,11 @@
         function updateStats() {
             document.getElementById('totalEvents').textContent = rawData.length;
             document.getElementById('filteredEvents').textContent = filteredData.length;
-            
+
             const minYear = Math.min(...rawData.map(d => d.startYear));
             const maxYear = Math.max(...rawData.map(d => d.endYear));
             document.getElementById('timeSpan').textContent = maxYear - minYear;
-            
+
             const totalDeaths = rawData.reduce((sum, event) => sum + event.deathTollNumber, 0);
             document.getElementById('totalDeaths').textContent = formatDeathToll(totalDeaths);
         }
@@ -1246,7 +1307,7 @@
 
             filteredData = rawData.filter(event => {
                 // Search filter
-                const matchesSearch = !searchTerm || 
+                const matchesSearch = !searchTerm ||
                     event.name.toLowerCase().includes(searchTerm) ||
                     event.description.toLowerCase().includes(searchTerm) ||
                     event.death_toll.toLowerCase().includes(searchTerm);
@@ -1542,7 +1603,7 @@
 
         function getHistoricalSignificance(eventData) {
             const name = eventData.name.toLowerCase();
-            
+
             if (name.includes('excess deaths') || name.includes('colonial policies')) {
                 return "This represents the systematic nature of British colonial exploitation in India. Modern research suggests that British economic policies, including deindustrialization, resource extraction, and taxation, created conditions of chronic malnutrition and vulnerability that led to massive excess mortality over decades.";
             } else if (name.includes('bengal famine') && eventData.years === '1943') {
@@ -1596,4 +1657,5 @@
         loadData();
     </script>
 </body>
+
 </html>

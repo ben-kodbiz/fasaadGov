@@ -89,6 +89,11 @@
     <div class="controls"
         style="background: var(--surface-color); padding: 20px; margin: 20px; border-radius: 12px; box-shadow: 0 1px 3px var(--shadow); display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
         <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-size: 0.875rem; font-weight: 500; color: var(--text-secondary);">Search Companies</label>
+            <input type="text" id="searchInput" placeholder="Search by company name or involvement..."
+                style="padding: 10px 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); font-family: inherit; font-size: 0.875rem; min-width: 250px;">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
             <label style="font-size: 0.875rem; font-weight: 500; color: var(--text-secondary);">Filter by
                 Category</label>
             <select id="categoryFilter"
@@ -136,8 +141,9 @@
                         style="background: var(--background-color); padding: 15px; border-radius: 8px; margin-top: 15px;">
                         <strong style="color: var(--text-color);">💡 Tips:</strong><br>
                         <small style="line-height: 1.4;">
-                            • Drag nodes to explore connections<br>
+                            • Search companies by name or involvement<br>
                             • Use category filter to focus<br>
+                            • Drag nodes to explore connections<br>
                             • Hover for quick information<br>
                             • Toggle dark mode for better viewing
                         </small>
@@ -229,6 +235,7 @@
         // Global variables
         let data = {};
         let currentFilter = 'all';
+        let currentSearch = '';
         let nodes = [];
         let links = [];
         let simulation;
@@ -352,23 +359,61 @@
             // Clear previous visualization
             svg.selectAll("*").remove();
 
-            // Filter data based on current filter
+            // Filter data based on current filter and search
             let filteredNodes = nodes;
             let filteredLinks = links;
 
+            // Apply category filter
             if (currentFilter !== 'all') {
-                filteredNodes = nodes.filter(n =>
+                filteredNodes = filteredNodes.filter(n =>
                     n.type === 'root' ||
                     n.category === currentFilter ||
                     (n.type === 'category' && n.name === currentFilter)
                 );
-
-                const nodeIds = new Set(filteredNodes.map(n => n.id));
-                filteredLinks = links.filter(l =>
-                    nodeIds.has(l.source.id || l.source) &&
-                    nodeIds.has(l.target.id || l.target)
-                );
             }
+
+            // Apply search filter
+            if (currentSearch.trim() !== '') {
+                const searchTerm = currentSearch.toLowerCase();
+                filteredNodes = filteredNodes.filter(n => {
+                    if (n.type === 'root') return true;
+                    
+                    // Search in node name
+                    if (n.name.toLowerCase().includes(searchTerm)) return true;
+                    
+                    // Search in company data if available
+                    let companyData = null;
+                    if (n.type === 'company') {
+                        data.children.forEach(category => {
+                            category.children.forEach(company => {
+                                if (company.name === n.name) {
+                                    companyData = company;
+                                }
+                                if (company.children) {
+                                    company.children.forEach(subsidiary => {
+                                        if (subsidiary.name === n.name) {
+                                            companyData = subsidiary;
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                        
+                        if (companyData) {
+                            if (companyData.summary && companyData.summary.toLowerCase().includes(searchTerm)) return true;
+                            if (companyData.involvement && companyData.involvement.toLowerCase().includes(searchTerm)) return true;
+                        }
+                    }
+                    
+                    return false;
+                });
+            }
+
+            const nodeIds = new Set(filteredNodes.map(n => n.id));
+            filteredLinks = links.filter(l =>
+                nodeIds.has(l.source.id || l.source) &&
+                nodeIds.has(l.target.id || l.target)
+            );
 
             // Create force simulation
             simulation = d3.forceSimulation(filteredNodes)
@@ -651,6 +696,11 @@
         }
 
         function setupEventListeners() {
+            d3.select("#searchInput").on("input", function () {
+                currentSearch = this.value;
+                initializeVisualization();
+            });
+
             d3.select("#categoryFilter").on("change", function () {
                 currentFilter = this.value;
                 initializeVisualization();
@@ -658,7 +708,9 @@
 
             d3.select("#resetView").on("click", function () {
                 currentFilter = 'all';
+                currentSearch = '';
                 d3.select("#categoryFilter").property("value", "all");
+                d3.select("#searchInput").property("value", "");
                 initializeVisualization();
             });
 
