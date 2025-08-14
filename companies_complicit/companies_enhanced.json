@@ -343,6 +343,36 @@
                 "source_count": 278,
                 "data_quality": "comprehensive"
               }
+            },
+            {
+              "title": "Microsoft helped Israeli military intercept Palestinian phone calls in Gaza",
+              "date": "2025-08-06",
+              "source": "The Guardian",
+              "url": "https://www.theguardian.com/world/2025/aug/06/microsoft-israeli-military-palestinian-phone-calls-cloud",
+              "summary": "Investigation reveals Microsoft's cloud services were used by Israeli military to intercept Palestinian phone calls in Gaza, raising concerns about tech companies' role in surveillance operations.",
+              "category": "surveillance",
+              "confidence": 0.98,
+              "added_timestamp": "2025-08-11T12:00:00.000000"
+            },
+            {
+              "title": "Microsoft's secret contract with Israeli intelligence unit 8200",
+              "date": "2025-08-06",
+              "source": "+972 Magazine",
+              "url": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+              "summary": "Exclusive investigation exposes Microsoft's classified partnership with Israel's elite intelligence Unit 8200, providing Azure cloud infrastructure for mass surveillance and intelligence operations.",
+              "category": "intelligence",
+              "confidence": 0.97,
+              "added_timestamp": "2025-08-11T12:00:00.000000"
+            },
+            {
+              "title": "Arkane union workers demand Microsoft cut ties with Israeli regime",
+              "date": "2025-08-06",
+              "source": "Game Developer",
+              "url": "https://www.gamedeveloper.com/business/-microsoft-has-no-place-being-accomplice-of-a-genocide-arkane-union-workers-demand-microsoft-cut-ties-with-israeli-regime",
+              "summary": "Workers at Microsoft-owned Arkane Studios demand the company end its partnerships with Israeli military, stating 'Microsoft has no place being accomplice of a genocide' in open letter to leadership.",
+              "category": "labor",
+              "confidence": 0.96,
+              "added_timestamp": "2025-08-11T12:00:00.000000"
             }
           ]
         },
