@@ -1173,6 +1173,17 @@
 
         function showCountryInfo(country) {
             const infoPanel = document.getElementById('countryInfo');
+
+            const article = country.details && country.details.article ? country.details.article : null;
+            const resourcesHTML = article && Array.isArray(article.resources) && article.resources.length > 0 ? `
+                <div style="margin-top: 15px;">
+                    <h5 style="color: var(--primary-color);">Resources</h5>
+                    ${article.title ? `<div style="font-weight: 600; margin-bottom: 6px;">${article.title}</div>` : ''}
+                    <ul style="padding-left: 18px; margin: 8px 0;">
+                        ${article.resources.map(r => `<li><a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.title || r.url}</a></li>`).join('')}
+                    </ul>
+                </div>
+            ` : '';
             
             infoPanel.innerHTML = `
                 <h4 style="color: var(--primary-color); margin-bottom: 15px;">${country.name}</h4>
@@ -1200,6 +1211,7 @@
                     <strong>Public Sentiment:</strong><br>
                     ${country.details.public_sentiment}
                 </div>
+                ${resourcesHTML}
             `;
         }
 
