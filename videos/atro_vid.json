@@ -1,0 +1,209 @@
+
+{
+  "schema": {
+    "title": "string",
+    "channel": "string",
+    "url": "string",
+    "upload_date": "YYYY-MM-DD or null",
+    "type": "documentary|podcast|interview|news/analysis",
+    "topics": ["string", "..."],
+    "notes": "string (optional)",
+    "source_citation": "web.run id(s) for traceability"
+  },
+  "items": [
+    {
+      "title": "Fmr. Green Beret Who Worked at Gaza Food Sites Reveals Rampant War Crimes",
+      "channel": "Democracy Now!",
+      "url": "https://www.youtube.com/watch?v=57htMYk4UqM",
+      "upload_date": null,
+      "type": "news/analysis",
+      "topics": ["Gaza", "war crimes", "aid obstruction", "U.S. support"],
+      "source_citation": "turn0search0"
+    },
+    {
+      "title": "Biden, Blinken & Austin Accused of Complicity in Israel's Gaza War",
+      "channel": "Democracy Now!",
+      "url": "https://www.youtube.com/watch?v=e7zxBTQsvng",
+      "upload_date": null,
+      "type": "news/analysis",
+      "topics": ["U.S. complicity", "international law", "Gaza"],
+      "source_citation": "turn0search4"
+    },
+    {
+      "title": "U.S. Sanctions U.N. Expert Francesca Albanese",
+      "channel": "Democracy Now!",
+      "url": "https://www.youtube.com/watch?v=H6tX0OoE53c",
+      "upload_date": null,
+      "type": "news/analysis",
+      "topics": ["sanctions", "U.N.", "accountability", "Gaza/West Bank"],
+      "source_citation": "turn0search8"
+    },
+    {
+      "title": "Palestinian American Scholar Rashid Khalidi on Israel",
+      "channel": "Democracy Now!",
+      "url": "https://www.youtube.com/watch?v=fWMajwtbg2o",
+      "upload_date": null,
+      "type": "interview",
+      "topics": ["history", "U.S. role", "occupation"],
+      "source_citation": "turn0search12"
+    },
+    {
+      "title": "Human Rights Watch on Israel Depriving Gaza of Water",
+      "channel": "Democracy Now!",
+      "url": "https://www.youtube.com/watch?v=C_BTKP131vY",
+      "upload_date": null,
+      "type": "news/analysis",
+      "topics": ["collective punishment", "infrastructure", "U.S. support"],
+      "source_citation": "turn0search20"
+    },
+    {
+      "title": "New Report by U.S. Professors as Palestinians Mark Nakba Day",
+      "channel": "Democracy Now!",
+      "url": "https://www.youtube.com/watch?v=h7IsOh6ksBg",
+      "upload_date": null,
+      "type": "news/analysis",
+      "topics": ["Nakba", "academic report", "U.S. policy"],
+      "source_citation": "turn0search28"
+    },
+
+    {
+      "title": "Gaza Fights For Freedom (2019) | Full Documentary",
+      "channel": "Empire Files",
+      "url": "https://www.youtube.com/watch?v=QeRbM0zo20o",
+      "upload_date": null,
+      "type": "documentary",
+      "topics": ["Great March of Return", "war crimes", "documentation"],
+      "source_citation": "turn0search17"
+    },
+    {
+      "title": "Starve, Lure, Kill — Jeremy Scahill Exposes “Final Phase” of Genocide",
+      "channel": "Empire Files",
+      "url": "https://www.youtube.com/watch?v=NDtwwSdur5I",
+      "upload_date": null,
+      "type": "interview",
+      "topics": ["genocide", "siege", "U.S. complicity"],
+      "source_citation": "turn0search21"
+    },
+    {
+      "title": "Tanks in the West Bank & the West's Crackdown on Palestine Solidarity",
+      "channel": "Empire Files",
+      "url": "https://www.youtube.com/watch?v=ODvNLFtuO8U",
+      "upload_date": null,
+      "type": "news/analysis",
+      "topics": ["West Bank", "repression", "U.S./EU stance"],
+      "source_citation": "turn0search29"
+    },
+    {
+      "title": "‘Suspended Between Hope & the Abyss’ — UN Special Rapporteur on Palestine",
+      "channel": "Empire Files",
+      "url": "https://www.youtube.com/watch?v=RSYCsBr1ajg",
+      "upload_date": null,
+      "type": "interview",
+      "topics": ["UN reports", "international law", "accountability"],
+      "source_citation": "turn0search13"
+    },
+    {
+      "title": "Roger Waters & Abby Martin: Voices of Reason in a Time of Genocide",
+      "channel": "Empire Files",
+      "url": "https://www.youtube.com/watch?v=aTVsVUqjjDo",
+      "upload_date": null,
+      "type": "interview",
+      "topics": ["genocide", "advocacy", "media criticism"],
+      "source_citation": "turn0search5"
+    },
+    {
+      "title": "Journalist Abby Martin explains why she considers Israel's actions in Gaza to constitute genocide",
+      "channel": "Empire Files (Fundraiser clip)",
+      "url": "https://www.youtube.com/watch?v=JgGq-N8Q7d0",
+      "upload_date": null,
+      "type": "clip/interview",
+      "topics": ["genocide", "media narrative"],
+      "source_citation": "turn0search9"
+    },
+
+    {
+      "title": "Starving Gaza | Fault Lines Documentary",
+      "channel": "Al Jazeera English",
+      "url": "https://www.youtube.com/watch?v=51BvCUpcBTc",
+      "upload_date": null,
+      "type": "documentary",
+      "topics": ["famine", "aid blockade", "U.S. weapons transfers"],
+      "source_citation": "turn0search2"
+    },
+    {
+      "title": "“Starving Gaza”: Al Jazeera film shows U.S. keeps arming Israel as civilians die",
+      "channel": "Democracy Now! (on AJ film)",
+      "url": "https://www.youtube.com/watch?v=IJU-2AEyYc8",
+      "upload_date": null,
+      "type": "news/analysis",
+      "topics": ["U.S. arms", "civilian harm", "documentary discussion"],
+      "source_citation": "turn0search22"
+    },
+    {
+      "title": "The Night Won't End: Biden's War on Gaza | Fault Lines Documentary",
+      "channel": "Al Jazeera English",
+      "url": "https://www.youtube.com/watch?v=r-h2XTI18fE",
+      "upload_date": null,
+      "type": "documentary",
+      "topics": ["U.S. policy", "civilian casualties", "family stories"],
+      "source_citation": "turn1search10"
+    },
+    {
+      "title": "The Crackdown on Israel Criticism at Columbia and Other U.S. Campuses",
+      "channel": "Al Jazeera English (Fault Lines)",
+      "url": "https://www.youtube.com/watch?v=ziccxuAwJd4",
+      "upload_date": null,
+      "type": "documentary",
+      "topics": ["free speech", "repression", "U.S. institutions"],
+      "source_citation": "turn0search6"
+    },
+    {
+      "title": "Kids Under Fire: An investigation into Israeli soldiers shooting children",
+      "channel": "Al Jazeera English",
+      "url": "https://www.youtube.com/watch?v=t-0zrQZWwDE",
+      "upload_date": null,
+      "type": "documentary",
+      "topics": ["children", "rules of engagement", "war crimes"],
+      "source_citation": "turn0search26"
+    },
+
+    {
+      "title": "Norman Finkelstein on the Latest Massacre in Gaza",
+      "channel": "The Intercept",
+      "url": "https://www.youtube.com/watch?v=60JqlWT8yWg",
+      "upload_date": null,
+      "type": "interview",
+      "topics": ["Gaza 2018", "massacre", "U.S. role"],
+      "source_citation": "turn0search15"
+    },
+    {
+      "title": "A Conversation on the Horrors in Gaza with Jeremy Scahill and ...",
+      "channel": "The Intercept",
+      "url": "https://www.youtube.com/watch?v=GeeLEJTZHNk",
+      "upload_date": null,
+      "type": "podcast",
+      "topics": ["siege", "civilian harm", "U.S. complicity"],
+      "source_citation": "turn1search11"
+    },
+    {
+      "title": "The Intercept — Channel (investigations incl. Gaza/US policy)",
+      "channel": "The Intercept",
+      "url": "https://www.youtube.com/channel/UCv002AUCZaPNwiADqwchijg/videos",
+      "upload_date": null,
+      "type": "channel_index",
+      "topics": ["investigations", "U.S. policy", "press freedom"],
+      "source_citation": "turn0search27"
+    },
+
+    {
+      "title": "US labor activist intercepted by IDF during Gaza aid trip",
+      "channel": "Democracy Now!",
+      "url": "https://www.youtube.com/watch?v=AB669-Boan0",
+      "upload_date": null,
+      "type": "news/analysis",
+      "topics": ["Freedom Flotilla", "naval interception", "aid"],
+      "source_citation": "turn0search23"
+    }
+  ]
+}
+
