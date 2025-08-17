@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genocide Watch - Video Documentation | FasaadGov</title>
+  <meta name="description" content="Curated collection of documentary videos, interviews, and news analysis exposing genocide and war crimes worldwide.">
+  
+  <!-- Material Design Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Material Design 3 Color System */
+      --md-sys-color-primary: #1976d2;
+      --md-sys-color-on-primary: #ffffff;
+      --md-sys-color-primary-container: #d3e3fd;
+      --md-sys-color-on-primary-container: #001c38;
+      --md-sys-color-secondary: #565f71;
+      --md-sys-color-on-secondary: #ffffff;
+      --md-sys-color-secondary-container: #dae2f9;
+      --md-sys-color-on-secondary-container: #131c2b;
+      --md-sys-color-tertiary: #705575;
+      --md-sys-color-on-tertiary: #ffffff;
+      --md-sys-color-error: #ba1a1a;
+      --md-sys-color-on-error: #ffffff;
+      --md-sys-color-background: #fefbff;
+      --md-sys-color-on-background: #1a1c1e;
+      --md-sys-color-surface: #fefbff;
+      --md-sys-color-on-surface: #1a1c1e;
+      --md-sys-color-surface-variant: #e1e2ec;
+      --md-sys-color-on-surface-variant: #44474f;
+      --md-sys-color-outline: #75777f;
+      --md-sys-color-outline-variant: #c5c6d0;
+      --md-sys-color-shadow: #000000;
+      --md-sys-color-scrim: #000000;
+      --md-sys-color-inverse-surface: #2f3033;
+      --md-sys-color-inverse-on-surface: #f1f0f4;
+      --md-sys-color-inverse-primary: #a4c8ff;
+      
+      /* Elevation */
+      --md-sys-elevation-level0: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+      --md-sys-elevation-level1: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+      --md-sys-elevation-level2: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+      --md-sys-elevation-level3: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+      --md-sys-elevation-level4: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+      --md-sys-elevation-level5: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 5px 8px 0px rgba(0, 0, 0, 0.14), 0px 1px 14px 0px rgba(0, 0, 0, 0.12);
+    }
+
+    [data-theme="dark"] {
+      --md-sys-color-primary: #a4c8ff;
+      --md-sys-color-on-primary: #003062;
+      --md-sys-color-primary-container: #004788;
+      --md-sys-color-on-primary-container: #d3e3fd;
+      --md-sys-color-secondary: #bec6dc;
+      --md-sys-color-on-secondary: #283041;
+      --md-sys-color-secondary-container: #3e4759;
+      --md-sys-color-on-secondary-container: #dae2f9;
+      --md-sys-color-tertiary: #d0bcdf;
+      --md-sys-color-on-tertiary: #36294b;
+      --md-sys-color-error: #ffb4ab;
+      --md-sys-color-on-error: #690005;
+      --md-sys-color-background: #111318;
+      --md-sys-color-on-background: #e2e2e9;
+      --md-sys-color-surface: #111318;
+      --md-sys-color-on-surface: #e2e2e9;
+      --md-sys-color-surface-variant: #44474f;
+      --md-sys-color-on-surface-variant: #c5c6d0;
+      --md-sys-color-outline: #8f9099;
+      --md-sys-color-outline-variant: #44474f;
+      --md-sys-color-inverse-surface: #e2e2e9;
+      --md-sys-color-inverse-on-surface: #2f3033;
+      --md-sys-color-inverse-primary: #1976d2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--md-sys-color-background);
+      color: var(--md-sys-color-on-background);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .app-bar {
+      background-color: var(--md-sys-color-surface);
+      box-shadow: var(--md-sys-elevation-level2);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .app-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .app-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 40px;
+    }
+
+    .btn-primary {
+      background-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .btn-primary:hover {
+      box-shadow: var(--md-sys-elevation-level2);
+      transform: translateY(-1px);
+    }
+
+    .btn-icon {
+      background: transparent;
+      color: var(--md-sys-color-on-surface-variant);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon:hover {
+      background-color: var(--md-sys-color-surface-variant);
+    }
+
+    /* Main Content */
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--md-sys-color-on-background);
+      margin-bottom: 16px;
+    }
+
+    .page-subtitle {
+      font-size: 1.125rem;
+      color: var(--md-sys-color-on-surface-variant);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Filter Controls */
+    .filter-container {
+      background-color: var(--md-sys-color-surface);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--md-sys-elevation-level1);
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      align-items: end;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .filter-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .filter-select, .filter-input {
+      padding: 12px 16px;
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: 8px;
+      background-color: var(--md-sys-color-surface);
+      color: var(--md-sys-color-on-surface);
+      font-family: inherit;
+      font-size: 0.875rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .filter-select:focus, .filter-input:focus {
+      outline: none;
+      border-color: var(--md-sys-color-primary);
+      box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+    }
+
+    /* Video Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .video-card {
+      background-color: var(--md-sys-color-surface);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--md-sys-elevation-level1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .video-card:hover {
+      box-shadow: var(--md-sys-elevation-level3);
+      transform: translateY(-2px);
+    }
+
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      background-color: var(--md-sys-color-surface-variant);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.2s ease;
+    }
+
+    .video-card:hover .video-play-icon {
+      background-color: var(--md-sys-color-primary);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .video-content {
+      padding: 20px;
+    }
+
+    .video-title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+      margin-bottom: 8px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .video-channel {
+      font-size: 0.875rem;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-bottom: 12px;
+    }
+
+    .video-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .video-type {
+      background-color: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+
+    .video-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .topic-chip {
+      background-color: var(--md-sys-color-secondary-container);
+      color: var(--md-sys-color-on-secondary-container);
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 400;
+    }
+
+    /* Loading and Empty States */
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 24px;
+      text-align: center;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--md-sys-color-outline-variant);
+      border-top: 3px solid var(--md-sys-color-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 64px 24px;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .app-bar {
+        padding: 12px 16px;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .app-title {
+        font-size: 1.25rem;
+      }
+
+      .main-container {
+        padding: 16px;
+      }
+
+      .page-title {
+        font-size: 2rem;
+      }
+
+      .filter-container {
+        padding: 16px;
+      }
+
+      .filter-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .video-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .video-thumbnail {
+        height: 180px;
+      }
+
+      .video-content {
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-container {
+        padding: 12px;
+      }
+
+      .page-title {
+        font-size: 1.75rem;
+      }
+
+      .filter-container {
+        padding: 12px;
+      }
+
+      .video-thumbnail {
+        height: 160px;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="app-bar" role="banner">
+    <h1 class="app-title">
+      <span class="material-icons">video_library</span>
+      Genocide Watch
+    </h1>
+    <nav class="app-actions" role="navigation" aria-label="Main navigation">
+      <a href="../index.html" class="btn btn-primary" aria-label="Back to Main">
+        <span class="material-icons">home</span>
+        Main
+      </a>
+      <a href="../arabs_complicit/index.html" class="btn btn-primary" aria-label="Arab Complicity Analysis">
+        <span class="material-icons">analytics</span>
+        Arab Complicity
+      </a>
+      <a href="../companies_complicit/index.html" class="btn btn-primary" aria-label="Corporate Complicity">
+        <span class="material-icons">business</span>
+        Corporate Complicity
+      </a>
+      <a href="../british/index.html" class="btn btn-primary" aria-label="British Atrocities Timeline">
+        <span class="material-icons">flag</span>
+        British Atrocities
+      </a>
+      <a href="../israel/simple_treemap.html" class="btn btn-primary" aria-label="Israel Atrocities Timeline">
+        <span class="material-icons">timeline</span>
+        Israel Timeline
+      </a>
+      <button class="btn btn-icon" id="themeToggle" title="Toggle dark mode" aria-label="Toggle between light and dark theme">
+        <span class="material-icons">dark_mode</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Genocide Watch</h1>
+      <p class="page-subtitle">
+        Curated collection of documentary videos, interviews, and news analysis exposing genocide and war crimes worldwide.
+      </p>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="filter-container">
+      <div class="filter-grid">
+        <div class="filter-group">
+          <label class="filter-label" for="searchInput">Search Videos</label>
+          <input type="text" id="searchInput" class="filter-input" placeholder="Search by title, channel, or topic...">
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="typeFilter">Filter by Type</label>
+          <select id="typeFilter" class="filter-select">
+            <option value="all">All Types</option>
+            <option value="documentary">Documentary</option>
+            <option value="interview">Interview</option>
+            <option value="news/analysis">News/Analysis</option>
+            <option value="podcast">Podcast</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="channelFilter">Filter by Channel</label>
+          <select id="channelFilter" class="filter-select">
+            <option value="all">All Channels</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="topicFilter">Filter by Topic</label>
+          <select id="topicFilter" class="filter-select">
+            <option value="all">All Topics</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Grid -->
+    <div id="videoContainer">
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Loading videos...</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Theme management
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('.material-icons');
+
+    // Check for saved theme or default to light
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+
+    function updateThemeIcon(theme) {
+      themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+    }
+
+    // Video data and filtering
+    let videoData = [];
+    let filteredVideos = [];
+
+    // DOM elements
+    const searchInput = document.getElementById('searchInput');
+    const typeFilter = document.getElementById('typeFilter');
+    const channelFilter = document.getElementById('channelFilter');
+    const topicFilter = document.getElementById('topicFilter');
+    const videoContainer = document.getElementById('videoContainer');
+
+    // Load video data
+    async function loadVideoData() {
+      try {
+        const response = await fetch('../videos/atro_vid.json');
+        const data = await response.json();
+        videoData = data.items || [];
+        
+        populateFilterOptions();
+        filteredVideos = [...videoData];
+        renderVideos();
+      } catch (error) {
+        console.error('Error loading video data:', error);
+        showError('Failed to load video data. Please try again later.');
+      }
+    }
+
+    // Populate filter dropdown options
+    function populateFilterOptions() {
+      // Get unique channels
+      const channels = [...new Set(videoData.map(video => video.channel))].sort();
+      channelFilter.innerHTML = '<option value="all">All Channels</option>';
+      channels.forEach(channel => {
+        const option = document.createElement('option');
+        option.value = channel;
+        option.textContent = channel;
+        channelFilter.appendChild(option);
+      });
+
+      // Get unique topics
+      const topics = [...new Set(videoData.flatMap(video => video.topics || []))].sort();
+      topicFilter.innerHTML = '<option value="all">All Topics</option>';
+      topics.forEach(topic => {
+        const option = document.createElement('option');
+        option.value = topic;
+        option.textContent = topic;
+        topicFilter.appendChild(option);
+      });
+    }
+
+    // Filter videos based on current filter values
+    function filterVideos() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const selectedType = typeFilter.value;
+      const selectedChannel = channelFilter.value;
+      const selectedTopic = topicFilter.value;
+
+      filteredVideos = videoData.filter(video => {
+        // Search filter
+        const matchesSearch = !searchTerm || 
+          video.title.toLowerCase().includes(searchTerm) ||
+          video.channel.toLowerCase().includes(searchTerm) ||
+          (video.topics && video.topics.some(topic => topic.toLowerCase().includes(searchTerm)));
+
+        // Type filter
+        const matchesType = selectedType === 'all' || video.type === selectedType;
+
+        // Channel filter
+        const matchesChannel = selectedChannel === 'all' || video.channel === selectedChannel;
+
+        // Topic filter
+        const matchesTopic = selectedTopic === 'all' || 
+          (video.topics && video.topics.includes(selectedTopic));
+
+        return matchesSearch && matchesType && matchesChannel && matchesTopic;
+      });
+
+      renderVideos();
+    }
+
+    // Render video cards
+    function renderVideos() {
+      if (filteredVideos.length === 0) {
+        videoContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🎥</div>
+            <h3>No videos found</h3>
+            <p>Try adjusting your filters or search terms.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const videoGrid = document.createElement('div');
+      videoGrid.className = 'video-grid';
+
+      filteredVideos.forEach(video => {
+        const videoCard = createVideoCard(video);
+        videoGrid.appendChild(videoCard);
+      });
+
+      videoContainer.innerHTML = '';
+      videoContainer.appendChild(videoGrid);
+    }
+
+    // Create individual video card
+    function createVideoCard(video) {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.addEventListener('click', () => openVideo(video.url));
+
+      // Extract YouTube video ID for thumbnail
+      const videoId = extractYouTubeId(video.url);
+      const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '';
+
+      card.innerHTML = `
+        <div class="video-thumbnail">
+          ${thumbnailUrl ? `<img src="${thumbnailUrl}" alt="${video.title}" loading="lazy">` : ''}
+          <div class="video-play-icon">
+            <span class="material-icons">play_arrow</span>
+          </div>
+        </div>
+        <div class="video-content">
+          <h3 class="video-title">${video.title}</h3>
+          <div class="video-channel">${video.channel}</div>
+          <div class="video-meta">
+            <span class="video-type">${video.type}</span>
+          </div>
+          <div class="video-topics">
+            ${(video.topics || []).map(topic => `<span class="topic-chip">${topic}</span>`).join('')}
+          </div>
+        </div>
+      `;
+
+      return card;
+    }
+
+    // Extract YouTube video ID from URL
+    function extractYouTubeId(url) {
+      const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    }
+
+    // Open video in new tab
+    function openVideo(url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    // Show error message
+    function showError(message) {
+      videoContainer.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">⚠️</div>
+          <h3>Error</h3>
+          <p>${message}</p>
+        </div>
+      `;
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', filterVideos);
+    typeFilter.addEventListener('change', filterVideos);
+    channelFilter.addEventListener('change', filterVideos);
+    topicFilter.addEventListener('change', filterVideos);
+
+    // Initialize
+    loadVideoData();
+  </script>
+</body>
+
+</html>
