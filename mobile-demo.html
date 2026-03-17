@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Mobile-First Styles -->
+  <link rel="stylesheet" href="../css/mobile.css">
+
+  <!-- SEO Meta Tags -->
+  <title>US Atrocities Treemap - Mobile View</title>
+  <meta name="description"
+    content="Interactive mobile-optimized visualization of documented US atrocities and interventions throughout history.">
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #1976d2;
+      --primary-light: #42a5f5;
+      --primary-dark: #1565c0;
+      --background-color: #fafafa;
+      --surface-color: #ffffff;
+      --surface-variant: #f5f5f5;
+      --on-surface: #1c1b1f;
+      --on-surface-variant: #49454f;
+    }
+
+    [data-theme="dark"] {
+      --background-color: #121212;
+      --surface-color: #1e1e1e;
+      --surface-variant: #2d2d2d;
+      --on-surface: #e6e1e5;
+      --on-surface-variant: #cac4d0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--background-color);
+      color: var(--on-surface);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Story Step Navigation Dots */
+    .story-nav {
+      position: fixed;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .story-nav-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--surface-variant);
+      border: 2px solid var(--primary-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .story-nav-dot.active {
+      background: var(--primary-color);
+      transform: scale(1.2);
+    }
+
+    @media (min-width: 768px) {
+      .story-nav {
+        display: none;
+      }
+    }
+
+    /* Story Step Content Styles */
+    .story-content {
+      text-align: center;
+      padding: 24px;
+      max-width: 600px;
+    }
+
+    .story-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--primary-color);
+    }
+
+    .story-stat {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 24px 0;
+      color: var(--on-surface);
+    }
+
+    .story-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--on-surface-variant);
+    }
+
+    .chart-wrapper {
+      width: 100%;
+      margin: 24px 0;
+    }
+
+    /* Swipe hint for mobile */
+    .swipe-hint {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-color);
+      padding: 12px 24px;
+      border-radius: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      z-index: 100;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      40% {
+        transform: translateX(-50%) translateY(-10px);
+      }
+      60% {
+        transform: translateX(-50%) translateY(-5px);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .swipe-hint {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Dots -->
+  <div class="story-nav" id="storyNav"></div>
+
+  <!-- Swipe Hint -->
+  <div class="swipe-hint">
+    <span class="material-icons">touch_app</span>
+    <span>Scroll for next section</span>
+  </div>
+
+  <!-- STORY STEP 1: Introduction -->
+  <section class="story-step" id="step-intro" data-step="1">
+    <div class="story-content">
+      <h1 class="story-title">🗺️ US Atrocities Documentation</h1>
+      <div class="story-stat">1,338 Events</div>
+      <p class="story-description">
+        A comprehensive visualization of documented US military interventions 
+        and atrocities from 1945 to present. Explore 75+ years of history 
+        across 47 categories of interventions.
+      </p>
+      <div class="chart-wrapper" id="chart-intro"></div>
+    </div>
+  </section>
+
+  <!-- STORY STEP 2: Middle East -->
+  <section class="story-step" id="step-middle-east" data-step="2">
+    <div class="story-content">
+      <h1 class="story-title">🌍 Middle East Interventions</h1>
+      <div class="story-stat">3M+ Casualties</div>
+      <p class="story-description">
+        From Iraq to Syria, Afghanistan to Yemen. The Vietnam War alone 
+        resulted in approximately 3 million casualties. Interactive data 
+        reveals the human cost of military interventions.
+      </p>
+      <div class="chart-wrapper" id="chart-middle-east"></div>
+    </div>
+  </section>
+
+  <!-- STORY STEP 3: Latin America -->
+  <section class="story-step" id="step-latin-america" data-step="3">
+    <div class="story-content">
+      <h1 class="story-title">🌎 Western Hemisphere</h1>
+      <div class="story-stat">50+ Interventions</div>
+      <p class="story-description">
+        Decades of interventions across Latin America including Guatemala, 
+        Chile, Nicaragua, El Salvador, and Panama. Supporting dictatorships, 
+        training paramilitaries, and orchestrating coups.
+      </p>
+      <div class="chart-wrapper" id="chart-latin-america"></div>
+    </div>
+  </section>
+
+  <!-- STORY STEP 4: Domestic Atrocities -->
+  <section class="story-step" id="step-domestic" data-step="4">
+    <div class="story-content">
+      <h1 class="story-title">🏠 Internal Repression</h1>
+      <div class="story-stat">12M+ Affected</div>
+      <p class="story-description">
+        Native American genocide and slavery. The domestic cost of empire.
+      </p>
+      <div class="chart-wrapper" id="chart-domestic"></div>
+    </div>
+  </section>
+
+  <!-- STORY STEP 5: Corporate Complicity -->
+  <section class="story-step" id="step-corporate" data-step="5">
+    <div class="story-content">
+      <h1 class="story-title">💼 Corporate Network</h1>
+      <div class="story-stat">$1T+ Revenue</div>
+      <p class="story-description">
+        25+ major corporations across defense, surveillance, construction, 
+        finance, and energy sectors enabling human rights violations 
+        worldwide.
+      </p>
+      <div class="chart-wrapper" id="chart-corporate"></div>
+    </div>
+  </section>
+
+  <!-- STORY STEP 6: Take Action -->
+  <section class="story-step" id="step-action" data-step="6">
+    <div class="story-content">
+      <h1 class="story-title">✊ Take Action</h1>
+      <div class="story-stat">Awareness → Action</div>
+      <p class="story-description">
+        Knowledge is the first step. Share this data, support accountability 
+        efforts, and contribute to documenting ongoing atrocities. Together 
+        we can demand justice and transparency.
+      </p>
+      <div style="margin-top: 32px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="../index.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; padding: 16px 24px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 24px; font-weight: 600;">
+          <span class="material-icons">dashboard</span>
+          Full Treemap
+        </a>
+        <a href="../companies_complicit/index.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; padding: 16px 24px; background: var(--secondary-color, #dc004e); color: white; text-decoration: none; border-radius: 24px; font-weight: 600;">
+          <span class="material-icons">business</span>
+          Corporate Network
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile Controller -->
+  <script src="../js/mobile-controller.js"></script>
+  
+  <script>
+    // Initialize mobile scroll controller
+    document.addEventListener('DOMContentLoaded', function() {
+      const controller = new MobileScrollController({
+        threshold: 0.5,
+        onStepChange: (stepId, stepElement) => {
+          // Update navigation dots
+          updateNavDots(stepId);
+          
+          // Trigger chart rendering for current step
+          renderStepChart(stepId);
+        }
+      });
+      
+      // Create navigation dots
+      createNavDots();
+      
+      // Initial chart render
+      renderStepChart('step-intro');
+    });
+    
+    function createNavDots() {
+      const steps = document.querySelectorAll('.story-step');
+      const nav = document.getElementById('storyNav');
+      
+      steps.forEach((step, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'story-nav-dot';
+        dot.dataset.target = step.id;
+        dot.addEventListener('click', () => {
+          step.scrollIntoView({ behavior: 'smooth' });
+        });
+        nav.appendChild(dot);
+      });
+    }
+    
+    function updateNavDots(activeStepId) {
+      const dots = document.querySelectorAll('.story-nav-dot');
+      dots.forEach(dot => {
+        if (dot.dataset.target === activeStepId) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+    
+    function renderStepChart(stepId) {
+      // Simple bar chart for demo
+      const chartId = `chart-${stepId.replace('step-', '')}`;
+      const container = document.getElementById(chartId);
+      
+      if (!container) return;
+      
+      container.innerHTML = '';
+      
+      const svg = d3.select(`#${chartId}`)
+        .append('svg')
+        .attr('viewBox', '0 0 300 200')
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .style('width', '100%')
+        .style('max-width', '300px');
+      
+      // Sample data based on step
+      const dataMap = {
+        'intro': [40, 60, 80, 50, 70],
+        'middle-east': [90, 70, 60, 80, 50],
+        'latin-america': [50, 40, 60, 70, 55],
+        'domestic': [85, 75, 65, 90, 80],
+        'corporate': [70, 60, 80, 90, 65]
+      };
+      
+      const data = dataMap[stepId.replace('step-', '')] || [50, 50, 50, 50, 50];
+      const barWidth = 50;
+      const gap = 10;
+      
+      svg.selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('x', (d, i) => i * (barWidth + gap) + 10)
+        .attr('y', d => 180 - d * 1.8)
+        .attr('width', barWidth)
+        .attr('height', d => d * 1.8)
+        .attr('fill', 'var(--primary-color)')
+        .attr('rx', 4)
+        .style('opacity', 0.8);
+    }
+  </script>
+</body>
+
+</html>

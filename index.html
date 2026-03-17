@@ -3,7 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Mobile-First Styles -->
+  <link rel="stylesheet" href="css/mobile.css">
 
   <!-- SEO Meta Tags -->
   <title>US Atrocities Treemap - Interactive Historical Visualization | Vietnam War, Iraq War, Native American Genocide
@@ -127,15 +130,7 @@
       --color-asia: #ba68c8;
       --color-europe: #64b5f6;
       --color-native-americans: #ff8a65;
-      --color-black-people: #8d6e63;
-      --color-latinos: #ffcc02;
-      --color-asians: #ce93d8;
-      --color-women: #f06292;
-      --color-workers: #a1887f;
       --color-children: #ffab40;
-      --color-prisoners: #90a4ae;
-      --color-religious: #aed581;
-      --color-pervasive: #ef5350;
       --color-israel: #ff7043;
       --color-news: #42a5f5;
     }
@@ -158,15 +153,7 @@
       --color-asia: #7b1fa2;
       --color-europe: #1976d2;
       --color-native-americans: #d84315;
-      --color-black-people: #5d4037;
-      --color-latinos: #f57f17;
-      --color-asians: #8e24aa;
-      --color-women: #c2185b;
-      --color-workers: #6d4c41;
       --color-children: #ff8f00;
-      --color-prisoners: #546e7a;
-      --color-religious: #689f38;
-      --color-pervasive: #d32f2f;
       --color-israel: #e64a19;
       --color-news: #1976d2;
     }
@@ -840,15 +827,7 @@
           <option value="Asia">Asia</option>
           <option value="Europe">Europe</option>
           <option value="Native Americans">Native Americans</option>
-          <option value="Black people">Black People</option>
-          <option value="Latinos">Latinos</option>
-          <option value="Asians">Asians</option>
-          <option value="Women">Women</option>
-          <option value="Workers and the Poor">Workers and the Poor</option>
           <option value="Children">Children</option>
-          <option value="Prisoners">Prisoners</option>
-          <option value="Religious minorities">Religious Minorities</option>
-          <option value="Pervasive">Pervasive</option>
           <option value="Israel Atrocities">Israel Atrocities</option>
         </select>
       </div>
@@ -962,9 +941,7 @@
     const colorScale = d3.scaleOrdinal()
       .domain([
         "Middle East", "Western hemisphere", "Africa", "Asia", "Europe",
-        "Native Americans", "Black people", "Latinos", "Asians", "Women",
-        "Workers and the Poor", "Children", "Prisoners", "Religious minorities",
-        "Pervasive", "Israel Atrocities"
+        "Native Americans", "Children", "Israel Atrocities"
       ])
       .range(d3.schemeTableau10.concat(d3.schemeDark2));
 
@@ -1006,15 +983,7 @@
         "Asia": "var(--color-asia)",
         "Europe": "var(--color-europe)",
         "Native Americans": "var(--color-native-americans)",
-        "Black people": "var(--color-black-people)",
-        "Latinos": "var(--color-latinos)",
-        "Asians": "var(--color-asians)",
-        "Women": "var(--color-women)",
-        "Workers and the Poor": "var(--color-workers)",
         "Children": "var(--color-children)",
-        "Prisoners": "var(--color-prisoners)",
-        "Religious minorities": "var(--color-religious)",
-        "Pervasive": "var(--color-pervasive)",
         "Israel Atrocities": "var(--color-israel)"
       };
       return colorMap[category] || "var(--color-news)";
@@ -1055,26 +1024,18 @@
     function getOptimalTextColor(category, casualties = 0) {
       // Categories that need white text (darker backgrounds)
       const whiteTextCategories = [
-        "Black people",
-        "Prisoners",
-        "Workers and the Poor",
         "Middle East",
         "Africa",
         "Asia",
-        "Pervasive",
         "Israel Atrocities",
-        "Europe",  // Dark blue background
-        "Western hemisphere",  // Orange background
-        "Native Americans",  // Orange-red background
-        "Women"  // Pink background
+        "Europe",
+        "Western hemisphere",
+        "Native Americans"
       ];
 
-      // Categories that need dark text (lighter backgrounds)  
+      // Categories that need dark text (lighter backgrounds)
       const darkTextCategories = [
-        "Latinos",  // Bright yellow background
-        "Children",  // Light orange background
-        "Religious minorities",  // Light green background
-        "Asians"  // Light purple background
+        "Children"
       ];
 
       // High casualty events get darker backgrounds, so use white text
@@ -1784,12 +1745,29 @@
     d3.json("data/us_interventions.json").then(function (data) {
       rawData = data.categories || data;
 
+      // Categories to exclude from display
+      const excludedCategories = [
+        "Black people",
+        "Latinos", 
+        "Asians",
+        "Women",
+        "Workers and the Poor",
+        "Prisoners",
+        "Religious minorities",
+        "Pervasive"
+      ];
+
       function filterData() {
         const selectedType = document.getElementById("typeFilter").value;
         const selectedRegion = document.getElementById("regionFilter").value;
         const searchQuery = document.getElementById("searchInput").value.toLowerCase().trim();
 
         let filtered = rawData.map(group => {
+          // Skip excluded categories
+          if (excludedCategories.includes(group.name) || excludedCategories.includes(group.category)) {
+            return null;
+          }
+          
           const regionMatch = selectedRegion === "All" || group.name === selectedRegion || group.category === selectedRegion;
           if (!regionMatch) return null;
 
@@ -1819,8 +1797,6 @@
         }).filter(Boolean);
 
         render(filtered);
-
-
       }
 
 
@@ -2084,6 +2060,9 @@
       }
     }
   </style>
+
+  <!-- Mobile Controller -->
+  <script src="js/mobile-controller.js"></script>
 
 </body>
 

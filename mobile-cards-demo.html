@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Mobile-First Styles -->
+  <link rel="stylesheet" href="../css/mobile.css">
+
+  <title>Top Atrocities - Card View</title>
+  
+  <style>
+    :root {
+      --primary-color: #1976d2;
+      --background-color: #fafafa;
+      --surface-color: #ffffff;
+      --surface-variant: #f5f5f5;
+      --on-surface: #1c1b1f;
+      --on-surface-variant: #49454f;
+    }
+
+    [data-theme="dark"] {
+      --background-color: #121212;
+      --surface-color: #1e1e1e;
+      --surface-variant: #2d2d2d;
+      --on-surface: #e6e1e5;
+      --on-surface-variant: #cac4d0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+      background-color: var(--background-color);
+      color: var(--on-surface);
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-header {
+      background: var(--surface-color);
+      padding: 20px 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--primary-color);
+    }
+
+    .page-subtitle {
+      font-size: 0.9rem;
+      color: var(--on-surface-variant);
+      margin-top: 4px;
+    }
+
+    .cards-wrapper {
+      padding: 24px 16px;
+    }
+
+    .card {
+      background: var(--surface-color);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border: 1px solid var(--surface-variant);
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0 0 16px 0;
+      color: var(--primary-color);
+      line-height: 1.3;
+    }
+
+    .card-stat {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin-bottom: 16px;
+    }
+
+    .card-stat-label {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      font-weight: 400;
+      margin-top: -12px;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .card-description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--on-surface-variant);
+      margin-bottom: 20px;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-top: 16px;
+      border-top: 1px solid var(--surface-variant);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    .card-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-chart {
+      height: 150px;
+      margin: 16px 0;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 200;
+      background: var(--surface-color);
+      border: 1px solid var(--outline);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .back-button {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 200;
+      background: var(--surface-color);
+      border: 1px solid var(--outline);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      text-decoration: none;
+      color: var(--on-surface);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    🌙
+  </button>
+  
+  <!-- Back Button -->
+  <a href="../index.html" class="back-button" aria-label="Back to main site">
+    ←
+  </a>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <h1 class="page-title">📊 Top Atrocities</h1>
+    <p class="page-subtitle">Swipe to explore major events</p>
+  </header>
+
+  <!-- Cards Container -->
+  <div class="cards-wrapper">
+    <div class="card-slider-container" id="atrocityCards"></div>
+  </div>
+
+  <!-- Mobile Card Slider -->
+  <script src="../js/mobile-card-slider.js"></script>
+  <script src="../js/mobile-controller.js"></script>
+  
+  <script>
+    // Atrocity data from the project
+    const atrocityData = [
+      {
+        title: "Vietnam War",
+        stat: "3,000,000+",
+        statLabel: "Total Casualties",
+        description: "The Vietnam War resulted in approximately 3 million casualties, including both military and civilian deaths. The conflict spanned from 1955 to 1975, involving extensive US bombing campaigns and ground operations.",
+        region: "Asia",
+        period: "1955-1975",
+        category: "Imperialism"
+      },
+      {
+        title: "Native American Genocide",
+        stat: "12,000,000+",
+        statLabel: "Indigenous Lives Lost",
+        description: "The systematic extermination and displacement of Native Americans resulted in over 12 million deaths through warfare, forced removal, disease, and starvation from 1492 onwards.",
+        region: "North America",
+        period: "1492-1900s",
+        category: "Internal Repression"
+      },
+      {
+        title: "Iraq War",
+        stat: "655,000 - 1,000,000+",
+        statLabel: "Iraqi Casualties",
+        description: "The 2003 US invasion and occupation of Iraq resulted in hundreds of thousands of civilian deaths, millions displaced, and the destruction of Iraqi infrastructure and society.",
+        region: "Middle East",
+        period: "2003-2011",
+        category: "Imperialism"
+      },
+      {
+        title: "Korean War",
+        stat: "2,500,000+",
+        statLabel: "Total Casualties",
+        description: "The Korean War killed approximately 2.5 million civilians and 600,000 Korean soldiers. US bombing campaigns destroyed most major cities in North Korea.",
+        region: "Asia",
+        period: "1950-1953",
+        category: "Imperialism"
+      },
+      {
+        title: "Afghanistan War",
+        stat: "176,000+",
+        statLabel: "Deaths",
+        description: "The 20-year US war in Afghanistan resulted in over 176,000 deaths, including 46,000 civilians. The war displaced millions and caused widespread destruction.",
+        region: "Middle East",
+        period: "2001-2021",
+        category: "Imperialism"
+      },
+      {
+        title: "Yemen Intervention",
+        stat: "377,000+",
+        statLabel: "Deaths (2015-2021)",
+        description: "US-backed Saudi coalition intervention in Yemen killed over 377,000 people, with 60% being children under 5. The blockade caused the world's worst humanitarian crisis.",
+        region: "Middle East",
+        period: "2015-Present",
+        category: "Imperialism"
+      },
+      {
+        title: "Latin American Interventions",
+        stat: "50+",
+        statLabel: "Military Interventions",
+        description: "From Guatemala (1954) to Chile (1973), Nicaragua, El Salvador, and Panama, the US conducted over 50 interventions supporting dictatorships and training paramilitaries.",
+        region: "Latin America",
+        period: "1950s-1990s",
+        category: "Imperialism"
+      },
+      {
+        title: "Libya Bombing Campaign",
+        stat: "30,000 - 100,000+",
+        statLabel: "Deaths",
+        description: "NATO intervention led by the US resulted in tens of thousands of deaths and the complete collapse of Libyan state infrastructure, leading to ongoing chaos.",
+        region: "Africa",
+        period: "2011-2014",
+        category: "Imperialism"
+      }
+    ];
+
+    // Initialize card slider
+    document.addEventListener('DOMContentLoaded', function() {
+      const slider = new MobileCardSlider('#atrocityCards', {
+        cardMinWidth: 85,
+        cardMaxWidth: 85,
+        gap: 20,
+        showDots: true,
+        autoPlay: false,
+        onCardChange: (index, card) => {
+          console.log('Card changed to:', index);
+        }
+      });
+
+      // Render cards
+      const container = document.getElementById('atrocityCards');
+      const sliderElement = container.querySelector('.card-slider');
+      
+      atrocityData.forEach((data, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3 class="card-title">${data.title}</h3>
+          <div class="card-stat">${data.stat}</div>
+          <span class="card-stat-label">${data.statLabel}</span>
+          <p class="card-description">${data.description}</p>
+          <div class="card-meta">
+            <div class="card-meta-item">
+              <span>🌍</span>
+              <span>${data.region}</span>
+            </div>
+            <div class="card-meta-item">
+              <span>📅</span>
+              <span>${data.period}</span>
+            </div>
+            <div class="card-meta-item">
+              <span>📁</span>
+              <span>${data.category}</span>
+            </div>
+          </div>
+        `;
+        sliderElement.appendChild(card);
+      });
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+
+    function updateThemeIcon(theme) {
+      themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+  </script>
+</body>
+
+</html>
