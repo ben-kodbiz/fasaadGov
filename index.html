@@ -1565,15 +1565,16 @@
     const render = (data) => {
       // Use list view if currentViewMode is 'list' (auto-set on mobile)
       if (currentViewMode === 'list') {
-        // Hide chart container, show card section on mobile
-        d3.select(".chart-container").style("display", "none");
+        // Show chart container for list view (it renders inside #chart)
+        d3.select(".chart-container").style("display", "block");
         d3.select(".legend-container").style("display", "none");
-        
+
+        // Show mobile card section on mobile (cards appear above list)
         const mobileCardSection = document.getElementById('mobileCardSection');
         if (mobileCardSection && isMobile()) {
           mobileCardSection.style.display = 'block';
         }
-        
+
         renderListView(data);
         return;
       }
@@ -1581,7 +1582,7 @@
       // Show chart container for treemap view
       d3.select(".chart-container").style("display", "block");
       d3.select(".legend-container").style("display", "block");
-      
+
       // Hide card section
       const mobileCardSection = document.getElementById('mobileCardSection');
       if (mobileCardSection) {

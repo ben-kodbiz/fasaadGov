@@ -118,10 +118,10 @@
             style="padding: 10px 16px; border: none; border-radius: 8px; background: var(--secondary-color); color: white; font-family: inherit; font-size: 0.875rem; cursor: pointer;">🌙
             Dark Mode</button>
     </div>
-    <div class="visualization-container" style="display: flex; gap: 20px; margin: 20px;">
+    <div class="visualization-container" style="display: flex; gap: 20px; margin: 20px; flex-wrap: wrap;">
         <div class="network-container"
-            style="flex: 2; background: var(--surface-color); border-radius: 12px; box-shadow: 0 1px 3px var(--shadow); padding: 20px; min-height: 600px;">
-            <div id="network"></div>
+            style="flex: 2; background: var(--surface-color); border-radius: 12px; box-shadow: 0 1px 3px var(--shadow); padding: 20px; min-height: 600px; width: 100%; max-width: 100%; overflow: hidden;">
+            <div id="network" style="width: 100%; height: 600px; position: relative;"></div>
         </div>
         <div class="info-panel"
             style="flex: 1; background: var(--surface-color); border-radius: 12px; box-shadow: 0 1px 3px var(--shadow); padding: 20px; max-height: 600px; overflow-y: auto;">
@@ -234,15 +234,18 @@
         let links = [];
         let simulation;
 
-        // Dimensions
-        const width = 800;
+        // Get container dimensions
+        const container = document.getElementById('network');
+        const width = container.clientWidth || 800;
         const height = 600;
 
-        // Create SVG
+        // Create SVG with responsive viewBox
         const svg = d3.select("#network")
             .append("svg")
-            .attr("width", width)
-            .attr("height", height)
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .style("width", "100%")
+            .style("height", "100%")
             .style("border", "1px solid var(--border-color)")
             .style("border-radius", "8px");
 
