@@ -709,6 +709,104 @@
         font-size: 0.8rem;
         padding: 12px;
       }
+
+      /* Mobile card slider styles */
+      .mobile-card-section {
+        margin: 16px;
+        padding: 0;
+      }
+
+      .mobile-card-section .card-slider-container {
+        position: relative;
+      }
+
+      .card-slider {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 16px;
+        padding: 16px 4px;
+      }
+
+      .card {
+        min-width: 85%;
+        max-width: 85%;
+        background: var(--surface-color);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border: 1px solid var(--surface-variant);
+        flex-shrink: 0;
+        scroll-snap-align: center;
+      }
+
+      .card-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin: 0 0 16px 0;
+        color: var(--primary-color);
+        line-height: 1.3;
+      }
+
+      .card-stat {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--on-surface);
+        margin-bottom: 8px;
+      }
+
+      .card-stat-label {
+        font-size: 0.875rem;
+        color: var(--on-surface-variant);
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .card-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--on-surface-variant);
+        margin-bottom: 16px;
+      }
+
+      .card-meta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding-top: 16px;
+        border-top: 1px solid var(--surface-variant);
+        font-size: 0.875rem;
+        color: var(--on-surface-variant);
+      }
+
+      .card-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      /* Navigation dots for card slider */
+      .card-slider-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .card-slider-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--outline);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .card-slider-dot.active {
+        background: var(--primary-color);
+        transform: scale(1.2);
+      }
     }
 
     /* Extra small screens (phones in portrait) */
@@ -841,6 +939,12 @@
       </div>
       </div>
 
+      <!-- Mobile Card Slider Section (shown only on mobile in list mode) -->
+      <section id="mobileCardSection" class="mobile-card-section" style="display: none;">
+        <h2 class="visually-hidden">Top Atrocities Card View</h2>
+        <div class="card-slider-container" id="atrocityCards"></div>
+      </section>
+
       <section class="chart-container" aria-label="Interactive treemap visualization">
         <h2 class="visually-hidden">US Atrocities and Interventions Treemap</h2>
         <div id="chart" role="img"
@@ -903,9 +1007,77 @@
 
     // Mobile detection and view mode
     const isMobile = () => window.innerWidth <= 768;
-    
+
     // Check for saved view mode or default to treemap
     let currentViewMode = localStorage.getItem('viewMode') || 'treemap';
+
+    // Top atrocity data for mobile cards
+    const topAtrocities = [
+      {
+        title: "Vietnam War",
+        stat: "3,000,000+",
+        statLabel: "Total Casualties",
+        description: "The Vietnam War resulted in approximately 3 million casualties. The conflict spanned from 1955 to 1975, involving extensive US bombing campaigns and ground operations.",
+        region: "Asia",
+        period: "1955-1975"
+      },
+      {
+        title: "Native American Genocide",
+        stat: "12,000,000+",
+        statLabel: "Indigenous Lives Lost",
+        description: "The systematic extermination and displacement of Native Americans resulted in over 12 million deaths through warfare, forced removal, and disease from 1492 onwards.",
+        region: "North America",
+        period: "1492-1900s"
+      },
+      {
+        title: "Iraq War",
+        stat: "655K - 1M+",
+        statLabel: "Iraqi Casualties",
+        description: "The 2003 US invasion and occupation of Iraq resulted in hundreds of thousands of civilian deaths and millions displaced.",
+        region: "Middle East",
+        period: "2003-2011"
+      },
+      {
+        title: "Korean War",
+        stat: "2,500,000+",
+        statLabel: "Total Casualties",
+        description: "The Korean War killed approximately 2.5 million civilians. US bombing campaigns destroyed most major cities in North Korea.",
+        region: "Asia",
+        period: "1950-1953"
+      },
+      {
+        title: "Afghanistan War",
+        stat: "176,000+",
+        statLabel: "Deaths",
+        description: "The 20-year US war in Afghanistan resulted in over 176,000 deaths, including 46,000 civilians. The war displaced millions.",
+        region: "Middle East",
+        period: "2001-2021"
+      },
+      {
+        title: "Yemen Intervention",
+        stat: "377,000+",
+        statLabel: "Deaths (2015-2021)",
+        description: "US-backed Saudi coalition intervention killed over 377,000 people, with 60% being children under 5.",
+        region: "Middle East",
+        period: "2015-Present"
+      },
+      {
+        title: "Latin American Interventions",
+        stat: "50+",
+        statLabel: "Military Interventions",
+        description: "From Guatemala (1954) to Chile (1973), the US conducted over 50 interventions supporting dictatorships.",
+        region: "Latin America",
+        period: "1950s-1990s"
+      },
+      {
+        title: "Libya Bombing Campaign",
+        stat: "30K - 100K+",
+        statLabel: "Deaths",
+        description: "NATO intervention led by the US resulted in tens of thousands of deaths and complete collapse of Libyan state.",
+        region: "Africa",
+        period: "2011-2014"
+      }
+    ];
 
     // Auto-detect mobile and switch to list view on first visit
     if (isMobile()) {
@@ -924,6 +1096,15 @@
         viewModeSelect.value = currentViewMode;
       }
 
+      // Show mobile card section for mobile users
+      const mobileCardSection = document.getElementById('mobileCardSection');
+      if (mobileCardSection) {
+        mobileCardSection.style.display = 'block';
+      }
+
+      // Initialize card slider for mobile
+      initializeMobileCards();
+
       // Add mobile-specific notice
       const mobileNotice = document.createElement('div');
       mobileNotice.className = 'mobile-notice';
@@ -939,6 +1120,79 @@
       // Insert notice after controls
       const controlsContainer = document.querySelector('.controls-container');
       controlsContainer.appendChild(mobileNotice);
+    }
+
+    // Initialize mobile card slider
+    function initializeMobileCards() {
+      const container = document.getElementById('atrocityCards');
+      if (!container) return;
+
+      // Create slider container
+      const slider = document.createElement('div');
+      slider.className = 'card-slider';
+
+      // Create cards
+      topAtrocities.forEach((data) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3 class="card-title">${data.title}</h3>
+          <div class="card-stat">${data.stat}</div>
+          <span class="card-stat-label">${data.statLabel}</span>
+          <p class="card-description">${data.description}</p>
+          <div class="card-meta">
+            <div class="card-meta-item">
+              <span>🌍</span>
+              <span>${data.region}</span>
+            </div>
+            <div class="card-meta-item">
+              <span>📅</span>
+              <span>${data.period}</span>
+            </div>
+          </div>
+        `;
+        slider.appendChild(card);
+      });
+
+      container.appendChild(slider);
+
+      // Add navigation dots
+      const dotsContainer = document.createElement('div');
+      dotsContainer.className = 'card-slider-dots';
+      
+      topAtrocities.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'card-slider-dot';
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+          const sliderEl = container.querySelector('.card-slider');
+          const cardWidth = sliderEl.offsetWidth * 0.85;
+          sliderEl.scrollTo({
+            left: cardWidth * index,
+            behavior: 'smooth'
+          });
+        });
+        dotsContainer.appendChild(dot);
+      });
+
+      container.appendChild(dotsContainer);
+
+      // Update active dot on scroll
+      const sliderEl = container.querySelector('.card-slider');
+      let scrollTimeout;
+      sliderEl.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          const scrollLeft = sliderEl.scrollLeft;
+          const cardWidth = sliderEl.offsetWidth * 0.85;
+          const currentIndex = Math.round(scrollLeft / cardWidth);
+          
+          const dots = dotsContainer.querySelectorAll('.card-slider-dot');
+          dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+          });
+        }, 100);
+      });
     }
 
     // D3.js visualization
@@ -1311,8 +1565,27 @@
     const render = (data) => {
       // Use list view if currentViewMode is 'list' (auto-set on mobile)
       if (currentViewMode === 'list') {
+        // Hide chart container, show card section on mobile
+        d3.select(".chart-container").style("display", "none");
+        d3.select(".legend-container").style("display", "none");
+        
+        const mobileCardSection = document.getElementById('mobileCardSection');
+        if (mobileCardSection && isMobile()) {
+          mobileCardSection.style.display = 'block';
+        }
+        
         renderListView(data);
         return;
+      }
+
+      // Show chart container for treemap view
+      d3.select(".chart-container").style("display", "block");
+      d3.select(".legend-container").style("display", "block");
+      
+      // Hide card section
+      const mobileCardSection = document.getElementById('mobileCardSection');
+      if (mobileCardSection) {
+        mobileCardSection.style.display = 'none';
       }
 
       renderTreemap(data, false);
@@ -1843,6 +2116,13 @@
         viewModeSelect.addEventListener("change", (e) => {
           currentViewMode = e.target.value;
           localStorage.setItem('viewMode', currentViewMode);
+          
+          // Show/hide card section based on view mode (mobile only)
+          const mobileCardSection = document.getElementById('mobileCardSection');
+          if (mobileCardSection && isMobile()) {
+            mobileCardSection.style.display = currentViewMode === 'list' ? 'block' : 'none';
+          }
+          
           filterData();
         });
       }
@@ -1871,6 +2151,12 @@
         const mobileToggle = document.getElementById('mobileViewToggle');
         if (mobileToggle) {
           mobileToggle.style.display = isMobile() ? 'block' : 'none';
+        }
+
+        // Show/hide card section on mobile
+        const mobileCardSection = document.getElementById('mobileCardSection');
+        if (mobileCardSection) {
+          mobileCardSection.style.display = (isMobile() && currentViewMode === 'list') ? 'block' : 'none';
         }
 
         // Reset to treemap view on desktop (but don't override saved preference)
