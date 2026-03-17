@@ -903,11 +903,26 @@
 
     // Mobile detection and view mode
     const isMobile = () => window.innerWidth <= 768;
-    let currentViewMode = 'treemap';
+    
+    // Check for saved view mode or default to treemap
+    let currentViewMode = localStorage.getItem('viewMode') || 'treemap';
 
-    // Show mobile view toggle on mobile devices
+    // Auto-detect mobile and switch to list view on first visit
     if (isMobile()) {
+      // Show mobile view toggle on mobile devices
       document.getElementById('mobileViewToggle').style.display = 'block';
+
+      // Auto-switch to list view for mobile users (if not already set)
+      if (!localStorage.getItem('viewMode')) {
+        currentViewMode = 'list';
+        localStorage.setItem('viewMode', 'list');
+      }
+
+      // Update the select element to reflect current mode
+      const viewModeSelect = document.getElementById('viewMode');
+      if (viewModeSelect) {
+        viewModeSelect.value = currentViewMode;
+      }
 
       // Add mobile-specific notice
       const mobileNotice = document.createElement('div');
@@ -916,7 +931,7 @@
         <div class="mobile-notice-content">
           <span class="mobile-notice-icon">📱</span>
           <span class="mobile-notice-text">
-            <strong>Mobile User:</strong> For better experience, select "List View" below
+            <strong>Mobile User:</strong> Auto-switched to List View for better experience
           </span>
         </div>
       `;
@@ -1294,7 +1309,8 @@
     }
 
     const render = (data) => {
-      if (currentViewMode === 'list' && isMobile()) {
+      // Use list view if currentViewMode is 'list' (auto-set on mobile)
+      if (currentViewMode === 'list') {
         renderListView(data);
         return;
       }
@@ -1826,6 +1842,7 @@
       if (viewModeSelect) {
         viewModeSelect.addEventListener("change", (e) => {
           currentViewMode = e.target.value;
+          localStorage.setItem('viewMode', currentViewMode);
           filterData();
         });
       }
@@ -1856,11 +1873,13 @@
           mobileToggle.style.display = isMobile() ? 'block' : 'none';
         }
 
-        // Reset to treemap view on desktop
+        // Reset to treemap view on desktop (but don't override saved preference)
         if (!isMobile() && currentViewMode === 'list') {
           currentViewMode = 'treemap';
           const viewModeSelect = document.getElementById("viewMode");
           if (viewModeSelect) viewModeSelect.value = 'treemap';
+          // Clear saved preference on desktop
+          localStorage.removeItem('viewMode');
         }
 
         // Re-render with new dimensions
