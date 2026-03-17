@@ -88,7 +88,7 @@
             padding: 0;
             background-color: var(--background-color);
             color: var(--text-color);
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .header {
@@ -358,9 +358,7 @@
                 <option value="abraham">Abraham Accords</option>
             </select>
         </div>
-        <button id="resetView" class="btn">Reset View</button>
-        <button id="themeToggle" class="btn" style="background: var(--secondary-color);">🌙 Dark Mode</button>
-        <button id="debugInvestments" class="btn" style="background: var(--warning-color);">🔍 Debug</button>
+        <button id="resetView" class="btn">🔄 Reset View</button>
     </div>
 
     <div class="visualization-container">
@@ -382,8 +380,7 @@
                         <small style="line-height: 1.4;">
                             • Hover over segments for quick info<br>
                             • Use the controls above to change views<br>
-                            • Try different focus filters<br>
-                            • Toggle dark mode for better viewing
+                            • Try different focus filters
                         </small>
                     </div>
                 </div>
@@ -757,7 +754,7 @@
         initializeVisualization();
 
         function initializeVisualization() {
-            console.log('Initializing visualization with data:', data); // Debug log
+            console.log('Initializing visualization with data');
             updateVisualization();
             setupEventListeners();
         }
@@ -779,28 +776,6 @@
                 d3.select("#viewMode").property("value", "relationships");
                 d3.select("#focusFilter").property("value", "all");
                 updateVisualization();
-            });
-
-            d3.select("#themeToggle").on("click", function () {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', newTheme);
-
-                // Update button text
-                d3.select(this).text(newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
-
-                // Re-render visualization with new colors
-                updateVisualization();
-            });
-
-            d3.select("#debugInvestments").on("click", function () {
-                console.log('=== INVESTMENT DEBUG ===');
-                investmentData.countries.forEach(country => {
-                    const amount = country.investments.united_states.total_estimate_1995_2025;
-                    const parsed = parseInvestmentAmount(amount);
-                    console.log(`${country.name}: "${amount}" -> ${parsed}B`);
-                });
-                console.log('=== END DEBUG ===');
             });
         }
 
@@ -907,7 +882,7 @@
         function parseInvestmentAmount(amountStr) {
             if (!amountStr) return 0;
 
-            console.log('Parsing investment amount:', amountStr); // Debug log
+            console.log('Parsing investment amount:', amountStr);
 
             // Handle different formats: "$800 billion", "Over $1.5 trillion", "Under $1 billion", "$200–$300 billion", etc.
             const cleanStr = amountStr.toLowerCase().replace(/[,$]/g, '');
@@ -1103,7 +1078,7 @@
         }
 
         function handleClick(event, d) {
-            console.log('Clicked:', d); // Debug log
+            console.log('Clicked:', d);
 
             // Handle clicks on individual countries
             if (d.data.data) {
@@ -1129,7 +1104,7 @@
         }
 
         function showCountryInfo(country) {
-            console.log('Showing country info for:', country.name); // Debug log
+            console.log('Showing country info for:', country.name);
 
             const investCountry = investmentData.countries.find(c => c.name === country.name);
 
@@ -1305,7 +1280,7 @@
         }
 
         function showCategoryInfo(categoryData) {
-            console.log('Showing category info for:', categoryData.name); // Debug log
+            console.log('Showing category info for:', categoryData.name);
 
             let html = `
                 <h3 style="color: var(--primary-color); margin-bottom: 20px;">📂 ${categoryData.name}</h3>
